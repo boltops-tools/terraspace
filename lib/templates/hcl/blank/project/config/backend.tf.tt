@@ -1,0 +1,18 @@
+# This is where you put your backend declaration. Here are some examples:
+#
+# terraform {
+#   backend "s3" {
+#     bucket         = "<%= options[:bucket] || "REPLACE_ME" %>"
+#     key            = "<%%= default_state_path %>" # IE: development/ec2/terraform.tfstate
+#     region         = "<%%= ENV['AWS_REGION'] || 'us-east-1' %>"
+#     encrypt        = true
+#     dynamodb_table = "<%%= default_lock_table %>" # terraform_locks
+#   }
+# }
+#
+# terraform {
+#   backend "gcs" {
+#     bucket = "<%= options[:bucket] || "REPLACE_ME" %>"
+#     prefix = "<%%= default_state_prefix %>" # IE: development/vm => development/vm/default.tfstate
+#   }
+# }

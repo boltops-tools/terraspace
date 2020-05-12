@@ -1,0 +1,29 @@
+{
+  "Modules": [
+    {
+      "Key": "",
+      "Source": "",
+      "Dir": "."
+    },
+    {
+      "Key": "sg_parent",
+      "Source": "../../modules/sg_parent",
+      "Dir": "../../modules/sg_parent"
+    },
+    {
+      "Key": "sg_parent.sg_child_test",
+      "Source": "git@github.com:boltops-tools/sg_child.git",
+      "Dir": ".terraform/modules/sg_parent.sg_child_test"
+    },
+    {
+      "Key": "vpc",
+      "Source": "git@github.com:org/aws-vpc.git?ref=master",
+      "Dir": ".terraform/modules/vpc"
+    },
+    {
+      "Key": "vpc.aws_security_group",
+      "Source": "git@github.com:org/aws-security-group.git?ref=master",
+      "Dir": ".terraform/modules/vpc.aws_security_group"
+    }
+  ]
+}

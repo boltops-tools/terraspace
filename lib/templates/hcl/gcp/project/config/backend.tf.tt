@@ -1,0 +1,6 @@
+terraform {
+  backend "gcs" {
+    bucket = "<%= options[:bucket] || "REPLACE_ME" %>"
+    prefix = "<%%= default_state_prefix %>" # IE: development/vm => development/vm/default.tfstate
+  }
+}

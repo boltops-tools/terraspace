@@ -1,0 +1,7 @@
+backend("s3",
+  bucket:         "<%= options[:bucket] || "REPLACE_ME" %>",
+  key:            default_state_path, # IE: development/vm/terraform.tfstate
+  region:         ENV["AWS_REGION"] || "us-east-1",
+  encrypt:        true,
+  dynamodb_table: default_lock_table, # terraform_locks
+)
