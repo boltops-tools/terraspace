@@ -15,10 +15,10 @@ describe Terraspace::Compiler::Dsl::Mod do
     "backend": {
       "s3": {
         "bucket": "demo-bucket",
-        "key": "#[Double :null]/terraform.tfstate",
+        "key": ":region/:env/:build_dir/terraform.tfstate",
         "region": "us-west-2",
         "encrypt": true,
-        "dynamodb_table": "lock-table"
+        "dynamodb_table": "terraform_locks"
       }
     }
   }

@@ -12,8 +12,8 @@ module Terraspace::Compiler
     end
 
     def dest_dir
-      if @mod.is_a?(Terraspace::RemoteMod)
-        File.dirname(@src_path) # for RemoteMod src is dest
+      if @mod.is_a?(Terraspace::Mod::Remote)
+        File.dirname(@src_path) # for Mod::Remote src is dest
       else
         @mod.cache_build_dir
       end

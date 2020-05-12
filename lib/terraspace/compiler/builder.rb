@@ -12,9 +12,8 @@ module Terraspace::Compiler
     # build common config files: provider and backend for the root module
     def build_config
       return unless @mod.root_module?
-      with_config_file do |src_path|
-        build_mod_file(src_path)
-      end
+      build_config_file("backend")
+      build_config_file("provider")
     end
 
     # build all module .rb to .tf.json files
@@ -34,6 +33,11 @@ module Terraspace::Compiler
     end
 
   private
+    def build_config_file(type)
+      src_path = Dir.glob("#{Terraspace.root}/config/#{type}*").first
+      build_mod_file(src_path) if src_path
+    end
+
     def build_mod_file(src_path)
       content = Strategy::Mod.new(@mod, src_path).run
       Writer.new(@mod, src_path: src_path).write(content)
@@ -41,10 +45,6 @@ module Terraspace::Compiler
 
     def with_mod_file(&block)
       with_path("#{@mod.root}/*", &block) # Only build top-level files
-    end
-
-    def with_config_file(&block)
-      with_path("#{Terraspace.root}/config/*", &block)
     end
 
     def with_path(path)

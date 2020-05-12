@@ -1,5 +1,5 @@
-module Terraspace
-  class RemoteMod < Mod
+class Terraspace::Mod
+  class Remote < Terraspace::Mod
     def initialize(meta, parent)
       # meta: from .terraform/modules/modules.json. Example structure: spec/fixtures/initialized/modules.json
       # parent: parent module or stack. IE: terraspace build MOD

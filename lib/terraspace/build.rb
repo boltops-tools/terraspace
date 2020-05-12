@@ -52,7 +52,7 @@ module Terraspace
       return if local_source?(meta["Source"])
       return if meta['Dir'] == '.' # root is already built
 
-      remote_mod = Terraspace::RemoteMod.new(meta, @mod)
+      remote_mod = Terraspace::Mod::Remote.new(meta, @mod)
       Compiler::Builder.new(remote_mod).build
     end
 

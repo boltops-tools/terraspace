@@ -6,9 +6,14 @@ module Terraspace::Compiler
 
     def clean
       return if ENV['TS_NO_CLEAN']
+      backend_change_purge
       remove_materialized_artifacts
       # remove_materialized_artifacts_dot_terraform
       remove_empty_directories
+    end
+
+    def backend_change_purge
+      BackendChange.new(@mod).purge
     end
 
     # only remove .tf* files. leaving cache .terraform and terraform.state files
