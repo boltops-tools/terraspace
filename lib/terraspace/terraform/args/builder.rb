@@ -25,12 +25,14 @@ module Terraspace::Terraform::Args
     end
 
     def var_files
+      build
       var_files = dig("var_files")
       var_files.select! { |f| var_file_exist?(f) }
       var_files.map { |f| "-var-file=#{f}" }
     end
 
     def env_vars
+      build
       dig("env", {})
     end
 

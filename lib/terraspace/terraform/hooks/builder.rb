@@ -20,6 +20,7 @@ module Terraspace::Terraform::Hooks
     memoize :build
 
     def run_hooks
+      build
       run_hook("before")
       yield if block_given?
       run_hook("after")
