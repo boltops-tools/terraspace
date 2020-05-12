@@ -1,28 +1,30 @@
 module Terraspace::Terraform
   class Base < Terraspace::AbstractBase
     extend Memoist
+    include Terraspace::Util::Sh
 
-    def terraform(command, *args)
+    def terraform(command_name, *args)
+      within_message # only show once
+
+      params = args.flatten.join(' ')
+      command = "terraform #{command_name} #{params}"
+      export_env_vars!
+      run_hooks(command_name) do
+        sh(command)
+      end
+    end
+
+    def within_message
       dir = @mod.cache_build_dir
       pretty_dir = dir.gsub("#{Terraspace.root}/",'')
       puts "Within dir: #{pretty_dir}"
+    end
+    memoize :within_message
 
-      params = args.flatten.join(' ')
-      command = "terraform #{command} #{params}"
-      puts "=> #{command}"
-
-      export_env_vars!
-
-      ENV.each do |k,v|
-        if k.include?("TF_VAR_")
-          puts "#{k}: #{v}"
-        end
-      end
-
-      Dir.chdir(dir) do
-        success = system(command)
-        exit $?.exitstatus unless success
-      end
+    def run_hooks(command_name, &block)
+      builder = Hooks::Builder.new(@mod, command_name)
+      builder.build # build hooks
+      builder.run_hooks(&block)
     end
 
     def args
@@ -39,6 +41,11 @@ module Terraspace::Terraform
         ENV[k] = v
       end
     end
+
+    def builder
+      Args::Builder.new(@mod, name)
+    end
+    memoize :builder
 
     def builder
       Args::Builder.new(@mod, name)

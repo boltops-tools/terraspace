@@ -3,6 +3,7 @@ module Terraspace::Terraform
     def run
       # return if dot_terraform_exist? # TODO: consider modules
       terraform(name, args) unless ENV['TS_SKIP_INIT']
+      exit
     end
 
     # scoped to this command only
