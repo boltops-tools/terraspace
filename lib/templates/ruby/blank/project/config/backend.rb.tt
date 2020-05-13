@@ -3,7 +3,7 @@
 # backend("s3",
 #   bucket:         "<%= options[:bucket] || "REPLACE_ME" %>",
 #   key:            ":region/:env/:build_dir/terraform.tfstate", # variable notation expanded by terraspace IE: us-west-2/development/modules/vm/terraform.tfstate
-#   region:         ENV["AWS_REGION"] || "us-east-1",
+#   region:         ":region",
 #   encrypt:        true,
 #   dynamodb_table: "terraform_locks"
 # )

@@ -4,7 +4,7 @@
 #   backend "s3" {
 #     bucket         = "<%= options[:bucket] || "REPLACE_ME" %>"
 #     key            = "<%%= "s3", ":region/:env/:build_dir/terraform.tfstate" %> # IE: us-west-2/development/ec2/modules/vpc/terraform.tfstate
-#     region         = "<%%= ENV['AWS_REGION'] || 'us-east-1' %>"
+#     region         = "<%%= "s3", ":region" %>"
 #     encrypt        = true
 #     dynamodb_table = "terraform_locks"
 #   }

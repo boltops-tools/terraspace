@@ -16,9 +16,9 @@ class Terraspace::Compiler::State
 
     # Replaces variables denoted by colon in front with actual values. Example:
     #
-    #     :account/:region/:env/:build_dir/terraform.tfstate
+    #     :region/:env/:build_dir/terraform.tfstate
     # =>
-    #     112233445566/us-west-2/development/stacks/wordpress/terraform.tfstate
+    #     us-west-2/development/stacks/wordpress/terraform.tfstate
     #
     def expand_string(string)
       return unless string # in case of nil
