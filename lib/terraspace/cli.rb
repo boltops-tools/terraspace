@@ -37,6 +37,12 @@ module Terraspace
       Build.new(options.merge(mod: mod)).run
     end
 
+    desc "output MODULE", "output"
+    long_desc Help.text(:output)
+    def output(mod)
+      Output.new(options.merge(mod: mod)).run
+    end
+
     desc "completion *PARAMS", "Prints words for auto-completion."
     long_desc Help.text(:completion)
     def completion(*params)

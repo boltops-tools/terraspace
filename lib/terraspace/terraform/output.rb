@@ -1,4 +1,4 @@
 module Terraspace::Terraform
-  class Plan < Base
+  class Output < Base
   end
 end

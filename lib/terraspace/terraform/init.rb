@@ -2,7 +2,7 @@ module Terraspace::Terraform
   class Init < Base
     def run
       # return if dot_terraform_exist? # TODO: make smarter
-      terraform(name, args) unless ENV['TS_SKIP_INIT']
+      super unless ENV['TS_SKIP_INIT']
     end
 
     # scoped to this command only
