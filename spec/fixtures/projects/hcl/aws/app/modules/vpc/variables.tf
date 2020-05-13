@@ -3,3 +3,9 @@ variable "cidr_block" {
   description = "cidr block"
   type        = string
 }
+
+variable "name" {
+  default     = "demo-vpc-hcl"
+  description = "demo vpc"
+  type        = string
+}

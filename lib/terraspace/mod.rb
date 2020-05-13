@@ -19,12 +19,16 @@ module Terraspace
     end
 
     def check_exist!
-      return unless root
+      return if root
 
-      paths = paths.map { |p| p.sub("#{Terraspace.root}/",'') }
-      puts "ERROR: Unable to find #{@name}. Searched paths: #{paths}".color(:red)
-      puts caller[0..2]
-      ENV['TS_TEST'] ? raise : exit(1)
+      pretty_paths = paths.map { |p| Terraspace::Util.pretty_path(p) }
+      puts "ERROR: Unable to find #{@name.color(:green)} module. Searched paths: #{pretty_paths}"
+      if ENV['TS_TEST']
+        puts caller[0..2]
+        raise
+      else
+        exit(1)
+      end
     end
 
     def root
