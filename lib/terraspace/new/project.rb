@@ -26,11 +26,19 @@ class Terraspace::New
       directory ".", "#{name}"
     end
 
+    def empty_dirs
+      return if @options[:examples]
+      empty_directory("#{name}/app/modules")
+      empty_directory("#{name}/app/stacks")
+    end
+
     def create_starter_module
+      return unless @options[:examples]
       Terraspace::New::Module.start(component_args("example", name))
     end
 
     def create_starter_stack
+      return unless @options[:examples]
       Terraspace::New::Stack.start(component_args("demo", name))
     end
 
