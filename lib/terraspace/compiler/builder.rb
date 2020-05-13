@@ -34,10 +34,11 @@ module Terraspace::Compiler
 
   private
     def build_config_file(type)
-      existing_source = !!Dir.glob("#{@mod.root}/#{type}*").first
-      return if existing_source # do not overwrite existing backend, provider, etc
+      existing_tf = !!Dir.glob("#{@mod.root}/#{type}.tf").first
+      return if existing_tf # do not overwrite existing backend, provider, etc
 
-      src_path = Dir.glob("#{Terraspace.root}/config/#{type}*").first
+      src_path = Dir.glob("#{@mod.root}/#{type}.rb").first # existing source. IE: backend.rb in module folder
+      src_path ||= Dir.glob("#{Terraspace.root}/config/#{type}*").first
       build_mod_file(src_path) if src_path
     end
 
