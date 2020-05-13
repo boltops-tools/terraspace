@@ -10,6 +10,7 @@ class Terraspace::Compiler::State
     def expand(props={})
       props[:prefix] = expand_string(props[:prefix]) if props[:prefix]
       props[:key] = expand_string(props[:key]) if props[:key]
+      props[:region] = expand_string(props[:region]) if props[:region]
       props
     end
 

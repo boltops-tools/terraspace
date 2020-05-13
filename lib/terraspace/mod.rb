@@ -23,12 +23,7 @@ module Terraspace
 
       pretty_paths = paths.map { |p| Terraspace::Util.pretty_path(p) }
       puts "ERROR: Unable to find #{@name.color(:green)} module. Searched paths: #{pretty_paths}"
-      if ENV['TS_TEST']
-        puts caller[0..2]
-        raise
-      else
-        exit(1)
-      end
+      ENV['TS_TEST'] ? raise : exit(1)
     end
 
     def root
