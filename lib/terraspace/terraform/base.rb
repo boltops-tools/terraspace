@@ -3,6 +3,10 @@ module Terraspace::Terraform
     extend Memoist
     include Terraspace::Util::Sh
 
+    def run
+      terraform(name, args)
+    end
+
     def terraform(command_name, *args)
       within_message # only show once
 
