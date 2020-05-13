@@ -8,9 +8,8 @@ module Terraspace::Terraform
 
       params = args.flatten.join(' ')
       command = "terraform #{command_name} #{params}"
-      export_env_vars!
       run_hooks(command_name) do
-        sh(command)
+        sh(command, env: builder.env_vars)
       end
     end
 
@@ -34,12 +33,6 @@ module Terraspace::Terraform
     # Design be overridden by subclasses
     def scoped_args
       []
-    end
-
-    def export_env_vars!
-      builder.env_vars.each do |k,v|
-        ENV[k] = v
-      end
     end
 
     def builder
