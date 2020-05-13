@@ -2,7 +2,7 @@
 
 [![Gem Version](https://badge.fury.io/rb/terraspace.png)](http://badge.fury.io/rb/terraspace)
 
-Terraform Framework.
+The Terraform Framework
 
 ## Usage
 
