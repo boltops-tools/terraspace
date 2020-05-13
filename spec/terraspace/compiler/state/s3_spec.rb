@@ -1,5 +1,5 @@
 describe Terraspace::Compiler::State::S3 do
-  let(:state) { described_class.new(mod, "s3", props) }
+  let(:state) { described_class.new(mod) }
   let(:props) do
     {
       bucket:         "my-bucket",
@@ -17,8 +17,8 @@ describe Terraspace::Compiler::State::S3 do
 
   context "default path" do
     it "expand" do
-      props = state.expand
-      expect(props).to eq({
+      result = state.expand(props)
+      expect(result).to eq({
         bucket: "my-bucket",
         key: "development/stacks/core/terraform.tfstate",
         region: "us-west-2",
