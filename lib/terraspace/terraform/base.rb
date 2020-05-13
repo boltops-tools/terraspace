@@ -47,11 +47,6 @@ module Terraspace::Terraform
     end
     memoize :builder
 
-    def builder
-      Args::Builder.new(@mod, name)
-    end
-    memoize :builder
-
     def name
       self.class.name.split("::").last.underscore # Init => init
     end
