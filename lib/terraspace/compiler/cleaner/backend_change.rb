@@ -17,15 +17,19 @@ class Terraspace::Compiler::Cleaner
     end
 
     def current_backend
-      materialized_path = Dir.glob("#{@mod.cache_build_dir}/backend*").first
-      return unless materialized_path && File.exist?(materialized_path)
-      IO.read(materialized_path)
+      materialized_path = find_src_path("#{@mod.cache_build_dir}/backend*")
+      IO.read(materialized_path) if materialized_path
     end
 
     def fresh_backend
-      src_path = Dir.glob("#{Terraspace.root}/config/backend*").first
-      return unless src_path && File.exist?(src_path)
-      Terraspace::Compiler::Strategy::Mod.new(@mod, src_path).run
+      src_path = find_src_path("#{Terraspace.root}/config/backend*")
+      Terraspace::Compiler::Strategy::Mod.new(@mod, src_path).run if src_path
+    end
+
+  private
+    def find_src_path(expr)
+      path = Dir.glob(expr).first
+      path if path && File.exist?(path)
     end
   end
 end
