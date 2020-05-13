@@ -31,8 +31,8 @@ class Terraspace::New
         "--project-name", project_name,
         "--lang", options[:lang],
         "--provider", options[:provider],
-        "--force",
       ]
+      args << "--force" if @options[:force]
       args << "--examples" if @options[:examples]
       args
     end

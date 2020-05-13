@@ -13,15 +13,12 @@ class Terraspace::New
       puts "=> Creating new project called #{name}."
     end
 
-    def set_base_project_source
-      set_base_source("project")
+    # Note: Tried multiple sources but that doesnt seem to work, so using this approach instead
+    def create_base
+      Terraspace::New::Base.start([name])
     end
 
-    def add_base_files
-      directory ".", "#{name}"
-    end
-
-    def set_project_source
+    def setup_source
       set_source("project")
     end
 
