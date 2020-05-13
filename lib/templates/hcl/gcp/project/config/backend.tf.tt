@@ -1,6 +1,6 @@
 terraform {
   backend "gcs" {
     bucket = "<%= options[:bucket] || "REPLACE_ME" %>"
-    prefix = "<%%= default_state_prefix %>" # IE: development/vm => development/vm/default.tfstate
+    prefix = "<%%= backend_expand("gcs", ":region/:env/:build_dir") %>" # variable notation expanded by terraspace IE: us-central1/development/modules/vm
   }
 }

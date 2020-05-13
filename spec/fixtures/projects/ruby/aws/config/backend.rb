@@ -1,7 +1,7 @@
 backend("s3",
   bucket:         "terraspace-state",
-  key:            default_state_path, # IE: development/vm/terraform.tfstate
+  key:            ":region/:env/:build_dir/terraform.tfstate", # variable notation expanded by terraspace
   region:         ENV["AWS_REGION"],
   encrypt:        true,
-  dynamodb_table: default_lock_table, # terraform_locks
+  dynamodb_table: "terraform_locks",
 )

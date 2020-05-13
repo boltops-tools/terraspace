@@ -5,8 +5,8 @@
 Prints words for TAB auto-completion.
 
     terraspace completion
-    terraspace completion hello
-    terraspace completion hello name
+    terraspace completion up
+    terraspace completion up name
 
 To enable, TAB auto-completion add the following to your profile:
 
@@ -15,6 +15,6 @@ To enable, TAB auto-completion add the following to your profile:
 Auto-completion example usage:
 
     terraspace [TAB]
-    terraspace hello [TAB]
-    terraspace hello name [TAB]
-    terraspace hello name --[TAB]
+    terraspace up [TAB]
+    terraspace up name [TAB]
+    terraspace up name --[TAB]
