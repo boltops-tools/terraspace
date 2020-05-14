@@ -18,7 +18,7 @@ class Terraspace::Compiler::State
     #
     #     :region/:env/:build_dir/terraform.tfstate
     # =>
-    #     us-west-2/development/stacks/wordpress/terraform.tfstate
+    #     us-west-2/dev/stacks/wordpress/terraform.tfstate
     #
     def expand_string(string)
       return unless string # in case of nil
