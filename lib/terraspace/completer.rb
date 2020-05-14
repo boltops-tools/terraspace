@@ -21,7 +21,7 @@ When command parameters are done processing, the remaining completion words will
 
 For example, say you had a method for a CLI command with the following form:
 
-  ufo scale service count --cluster development
+  ufo scale service count --cluster dev
 
 It's equivalent ruby method:
 

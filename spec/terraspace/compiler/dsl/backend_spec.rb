@@ -18,7 +18,7 @@ describe Terraspace::Compiler::Dsl::Mod do
     "backend": {
       "s3": {
         "bucket": "demo-bucket",
-        "key": "us-west-2/development/modules/vpc/terraform.tfstate",
+        "key": "us-west-2/dev/modules/vpc/terraform.tfstate",
         "region": "us-west-2",
         "encrypt": true,
         "dynamodb_table": "terraform_locks"

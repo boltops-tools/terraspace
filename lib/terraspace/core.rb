@@ -3,7 +3,7 @@ module Terraspace
     extend Memoist
 
     def env
-      ENV['TS_ENV'] || "development"
+      ENV['TS_ENV'] || "dev"
     end
     memoize :env
 

@@ -20,7 +20,7 @@ describe Terraspace::Compiler::State::S3 do
       result = state.expand(props)
       expect(result).to eq({
         bucket: "my-bucket",
-        key: "development/stacks/core/terraform.tfstate",
+        key: "dev/stacks/core/terraform.tfstate",
         region: "us-west-2",
         encrypt: true,
         dynamodb_table: "terraform_locks"
