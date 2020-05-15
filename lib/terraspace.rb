@@ -13,6 +13,8 @@ require "terraspace/version"
 require "terraspace/autoloader"
 Terraspace::Autoloader.setup
 
+require "terraspace/core_ext"
+
 DslEvaluator.backtrace_reject = "lib/terraspace"
 
 module Terraspace
