@@ -19,10 +19,10 @@ module Terraspace
       local_mod_paths.each do |path|
         next unless File.directory?(path)
         mod_name = File.basename(path)
-        next if @mod.name == mod_name # skip root module because already built
         next if built.include?(mod_name) # ensures app/modules take higher precedence than vendor/modules
 
         mod = Terraspace::Mod.new(mod_name)
+        mod.consider_stacks = false
         Compiler::Builder.new(mod).build
         built << mod_name
       end

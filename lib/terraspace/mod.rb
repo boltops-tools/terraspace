@@ -9,8 +9,10 @@ module Terraspace
     extend Memoist
 
     attr_reader :name
+    attr_accessor :consider_stacks
     def initialize(name)
       @name = name
+      @consider_stacks = true
     end
 
     attr_accessor :root_module
@@ -63,9 +65,9 @@ module Terraspace
     def paths
       paths = []
       root = Terraspace.root
-      paths << "#{root}/app/stacks/#{@name}"
+      paths << "#{root}/app/stacks/#{@name}" if @consider_stacks
       paths << "#{root}/app/modules/#{@name}"
-      paths << "#{root}/vendor/stacks/#{@name}"
+      paths << "#{root}/vendor/stacks/#{@name}" if @consider_stacks
       paths << "#{root}/vendor/modules/#{@name}"
       paths
     end
