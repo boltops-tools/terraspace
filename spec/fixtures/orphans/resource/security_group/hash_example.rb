@@ -1,7 +1,7 @@
 resource("aws_security_group", "demo-sg",
-  name: var("name"),
+  name: var.name,
   description: "Demo Security Group",
-  vpc_id: var("vpc_id"),
+  vpc_id: var.vpc_id,
 
   # Hash example, normally with JSON need an an Array of Hashes
   ingress: {
@@ -13,6 +13,6 @@ resource("aws_security_group", "demo-sg",
   },
 
   tags: {
-    Name: var("name"),
+    Name: var.name,
   }
 )

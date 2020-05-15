@@ -16,11 +16,10 @@ data("aws_ami", "ubuntu",
 # )
 
 resource("aws_security_group", "this",
-  # name: var("name"),
   description: "Demo Fake Instance",
-  vpc_id: var("vpc_id"),
+  vpc_id: var.vpc_id,
   tags: {
-    Name: var("name"),
+    Name: var.name,
   }
 )
 
