@@ -35,7 +35,6 @@ module Terraspace::Compiler::Strategy
     end
 
     def layer_paths
-      tfvars_dir = "#{Terraspace.root}/seed/tfvars/#{@mod.build_dir}"
       layer_paths = layers.map do |layer|
         [
           "#{tfvars_dir}/#{layer}.rb",
@@ -46,6 +45,28 @@ module Terraspace::Compiler::Strategy
       layer_paths.select do |path|
         File.exist?(path)
       end
+    end
+
+    # seed dir takes higher precedence than the tfvars folder within the stack module. Example:
+    #
+    #     seed/tfvars/stacks/core (folder must have *.tfvars or *.rb files)
+    #     app/stacks/core/tfvars
+    #
+    # This allows user to take over the tfvars embedded in the stack if they need to. Generally,
+    # putting tfvars in within the app/stacks/MOD/tfvars folder seems cleaner and easier to follow.
+    #
+    # Do not consider app/modules at all. Encourage modules to be reuseable instead. Stacks are ok
+    # to have business logic and tfvars.
+    #
+    def tfvars_dir
+      seed_dir = "#{Terraspace.root}/seed/tfvars/#{@mod.build_dir}"
+      mod_dir = "#{@mod.root}/tfvars"
+
+      # Do not consider tfvars files under the app/modules path at all.
+      # Encourage users to treat modules as reusable libraries.
+      return seed_dir if @mod.type == "module"
+
+      Dir.glob("#{seed_dir}/*").empty? ? mod_dir : seed_dir
     end
 
     def strategy_class(ext)
