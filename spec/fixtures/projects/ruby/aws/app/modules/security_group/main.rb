@@ -1,7 +1,6 @@
 resource("aws_security_group", "demo-sg",
-  name: var("name"),
+  name: var.name,
   description: "Demo Security Group",
-  # vpc_id: var("vpc_id"),
 
   ingress: [
     description: "TLS from VPC",
@@ -12,6 +11,6 @@ resource("aws_security_group", "demo-sg",
   ],
 
   tags: {
-    Name: var("name"),
+    Name: var.name,
   }
 )

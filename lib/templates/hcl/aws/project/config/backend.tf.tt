@@ -1,8 +1,8 @@
 terraform {
   backend "s3" {
     bucket         = "<%= options[:bucket] || "REPLACE_ME" %>"
-    key            = ":region/:env/:build_dir/terraform.tfstate" # variable notation expanded by terraspace IE: us-west-2/dev/modules/vm/terraform.tfstate
-    region         = ":region"
+    key            = "<%%= backend_expand("s3", ":region/:env/:build_dir/terraform.tfstate") %>" # variable notation expanded by terraspace IE: us-west-2/dev/modules/vm/terraform.tfstate
+    region         = "<%%= backend_expand("s3", ":region") %>"
     encrypt        = true
     dynamodb_table = "terraform_locks"
   }
