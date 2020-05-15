@@ -1,4 +1,4 @@
-describe Terraspace::Compiler::State::S3 do
+describe Terraspace::Compiler::Expander::S3 do
   let(:state) { described_class.new(mod) }
   let(:props) do
     {

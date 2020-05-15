@@ -1,5 +1,5 @@
 module Terraspace::Compiler
-  class State
+  class Expander
     delegate :expand, :expand_string, to: :expander
 
     attr_reader :expander
@@ -10,7 +10,7 @@ module Terraspace::Compiler
 
     def state_class
       # Base is the generic class
-      "Terraspace::Compiler::State::#{@name.camelize}".constantize rescue Base
+      "Terraspace::Compiler::Expander::#{@name.camelize}".constantize rescue Base
     end
   end
 end

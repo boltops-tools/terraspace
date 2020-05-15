@@ -1,6 +1,6 @@
 require "gcp_data"
 
-class Terraspace::Compiler::State
+class Terraspace::Compiler::Expander
   class Gcs < Base
     delegate :project, :region, to: :gcp_data
 

@@ -8,11 +8,11 @@ module Terraspace::Compiler::Dsl::Syntax::Mod
     end
 
     def backend_expand_all!(backend_name, props={})
-      Terraspace::Compiler::State.new(@mod, backend_name).expand(props)
+      Terraspace::Compiler::Expander.new(@mod, backend_name).expand(props)
     end
 
     def backend_expand(backend_name, string)
-      Terraspace::Compiler::State.new(@mod, backend_name).expand_string(string)
+      Terraspace::Compiler::Expander.new(@mod, backend_name).expand_string(string)
     end
   end
 end

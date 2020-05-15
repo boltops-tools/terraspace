@@ -1,6 +1,6 @@
 require "aws_data"
 
-class Terraspace::Compiler::State
+class Terraspace::Compiler::Expander
   class S3 < Base
     delegate :account, :region, to: :aws_data
 

@@ -1,4 +1,4 @@
-class Terraspace::Compiler::State
+class Terraspace::Compiler::Expander
   class Base
     delegate :build_dir, :type_dir, to: :mod
 
