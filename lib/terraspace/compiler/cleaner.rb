@@ -40,16 +40,7 @@ module Terraspace::Compiler
 
     def remove_empty_directories
       return unless File.exist?(Terraspace.cache_root)
-      sh("find #{Terraspace.cache_root} -empty -type d -delete")
-    end
-
-    def sh(command)
-      `#{command}`
-      status = $? # Process::Status object
-      unless status.success?
-        raise "Error running command: #{command}"
-        exit status.exitstatus # code
-      end
+      Dir["#{Terraspace.cache_root}/**/"].reverse_each { |d| Dir.rmdir d if Dir.entries(d).size == 2 }
     end
   end
 end
