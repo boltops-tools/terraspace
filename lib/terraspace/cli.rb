@@ -43,6 +43,12 @@ module Terraspace
       Output.new(options.merge(mod: mod)).run
     end
 
+    desc "clean", "clean .terraspace-cache dir"
+    long_desc Help.text(:clean)
+    def clean
+      Clean.new(options).run
+    end
+
     desc "completion *PARAMS", "Prints words for auto-completion."
     long_desc Help.text(:completion)
     def completion(*params)
