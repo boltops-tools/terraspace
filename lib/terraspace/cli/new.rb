@@ -1,5 +1,5 @@
-module Terraspace
-  class New < Command
+class Terraspace::CLI
+  class New < Terraspace::Command
     long_desc Help.text(:module)
     Module.base_options.each { |args| option(*args) }
     Module.component_options.each { |args| option(*args) }

@@ -1,4 +1,4 @@
-class Terraspace::New
+class Terraspace::CLI::New
   class Base < Sequence
     argument :name
 

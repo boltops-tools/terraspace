@@ -1,4 +1,4 @@
-class Terraspace::New
+class Terraspace::CLI::New
   class Project < Sequence
     def self.project_options
       [
@@ -15,7 +15,7 @@ class Terraspace::New
 
     # Note: Tried multiple sources but that doesnt seem to work, so using this approach instead
     def create_base
-      Terraspace::New::Base.start([name])
+      Base.start([name])
     end
 
     def setup_source
@@ -34,12 +34,12 @@ class Terraspace::New
 
     def create_starter_module
       return unless @options[:examples]
-      Terraspace::New::Module.start(component_args("example", name))
+      Module.start(component_args("example", name))
     end
 
     def create_starter_stack
       return unless @options[:examples]
-      Terraspace::New::Stack.start(component_args("demo", name))
+      Stack.start(component_args("demo", name))
     end
 
     def welcome_message

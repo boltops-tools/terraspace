@@ -1,4 +1,4 @@
-class Terraspace::New
+class Terraspace::CLI::New
   class Stack < Sequence
     component_options.each { |args| class_option(*args) }
 

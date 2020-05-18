@@ -11,11 +11,22 @@ module Terraspace
     long_desc Help.text(:new)
     subcommand "new", New
 
-    desc "update MODULE", "update infrasturcture. IE: apply plan"
-    long_desc Help.text(:update)
-    base_options.call
-    def update(mod)
-      Update.new(options.merge(mod: mod)).run
+    desc "build MODULE", "build"
+    long_desc Help.text(:build)
+    def build(mod)
+      Build.new(options.merge(mod: mod)).run
+    end
+
+    desc "clean", "clean .terraspace-cache dir"
+    long_desc Help.text(:clean)
+    def clean
+      Clean.new(options).run
+    end
+
+    desc "console", "console .terraspace-cache dir"
+    long_desc Help.text(:console)
+    def console(mod)
+      Console.new(options.merge(mod: mod)).run
     end
 
     desc "down MODULE", "down"
@@ -31,10 +42,16 @@ module Terraspace
       Plan.new(options.merge(mod: mod)).run
     end
 
-    desc "build MODULE", "build"
-    long_desc Help.text(:build)
-    def build(mod)
-      Build.new(options.merge(mod: mod)).run
+    desc "providers MODULE", "providers"
+    long_desc Help.text(:providers)
+    def providers(mod)
+      Providers.new(options.merge(mod: mod)).run
+    end
+
+    desc "show MODULE", "show"
+    long_desc Help.text(:show)
+    def show(mod)
+      Show.new(options.merge(mod: mod)).run
     end
 
     desc "output MODULE", "output"
@@ -43,10 +60,17 @@ module Terraspace
       Output.new(options.merge(mod: mod)).run
     end
 
-    desc "clean", "clean .terraspace-cache dir"
-    long_desc Help.text(:clean)
-    def clean
-      Clean.new(options).run
+    desc "update MODULE", "update infrasturcture. IE: apply plan"
+    long_desc Help.text(:update)
+    base_options.call
+    def update(mod)
+      Update.new(options.merge(mod: mod)).run
+    end
+
+    desc "validate MODULE", "validate"
+    long_desc Help.text(:validate)
+    def validate(mod)
+      Validate.new(options.merge(mod: mod)).run
     end
 
     desc "completion *PARAMS", "Prints words for auto-completion."

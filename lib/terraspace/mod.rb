@@ -8,11 +8,10 @@ module Terraspace
   class Mod
     extend Memoist
 
-    attr_reader :name
-    attr_accessor :consider_stacks
-    def initialize(name)
+    attr_reader :consider_stacks, :name
+    def initialize(name, consider_stacks: true)
       @name = name
-      @consider_stacks = true
+      @consider_stacks = consider_stacks
     end
 
     attr_accessor :root_module
