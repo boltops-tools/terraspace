@@ -26,57 +26,57 @@ module Terraspace
     desc "console", "console .terraspace-cache dir"
     long_desc Help.text(:console)
     def console(mod)
-      Console.new(options.merge(mod: mod)).run
+      Commander.new("console", options.merge(mod: mod)).run
     end
 
     desc "down MODULE", "down"
     long_desc Help.text(:down)
     base_options.call
     def down(mod)
-      Down.new(options.merge(mod: mod)).run
+      Commander.new("destroy", options.merge(mod: mod)).run
     end
 
     desc "plan MODULE", "plan module"
     long_desc Help.text(:plan)
     def plan(mod)
-      Plan.new(options.merge(mod: mod)).run
+      Commander.new("plan", options.merge(mod: mod)).run
     end
 
     desc "providers MODULE", "providers"
     long_desc Help.text(:providers)
     def providers(mod)
-      Providers.new(options.merge(mod: mod)).run
+      Commander.new("providers", options.merge(mod: mod)).run
     end
 
     desc "refresh", "refresh"
     long_desc Help.text(:refresh)
     def refresh(mod)
-      Refresh.new(options.merge(mod: mod)).run
+      Commander.new("refresh", options.merge(mod: mod)).run
     end
 
     desc "show MODULE", "show"
     long_desc Help.text(:show)
     def show(mod)
-      Show.new(options.merge(mod: mod)).run
+      Commander.new("show", options.merge(mod: mod)).run
     end
 
     desc "output MODULE", "output"
     long_desc Help.text(:output)
     def output(mod)
-      Output.new(options.merge(mod: mod)).run
+      Commander.new("output", options.merge(mod: mod)).run
     end
 
     desc "update MODULE", "update infrasturcture. IE: apply plan"
     long_desc Help.text(:update)
     base_options.call
     def update(mod)
-      Update.new(options.merge(mod: mod)).run
+      Commander.new("apply", options.merge(mod: mod)).run
     end
 
     desc "validate MODULE", "validate"
     long_desc Help.text(:validate)
     def validate(mod)
-      Validate.new(options.merge(mod: mod)).run
+      Commander.new("validate", options.merge(mod: mod)).run
     end
 
     desc "completion *PARAMS", "Prints words for auto-completion."
