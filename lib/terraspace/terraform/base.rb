@@ -1,5 +1,5 @@
 module Terraspace::Terraform
-  class Base < Terraspace::AbstractBase
+  class Base < Terraspace::CLI::Base
     extend Memoist
     include Terraspace::Util::Sh
 

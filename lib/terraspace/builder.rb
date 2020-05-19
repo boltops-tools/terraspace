@@ -1,39 +1,39 @@
 module Terraspace
-  class Build < AbstractBase
+  class Builder < Terraspace::CLI::Base
     def run
       Compiler::Cleaner.new(@mod).clean
-      build_root_module
-      build_local_modules
+      puts "Materializing #{Util.pretty_path(@mod.cache_build_dir)}"
+      build_all("modules")
+      build_all("stacks")
       Terraform::Init.new(@options).run
       build_remote_dependencies # runs after terraform init, which downloads remote modules
     end
 
-    def build_root_module
-      @mod.root_module = true
-      puts "Materializing #{Terraspace::Util.pretty_path(@mod.cache_build_dir)}"
-      Compiler::Builder.new(@mod).build # top-level
-    end
-
-    def build_local_modules
+    def build_all(type_dir)
       built = []
-      local_mod_paths.each do |path|
+      local_paths(type_dir).each do |path|
         next unless File.directory?(path)
         mod_name = File.basename(path)
-        next if built.include?(mod_name) # ensures app/modules take higher precedence than vendor/modules
+        next if built.include?(mod_name) # ensures modules in app folder take higher precedence than vendor folder
 
-        mod = Terraspace::Mod.new(mod_name)
-        mod.consider_stacks = false
+        consider_stacks = type_dir == "stacks"
+        mod = Mod.new(mod_name, consider_stacks: consider_stacks)
+        mod.root_module = root?(mod)
         Compiler::Builder.new(mod).build
         built << mod_name
       end
     end
 
-    def local_mod_paths
-      dirs("app/modules/*") + dirs("vendor/modules/*")
+    def local_paths(type_dir)
+      dirs("app/#{type_dir}/*") + dirs("vendor/#{type_dir}/*")
     end
 
     def dirs(path)
       Dir.glob("#{Terraspace.root}/#{path}")
+    end
+
+    def root?(mod)
+      mod.build_dir == @mod.build_dir
     end
 
     # Currently only handles remote modules only one-level deep.
@@ -52,7 +52,7 @@ module Terraspace
       return if local_source?(meta["Source"])
       return if meta['Dir'] == '.' # root is already built
 
-      remote_mod = Terraspace::Mod::Remote.new(meta, @mod)
+      remote_mod = Mod::Remote.new(meta, @mod)
       Compiler::Builder.new(remote_mod).build
     end
 

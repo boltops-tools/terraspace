@@ -1,4 +1,4 @@
-module Terraspace
+class Terraspace::CLI
   class Clean
     def initialize(options={})
       @options = options

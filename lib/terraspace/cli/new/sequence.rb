@@ -1,6 +1,6 @@
 require 'thor'
 
-class Terraspace::New
+class Terraspace::CLI::New
   class Sequence < Thor::Group
     include Thor::Actions
     include Helper
@@ -40,12 +40,12 @@ class Terraspace::New
     # friendly method
     def set_source(type, blank: false)
       provider = blank ? "blank" : options[:provider]
-      template_path = File.expand_path("../../templates/#{@options[:lang]}/#{provider}/#{type}", __dir__)
+      template_path = File.expand_path("../../../templates/#{@options[:lang]}/#{provider}/#{type}", __dir__)
       override_source_paths(template_path)
     end
 
     def set_base_source(type)
-      template_path = File.expand_path("../../templates/base/#{type}", __dir__)
+      template_path = File.expand_path("../../../templates/base/#{type}", __dir__)
       override_source_paths(template_path)
     end
 
