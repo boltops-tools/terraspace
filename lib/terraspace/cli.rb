@@ -48,6 +48,12 @@ module Terraspace
       Providers.new(options.merge(mod: mod)).run
     end
 
+    desc "refresh", "refresh"
+    long_desc Help.text(:refresh)
+    def refresh(mod)
+      Refresh.new(options.merge(mod: mod)).run
+    end
+
     desc "show MODULE", "show"
     long_desc Help.text(:show)
     def show(mod)
