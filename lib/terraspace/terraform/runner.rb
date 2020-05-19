@@ -6,7 +6,6 @@ module Terraspace::Terraform
     attr_reader :name
     def initialize(name, options={})
       @name = name
-      @args = options[:args]
       super(options)
     end
 
@@ -20,7 +19,7 @@ module Terraspace::Terraform
       params = args.flatten.join(' ')
       command = "terraform #{name} #{params}"
       run_hooks(name) do
-        sh(command, env: builder.env_vars)
+        sh(command, env: custom.env_vars)
       end
     end
 
@@ -32,28 +31,23 @@ module Terraspace::Terraform
     memoize :within_message
 
     def run_hooks(name, &block)
-      builder = Hooks::Builder.new(@mod, name)
-      builder.build # build hooks
-      builder.run_hooks(&block)
+      hooks = Hooks::Builder.new(@mod, name)
+      hooks.build # build hooks
+      hooks.run_hooks(&block)
     end
 
     def args
-      [@args].compact.flatten + auto_approve_arg + builder.args + builder.var_files
+      base.args + custom.args + custom.var_files
     end
 
-    def builder
-      Args::Builder.new(@mod, name)
+    def custom
+      Args::Custom.new(@mod, name)
     end
-    memoize :builder
+    memoize :custom
 
-    # Some commands have -auto-approve option. IE: apply and destroy
-    def auto_approve_arg
-      return [] unless auto_approve_arg?
-      @options[:yes] ? ["-auto-approve"] : []
+    def base
+      Args::Base.new(@name, @options)
     end
-
-    def auto_approve_arg?
-      %w[apply destroy].include?(@name)
-    end
+    memoize :base
   end
 end
