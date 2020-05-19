@@ -1,7 +1,7 @@
 class Terraspace::CLI
   class Base
     def initialize(options={})
-      @options = options.dup # dup to unthaw frozen thor options
+      @options = options
       @mod = Terraspace::Mod.new(options[:mod]) # mod metadata
       @mod.check_exist!
     end

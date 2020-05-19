@@ -5,7 +5,7 @@ module Terraspace
       puts "Materializing #{Util.pretty_path(@mod.cache_build_dir)}"
       build_all("modules")
       build_all("stacks")
-      Terraform::Init.new(@options).run
+      Terraform::Runner.new("init", @options).run
       build_remote_dependencies # runs after terraform init, which downloads remote modules
     end
 

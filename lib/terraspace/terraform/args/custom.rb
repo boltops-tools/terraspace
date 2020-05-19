@@ -1,5 +1,5 @@
 module Terraspace::Terraform::Args
-  class Builder
+  class Custom
     extend Memoist
     include Dsl
     include DslEvaluator
