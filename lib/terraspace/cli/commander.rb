@@ -5,15 +5,10 @@ class Terraspace::CLI
       super(options)
     end
 
+    # Commander always runs Build#run
     def run
       Build.new(@options).run # generate and init
-
-      terraform = terraform_class.new(@options) # IE: Terraspace::Terraform::Plan
-      terraform.run
-    end
-
-    def terraform_class
-      "Terraspace::Terraform::#{@name.camelize}".constantize
+      Terraspace::Terraform::Runner.new(@name, @options).run
     end
   end
 end
