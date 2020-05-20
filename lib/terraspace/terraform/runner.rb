@@ -37,7 +37,8 @@ module Terraspace::Terraform
     end
 
     def args
-      base.args + custom.args + custom.var_files
+      # base at end in case of redirection. IE: terraform output > /path
+      custom.args + custom.var_files + base.args
     end
 
     def custom

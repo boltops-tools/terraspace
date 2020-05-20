@@ -22,7 +22,10 @@ module Terraspace::Terraform::Args
     end
 
     def output_options
-      @options[:json] ? ["-json"] : []
+      options = []
+      options << "-json" if @options[:json]
+      options << "> #{@options[:save_to]}" if @options[:save_to]
+      options
     end
   end
 end
