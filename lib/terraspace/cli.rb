@@ -3,7 +3,7 @@ module Terraspace
     class_option :verbose, type: :boolean
     class_option :noop, type: :boolean
 
-    base_options = Proc.new {
+    yes_option = Proc.new {
       option :yes, aliases: :y, type: :boolean, desc: "-auto-approve the terraform apply"
     }
 
@@ -31,7 +31,7 @@ module Terraspace
 
     desc "down MODULE", "down"
     long_desc Help.text(:down)
-    base_options.call
+    yes_option.call
     def down(mod)
       Commander.new("destroy", options.merge(mod: mod)).run
     end
@@ -62,13 +62,14 @@ module Terraspace
 
     desc "output MODULE", "output"
     long_desc Help.text(:output)
+    option :json, type: :boolean, desc: "output json"
     def output(mod)
       Commander.new("output", options.merge(mod: mod)).run
     end
 
     desc "update MODULE", "update infrasturcture. IE: apply plan"
     long_desc Help.text(:update)
-    base_options.call
+    yes_option.call
     def update(mod)
       Commander.new("apply", options.merge(mod: mod)).run
     end
