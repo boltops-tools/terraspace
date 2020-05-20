@@ -2,6 +2,8 @@
 
 [![Gem Version](https://badge.fury.io/rb/terraspace.png)](http://badge.fury.io/rb/terraspace)
 
+[![BoltOps Badge](https://img.boltops.com/boltops/badges/boltops-badge.png)](https://www.boltops.com)
+
 The Terraform Framework
 
 ## Usage
