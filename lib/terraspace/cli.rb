@@ -54,6 +54,14 @@ module Terraspace
       Commander.new("refresh", options.merge(mod: mod)).run
     end
 
+    desc "seed MODULE", "seed"
+    long_desc Help.text(:seed)
+    option :yes, aliases: :y, type: :boolean, desc: "bypass prompts and force overwrite files"
+    option :where, desc: "where to create file. either under app or seed folder structure. values: app or stack"
+    def seed(mod)
+      Seed.new(options.merge(mod: mod)).run
+    end
+
     desc "show MODULE", "show"
     long_desc Help.text(:show)
     def show(mod)
