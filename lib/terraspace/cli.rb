@@ -72,7 +72,7 @@ module Terraspace
     desc "output MODULE", "output"
     long_desc Help.text(:output)
     option :json, type: :boolean, desc: "output json"
-    option :save_to, desc: "path to save the output to"
+    option :out, desc: "path to save the output"
     def output(mod)
       Commander.new("output", options.merge(mod: mod)).run
     end

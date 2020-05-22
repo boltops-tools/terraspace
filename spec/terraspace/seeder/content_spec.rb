@@ -41,7 +41,7 @@ describe Terraspace::Seeder::Content do
         azs     = [...] # list(string)
 
         # Optional variables:
-        # project = "my-project"
+        # project = "project-name"
       EOL
       expect(result).to eq(expected)
     end
