@@ -21,18 +21,29 @@ class Terraspace::Seeder
     end
 
     def build_line(name, meta)
-      type = meta["type"]
-      value = desc_example(meta["description"]) || type || "any"
-
-      value = if type&.include?('(') # complex type
-                "[...] # #{type}"
-              else
-                %Q|"#{value}"| # add quotes
-              end
-
+      value = var_value(meta)
       name = "# #{name}" if meta["default"] # optional so add as a comment
       name = "%-#{rpad}s" % name # rpad to align = signs
       "#{name} = #{value}"
+    end
+
+    def var_value(meta)
+      type, default = meta["type"], meta["default"]
+
+      if default
+        escape(type, default)
+      else
+        value = desc_example(meta["description"]) || type || "any"
+        escape(type, value)
+      end
+    end
+
+    def escape(type, value)
+      if type&.include?('(') # complex type
+        "[...] # #{type}"
+      else
+        %Q|"#{value}"| # add quotes
+      end
     end
 
     def rpad
