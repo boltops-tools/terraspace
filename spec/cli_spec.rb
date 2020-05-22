@@ -5,9 +5,9 @@ describe Terraspace::CLI do
 
   describe "terraspace" do
     it "up" do
-      out = execute("exe/terraspace up vpc")
+      ts_root = "spec/fixtures/projects/hcl/aws"
+      out = execute("TS_ROOT=#{ts_root} exe/terraspace up core")
       puts out
-      # expect(out).to include("from: Tung\nHello world")
     end
   end
 end

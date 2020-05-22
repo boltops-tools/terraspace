@@ -18,10 +18,10 @@ describe Terraspace::Compiler::Expander::S3 do
   context "default path" do
     it "expand" do
       result = state.expand(props)
+      result.delete(:region) # may be different depending on ENV['REGION']
       expect(result).to eq({
         bucket: "my-bucket",
         key: "dev/stacks/core/terraform.tfstate",
-        region: "us-west-2",
         encrypt: true,
         dynamodb_table: "terraform_locks"
       })

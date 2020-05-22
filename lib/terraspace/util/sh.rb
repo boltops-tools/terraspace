@@ -7,6 +7,7 @@ module Terraspace::Util
       env.stringify_keys!
 
       puts "=> #{command}"
+      return if ENV['TS_TEST']
 
       success = system(env, command, chdir: @mod.cache_build_dir)
       unless success

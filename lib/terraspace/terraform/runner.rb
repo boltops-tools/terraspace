@@ -24,9 +24,7 @@ module Terraspace::Terraform
     end
 
     def within_message
-      dir = @mod.cache_build_dir
-      pretty_dir = dir.gsub("#{Terraspace.root}/",'')
-      puts "Within dir: #{pretty_dir}"
+      puts "Within dir: #{Terraspace::Util.pretty_path(@mod.cache_build_dir)}"
     end
     memoize :within_message
 
