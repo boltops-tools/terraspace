@@ -8,12 +8,13 @@ class Terraspace::Seeder
 
     def build
       lines = []
+      lines << "# Required variables:" unless required_vars.empty?
       required_vars.each do |name, meta|
-        lines << "# Required variables:"
         lines << build_line(name, meta)
       end
+      lines << "" unless required_vars.empty?
+      lines << "# Optional variables:" unless optional_vars.empty?
       optional_vars.each do |name, meta|
-        lines << "\n# Optional variables:"
         lines << build_line(name, meta)
       end
       lines.join("\n") + "\n"
