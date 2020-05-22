@@ -30,6 +30,7 @@ class Terraspace::Seeder
                 %Q|"#{value}"| # add quotes
               end
 
+      name = "# #{name}" if meta["default"] # optional so add as a comment
       name = "%-#{rpad}s" % name # rpad to align = signs
       "#{name} = #{value}"
     end
