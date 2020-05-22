@@ -13,6 +13,7 @@ module Terraspace
 
     desc "build MODULE", "build"
     long_desc Help.text(:build)
+    option :quiet, type: :boolean, default: false, desc: "quiet output"
     def build(mod)
       Build.new(options.merge(mod: mod)).run
     end

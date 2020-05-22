@@ -14,7 +14,7 @@ module Terraspace::Terraform
     end
 
     def terraform(name, *args)
-      within_message # only show once
+      current_dir_message # only show once
 
       params = args.flatten.join(' ')
       command = "terraform #{name} #{params}"
@@ -23,10 +23,12 @@ module Terraspace::Terraform
       end
     end
 
-    def within_message
-      puts "Within dir: #{Terraspace::Util.pretty_path(@mod.cache_build_dir)}"
+    @@current_dir_message_shown = false
+    def current_dir_message
+      return if @@current_dir_message_shown
+      puts "Current directory: #{Terraspace::Util.pretty_path(@mod.cache_build_dir)}"
+      @@current_dir_message_shown = true
     end
-    memoize :within_message
 
     def run_hooks(name, &block)
       hooks = Hooks::Builder.new(@mod, name)
