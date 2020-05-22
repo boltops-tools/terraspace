@@ -38,11 +38,10 @@ describe Terraspace::Seeder::Content do
       expected =<<~EOL
         # Required variables:
         name    = "string"
-        # Required variables:
         azs     = [...] # list(string)
 
         # Optional variables:
-        project = "my-project"
+        # project = "my-project"
       EOL
       expect(result).to eq(expected)
     end
