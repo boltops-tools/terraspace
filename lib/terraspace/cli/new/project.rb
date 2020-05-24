@@ -42,14 +42,41 @@ class Terraspace::CLI::New
       Stack.start(component_args("demo", name))
     end
 
-    def welcome_message
+    def welcome_message_examples
+      return unless options[:examples]
       puts <<~EOL
         #{"="*64}
         Congrats! You have successfully created a terraspace project.
-        Check out the created files. Adjust to your needs and then deploy with:
+        Check out the created files. Adjust to the examples and then deploy with:
 
             cd #{name}
-            terraspace up demo -y
+            terraspace up demo -y   # to deploy
+            terraspace down demo -y # to destroy
+
+        More info: https://terraspace.cloud/
+      EOL
+    end
+
+    def welcome_message_no_examples
+      return if options[:examples]
+      puts <<~EOL
+        #{"="*64}
+        Congrats! You have successfully created a terraspace project.
+        Check out the created files.
+
+            cd #{name}
+
+        You can create modules and stacks with their generators:
+
+            terraspace new module demo
+            terraspace new stack demo
+
+        When you are ready, you can deploy with:
+
+            terraspace up demo -y   # to deploy
+
+        And destroy with:
+
             terraspace down demo -y # to destroy
 
         More info: https://terraspace.cloud/
