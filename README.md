@@ -8,40 +8,51 @@ The Terraform Framework
 
 ## Usage
 
-Create infrastructure stacks:
+Create infrastructure:
 
-    $ terraspace up core -y
-    Created .terraspace-cache/stacks/core/provider.tf.json
-    Created .terraspace-cache/stacks/core/backend.tf.json
-    Created .terraspace-cache/stacks/core/variables.tf.json
-    Created .terraspace-cache/stacks/core/main.tf.json
-    Created .terraspace-cache/stacks/core/outputs.tf.json
-    ...
-    Within dir: .terraspace-cache/stacks/core
+    $ terraspace up demo -y
+    Materializing .terraspace-cache/dev/stacks/demo
+    Current directory: .terraspace-cache/dev/stacks/demo
+    => terraform init -get > /dev/null
+    Built in .terraspace-cache/dev/stacks/demo
     => terraform apply -auto-approve
-    module.sg_nested2.module.sg_child_test.aws_security_group.demo-sg-child: Refreshing state... [id=sg-0816d7ea938d031de]
-    module.vpc2.aws_vpc.vpc: Refreshing state... [id=vpc-0006839843392f564]
-    module.sg_nested2.aws_security_group.demo-sg-nested: Refreshing state... [id=sg-0f7bebaaaf7c1a194]
+    random_pet.bucket: Creating...
+    random_pet.bucket: Creation complete after 0s [id=amusing-mouse]
+    module.bucket.aws_s3_bucket.this: Creating...
+    module.bucket.aws_s3_bucket.this: Creation complete after 1s [id=bucket-amusing-mouse]
 
-    Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
+    Apply complete! Resources: 2 added, 0 changed, 0 destroyed.
+
+    Outputs:
+
+    bucket_name = bucket-amusing-mouse
     $
 
-Destroy infrastructure stacks:
+Destroy infrastructure:
 
-    $ terraspace down core -y
-    Created .terraspace-cache/stacks/core/provider.tf.json
-    Created .terraspace-cache/stacks/core/backend.tf.json
-    ...
-    Within dir: .terraspace-cache/stacks/core
+    $ terraspace down demo -y
+    Materializing .terraspace-cache/dev/stacks/demo
+    Current directory: .terraspace-cache/dev/stacks/demo
+    => terraform init -get > /dev/null
+    Built in .terraspace-cache/dev/stacks/demo
     => terraform destroy -auto-approve
-    module.vpc2.aws_vpc.vpc: Refreshing state... [id=vpc-0006839843392f564]
-    ...
-    module.sg_nested2.module.sg_child_test.aws_security_group.demo-sg-child: Destruction complete after 0s
+    random_pet.bucket: Refreshing state... [id=amusing-mouse]
+    module.bucket.aws_s3_bucket.this: Refreshing state... [id=bucket-amusing-mouse]
+    module.bucket.aws_s3_bucket.this: Destroying... [id=bucket-amusing-mouse]
+    module.bucket.aws_s3_bucket.this: Destruction complete after 1s
+    random_pet.bucket: Destroying... [id=amusing-mouse]
+    random_pet.bucket: Destruction complete after 0s
 
-    Destroy complete! Resources: 3 destroyed.
+    Destroy complete! Resources: 2 destroyed.
     $
 
-## Docs
+## Features
+
+* [Config Structure]({% link _docs/config.md %}): A common config structure that gets materializes with the deployed module. Configs can be dynamically controlled keep your code DRY. You can override the settings if needed, like for using existing backends. See: [Existing Backends]({% link _docs/state/existing.md %}).
+* [Generators]({% link _docs/generators.md %}): Built-in generators to quickly create the starter module. Focus on code instead of boilerplate structure.
+* [Tfvars]({% link _docs/tfvars.md %}): Use the same code with different tfvars to create multiple environments. Terraspace conventionally loads tfvars from the `tfvars` folder. Tfvars also support [Layering]({% link _docs/tfvars/layering.md %}).
+* [Testing]({% link _docs/testing.md %}): A testing framework that allows you to create test harnesses, deploy real-resources, and have higher confidence that your code works.
+* [Configurable CLI]({% link _docs/cli.md %}): Configurable [CLI Hooks]({% link _docs/cli/args.md %}) and [CLI Args]({% link _docs/cli/hooks.md %}) allow you to adjust the underlying terraform command.
 
 For more docs: [Docs](https://github.com/boltops-tools/terraspace-docs)
 

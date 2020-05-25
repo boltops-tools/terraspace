@@ -30,7 +30,7 @@ module Terraspace::Terraform::Args
 
     def output_args
       options = []
-      options << "-json" if @options[:json]
+      options << "-json" if @options[:format] == "json"
       options << "> #{@options[:out]}" if @options[:out]
       options
     end

@@ -6,6 +6,9 @@ module Terraspace
     yes_option = Proc.new {
       option :yes, aliases: :y, type: :boolean, desc: "-auto-approve the terraform apply"
     }
+    format_option = Proc.new {
+      option :format, desc: "output formats: json, text"
+    }
 
     desc "new SUBCOMMAND", "new subcommands"
     long_desc Help.text(:new)
@@ -35,6 +38,13 @@ module Terraspace
     yes_option.call
     def down(mod)
       Commander.new("destroy", options.merge(mod: mod)).run
+    end
+
+    desc "info MODULE", "info"
+    long_desc Help.text(:info)
+    format_option.call
+    def info(mod)
+      Info.new(options.merge(mod: mod)).run
     end
 
     desc "plan MODULE", "plan module"
@@ -71,8 +81,8 @@ module Terraspace
 
     desc "output MODULE", "output"
     long_desc Help.text(:output)
-    option :json, type: :boolean, desc: "output json"
     option :out, desc: "path to save the output"
+    format_option.call
     def output(mod)
       Commander.new("output", options.merge(mod: mod)).run
     end

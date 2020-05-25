@@ -12,6 +12,8 @@ require "rainbow/ext/string"
 require "render_me_pretty"
 require "terraspace/version"
 
+require "terraspace/ext/bundler"
+
 require "terraspace/autoloader"
 Terraspace::Autoloader.setup
 
@@ -23,3 +25,5 @@ module Terraspace
   extend Core # for Terraspace.root
   class Error < StandardError; end
 end
+
+Terraspace::Bundle.require # load providers

@@ -19,15 +19,17 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "activesupport"
-  spec.add_dependency "aws_data"
   spec.add_dependency "dsl_evaluator"
-  spec.add_dependency "gcp_data"
-  spec.add_dependency "hcl_variables"
+  spec.add_dependency "hcl_parser"
   spec.add_dependency "memoist"
   spec.add_dependency "rainbow"
   spec.add_dependency "render_me_pretty"
   spec.add_dependency "thor"
   spec.add_dependency "zeitwerk"
+
+  # baseline providers
+  spec.add_dependency "terraspace_provider_aws"
+  spec.add_dependency "terraspace_provider_gcp"
 
   spec.add_development_dependency "bundler"
   spec.add_development_dependency "byebug"

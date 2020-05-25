@@ -2,7 +2,7 @@ class Terraspace::CLI::New
   class Project < Sequence
     def self.project_options
       [
-        [:bucket, desc: "Bucket to store terraform.tfstate file"],
+        [:force, type: :boolean, desc: "Bypass overwrite are you sure prompt for existing files."],
       ]
     end
 
@@ -15,14 +15,17 @@ class Terraspace::CLI::New
 
     # Note: Tried multiple sources but that doesnt seem to work, so using this approach instead
     def create_base
-      Base.start([name])
-    end
-
-    def setup_source
-      set_source("project")
+      args = [
+        name,
+        "--provider", @options[:provider],
+        "--lang", @options[:lang],
+      ]
+      args << "--force" if @options[:force]
+      Base.start(args)
     end
 
     def create_project
+      set_source("project")
       directory ".", "#{name}"
     end
 
@@ -40,6 +43,15 @@ class Terraspace::CLI::New
     def create_starter_stack
       return unless @options[:examples]
       Stack.start(component_args("demo", name))
+    end
+
+    def bundle_install
+      puts "=> Installing dependencies with: bundle install"
+      Dir.chdir(name) do
+        Bundler.with_unbundled_env do
+          system("BUNDLE_IGNORE_CONFIG=1 bundle install")
+        end
+      end
     end
 
     def welcome_message_examples
@@ -66,16 +78,16 @@ class Terraspace::CLI::New
 
             cd #{name}
 
-        You can create modules and stacks with their generators:
+        You can create starter modules and stacks with their generators:
 
-            terraspace new module demo
+            terraspace new module example
             terraspace new stack demo
 
-        When you are ready, you can deploy with:
+        Add your code to them, and deploy when you are ready:
 
             terraspace up demo -y   # to deploy
 
-        And destroy with:
+        Destroy with:
 
             terraspace down demo -y # to destroy
 

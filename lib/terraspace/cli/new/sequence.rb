@@ -3,7 +3,6 @@ require 'thor'
 class Terraspace::CLI::New
   class Sequence < Thor::Group
     include Thor::Actions
-    include Helper
 
     def self.base_options
       [
@@ -38,14 +37,29 @@ class Terraspace::CLI::New
     end
 
     # friendly method
-    def set_source(type, blank: false)
-      provider = blank ? "blank" : options[:provider]
-      template_path = File.expand_path("../../../templates/#{@options[:lang]}/#{provider}/#{type}", __dir__)
-      override_source_paths(template_path)
+    def set_source(type, blank: true)
+      # always use gem source. no blank slate for project generator
+      if blank && type != "project"
+        template_path = File.expand_path("../../../templates/#{@options[:lang]}/#{type}", __dir__)
+        override_source_paths(template_path)
+      else
+        set_gem_source(type) # provider has examples
+      end
     end
 
-    def set_base_source(type)
-      template_path = File.expand_path("../../../templates/base/#{type}", __dir__)
+    def set_base_source(*types)
+      template_paths = types.flatten.map do |type|
+        File.expand_path("../../../templates/base/#{type}", __dir__)
+      end
+      override_source_paths(template_paths)
+    end
+
+    def set_gem_source(type)
+      provider_name = options[:provider]
+      require "terraspace_provider_#{provider_name}" # require provider for the templates, this registers the provider
+
+      provider = Terraspace::Provider.find_with(provider: provider_name)
+      template_path = File.expand_path("#{provider.root}/lib/templates/#{options[:lang]}/#{type}")
       override_source_paths(template_path)
     end
 

@@ -1,12 +1,22 @@
 class Terraspace::Compiler::Cleaner
   class BackendChange
-    def initialize(mod)
-      @mod = mod
+    include Terraspace::Util::Sure
+
+    def initialize(mod, options={})
+      @mod, @options = mod, options
     end
 
     def purge
       return unless purge?
-      puts "Backend change detected. Removing #{Terraspace::Util.pretty_path(Terraspace.cache_root)} for reinitialization"
+
+      cache_root = Terraspace::Util.pretty_path(Terraspace.cache_root)
+      message =<<~EOL
+        Backend change detected. Will remove #{cache_root} for complete reinitialization
+        WARN: If you are using local storage for state, this will remove it.
+        Will remove #{cache_root}
+      EOL
+      sure?(message.strip)
+      puts "Backend change detected. Removing #{cache_root} for complete reinitialization"
       FileUtils.rm_rf(Terraspace.cache_root)
     end
 

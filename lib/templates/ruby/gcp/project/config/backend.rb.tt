@@ -1,4 +1,0 @@
-backend("gcs",
-  bucket: "<%= options[:bucket] || "REPLACE_ME" %>",
-  prefix: ":region/:env/:build_dir" # variable notation expanded by terraspace IE: us-central1/dev/modules/vm
-)

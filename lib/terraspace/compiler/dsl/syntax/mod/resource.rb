@@ -17,7 +17,8 @@ module Terraspace::Compiler::Dsl::Syntax::Mod
 
     def decorator_class(type)
       klass_name = type.to_s.camelize
-      "Terraspace::Compiler::Dsl::Decorators::#{klass_name}".constantize rescue nil
+      "Terraspace::Compiler::Dsl::Decorators::#{klass_name}".constantize
+    rescue NameError
     end
   end
 end

@@ -5,12 +5,15 @@ module Terraspace::Compiler
     attr_reader :expander
     def initialize(mod, name)
       @mod, @name = mod, name
-      @expander = state_class.new(@mod)
+      @expander = expander_class.new(@mod)
     end
 
-    def state_class
-      # Base is the generic class
-      "Terraspace::Compiler::Expander::#{@name.camelize}".constantize rescue Base
+    def expander_class
+      # IE: TerraspaceProviderAws::Interfaces::Expander
+      klass_name = Terraspace::Provider.klass(@name, "Expander")
+      klass_name.constantize
+    # rescue NameError
+    #   Terraspace::Provider::Expander::Generic
     end
   end
 end
