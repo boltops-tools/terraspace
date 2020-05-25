@@ -7,9 +7,9 @@ Gem::Specification.new do |spec|
   spec.name          = "terraspace"
   spec.version       = Terraspace::VERSION
   spec.authors       = ["Tung Nguyen"]
-  spec.email         = ["tongueroo@gmail.com"]
+  spec.email         = ["tung@boltops.com"]
   spec.summary       = "Terraspace: The Terraspace Framework"
-  spec.homepage      = "https://github.com/boltopspro/terraspace"
+  spec.homepage      = "https://github.com/boltops-tools/terraspace"
   spec.license       = "Apache-2.0"
 
   spec.files         = File.directory?('.git') ? `git ls-files`.split($/) : Dir.glob("**/*")
@@ -40,8 +40,8 @@ Gem::Specification.new do |spec|
   if spec.respond_to?(:metadata)
     spec.metadata["homepage_uri"] = spec.homepage
     spec.metadata["allowed_push_host"] = "TODO: Set to 'http://mygemserver.com'"
-    spec.metadata["source_code_uri"] = "https://github.com/boltopspro/terraspace"
-    spec.metadata["changelog_uri"] = "https://github.com/boltopspro/terraspace/blob/master/CHANGELOG.md"
+    spec.metadata["source_code_uri"] = "https://github.com/boltops-tools/terraspace"
+    spec.metadata["changelog_uri"] = "https://github.com/boltops-tools/terraspace/blob/master/CHANGELOG.md"
   else
     raise "RubyGems 2.0 or newer is required to protect against public gem pushes."
   end
