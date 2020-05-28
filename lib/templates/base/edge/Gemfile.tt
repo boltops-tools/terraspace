@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 <%
-base = ENV['TS_BASE_FOLDER'] || "#{ENV['HOME']}/environment"
+base = ENV['TS_BASE_FOLDER'] || "#{ENV['HOME']}/environment/terraspace-edge"
 -%>
 gem "terraspace", path: "<%= base %>/terraspace"
 gem "rspec-terraspace", path: "<%= base %>/rspec-terraspace"
