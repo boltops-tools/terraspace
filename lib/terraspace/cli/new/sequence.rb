@@ -55,12 +55,24 @@ class Terraspace::CLI::New
     end
 
     def set_gem_source(type)
-      provider_name = options[:provider]
-      require "terraspace_provider_#{provider_name}" # require provider for the templates, this registers the provider
-
-      provider = Terraspace::Provider.find_with(provider: provider_name)
+      require_provider
+      provider = Terraspace::Provider.find_with(provider: options[:provider])
       template_path = File.expand_path("#{provider.root}/lib/templates/#{options[:lang]}/#{type}")
       override_source_paths(template_path)
+    end
+
+    def require_provider
+      provider_name = options[:provider]
+      gem_name = "terraspace_provider_#{provider_name}"
+      begin
+        require gem_name # require provider for the templates, this registers the provider
+      rescue LoadError => e
+        puts "#{e.class}: #{e.message}"
+        puts "ERROR: Unable to require provider #{gem_name}.".color(:red)
+        puts "Are you sure you the provider exists and you specified the right provider option."
+        puts "You specified --provider #{provider_name}"
+        exit 1
+      end
     end
 
     def override_source_paths(*paths)
