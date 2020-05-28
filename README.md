@@ -48,11 +48,11 @@ Destroy infrastructure:
 
 ## Features
 
-* [Config Structure]({% link _docs/config.md %}): A common config structure that gets materializes with the deployed module. Configs can be dynamically controlled keep your code DRY. You can override the settings if needed, like for using existing backends. See: [Existing Backends]({% link _docs/state/existing.md %}).
-* [Generators]({% link _docs/generators.md %}): Built-in generators to quickly create the starter module. Focus on code instead of boilerplate structure.
-* [Tfvars]({% link _docs/tfvars.md %}): Use the same code with different tfvars to create multiple environments. Terraspace conventionally loads tfvars from the `tfvars` folder. Tfvars also support [Layering]({% link _docs/tfvars/layering.md %}).
-* [Testing]({% link _docs/testing.md %}): A testing framework that allows you to create test harnesses, deploy real-resources, and have higher confidence that your code works.
-* [Configurable CLI]({% link _docs/cli.md %}): Configurable [CLI Hooks]({% link _docs/cli/args.md %}) and [CLI Args]({% link _docs/cli/hooks.md %}) allow you to adjust the underlying terraform command.
+* [Config Structure](https://terraspace.cloud/docs/config/): A common config structure that gets materializes with the deployed module. Configs can be dynamically controlled keep your code DRY. You can override the settings if needed, like for using existing backends. See: [Existing Backends](https://terraspace.cloud/docs/state/existing/).
+* [Generators](https://terraspace.cloud/docs/generators/): Built-in generators to quickly create the starter module. Focus on code instead of boilerplate structure.
+* [Tfvars](https://terraspace.cloud/docs/tfvars/): Use the same code with different tfvars to create multiple environments. Terraspace conventionally loads tfvars from the `tfvars` folder. Tfvars also support [Layering](https://terraspace.cloud/docs/tfvars/layering/).
+* [Testing](https://terraspace.cloud/docs/testing/): A testing framework that allows you to create test harnesses, deploy real-resources, and have higher confidence that your code works.
+* [Configurable CLI](https://terraspace.cloud/docs/cli/): Configurable [CLI Hooks](https://terraspace.cloud/docs/cli/hooks/) and [CLI Args](https://terraspace.cloud/docs/cli/args/) allow you to adjust the underlying terraform command.
 
 For more docs: [Docs](https://github.com/boltops-tools/terraspace-docs)
 
