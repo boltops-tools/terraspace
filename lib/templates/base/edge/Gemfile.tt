@@ -2,7 +2,8 @@ source "https://rubygems.org"
 
 <%
 base = ENV['TS_EDGE_ROOT'] || "#{ENV['HOME']}/environment/terraspace-edge"
+provider = "terraspace_provider_#{options[:provider]}"
 -%>
 gem "terraspace", path: "<%= base %>/terraspace"
 gem "rspec-terraspace", path: "<%= base %>/rspec-terraspace"
-gem "terraspace_provider_<%= options[:provider] %>", path: "<%= base %>/terraspace_provider_<%= options[:provider] %>"
+gem "<%= provider %>", path: "<%= base %>/<%= provider %>"
