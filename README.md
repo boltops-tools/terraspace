@@ -54,10 +54,4 @@ Destroy infrastructure:
 * [Testing](https://terraspace.cloud/docs/testing/): A testing framework that allows you to create test harnesses, deploy real-resources, and have higher confidence that your code works.
 * [Configurable CLI](https://terraspace.cloud/docs/cli/): Configurable [CLI Hooks](https://terraspace.cloud/docs/cli/hooks/) and [CLI Args](https://terraspace.cloud/docs/cli/args/) allow you to adjust the underlying terraform command.
 
-For more docs: [Docs](https://github.com/boltops-tools/terraspace-docs)
-
-## Installation
-
-Install with:
-
-    gem install terraspace
+For more info: [terraspace.cloud](https://terraspace.cloud)
