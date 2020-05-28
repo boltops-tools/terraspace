@@ -27,6 +27,17 @@ module Terraspace
       ENV['TS_TEST'] ? raise : exit(1)
     end
 
+    def to_info
+      {
+        build_dir: build_dir,
+        cache_build_dir: cache_build_dir,
+        name: name,
+        root: root,
+        type: type,
+        type_dir: type_dir,
+      }
+    end
+
     def root
       paths.find { |p| File.exist?(p) }
     end

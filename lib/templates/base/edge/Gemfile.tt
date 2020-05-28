@@ -1,0 +1,8 @@
+source "https://rubygems.org"
+
+<%
+base = ENV['TS_BASE_FOLDER'] || "#{ENV['HOME']}/environment"
+-%>
+gem "terraspace", path: "<%= base %>/terraspace"
+gem "rspec-terraspace", path: "<%= base %>/rspec-terraspace"
+gem "terraspace_provider_<%= options[:provider] %>", path: "<%= base %>/terraspace_provider_<%= options[:provider] %>"

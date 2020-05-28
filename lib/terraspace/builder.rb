@@ -1,11 +1,12 @@
 module Terraspace
   class Builder < Terraspace::CLI::Base
     def run
-      Compiler::Cleaner.new(@mod).clean
+      Compiler::Cleaner.new(@mod, @options).clean
       build_dir = Util.pretty_path(@mod.cache_build_dir)
       puts "Materializing #{build_dir}"
       build_all("modules")
       build_all("stacks")
+      auto_create_backend
       Terraform::Runner.new("init", @options).run
       build_remote_dependencies # runs after terraform init, which downloads remote modules
       puts "Built in #{build_dir}"
@@ -24,6 +25,10 @@ module Terraspace
         Compiler::Builder.new(mod).build
         built << mod_name
       end
+    end
+
+    def auto_create_backend
+      Compiler::Backend.new(@mod).create
     end
 
     def local_paths(type_dir)

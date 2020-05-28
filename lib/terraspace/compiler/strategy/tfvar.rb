@@ -70,7 +70,8 @@ module Terraspace::Compiler::Strategy
     end
 
     def strategy_class(ext)
-      "Terraspace::Compiler::Strategy::Tfvar::#{ext.camelize}".constantize rescue nil
+      "Terraspace::Compiler::Strategy::Tfvar::#{ext.camelize}".constantize
+    rescue NameError
     end
   end
 end

@@ -1,4 +1,4 @@
-require "hcl_variables"
+require "hcl_parser"
 
 module Terraspace
   class Seeder
@@ -27,7 +27,7 @@ module Terraspace
     memoize :parse
 
     def load_hcl_variables
-      HclVariables.load(read("variables.tf"))
+      HclParser.load(read("variables.tf"))
     rescue Racc::ParseError => e
       puts "ERROR: Unable to parse the #{Util.pretty_path(@mod.cache_build_dir)}/variables.tf file".color(:red)
       puts "and generate the starter tfvars file. This is probably due to a complex variable type."

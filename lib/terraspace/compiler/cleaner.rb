@@ -1,7 +1,7 @@
 module Terraspace::Compiler
   class Cleaner
-    def initialize(mod)
-      @mod = mod
+    def initialize(mod, options={})
+      @mod, @options = mod, options
     end
 
     def clean
@@ -13,7 +13,7 @@ module Terraspace::Compiler
     end
 
     def backend_change_purge
-      BackendChange.new(@mod).purge
+      BackendChange.new(@mod, @options).purge
     end
 
     # only remove .tf* files. leaving cache .terraform and terraform.state files

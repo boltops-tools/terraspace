@@ -1,9 +1,0 @@
-# This is where you put your backend declaration. Here are some examples:
-#
-# backend("s3",
-#   bucket:         "<%= options[:bucket] || "REPLACE_ME" %>",
-#   key:            ":region/:env/:build_dir/terraform.tfstate", # variable notation expanded by terraspace IE: us-west-2/dev/modules/vm/terraform.tfstate
-#   region:         ":region",
-#   encrypt:        true,
-#   dynamodb_table: "terraform_locks"
-# )
