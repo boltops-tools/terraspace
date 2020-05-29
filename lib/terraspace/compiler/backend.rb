@@ -60,7 +60,7 @@ module Terraspace::Compiler
       # IE: TerraspaceProviderAws::Interfaces::Backend
       klass_name = Terraspace::Provider.klass(name, "Backend")
       klass_name.constantize
-    # rescue NameError
+    rescue NameError
     end
   end
 end
