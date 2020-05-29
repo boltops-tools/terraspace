@@ -6,41 +6,48 @@ module Terraspace::Terraform::Args
     end
 
     def args
-      case @name
-      when "init"
-        init_args
-      when "apply", "destroy"
-        auto_approve_arg
-      when "output"
-        output_args
-      when "plan"
-        plan_args
+      if %w[init apply destroy plan output].include?(@name)
+        meth = "#{@name}_args"
+        send(meth)
       else
         []
       end
     end
 
+    def apply_args
+      args = []
+      var_files = @options[:var_files]
+      if var_files
+        args << var_files.map { |f| "-var-file #{Dir.pwd}/#{f}" }.join(' ')
+      end
+      args
+    end
+
     def init_args
       args = "-get"
-      args << " > /dev/null" if @quiet && !ENV['TS_INIT_LOUD']
+      args << " > /tmp/terraform-init.out" if @quiet && !ENV['TS_INIT_LOUD']
       [args]
+    end
+
+    def plan_args
+      args = []
+      args << "-out #{Dir.pwd}/#{@options[:out]}" if @options[:out]
+      args
+    end
+
+    def output_args
+      args = []
+      args << "-json" if @options[:format] == "json"
+      args << "> #{Dir.pwd}/#{@options[:out]}" if @options[:out]
+      args
+    end
+
+    def destroy_args
+      auto_approve_arg
     end
 
     def auto_approve_arg
       @options[:yes] ? ["-auto-approve"] : []
-    end
-
-    def plan_args
-      options = []
-      options << "-out #{Terraspace.root}/#{@options[:out]}" if @options[:out]
-      options
-    end
-
-    def output_args
-      options = []
-      options << "-json" if @options[:format] == "json"
-      options << "> #{Terraspace.root}/#{@options[:out]}" if @options[:out]
-      options
     end
   end
 end

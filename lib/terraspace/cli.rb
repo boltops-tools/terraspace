@@ -91,6 +91,7 @@ module Terraspace
     desc "update MODULE", "update infrasturcture. IE: apply plan"
     long_desc Help.text(:update)
     yes_option.call
+    option :var_files, type: :array, desc: "list of var files"
     def update(mod)
       Commander.new("apply", options.merge(mod: mod)).run
     end
