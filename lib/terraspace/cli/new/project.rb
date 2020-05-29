@@ -3,6 +3,7 @@ class Terraspace::CLI::New
     def self.project_options
       [
         [:force, type: :boolean, desc: "Bypass overwrite are you sure prompt for existing files."],
+        [:config, type: :boolean, default: true, desc: "Whether or not to generate config files."],
       ]
     end
 
@@ -26,7 +27,13 @@ class Terraspace::CLI::New
 
     def create_project
       set_source("project")
-      directory ".", "#{name}"
+
+      options = @options[:config] == false ? {exclude_pattern: "config" } : {}
+      directory ".", "#{name}", options
+
+      if @options[:config] == false
+        empty_directory("#{name}/config")
+      end
     end
 
     def empty_dirs
