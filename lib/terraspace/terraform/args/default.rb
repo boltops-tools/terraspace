@@ -15,7 +15,7 @@ module Terraspace::Terraform::Args
     end
 
     def apply_args
-      args = []
+      args = auto_approve_arg
       var_files = @options[:var_files]
       if var_files
         args << var_files.map { |f| "-var-file #{Dir.pwd}/#{f}" }.join(' ')
