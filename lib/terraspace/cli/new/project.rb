@@ -47,10 +47,8 @@ class Terraspace::CLI::New
 
     def bundle_install
       puts "=> Installing dependencies with: bundle install"
-      Dir.chdir(name) do
-        Bundler.with_unbundled_env do
-          system("BUNDLE_IGNORE_CONFIG=1 bundle install")
-        end
+      Bundler.with_unbundled_env do
+        system("BUNDLE_IGNORE_CONFIG=1 bundle install", chdir: name)
       end
     end
 
