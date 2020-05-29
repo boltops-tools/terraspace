@@ -38,7 +38,7 @@ module Terraspace::Terraform
 
     def args
       # base at end in case of redirection. IE: terraform output > /path
-      custom.args + custom.var_files + base.args
+      custom.args + custom.var_files + default.args
     end
 
     def custom
@@ -46,9 +46,9 @@ module Terraspace::Terraform
     end
     memoize :custom
 
-    def base
-      Args::Base.new(@name, @options)
+    def default
+      Args::Default.new(@name, @options)
     end
-    memoize :base
+    memoize :default
   end
 end

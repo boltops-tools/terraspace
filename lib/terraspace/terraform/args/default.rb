@@ -1,5 +1,5 @@
 module Terraspace::Terraform::Args
-  class Base
+  class Default
     def initialize(name, options={})
       @name, @options = name, options
       @quiet = @options[:quiet].nil? ? true : @options[:quiet]
@@ -13,6 +13,8 @@ module Terraspace::Terraform::Args
         auto_approve_arg
       when "output"
         output_args
+      when "plan"
+        plan_args
       else
         []
       end
@@ -28,10 +30,16 @@ module Terraspace::Terraform::Args
       @options[:yes] ? ["-auto-approve"] : []
     end
 
+    def plan_args
+      options = []
+      options << "-out #{Terraspace.root}/#{@options[:out]}" if @options[:out]
+      options
+    end
+
     def output_args
       options = []
       options << "-json" if @options[:format] == "json"
-      options << "> #{@options[:out]}" if @options[:out]
+      options << "> #{Terraspace.root}/#{@options[:out]}" if @options[:out]
       options
     end
   end

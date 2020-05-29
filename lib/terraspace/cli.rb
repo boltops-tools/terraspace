@@ -49,6 +49,7 @@ module Terraspace
 
     desc "plan MODULE", "plan module"
     long_desc Help.text(:plan)
+    option :out, desc: "Write a plan file to the given path"
     def plan(mod)
       Commander.new("plan", options.merge(mod: mod)).run
     end
