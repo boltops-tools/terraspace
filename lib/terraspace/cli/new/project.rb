@@ -2,8 +2,9 @@ class Terraspace::CLI::New
   class Project < Sequence
     def self.project_options
       [
-        [:force, type: :boolean, desc: "Bypass overwrite are you sure prompt for existing files."],
+        [:bundle, type: :boolean, default: true, desc: "Runs bundle install on the project"],
         [:config, type: :boolean, default: true, desc: "Whether or not to generate config files."],
+        [:force, type: :boolean, desc: "Bypass overwrite are you sure prompt for existing files."],
       ]
     end
 
@@ -53,6 +54,7 @@ class Terraspace::CLI::New
     end
 
     def bundle_install
+      return if @options[:bundle] == false
       puts "=> Installing dependencies with: bundle install"
       Bundler.with_unbundled_env do
         system("BUNDLE_IGNORE_CONFIG=1 bundle install", chdir: name)
