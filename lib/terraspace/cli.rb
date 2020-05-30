@@ -83,6 +83,12 @@ module Terraspace
       Commander.new("show", options.merge(mod: mod)).run
     end
 
+    desc "test", "test"
+    long_desc Help.text(:test)
+    def test
+      Test.new(options).run
+    end
+
     desc "output MODULE", "output"
     long_desc Help.text(:output)
     format_option.call
