@@ -22,6 +22,7 @@ class Terraspace::CLI
     register(Test::Module, "module_test", "module_test NAME", "Generates new module test")
 
     long_desc Help.text(:bootstrap_test)
+    Test::Bootstrap.options.each { |args| option(*args) }
     register(Test::Bootstrap, "bootstrap_test", "bootstrap_test", "Generates bootstrap test setup")
   end
 end

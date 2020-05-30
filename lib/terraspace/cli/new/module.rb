@@ -5,23 +5,15 @@ class Terraspace::CLI::New
     argument :name
 
     def create_module
-      create(@options[:lang]) # IE: create("hcl")
-      create("test")
-    end
-
-  private
-    def create(template)
-      provider_template_source(template, "module") # IE: provider_template_source("hcl", "module")
-
-      if template == "test"
-        puts "=> Creating new module called: #{name}"
-      else
-        puts "=> Creating test for new module: #{name}"
-      end
-
+      puts "=> Creating test for new module: #{name}"
+      provider_template_source(@options[:lang], "module") # IE: provider_template_source("hcl", "module")
       dest = "app/modules/#{name}"
       dest = "#{@options[:project_name]}/#{dest}" if @options[:project_name]
       directory ".", dest
+    end
+
+    def create_test
+      Test::Module.start([name])
     end
   end
 end

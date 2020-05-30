@@ -5,6 +5,7 @@ class Terraspace::CLI::New
         [:bundle, type: :boolean, default: true, desc: "Runs bundle install on the project"],
         [:config, type: :boolean, default: true, desc: "Whether or not to generate config files."],
         [:force, type: :boolean, desc: "Bypass overwrite are you sure prompt for existing files."],
+        [:test_structure, type: :boolean, desc: "Create project bootstrap test structure."]
       ]
     end
 
@@ -50,6 +51,11 @@ class Terraspace::CLI::New
     def create_starter_stack
       return unless @options[:examples]
       Stack.start(component_args("demo", name))
+    end
+
+    def create_test
+      return if @options[:test_structure] == false
+      Test::Bootstrap.start(["--dir", name])
     end
 
     def bundle_install
