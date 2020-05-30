@@ -8,7 +8,7 @@ module Terraspace
     #
     #    {
     #      "aws  => {root: "/path", backend: "s3",
-    #      "gcp" => {root: "/path", backend: "gcs",
+    #      "google" => {root: "/path", backend: "gcs",
     #    }
     #
     @@meta = {}
@@ -16,15 +16,20 @@ module Terraspace
       @@meta
     end
 
-    # resource map is in meta structure
+    # The resource map can be used to customized the mapping from the resource "first word" to the provider.
+    #
+    # resource map is in meta structure.
     #
     #    {
-    #      "gcp" => {root: "/path", backend: "gcs", resource_map: {"google" => "gcp"}
+    #      "long_cloud_provider_name" => {resource_map: {"long_cloud_provider_name" => "short_name"}
     #    }
     #
     # This is use by Provider::Finder#find_with_resource
     # Allows mapping of different values in case the terraspace provider name doesnt match with the
     # resource first word.
+    #
+    # Generally we try to avoid this and the terraspace provider name should match the resource "first word"
+    # when possible.
     #
     def resource_map
       @@meta.inject({}) do |result, (provider, data)|

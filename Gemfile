@@ -8,8 +8,8 @@ gem "codeclimate-test-reporter", group: :test, require: nil
 if ENV['TS_EDGE']
   base = ENV['TS_EDGE_ROOT'] || "#{ENV['HOME']}/environment/terraspace-edge"
   gem "terraspace_provider_aws", path: "#{base}/terraspace_provider_aws"
-  gem "terraspace_provider_gcp", path: "#{base}/terraspace_provider_gcp"
+  gem "terraspace_provider_google", path: "#{base}/terraspace_provider_google"
 else
   gem "terraspace_provider_aws"
-  gem "terraspace_provider_gcp"
+  gem "terraspace_provider_google"
 end

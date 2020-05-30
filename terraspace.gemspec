@@ -29,7 +29,7 @@ Gem::Specification.new do |spec|
 
   # baseline providers
   spec.add_dependency "terraspace_provider_aws"
-  spec.add_dependency "terraspace_provider_gcp"
+  spec.add_dependency "terraspace_provider_google"
 
   spec.add_development_dependency "bundler"
   spec.add_development_dependency "byebug"

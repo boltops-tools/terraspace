@@ -10,7 +10,7 @@ class Terraspace::CLI::New
         [:examples, type: :boolean, default: false, desc: "Also generate examples"],
         [:force, type: :boolean, desc: "Bypass overwrite are you sure prompt for existing files."],
         [:lang, default: "hcl", desc: "Language to use: HCL/ERB or Ruby DSL"],
-        [:provider, default: "aws", desc: "Cloud Provider. Supports: aws, gcp"],
+        [:provider, default: "aws", desc: "Cloud Provider. Supports: aws, google"],
       ]
     end
 

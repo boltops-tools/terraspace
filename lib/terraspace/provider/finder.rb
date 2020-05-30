@@ -22,6 +22,7 @@ module Terraspace::Provider
     end
 
     def find_with_provider(provider)
+      puts "meta #{meta}"
       meta.find do |provider_name, data|
         provider_name == provider
       end

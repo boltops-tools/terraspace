@@ -1,7 +1,7 @@
 # Instead of using provider, probably better to use env vars:
 #
-# export GOOGLE_APPLICATION_CREDENTIALS=~/.gcp/credentials.json
-# export GOOGLE_PROJECT=$(cat ~/.gcp/credentials.json  | jq -r '.project_id')
+# export GOOGLE_APPLICATION_CREDENTIALS=~/.google/credentials.json
+# export GOOGLE_PROJECT=$(cat ~/.google/credentials.json  | jq -r '.project_id')
 #
 # Providing example anyway:
 #
