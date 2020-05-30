@@ -31,15 +31,20 @@ module Terraspace::Terraform::Args
 
     def plan_args
       args = []
-      args << "-out #{Dir.pwd}/#{@options[:out]}" if @options[:out]
+      args << "-out #{expanded_out}" if @options[:out]
       args
     end
 
     def output_args
       args = []
       args << "-json" if @options[:format] == "json"
-      args << "> #{Dir.pwd}/#{@options[:out]}" if @options[:out]
+      args << "> #{expanded_out}" if @options[:out]
       args
+    end
+
+    def expanded_out
+      out = @options[:out]
+      out.starts_with?('/') ? out : "#{Dir.pwd}/#{out}"
     end
 
     def destroy_args

@@ -9,6 +9,9 @@ module Terraspace
     format_option = Proc.new {
       option :format, desc: "output formats: json, text"
     }
+    out_option = Proc.new {
+      option :out, aliases: :o, desc: "write the output to path"
+    }
 
     desc "new SUBCOMMAND", "new subcommands"
     long_desc Help.text(:new)
@@ -49,7 +52,7 @@ module Terraspace
 
     desc "plan MODULE", "plan module"
     long_desc Help.text(:plan)
-    option :out, desc: "Write a plan file to the given path"
+    out_option.call
     def plan(mod)
       Commander.new("plan", options.merge(mod: mod)).run
     end
@@ -82,8 +85,8 @@ module Terraspace
 
     desc "output MODULE", "output"
     long_desc Help.text(:output)
-    option :out, desc: "path to save the output"
     format_option.call
+    out_option.call
     def output(mod)
       Commander.new("output", options.merge(mod: mod)).run
     end
