@@ -25,7 +25,11 @@ module Terraspace::Terraform::Args
 
     def init_args
       args = "-get"
-      args << " > /tmp/terraform-init.out" if @quiet && !ENV['TS_INIT_LOUD']
+      if @quiet && !ENV['TS_INIT_LOUD']
+        out_path = "#{Terraspace.tmp_root}/out/terraform-init.out"
+        FileUtils.mkdir_p(File.dirname(out_path))
+        args << " > #{out_path}"
+      end
       [args]
     end
 

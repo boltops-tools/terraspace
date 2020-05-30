@@ -17,6 +17,11 @@ module Terraspace
     end
     memoize :cache_root
 
+    def tmp_root
+      ENV['TS_TMP_ROOT'] || "/tmp/terraspace"
+    end
+    memoize :tmp_root
+
     def app
       App.instance
     end
