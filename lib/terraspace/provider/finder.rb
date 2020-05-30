@@ -1,16 +1,12 @@
 module Terraspace::Provider
   class Finder
-    def initialize(options={})
-      @options = options
-    end
-
-    def find
-      result = if @options.key?(:provider)
-                 find_with_provider(@options[:provider])
-               elsif @options.key?(:backend)
-                 find_with_backend(@options[:backend])
-               elsif @options.key?(:resource)
-                 find_with_resource(@options[:resource])
+    def find_with(options)
+      result = if options.key?(:provider)
+                 find_with_provider(options[:provider])
+               elsif options.key?(:backend)
+                 find_with_backend(options[:backend])
+               elsif options.key?(:resource)
+                 find_with_resource(options[:resource])
                else
                  raise "Must provide backend, provider, or resource option."
                end
@@ -38,11 +34,8 @@ module Terraspace::Provider
       find_with_provider(provider)
     end
 
-    # TODO: allow modification by providers
     def resource_map
-      {
-        "google" => "gcp"
-      }
+      Terraspace::Provider.resource_map
     end
 
     def meta

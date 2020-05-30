@@ -16,6 +16,23 @@ module Terraspace
       @@meta
     end
 
+    # resource map is in meta structure
+    #
+    #    {
+    #      "gcp" => {root: "/path", backend: "gcs", resource_map: {"google" => "gcp"}
+    #    }
+    #
+    # This is use by Provider::Finder#find_with_resource
+    # Allows mapping of different values in case the terraspace provider name doesnt match with the
+    # resource first word.
+    #
+    def resource_map
+      @@meta.inject({}) do |result, (provider, data)|
+        map = data[:resource_map] || {}
+        result.merge(map.deep_stringify_keys)
+      end
+    end
+
     def register(provider, data)
       @@meta[provider] = data
     end
@@ -34,7 +51,7 @@ module Terraspace
     end
 
     def find_with(options={})
-      Finder.new(options).find
+      Finder.new.find_with(options)
     end
     memoize :find_with
 
