@@ -30,9 +30,9 @@ module Terraspace
     def to_info
       {
         build_dir: build_dir,
-        cache_build_dir: cache_build_dir,
+        cache_build_dir: Terraspace::Util.pretty_path(cache_build_dir),
         name: name,
-        root: root,
+        root: Terraspace::Util.pretty_path(root),
         type: type,
         type_dir: type_dir,
       }

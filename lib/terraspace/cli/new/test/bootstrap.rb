@@ -9,7 +9,7 @@ module Terraspace::CLI::New::Test
     options.each { |args| class_option(*args) }
 
     def create
-      puts "=> Creating test boostrap structure"
+      puts "=> Creating test bootstrap structure"
       test_template_source("bootstrap")
       directory ".", options[:dir]
     end
