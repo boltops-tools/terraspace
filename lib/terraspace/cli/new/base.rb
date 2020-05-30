@@ -3,9 +3,7 @@ class Terraspace::CLI::New
     argument :name
 
     def add_base_files
-      args = ["project"]
-      args.unshift("edge") if ENV['TS_EDGE']
-      set_base_source(*args)
+      set_source("base", "project")
       directory ".", "#{name}"
     end
   end

@@ -27,7 +27,7 @@ class Terraspace::CLI::New
     end
 
     def create_project
-      set_source("project")
+      set_source("base", "project")
 
       options = @options[:config] == false ? {exclude_pattern: "config" } : {}
       directory ".", "#{name}", options

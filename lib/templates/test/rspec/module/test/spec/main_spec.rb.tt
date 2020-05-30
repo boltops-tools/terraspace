@@ -1,0 +1,29 @@
+# Here's an example of a start spec that creates a test harness that will provision real resources.
+# The test harness will be generated at:
+#
+#    <%= "#{RSpec::Terraspace::Project.build_root}/#{@name}" %>
+#
+# The test/spec/fixtures/stack/main.tf is an empty starter files.
+# Add code to fixtures/stack/main.tf that uses the module to provision real resources.
+#
+describe "main" do
+  before(:all) do
+    mod_path = File.expand_path("../..", __dir__)
+    terraspace.build_test_harness(
+      name: "<%= @name %>",
+      modules: {example: mod_path},
+      stacks:  {example: "#{mod_path}/test/spec/fixtures/stack"},
+    )
+    terraspace.up("example")
+  end
+  after(:all) do
+    terraspace.down("example")
+  end
+
+  it "successful deploy" do
+    expect(true).to be(true) # replace with real test code
+    # Example:
+    # bucket_name = terraspace.output("example", "bucket_name")
+    # expect(bucket_name).to include("bucket-") # IE: bucket-pet-name
+  end
+end
