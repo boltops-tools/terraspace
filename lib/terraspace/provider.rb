@@ -7,8 +7,8 @@ module Terraspace
     # Example meta:
     #
     #    {
-    #      "aws  => {root: "/path", backend: "s3",
-    #      "google" => {root: "/path", backend: "gcs",
+    #      "aws  => {root: "/path", backend: "s3"}
+    #      "google" => {root: "/path", backend: "gcs"},
     #    }
     #
     @@meta = {}

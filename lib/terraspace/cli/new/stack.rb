@@ -5,7 +5,7 @@ class Terraspace::CLI::New
     argument :name
 
     def create_module
-      set_source(@options[:lang], "stack") # IE: set_source("hcl", "stack")
+      provider_template_source(@options[:lang], "stack") # IE: provider_template_source("hcl", "stack")
 
       puts "=> Creating new stack called #{name}."
       dest = "app/stacks/#{name}"

@@ -39,9 +39,14 @@ class Terraspace::CLI::New
     end
 
     # friendly method
-    def set_source(template, type)
-      source = Source.new(self, @options)
+    def provider_template_source(template, type)
+      source = Source::Provider.new(self, @options)
       source.set_source_paths(template, type)
+    end
+
+    def test_template_source(type)
+      source = Source::Test.new(self, @options)
+      source.set_source_paths(type)
     end
   end
 end

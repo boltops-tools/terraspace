@@ -11,7 +11,7 @@ class Terraspace::CLI::New
 
   private
     def create(template)
-      set_source(template, "module") # IE: set_source("hcl", "module")
+      provider_template_source(template, "module") # IE: provider_template_source("hcl", "module")
 
       if template == "test"
         puts "=> Creating new module called: #{name}"
