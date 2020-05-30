@@ -12,7 +12,7 @@ module Terraspace::Compiler
     # build common config files: provider and backend for the root module
     def build_config
       return unless @mod.root_module?
-      build_config_files
+      build_config_templates
     end
 
     # build all module .rb to .tf.json files
@@ -32,8 +32,8 @@ module Terraspace::Compiler
     end
 
   private
-    def build_config_files
-      expr = "#{Terraspace.root}/config/*.{tf,rb,tfvars}"
+    def build_config_templates
+      expr = "#{Terraspace.root}/config/templates/*.{tf,rb,tfvars}"
       Dir.glob(expr).each do |path|
         build_config_file(File.basename(path))
       end
@@ -46,7 +46,7 @@ module Terraspace::Compiler
       if file.ends_with?(".rb")
         src_path = Dir.glob("#{@mod.root}/#{File.basename(file)}").first # existing source. IE: backend.rb in module folder
       end
-      src_path ||= Dir.glob("#{Terraspace.root}/config/#{file}").first
+      src_path ||= Dir.glob("#{Terraspace.root}/config/templates/#{file}").first
       build_mod_file(src_path) if src_path
     end
 
