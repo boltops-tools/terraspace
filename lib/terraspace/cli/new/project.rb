@@ -15,19 +15,18 @@ class Terraspace::CLI::New
       puts "=> Creating new project called #{name}."
     end
 
-    # Note: Tried multiple sources but that doesnt seem to work, so using this approach instead
     def create_base
-      args = [
-        name,
-        "--provider", @options[:provider],
-        "--lang", @options[:lang],
-      ]
-      args << "--force" if @options[:force]
-      Base.start(args)
+      set_source("base", "project")
+      directory ".", "#{name}"
     end
 
+    # Will generate config folder from
+    #
+    #     1. terraspace code lang templates or
+    #     2. example lang templates from provider gems
+    #
     def create_project
-      set_source("base", "project")
+      set_source(@options[:lang], "project") # IE: set_source("hcl", "project")
 
       options = @options[:config] == false ? {exclude_pattern: "config" } : {}
       directory ".", "#{name}", options

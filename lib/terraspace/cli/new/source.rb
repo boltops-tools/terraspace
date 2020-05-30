@@ -6,10 +6,13 @@ class Terraspace::CLI::New
 
     # friendly method
     def set_source_paths(template, type)
-      if template == "base" || !@options[:examples]
-        set_core_source(template, type)  # terraspace core has empty starter files
-      else
+      # project always uses the examples from the provider gem for configs
+      # base always uses terraspace core templates
+      # examples option always use examples from provider gems
+      if (type == "project" || @options[:examples]) && template != "base"
         set_gem_source(template, type)   # provider gems has examples
+      else
+        set_core_source(template, type)  # terraspace core has empty starter files
       end
     end
 
@@ -54,11 +57,10 @@ class Terraspace::CLI::New
 
     def template_name(template, type)
       if template == "test"
-        "#{template}/rspec/#{type}" # IE: test/rspec/module # TODO: detect rspec framework
+        "#{template}/rspec/#{type}" # IE: test/rspec/module # TODO: allow testing framework to be configurable
       else
         "#{template}/#{type}"       # IE: hcl/module
       end
     end
   end
 end
-
