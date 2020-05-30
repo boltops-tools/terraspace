@@ -1,5 +1,7 @@
 class Terraspace::CLI::New
   module Helper
+    include Helper::ProviderGem
+
   private
     def build_gemfile(*list)
       if ENV['TS_EDGE']

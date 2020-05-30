@@ -1,5 +1,7 @@
 class Terraspace::CLI::New
   class Source
+    include Helper::ProviderGem
+
     def initialize(sequence, options)
       @sequence, @options = sequence, options
     end
@@ -31,13 +33,11 @@ class Terraspace::CLI::New
     end
 
     def require_provider
-      provider_name = @options[:provider]
-      gem_name = "terraspace_provider_#{provider_name}"
       begin
-        require gem_name # require provider for the templates, this registers the provider
+        require provider_gem_name # require provider for the templates, this registers the provider
       rescue LoadError => e
         puts "#{e.class}: #{e.message}"
-        puts "ERROR: Unable to require provider #{gem_name}.".color(:red)
+        puts "ERROR: Unable to require provider #{provider_gem_name}.".color(:red)
         puts "Are you sure you the provider exists and you specified the right provider option."
         puts "You specified --provider #{provider_name}"
         exit 1

@@ -4,6 +4,6 @@ source "https://rubygems.org"
 build_gemfile(
   "terraspace",
   "rspec-terraspace",
-  "terraspace_provider_#{options[:provider]}",
+  provider_gem_name,
 )
 %>

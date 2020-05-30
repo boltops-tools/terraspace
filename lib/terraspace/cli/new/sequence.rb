@@ -8,9 +8,10 @@ class Terraspace::CLI::New
     def self.base_options
       [
         [:examples, type: :boolean, default: false, desc: "Also generate examples"],
-        [:force, type: :boolean, desc: "Bypass overwrite are you sure prompt for existing files."],
+        [:force, type: :boolean, desc: "Bypass overwrite are you sure prompt for existing files"],
         [:lang, default: "hcl", desc: "Language to use: HCL/ERB or Ruby DSL"],
         [:provider, default: "aws", desc: "Cloud Provider. Supports: aws, google"],
+        [:provider_gem, desc: "Useful if provider gem name doesnt follow terraspace_provider_XXX naming convention"],
       ]
     end
 
