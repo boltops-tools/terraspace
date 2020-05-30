@@ -16,6 +16,12 @@ module Terraspace
       @@meta
     end
 
+    def layer_classes
+      @@meta.map do |provider, data|
+        data[:layer_class]
+      end
+    end
+
     # The resource map can be used to customized the mapping from the resource "first word" to the provider.
     #
     # resource map is in meta structure.
