@@ -16,5 +16,21 @@ module Terraspace
       ENV['TS_CACHE_ROOT'] || "#{root}/.terraspace-cache"
     end
     memoize :cache_root
+
+    def app
+      App.instance
+    end
+
+    def configure(&block)
+      app.configure(&block)
+    end
+
+    # The load_project_config is called in here instead of in app method because in app it causes an infinite loop
+    # Generally, we should use the Terraspace.config.
+    def config
+      app.load_project_config
+      app.config
+    end
+    memoize :config
   end
 end
