@@ -3,21 +3,21 @@ module Terraspace::Compiler::Dsl::Syntax::Mod
     def resource(type, name, props={})
       resource = @structure[:resource] ||= {}
       resource_type = resource[type] ||= {}
-      decorate!(type, props)
+      props = decorate(type, props)
       resource_type[name] = props
     end
 
-    def decorate!(type, props)
+    def decorate(type, props)
       klass = decorator_class(type)
-
-      return unless klass
-      decorator = klass.new(props)
-      decorator.decorate!
+      return props unless klass
+      decorator = klass.new(type, props)
+      decorator.call
     end
 
     def decorator_class(type)
-      klass_name = type.to_s.camelize
-      "Terraspace::Compiler::Dsl::Decorators::#{klass_name}".constantize
+      # IE: TerraspaceProviderAws::Interfaces::Decorator
+      klass_name = Terraspace::Provider.klass("Decorator", resource: type)
+      klass_name.constantize if klass_name
     rescue NameError
     end
   end

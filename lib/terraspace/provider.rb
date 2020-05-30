@@ -27,8 +27,9 @@ module Terraspace
     #      TerraspaceProviderGcp::Interfaces::Backend
     #      TerraspaceProviderGcp::Interfaces::Expander
     #
-    def klass(backend, interface_class)
-      meta = find_with(backend: backend)
+    def klass(interface_class, options={})
+      meta = find_with(options)
+      return unless meta
       "TerraspaceProvider#{meta.provider}::Interfaces::#{interface_class}"
     end
 
