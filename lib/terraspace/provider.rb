@@ -17,9 +17,11 @@ module Terraspace
     end
 
     def layer_classes
-      @@meta.map do |provider, data|
-        data[:layer_class]
-      end
+      @@meta.map { |provider, data| data[:layer_class] }.compact
+    end
+
+    def config_instances
+      @@meta.map { |provider, data| data[:config_instance] }.compact
     end
 
     # The resource map can be used to customized the mapping from the resource "first word" to the provider.
