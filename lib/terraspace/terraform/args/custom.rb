@@ -20,7 +20,7 @@ module Terraspace::Terraform::Args
 
     def args
       build
-      args = dig("arguments")
+      args = dig("args")
       args.compact.flatten
     end
 
