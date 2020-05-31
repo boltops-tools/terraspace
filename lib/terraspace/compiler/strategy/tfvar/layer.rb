@@ -45,6 +45,10 @@ class Terraspace::Compiler::Strategy::Tfvar
         layers << "#{layer.region}/base"
         layers << "#{layer.region}/#{Terraspace.env}"
 
+        # in case using multiple providers and one region
+        layers << "#{layer.provider}/base"
+        layers << "#{layer.provider}/#{Terraspace.env}"
+
         # in case another provider has colliding regions
         layers << "#{layer.provider}/#{layer.region}/base"
         layers << "#{layer.provider}/#{layer.region}/#{Terraspace.env}"
