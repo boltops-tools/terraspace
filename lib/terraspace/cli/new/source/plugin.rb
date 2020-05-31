@@ -1,5 +1,5 @@
 module Terraspace::CLI::New::Source
-  class Provider < Base
+  class Plugin < Base
     # different interface
     def set_source_paths(template, type)
       # project always uses the examples from the provider gem for configs
@@ -13,10 +13,10 @@ module Terraspace::CLI::New::Source
     end
 
     def set_gem_source(template, type)
-      require_gem(provider_gem_name)
-      provider = Terraspace::Provider.find_with(provider: @options[:provider])
+      require_gem(plugin_gem_name)
+      plugin = Terraspace::Plugin.find_with(plugin: @options[:plugin])
       template_name = template_name(template, type)
-      template_path = File.expand_path("#{provider.root}/lib/templates/#{template_name}")
+      template_path = File.expand_path("#{plugin.root}/lib/templates/#{template_name}")
       override_source_paths(template_path)
     end
 

@@ -1,7 +1,7 @@
 # Should implement methods:
 #    defaults
 #    provider
-module Terraspace::Provider::Config
+module Terraspace::Plugin::Config
   module Interface
     include DslEvaluator
 

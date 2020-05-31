@@ -1,4 +1,4 @@
-describe Terraspace::Provider::Expander::Generic do
+describe Terraspace::Plugin::Expander::Generic do
   let(:expander) { described_class.new(mod) }
   let(:props) do
     {

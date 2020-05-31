@@ -1,6 +1,6 @@
 module Terraspace::CLI::New::Source
   class Base
-    include Terraspace::CLI::New::Helper::ProviderGem
+    include Terraspace::CLI::New::Helper::PluginGem
 
     def initialize(sequence, options)
       @sequence, @options = sequence, options
@@ -19,7 +19,7 @@ module Terraspace::CLI::New::Source
         puts "#{e.class}: #{e.message}"
         puts "ERROR: Unable to require provider #{name}.".color(:red)
         puts "Are you sure you the provider exists and you specified the right provider option."
-        puts "You specified --provider #{@options[:provider]}"
+        puts "You specified --plugin #{@options[:plugin]}"
         exit 1
       end
     end

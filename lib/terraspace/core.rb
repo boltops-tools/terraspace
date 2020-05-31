@@ -7,10 +7,15 @@ module Terraspace
     end
     memoize :env
 
+    @@root = nil
     def root
-      ENV['TS_ROOT'] || Dir.pwd
+      @@root ||= ENV['TS_ROOT'] || Dir.pwd
     end
-    memoize :root
+
+    # allow testing frameworks to switch roots
+    def root=(v)
+      @@root = v
+    end
 
     def cache_root
       ENV['TS_CACHE_ROOT'] || "#{root}/.terraspace-cache"

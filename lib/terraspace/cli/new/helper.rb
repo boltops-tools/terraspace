@@ -1,6 +1,6 @@
 class Terraspace::CLI::New
   module Helper
-    include Helper::ProviderGem
+    include Helper::PluginGem
 
   private
     def build_gemfile(*list)

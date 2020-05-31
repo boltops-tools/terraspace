@@ -1,8 +1,8 @@
-module Terraspace::Provider
+module Terraspace::Plugin
   class Finder
     def find_with(options)
-      result = if options.key?(:provider)
-                 find_with_provider(options[:provider])
+      result = if options.key?(:plugin)
+                 find_with_plugin(options[:plugin])
                elsif options.key?(:backend)
                  find_with_backend(options[:backend])
                elsif options.key?(:resource)
@@ -21,9 +21,9 @@ module Terraspace::Provider
       end
     end
 
-    def find_with_provider(provider)
-      meta.find do |provider_name, data|
-        provider_name == provider
+    def find_with_plugin(plugin)
+      meta.find do |plugin_name, data|
+        plugin_name == plugin
       end
     end
 
@@ -35,11 +35,11 @@ module Terraspace::Provider
     end
 
     def resource_map
-      Terraspace::Provider.resource_map
+      Terraspace::Plugin.resource_map
     end
 
     def meta
-      Terraspace::Provider.meta
+      Terraspace::Plugin.meta
     end
   end
 end

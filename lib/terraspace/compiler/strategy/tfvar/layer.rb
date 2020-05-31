@@ -35,12 +35,12 @@ class Terraspace::Compiler::Strategy::Tfvar
     # Note the account depends on the provider. IE: For aws its account. For google, account maps to the project.
     #
     def layers
-      ["base", Terraspace.env] + provider_layers
+      ["base", Terraspace.env] + plugin_layers
     end
 
-    def provider_layers
+    def plugin_layers
       layers = []
-      Terraspace::Provider.layer_classes.each do |klass|
+      Terraspace::Plugin.layer_classes.each do |klass|
         layer = klass.new
 
         # flatten because its simpler and the more common case is a single provider

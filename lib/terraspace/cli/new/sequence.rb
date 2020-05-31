@@ -10,8 +10,8 @@ class Terraspace::CLI::New
         [:examples, type: :boolean, default: false, desc: "Also generate examples"],
         [:force, type: :boolean, desc: "Bypass overwrite are you sure prompt for existing files"],
         [:lang, default: "hcl", desc: "Language to use: HCL/ERB or Ruby DSL"],
-        [:provider, default: "aws", desc: "Cloud Provider. Supports: aws, google"],
-        [:provider_gem, desc: "Useful if provider gem name doesnt follow terraspace_provider_XXX naming convention"],
+        [:plugin, default: "aws", desc: "Cloud Plugin. Supports: aws, google"],
+        [:plugin_gem, desc: "Useful if provider gem name doesnt follow terraspace_plugin_XXX naming convention"],
       ]
     end
 
@@ -30,17 +30,18 @@ class Terraspace::CLI::New
       args = [
         component_name,
         "--project-name", project_name,
-        "--lang", options[:lang],
-        "--provider", options[:provider],
       ]
-      args << "--force" if @options[:force]
+      args << "--lang" if @options[:lang]
+      args << "--plugin" if @options[:plugin]
       args << "--examples" if @options[:examples]
+      args << "--force" if @options[:force]
+      args << "--plugin-name" if @options[:plugin_name]
       args
     end
 
     # friendly method
-    def provider_template_source(template, type)
-      source = Source::Provider.new(self, @options)
+    def plugin_template_source(template, type)
+      source = Source::Plugin.new(self, @options)
       source.set_source_paths(template, type)
     end
   end
