@@ -25,6 +25,8 @@ class Terraspace::Compiler::Strategy::Tfvar
     #     env                   | env                          | dev.tfvars
     #     region base           | region/base                  | us-west-2/base.tfvars (provider specific)
     #     region env            | region/env                   | us-west-2/dev.tfvars (provider specific)
+    #     provider base         | provider/base                | aws/base.tfvars (provider specific)
+    #     provider env          | provider/env                 | aws/dev.tfvars (provider specific)
     #     provider base         | provider/region/base         | aws/us-west-2/base.tfvars (provider specific)
     #     provider env          | provider/region/env          | aws/us-west-2/dev.tfvars (provider specific)
     #     provider account base | provider/account/region/base | aws/112233445566/us-west-2/base.tfvars (provider specific)
