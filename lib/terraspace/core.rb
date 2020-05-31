@@ -22,19 +22,14 @@ module Terraspace
     end
     memoize :tmp_root
 
-    def app
-      App.instance
-    end
-
     def configure(&block)
-      app.configure(&block)
+      App.instance.configure(&block)
     end
 
-    # The load_project_config is called in here instead of in app method because in app it causes an infinite loop
-    # Generally, we should use the Terraspace.config.
+    # Generally, use the Terraspace.config instead of App.instance.config since it guarantees the load_project_config call
     def config
-      app.load_project_config
-      app.config
+      App.instance.load_project_config
+      App.instance.config
     end
     memoize :config
   end
