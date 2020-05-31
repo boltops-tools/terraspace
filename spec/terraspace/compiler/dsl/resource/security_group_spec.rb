@@ -1,6 +1,3 @@
-# require "terraspace_plugin_aws"
-puts $:.grep /plugin/
-
 describe Terraspace::Compiler::Dsl::Mod do
   let(:builder)        { described_class.new(mod, path) }
   let(:mod)            { "vpc" }
