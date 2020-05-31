@@ -8,7 +8,7 @@ module Terraspace::Plugin
                elsif options.key?(:resource)
                  find_with_resource(options[:resource])
                else
-                 raise "Must provide backend, provider, or resource option."
+                 raise "Must provide backend, plugin, or resource option."
                end
       return unless result
       raw = Hash[*result] # convert result to Hash instead of an Array
@@ -30,8 +30,8 @@ module Terraspace::Plugin
     def find_with_resource(resource)
       map = resource_map
       base = resource.split('_').first # google_compute_firewall => google, aws_security_group => aws
-      provider = map[base] || base
-      find_with_provider(provider)
+      plugin = map[base] || base
+      find_with_plugin(plugin)
     end
 
     def resource_map
