@@ -5,14 +5,13 @@ module Terraspace
 
     attr_reader :config
     def initialize
-      @config = ActiveSupport::OrderedOptions.new
-      defaults
+      @config = defaults
     end
 
     def defaults
-      configure do |config|
-        config.test_framework = "rspec"
-      end
+      config = ActiveSupport::OrderedOptions.new
+      config.test_framework = "rspec"
+      config
     end
 
     def configure
