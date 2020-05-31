@@ -9,11 +9,11 @@ module Terraspace::Compiler
     end
 
     def expander_class
-      # IE: TerraspaceProviderAws::Interfaces::Expander
-      klass_name = Terraspace::Provider.klass("Expander", backend: @name)
+      # IE: TerraspacePluginAws::Interfaces::Expander
+      klass_name = Terraspace::Plugin.klass("Expander", backend: @name)
       klass_name.constantize if klass_name
     rescue NameError
-      Terraspace::Provider::Expander::Generic
+      Terraspace::Plugin::Expander::Generic
     end
   end
 end

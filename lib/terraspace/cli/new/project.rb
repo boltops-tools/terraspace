@@ -17,7 +17,7 @@ class Terraspace::CLI::New
     end
 
     def create_base
-      provider_template_source("base", "project")
+      plugin_template_source("base", "project")
       directory ".", "#{name}"
     end
 
@@ -27,7 +27,7 @@ class Terraspace::CLI::New
     #     2. example lang templates from provider gems
     #
     def create_project
-      provider_template_source(@options[:lang], "project") # IE: provider_template_source("hcl", "project")
+      plugin_template_source(@options[:lang], "project") # IE: plugin_template_source("hcl", "project")
 
       options = @options[:config] == false ? {exclude_pattern: "config" } : {}
       directory ".", "#{name}", options

@@ -15,8 +15,8 @@ module Terraspace::Compiler::Dsl::Syntax::Mod
     end
 
     def decorator_class(type)
-      # IE: TerraspaceProviderAws::Interfaces::Decorator
-      klass_name = Terraspace::Provider.klass("Decorator", resource: type)
+      # IE: TerraspacePluginAws::Interfaces::Decorator
+      klass_name = Terraspace::Plugin.klass("Decorator", resource: type)
       klass_name.constantize if klass_name
     rescue NameError
     end

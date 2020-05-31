@@ -27,4 +27,4 @@ module Terraspace
   class Error < StandardError; end
 end
 
-Terraspace::Bundle.require # load providers
+Terraspace::Booter.boot

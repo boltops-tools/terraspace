@@ -1,4 +1,4 @@
-module Terraspace::Provider::Expander
+module Terraspace::Plugin::Expander
   class Generic
     include Interface
   end

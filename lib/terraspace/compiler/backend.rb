@@ -57,8 +57,8 @@ module Terraspace::Compiler
 
     def backend_class(name)
       return unless name
-      # IE: TerraspaceProviderAws::Interfaces::Backend
-      klass_name = Terraspace::Provider.klass("Backend", backend: name)
+      # IE: TerraspacePluginAws::Interfaces::Backend
+      klass_name = Terraspace::Plugin.klass("Backend", backend: name)
       klass_name.constantize if klass_name
     rescue NameError
     end

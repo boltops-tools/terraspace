@@ -5,7 +5,7 @@ class Terraspace::CLI::New
     argument :name
 
     def create_stack
-      provider_template_source(@options[:lang], "stack") # IE: provider_template_source("hcl", "stack")
+      plugin_template_source(@options[:lang], "stack") # IE: plugin_template_source("hcl", "stack")
 
       puts "=> Creating new stack called #{name}."
       dest = "app/stacks/#{name}"
@@ -14,7 +14,7 @@ class Terraspace::CLI::New
     end
 
     def create_test
-      Test::Project.start([name])
+      Test::Project.start(component_args(name, @options[:project_name]))
     end
   end
 end

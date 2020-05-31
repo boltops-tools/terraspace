@@ -4,7 +4,7 @@
 #   AWS has :REGION and :ACCOUNT variables.
 #   So the aws provider implements the region and account methods.
 #
-module Terraspace::Provider::Expander
+module Terraspace::Plugin::Expander
   module Interface
     delegate :build_dir, :type_dir, to: :mod
 
