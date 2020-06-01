@@ -31,11 +31,11 @@ class Terraspace::CLI::New
         component_name,
         "--project-name", project_name,
       ]
-      args << "--lang" if @options[:lang]
-      args << "--plugin" if @options[:plugin]
-      args << "--examples" if @options[:examples]
-      args << "--force" if @options[:force]
-      args << "--plugin-name" if @options[:plugin_name]
+      args += ["--lang", @options[:lang]] if @options[:lang]
+      args += ["--plugin", @options[:plugin]] if @options[:plugin]
+      args += ["--plugin-name", @options[:plugin_name]] if @options[:plugin_name]
+      args += ["--examples"] if @options[:examples]
+      args += ["--force"] if @options[:force]
       args
     end
 
