@@ -33,7 +33,7 @@ module Terraspace::Compiler
 
   private
     def build_config_templates
-      expr = "#{Terraspace.root}/config/templates/*.{tf,rb,tfvars}"
+      expr = "#{Terraspace.root}/config/terraform/*.{tf,rb,tfvars}"
       Dir.glob(expr).each do |path|
         build_config_file(File.basename(path))
       end
@@ -46,7 +46,7 @@ module Terraspace::Compiler
       if file.ends_with?(".rb")
         src_path = Dir.glob("#{@mod.root}/#{File.basename(file)}").first # existing source. IE: backend.rb in module folder
       end
-      src_path ||= Dir.glob("#{Terraspace.root}/config/templates/#{file}").first
+      src_path ||= Dir.glob("#{Terraspace.root}/config/terraform/#{file}").first
       build_mod_file(src_path) if src_path
     end
 
