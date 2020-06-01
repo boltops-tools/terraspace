@@ -32,7 +32,7 @@ class Terraspace::Compiler::Cleaner
     end
 
     def fresh_backend
-      src_path = find_src_path("#{Terraspace.root}/config/templates/backend*")
+      src_path = find_src_path("#{Terraspace.root}/config/terraform/backend*")
       Terraspace::Compiler::Strategy::Mod.new(@mod, src_path).run if src_path
     end
 
