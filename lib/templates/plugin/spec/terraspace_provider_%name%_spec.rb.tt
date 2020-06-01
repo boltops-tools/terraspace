@@ -1,0 +1,5 @@
+RSpec.describe TerraspacePlugin<%= camel_name %> do
+  it "has a version number" do
+    expect(TerraspacePlugin<%= camel_name %>::VERSION).not_to be nil
+  end
+end

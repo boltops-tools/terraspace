@@ -1,0 +1,18 @@
+module TerraspacePlugin<%= camel_name %>::Interfaces
+  class Config
+    include Terraspace::Plugin::Config::Interface
+    include Singleton # Config class must be a Singleton with the class .instance method
+
+    def provider
+      "<%= name %>"
+    end
+
+    # interface method
+    # must return an ActiveSupport::OrderedOptions
+    def defaults
+      c = ActiveSupport::OrderedOptions.new
+      # c.some_default = "value"
+      c
+    end
+  end
+end

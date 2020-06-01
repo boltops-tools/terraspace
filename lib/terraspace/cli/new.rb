@@ -24,5 +24,9 @@ class Terraspace::CLI
     long_desc Help.text(:bootstrap_test)
     Test::Bootstrap.options.each { |args| option(*args) }
     register(Test::Bootstrap, "bootstrap_test", "bootstrap_test", "Generates bootstrap test setup")
+
+    long_desc Help.text(:plugin)
+    Plugin.options.each { |args| option(*args) }
+    register(Plugin, "plugin", "plugin", "Generates plugin")
   end
 end

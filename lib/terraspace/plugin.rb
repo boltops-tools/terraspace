@@ -20,8 +20,8 @@ module Terraspace
       @@meta.map { |plugin, data| data[:layer_class] }.compact
     end
 
-    def config_instances
-      @@meta.map { |plugin, data| data[:config_instance] }.compact
+    def config_classes
+      @@meta.map { |plugin, data| data[:config_class] }.compact
     end
 
     # The resource map can be used to customized the mapping from the resource "first word" to the plugin.

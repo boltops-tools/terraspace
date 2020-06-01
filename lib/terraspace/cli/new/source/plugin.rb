@@ -1,5 +1,5 @@
 module Terraspace::CLI::New::Source
-  class Plugin < Base
+  class Plugin < Core
     # different interface than Source::Test
     #
     #     template: base, hcl, ruby

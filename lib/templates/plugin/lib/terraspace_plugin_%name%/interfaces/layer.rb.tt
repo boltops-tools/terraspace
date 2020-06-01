@@ -1,0 +1,20 @@
+module TerraspacePlugin<%= camel_name %>::Interfaces
+  class Layer
+    extend Memoist
+
+    # interface method
+    def namespace
+      # define me
+    end
+
+    # interface method
+    def region
+      # define me
+    end
+
+    # interface method
+    def provider
+      "<%= name %>"
+    end
+  end
+end

@@ -1,5 +1,5 @@
 module Terraspace::CLI::New::Source
-  class Test < Base
+  class Test < Core
     # different interface than Source::Plugin
     #
     #     template: base, hcl, ruby
@@ -9,11 +9,11 @@ module Terraspace::CLI::New::Source
       if @options[:examples]
         set_plugin_gem_source("test", type)
       else
-        set_test_gem_source(type) # test gem has empty starter templates
+        set_test_framework_gem_source(type) # tester gem like rspec-terraspace has empty starter templates
       end
     end
 
-    def set_test_gem_source(type)
+    def set_test_framework_gem_source(type)
       test_gem_name = "rspec/terraspace"
 
       require_gem(test_gem_name)

@@ -1,0 +1,3 @@
+module TerraspacePlugin<%= camel_name %>
+  VERSION = "0.0.0"
+end

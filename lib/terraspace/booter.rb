@@ -7,9 +7,9 @@ module Terraspace
     end
 
     def load_plugin_default_configs
-      Terraspace::Plugin.config_instances.each do |instance|
+      Terraspace::Plugin.config_classes.each do |klass|
         # IE: TerraspacePluginAws::Interfaces::Config.instance.load_project_config
-        instance.load_project_config
+        klass.instance.load_project_config
       end
     end
 
