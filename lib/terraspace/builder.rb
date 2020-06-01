@@ -3,7 +3,7 @@ module Terraspace
     def run
       Compiler::Cleaner.new(@mod, @options).clean
       build_dir = Util.pretty_path(@mod.cache_build_dir)
-      puts "Materializing #{build_dir}"
+      puts "Building #{build_dir}"
       build_all("modules")
       build_all("stacks")
       auto_create_backend
