@@ -9,9 +9,9 @@ module Terraspace::CLI::New::Test
     Terraspace::CLI::New::Sequence.component_options.each { |args| class_option(*args) }
 
   private
-    def test_template_source(type)
+    def test_template_source(template, type)
       source = Terraspace::CLI::New::Source::Test.new(self, @options)
-      source.set_source_paths(type)
+      source.set_source_paths(template, type)
     end
   end
 end

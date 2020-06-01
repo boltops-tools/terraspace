@@ -1,11 +1,19 @@
 module Terraspace::CLI::New::Source
   class Test < Base
-    # different interface
-    def set_source_paths(type)
-      set_gem_source(type)   # test gems has templates
+    # different interface than Source::Plugin
+    #
+    #     template: base, hcl, ruby
+    #     type: module, project, stack
+    #
+    def set_source_paths(template, type)
+      if @options[:examples]
+        set_plugin_gem_source("test", type)
+      else
+        set_test_gem_source(type) # test gem has empty starter templates
+      end
     end
 
-    def set_gem_source(type)
+    def set_test_gem_source(type)
       test_gem_name = "rspec/terraspace"
 
       require_gem(test_gem_name)

@@ -10,7 +10,7 @@ module Terraspace::CLI::New::Test
 
     def create
       puts "=> Creating test bootstrap structure"
-      test_template_source("bootstrap")
+      test_template_source(@options[:lang], "bootstrap")
       directory ".", options[:dir]
     end
   end
