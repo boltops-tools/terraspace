@@ -1,0 +1,31 @@
+lib = File.expand_path("../../../", __FILE__)
+$:.unshift(lib)
+
+require "memoist"
+require "terraspace" # for interface
+
+require "terraspace_plugin_<%= name %>/version"
+require "terraspace_plugin_<%= name %>/autoloader"
+TerraspacePlugin<%= camel_name %>::Autoloader.setup
+
+module TerraspacePlugin<%= camel_name %>
+  class Error < StandardError; end
+
+  # Friendlier method for config/plugins/<%= name %>.rb. Example:
+  #
+  #     TerraspacePlugin<%= camel_name %>.configure do |config|
+  #       config.resource.property = "value"
+  #     end
+  #
+  def configure(&block)
+    Interfaces::Config.instance.configure(&block)
+  end
+  extend self
+end
+
+Terraspace::Plugin.register("<%= name %>",
+  backend: "PROVIDER_BACKEND",
+  config_class: TerraspacePlugin<%= camel_name %>::Interfaces::Config,
+  layer_class: TerraspacePlugin<%= camel_name %>::Interfaces::Layer,
+  root: File.dirname(__dir__),
+)

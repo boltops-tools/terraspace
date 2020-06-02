@@ -1,0 +1,34 @@
+# Terraspace <%= name %> Cloud Plugin
+
+<%= name %> Cloud support for [terraspace](https://terraspace.cloud/).
+
+## Installation
+
+Add this line to your application's Gemfile:
+
+```ruby
+gem 'terraspace_plugin_<%= name %>'
+```
+
+## Configure
+
+Optionally configure the plugin. Here's an example `<%= name %>.rb` for your terraspace project.
+
+config/plugins/<%= name %>.rb
+
+```ruby
+TerraspacePlugin<%= name %>.configure do |config|
+  config.resource.property = "value"
+end
+```
+
+By default:
+
+* Item 1
+* Item 2
+
+The settings generally only apply if the resource does not yet exist yet and is created for the first time.
+
+## Contributing
+
+Bug reports and pull requests are welcome on GitHub at https://github.com/USERNAME/terraspace_plugin_<%= name %>.

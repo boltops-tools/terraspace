@@ -3,8 +3,9 @@ module Terraspace::CLI::New::Test
     argument :name
 
     def create
-      puts "=> Creating module test: #{name}"
       test_template_source(@options[:lang], "module")
+
+      puts "=> Creating module test: #{name}"
       dest = "app/modules/#{name}"
       dest = "#{@options[:project_name]}/#{dest}" if @options[:project_name]
       directory ".", dest

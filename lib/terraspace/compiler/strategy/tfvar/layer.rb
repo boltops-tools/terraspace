@@ -19,20 +19,26 @@ class Terraspace::Compiler::Strategy::Tfvar
 
     # Layers in order
     #
-    #     Name                  | Pattern                      | Example
-    #     ----------------------|------------------------------|---------------
-    #     base                  | base                         | base.tfvars
-    #     env                   | env                          | dev.tfvars
-    #     region base           | region/base                  | us-west-2/base.tfvars (provider specific)
-    #     region env            | region/env                   | us-west-2/dev.tfvars (provider specific)
-    #     provider base         | provider/base                | aws/base.tfvars (provider specific)
-    #     provider env          | provider/env                 | aws/dev.tfvars (provider specific)
-    #     provider base         | provider/region/base         | aws/us-west-2/base.tfvars (provider specific)
-    #     provider env          | provider/region/env          | aws/us-west-2/dev.tfvars (provider specific)
-    #     provider account base | provider/account/region/base | aws/112233445566/us-west-2/base.tfvars (provider specific)
-    #     provider account env  | provider/account/region/env  | aws/112233445566/us-west-2/dev.tfvars (provider specific)
+    #     Name                    | Pattern                          | Example
+    #     ------------------------|----------------------------------|---------------
+    #     base                    | base                             | base.tfvars
+    #     env                     | env                              | dev.tfvars
+    #     region base             | region/base                      | us-west-2/base.tfvars (provider specific)
+    #     region env              | region/env                       | us-west-2/dev.tfvars (provider specific)
+    #     provider base           | provider/base                    | aws/base.tfvars (provider specific)
+    #     provider env            | provider/env                     | aws/dev.tfvars (provider specific)
+    #     provider base           | provider/region/base             | aws/us-west-2/base.tfvars (provider specific)
+    #     provider env            | provider/region/env              | aws/us-west-2/dev.tfvars (provider specific)
+    #     provider namespace base | provider/namespace/region/base   | aws/112233445566/us-west-2/base.tfvars (provider specific)
+    #     provider namespace env  | provider/namespace/region/env    | aws/112233445566/us-west-2/dev.tfvars (provider specific)
     #
-    # Note the account depends on the provider. IE: For aws its account. For google, account maps to the project.
+    # namespace and region depends on the provider. Here an example of the mapping:
+    #
+    #              | AWS     | Azure        | Google
+    #    ----------|---------|--------------|-------
+    #    namespace | account | subscription | project
+    #    region    | region  | location     | region
+    #
     #
     def layers
       ["base", Terraspace.env] + plugin_layers
@@ -55,9 +61,10 @@ class Terraspace::Compiler::Strategy::Tfvar
         layers << "#{layer.provider}/#{layer.region}/base"
         layers << "#{layer.provider}/#{layer.region}/#{Terraspace.env}"
 
-        # in case mapping env is not mapped to account
-        layers << "#{layer.provider}/#{layer.account}/#{layer.region}/base"
-        layers << "#{layer.provider}/#{layer.account}/#{layer.region}/#{Terraspace.env}"
+        # For AWS: in case mapping env is not mapped to account
+        # Generally: in case mapping env is not mapped to namespace
+        layers << "#{layer.provider}/#{layer.namespace}/#{layer.region}/base"
+        layers << "#{layer.provider}/#{layer.namespace}/#{layer.region}/#{Terraspace.env}"
       end
       layers
     end

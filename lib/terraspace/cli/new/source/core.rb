@@ -1,24 +1,28 @@
 module Terraspace::CLI::New::Source
-  class Base
+  class Core
     include Terraspace::CLI::New::Helper::PluginGem
 
     def initialize(sequence, options)
       @sequence, @options = sequence, options
     end
 
-    def set_core_source(template, type)
+    def set_core_source(template, type=nil)
       template_name = template_name(template, type)
       template_path = File.expand_path("../../../../templates/#{template_name}", __dir__)
       override_source_paths(template_path)
     end
 
+    def template_name(template, type=nil)
+      [template, type].compact.join('/')
+    end
+
     def require_gem(name)
       begin
-        require name # require provider for the templates, this registers the provider
+        require name # require plugin for the templates, this registers the plugin
       rescue LoadError => e
-        puts "#{e.class}: #{e.message}"
-        puts "ERROR: Unable to require provider #{name}.".color(:red)
-        puts "Are you sure you the provider exists and you specified the right provider option."
+        puts "#{e.class}: #{e.message}".color(:red)
+        puts "ERROR: Unable to require plugin #{name}.".color(:red)
+        puts "Are you sure you the plugin exists and you specified the right plugin option."
         puts "You specified --plugin #{@options[:plugin]}"
         exit 1
       end

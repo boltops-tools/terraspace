@@ -1,0 +1,15 @@
+# This is where you define variable substitions for the Terraspace expander.
+# Methods are available as variables.  For example:
+#
+#    variable | method
+#    ---------|--------
+#    :ACCOUNT | account
+#    :REGION  | region
+#
+module TerraspacePlugin<%= camel_name %>::Interfaces
+  class Expander
+    include Terraspace::Plugin::Expander::Interface
+
+    # define methods here
+  end
+end
