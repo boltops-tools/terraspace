@@ -6,6 +6,9 @@ module Terraspace::Terraform::Args
     end
 
     def args
+      # https://terraspace.cloud/docs/ci-automation/
+      ENV['TF_IN_AUTOMATION'] = '1' if @options[:auto]
+
       if %w[apply destroy init output plan].include?(@name)
         meth = "#{@name}_args"
         send(meth)
@@ -21,6 +24,15 @@ module Terraspace::Terraform::Args
         args << var_files.map { |f| "-var-file #{Dir.pwd}/#{f}" }.join(' ')
       end
 
+      if @options[:auto] && @options[:input].nil?
+        args << " -input=false"
+      end
+      unless @options[:input].nil?
+        input = @options[:input] ? "true" : "false"
+        args << " -input=#{input}" # = sign required for apply when there's a plan at the end. so input=false works input false doesnt
+      end
+
+      # must be at the end
       plan = @options[:plan]
       if plan
         if plan.starts_with?('/')
@@ -38,14 +50,19 @@ module Terraspace::Terraform::Args
 
     def init_args
       args = "-get"
+      if @options[:auto] && @options[:input].nil?
+        args << " -input=false"
+      end
+      unless @options[:input].nil?
+        input = @options[:input] ? "true" : "false"
+        args << " -input=#{input}"
+      end
+
+      # must be at the end
       if @quiet && !ENV['TS_INIT_LOUD']
         out_path = "#{Terraspace.tmp_root}/out/terraform-init.out"
         FileUtils.mkdir_p(File.dirname(out_path))
         args << " > #{out_path}"
-      end
-      unless @options[:input].nil?
-        input = @options[:input] ? "true" : "false"
-        args << " -input #{input}"
       end
       [args]
     end
@@ -73,7 +90,7 @@ module Terraspace::Terraform::Args
     end
 
     def auto_approve_arg
-      @options[:yes] ? ["-auto-approve"] : []
+      @options[:yes] || @options[:auto] ? ["-auto-approve"] : []
     end
   end
 end
