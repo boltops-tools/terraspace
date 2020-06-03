@@ -7,9 +7,14 @@ module Terraspace
       build_all("modules")
       build_all("stacks")
       auto_create_backend
-      Terraform::Runner.new("init", @options).run unless @options[:init] == false
+      Terraform::Runner.new("init", @options).run unless auto?
       build_remote_dependencies # runs after terraform init, which downloads remote modules
       logger.info "Built in #{build_dir}"
+    end
+
+    def auto?
+      # command is only passed from CLI in the update specifically for this check
+      @options[:auto] && @options[:command] == "update"
     end
 
     def build_all(type_dir)

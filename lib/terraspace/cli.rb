@@ -15,6 +15,9 @@ module Terraspace
     input_option = Proc.new {
       option :input, type: :boolean, desc: "Ask for input for variables if not directly set."
     }
+    auto_option = Proc.new {
+      option :auto, type: :boolean, desc: "Auto mode is useful for CI automation. It enables appropriate flags."
+    }
 
     desc "new SUBCOMMAND", "new subcommands"
     long_desc Help.text(:new)
@@ -24,6 +27,7 @@ module Terraspace
     long_desc Help.text(:build)
     option :quiet, type: :boolean, default: true, desc: "quiet output"
     input_option.call
+    auto_option.call
     def build(mod)
       Build.new(options.merge(mod: mod)).run
     end
@@ -58,6 +62,7 @@ module Terraspace
     long_desc Help.text(:plan)
     out_option.call
     input_option.call
+    auto_option.call
     def plan(mod)
       Commander.new("plan", options.merge(mod: mod)).run
     end
@@ -105,12 +110,12 @@ module Terraspace
     desc "update MODULE", "Update infrasturcture. IE: apply plan"
     long_desc Help.text(:update)
     input_option.call
+    auto_option.call
     yes_option.call
-    option :init, default: true, type: :boolean, desc: "run init before the apply"
     option :plan, desc: "Execution plan that can be used to only execute a pre-determined set of actions."
     option :var_files, type: :array, desc: "list of var files"
     def update(mod)
-      Commander.new("apply", options.merge(mod: mod)).run
+      Commander.new("apply", options.merge(mod: mod, command: "update")).run
     end
 
     desc "validate MODULE", "validate"
