@@ -33,7 +33,7 @@ module Terraspace::Terraform::Hooks
       exit_on_fail = @hooks.dig(type, @name.to_s, "exit_on_fail")
       exit_on_fail = exit_on_fail.nil? ? true : exit_on_fail
 
-      puts "Running #{type} hook"
+      logger.info "Running #{type} hook"
       sh(execute, exit_on_fail: exit_on_fail)
     end
   end

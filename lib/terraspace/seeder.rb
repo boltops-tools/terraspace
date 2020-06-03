@@ -3,6 +3,7 @@ require "hcl_parser"
 module Terraspace
   class Seeder
     extend Memoist
+    include Terraspace::Util::Logging
 
     def initialize(mod, options={})
       @mod, @options = mod, options
@@ -20,7 +21,7 @@ module Terraspace
       elsif exist?("variables.tf.json")
         JSON.load(read("variables.tf.json"))
       else
-        puts "WARN: no variables.tf or variables.tf.json found in: #{@mod.cache_build_dir}"
+        logger.warn "WARN: no variables.tf or variables.tf.json found in: #{@mod.cache_build_dir}"
         ENV['TS_TEST'] ? raise : exit
       end
     end
@@ -29,11 +30,11 @@ module Terraspace
     def load_hcl_variables
       HclParser.load(read("variables.tf"))
     rescue Racc::ParseError => e
-      puts "ERROR: Unable to parse the #{Util.pretty_path(@mod.cache_build_dir)}/variables.tf file".color(:red)
-      puts "and generate the starter tfvars file. This is probably due to a complex variable type."
-      puts "#{e.class}: #{e.message}"
+      logger.error "ERROR: Unable to parse the #{Util.pretty_path(@mod.cache_build_dir)}/variables.tf file".color(:red)
+      logger.error "and generate the starter tfvars file. This is probably due to a complex variable type."
+      logger.error "#{e.class}: #{e.message}"
       puts
-      puts "You will have to create the tfvars file manually at: #{Util.pretty_path(dest_path)}"
+      logger.error "You will have to create the tfvars file manually at: #{Util.pretty_path(dest_path)}"
       exit 1
     end
 
@@ -53,7 +54,7 @@ module Terraspace
 
     def read(file)
       path = "#{@mod.cache_build_dir}/#{file}"
-      puts "Reading: #{Util.pretty_path(path)}"
+      logger.info "Reading: #{Util.pretty_path(path)}"
       IO.read(path)
     end
 

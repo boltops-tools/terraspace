@@ -37,5 +37,10 @@ module Terraspace
       App.instance.config
     end
     memoize :config
+
+    def logger
+      config.logger
+    end
+    memoize :logger
   end
 end
