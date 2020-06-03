@@ -1,5 +1,7 @@
 module Terraspace::Compiler
   class Writer
+    include Basename
+
     def initialize(mod, options={})
       @mod, @options = mod, options
       @src_path = options[:src_path]
@@ -7,7 +9,8 @@ module Terraspace::Compiler
     end
 
     def dest_path
-      name = @dest_name || File.basename(@src_path).sub('.rb','.tf.json')
+      name = @dest_name || @src_path.sub('.rb','.tf.json')
+      name = basename(name)
       "#{dest_dir}/#{name}"
     end
 

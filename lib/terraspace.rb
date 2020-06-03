@@ -11,14 +11,11 @@ require "json"
 require "memoist"
 require "rainbow/ext/string"
 require "render_me_pretty"
+require "terraspace/ext"
 require "terraspace/version"
-
-require "terraspace/ext/bundler"
 
 require "terraspace/autoloader"
 Terraspace::Autoloader.setup
-
-require "terraspace/core_ext"
 
 DslEvaluator.backtrace_reject = "lib/terraspace"
 
