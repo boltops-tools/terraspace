@@ -1,5 +1,7 @@
 module Terraspace::Compiler
   class Builder
+    include Basename
+
     def initialize(mod)
       @mod = mod
     end
@@ -33,9 +35,10 @@ module Terraspace::Compiler
 
   private
     def build_config_templates
-      expr = "#{Terraspace.root}/config/terraform/*.{tf,rb,tfvars}"
+      expr = "#{Terraspace.root}/config/terraform/**/*"
       Dir.glob(expr).each do |path|
-        build_config_file(File.basename(path))
+        next unless File.file?(path)
+        build_config_file(basename(path))
       end
     end
 
@@ -44,7 +47,7 @@ module Terraspace::Compiler
       return if existing && existing.ends_with?(".tf") # do not overwrite existing backend.tf, provider.tf, etc
 
       if file.ends_with?(".rb")
-        src_path = Dir.glob("#{@mod.root}/#{File.basename(file)}").first # existing source. IE: backend.rb in module folder
+        src_path = Dir.glob("#{@mod.root}/#{basename(file)}").first # existing source. IE: backend.rb in module folder
       end
       src_path ||= Dir.glob("#{Terraspace.root}/config/terraform/#{file}").first
       build_mod_file(src_path) if src_path
