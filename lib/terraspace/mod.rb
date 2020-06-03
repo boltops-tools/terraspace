@@ -7,6 +7,7 @@ module Terraspace
   #
   class Mod
     extend Memoist
+    include Terraspace::Util::Logging
 
     attr_reader :consider_stacks, :name
     def initialize(name, consider_stacks: true)
@@ -23,7 +24,7 @@ module Terraspace
       return if root
 
       pretty_paths = paths.map { |p| Terraspace::Util.pretty_path(p) }
-      puts "ERROR: Unable to find #{@name.color(:green)} module. Searched paths: #{pretty_paths}"
+      logger.error "ERROR: Unable to find #{@name.color(:green)} module. Searched paths: #{pretty_paths}"
       ENV['TS_TEST'] ? raise : exit(1)
     end
 

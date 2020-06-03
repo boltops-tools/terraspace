@@ -3,13 +3,13 @@ module Terraspace
     def run
       Compiler::Cleaner.new(@mod, @options).clean
       build_dir = Util.pretty_path(@mod.cache_build_dir)
-      puts "Building #{build_dir}"
+      logger.info "Building #{build_dir}"
       build_all("modules")
       build_all("stacks")
       auto_create_backend
       Terraform::Runner.new("init", @options).run unless @options[:init] == false
       build_remote_dependencies # runs after terraform init, which downloads remote modules
-      puts "Built in #{build_dir}"
+      logger.info "Built in #{build_dir}"
     end
 
     def build_all(type_dir)

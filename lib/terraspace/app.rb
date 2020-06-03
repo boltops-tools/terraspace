@@ -11,6 +11,8 @@ module Terraspace
     def defaults
       config = ActiveSupport::OrderedOptions.new
       config.test_framework = "rspec"
+      config.logger = Logger.new($stdout)
+      config.logger.level = :info
       config
     end
 

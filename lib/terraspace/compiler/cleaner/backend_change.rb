@@ -16,7 +16,7 @@ class Terraspace::Compiler::Cleaner
         Will remove #{cache_root}
       EOL
       sure?(message.strip)
-      puts "Backend change detected. Removing #{cache_root} for complete reinitialization"
+      logger.info "Backend change detected. Removing #{cache_root} for complete reinitialization"
       FileUtils.rm_rf(Terraspace.cache_root)
     end
 

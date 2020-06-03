@@ -26,7 +26,7 @@ module Terraspace::Terraform
     @@current_dir_message_shown = false
     def current_dir_message
       return if @@current_dir_message_shown
-      puts "Current directory: #{Terraspace::Util.pretty_path(@mod.cache_build_dir)}"
+      logger.info "Current directory: #{Terraspace::Util.pretty_path(@mod.cache_build_dir)}"
       @@current_dir_message_shown = true
     end
 

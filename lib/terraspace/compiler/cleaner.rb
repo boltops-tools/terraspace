@@ -34,7 +34,7 @@ module Terraspace::Compiler
     #   expr = "#{@mod.cache_build_dir}/.terraform/**/*"
     #
     #   Dir.glob(expr).each do |path|
-    #     puts "path #{path}"
+    #     logger.info "path #{path}"
     #   end
     # end
 

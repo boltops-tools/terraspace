@@ -1,6 +1,7 @@
 module Terraspace::Compiler
   class Writer
     include Basename
+    include Terraspace::Util::Logging
 
     def initialize(mod, options={})
       @mod, @options = mod, options
@@ -25,7 +26,7 @@ module Terraspace::Compiler
     def write(content)
       FileUtils.mkdir_p(File.dirname(dest_path))
       IO.write(dest_path, content)
-      puts "Created #{Terraspace::Util.pretty_path(dest_path)}" if ENV['TS_LOUD']
+      logger.debug "Created #{Terraspace::Util.pretty_path(dest_path)}"
     end
   end
 end
