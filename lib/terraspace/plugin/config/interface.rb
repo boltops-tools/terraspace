@@ -7,10 +7,10 @@ module Terraspace::Plugin::Config
 
     attr_reader :config
     def initialize
-      @config = defaults # provider should implement defaults
+      @config = defaults # plugin should implement defaults
     end
 
-    # meant to be overridden by provider
+    # meant to be overridden by plugin
     def defaults
       ActiveSupport::OrderedOptions.new
     end
