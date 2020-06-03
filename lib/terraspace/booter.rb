@@ -1,7 +1,7 @@
 module Terraspace
   module Booter
     def boot
-      Terraspace::Bundle.require # load providers
+      Terraspace::Bundle.require # load plugins
       load_plugin_default_configs
       Terraspace.config # load project config
     end
