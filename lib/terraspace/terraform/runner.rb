@@ -47,7 +47,7 @@ module Terraspace::Terraform
     memoize :custom
 
     def default
-      Args::Default.new(@name, @options)
+      Args::Default.new(@mod, @name, @options)
     end
     memoize :default
   end

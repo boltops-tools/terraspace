@@ -1,12 +1,12 @@
 module Terraspace::Terraform::Args
   class Default
-    def initialize(name, options={})
-      @name, @options = name, options
+    def initialize(mod, name, options={})
+      @mod, @name, @options = mod, name, options
       @quiet = @options[:quiet].nil? ? true : @options[:quiet]
     end
 
     def args
-      if %w[init apply destroy plan output].include?(@name)
+      if %w[apply destroy init output plan].include?(@name)
         meth = "#{@name}_args"
         send(meth)
       else
@@ -20,6 +20,19 @@ module Terraspace::Terraform::Args
       if var_files
         args << var_files.map { |f| "-var-file #{Dir.pwd}/#{f}" }.join(' ')
       end
+
+      plan = @options[:plan]
+      if plan
+        if plan.starts_with?('/')
+          src  = plan
+          dest = src
+        else
+          src = "#{Dir.pwd}/#{plan}"
+          dest = "#{@mod.cache_build_dir}/#{File.basename(src)}"
+        end
+        FileUtils.cp(src, dest)
+        args << " #{dest}"
+      end
       args
     end
 
@@ -29,6 +42,10 @@ module Terraspace::Terraform::Args
         out_path = "#{Terraspace.tmp_root}/out/terraform-init.out"
         FileUtils.mkdir_p(File.dirname(out_path))
         args << " > #{out_path}"
+      end
+      unless @options[:input].nil?
+        input = @options[:input] ? "true" : "false"
+        args << " -input #{input}"
       end
       [args]
     end

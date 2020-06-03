@@ -7,7 +7,7 @@ module Terraspace
       build_all("modules")
       build_all("stacks")
       auto_create_backend
-      Terraform::Runner.new("init", @options).run
+      Terraform::Runner.new("init", @options).run unless @options[:init] == false
       build_remote_dependencies # runs after terraform init, which downloads remote modules
       puts "Built in #{build_dir}"
     end
