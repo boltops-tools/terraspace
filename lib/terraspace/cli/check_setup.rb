@@ -24,7 +24,7 @@ class Terraspace::CLI
 
     def check_required_version!
       puts "Terraspace requires Terraform v#{REQUIRED_TERRAFORM_VERSION}.x"
-      if version_ok?
+      if ok?
         puts "You're all set!"
       else
         puts "The installed version of terraform may not work with terraspace. Recommend using terraform v#{REQUIRED_TERRAFORM_VERSION}.x"
@@ -32,7 +32,7 @@ class Terraspace::CLI
       end
     end
 
-    def version_ok?
+    def ok?
       version = terraform_version_message.sub(/.*v/,'') # => 0.12.24
       major, minor, _ = version.split('.')
       required_major, required_minor = REQUIRED_TERRAFORM_VERSION.split('.')
@@ -64,7 +64,7 @@ class Terraspace::CLI
       # Used as library call
       def check!
         setup = new
-        return if setup.version_ok?
+        return if setup.ok?
         # run meth designed for CLI and will puts out informative messages about installed version and exit 1 when version is not ok
         setup.run
       end
