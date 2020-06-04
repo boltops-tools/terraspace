@@ -7,7 +7,7 @@ module Terraspace
   #
   class Mod
     extend Memoist
-    include Terraspace::Util::Logging
+    include Terraspace::Util
 
     attr_reader :consider_stacks, :name
     def initialize(name, consider_stacks: true)

@@ -1,7 +1,7 @@
 module Terraspace::Terraform
   class Runner < Terraspace::CLI::Base
     extend Memoist
-    include Terraspace::Util::Sh
+    include Terraspace::Util
 
     attr_reader :name
     def initialize(name, options={})

@@ -3,7 +3,7 @@ module Terraspace::Terraform::Hooks
     extend Memoist
     include Dsl
     include DslEvaluator
-    include Terraspace::Util::Sh
+    include Terraspace::Util
 
     attr_accessor :name
     def initialize(mod, name)

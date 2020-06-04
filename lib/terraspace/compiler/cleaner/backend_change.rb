@@ -1,6 +1,6 @@
 class Terraspace::Compiler::Cleaner
   class BackendChange
-    include Terraspace::Util::Sure
+    include Terraspace::Util
 
     def initialize(mod, options={})
       @mod, @options = mod, options

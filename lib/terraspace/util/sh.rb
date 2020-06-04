@@ -1,7 +1,5 @@
 module Terraspace::Util
   module Sh
-    include Terraspace::Util::Logging
-
     # requires @mod to be set
     def sh(command, options={})
       exit_on_fail = options[:exit_on_fail].nil? ? true : options[:exit_on_fail]

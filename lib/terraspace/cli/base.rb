@@ -1,6 +1,6 @@
 class Terraspace::CLI
   class Base
-    include Terraspace::Util::Logging
+    include Terraspace::Util
 
     def initialize(options={})
       @options = options

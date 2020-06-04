@@ -3,7 +3,7 @@ require "hcl_parser"
 module Terraspace
   class Seeder
     extend Memoist
-    include Terraspace::Util::Logging
+    include Terraspace::Util
 
     def initialize(mod, options={})
       @mod, @options = mod, options

@@ -1,7 +1,7 @@
 module Terraspace::Compiler
   class Writer
     include Basename
-    include Terraspace::Util::Logging
+    include Terraspace::Util
 
     def initialize(mod, options={})
       @mod, @options = mod, options
