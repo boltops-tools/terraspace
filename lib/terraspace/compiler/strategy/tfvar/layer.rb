@@ -7,8 +7,8 @@ class Terraspace::Compiler::Strategy::Tfvar
     def paths
       layer_paths = layers.map do |layer|
         [
-          "#{tfvars_dir}/#{layer}.rb",
           "#{tfvars_dir}/#{layer}.tfvars",
+          "#{tfvars_dir}/#{layer}.rb",
         ]
       end.flatten
 
@@ -19,18 +19,18 @@ class Terraspace::Compiler::Strategy::Tfvar
 
     # Layers in order
     #
-    #     Name                    | Pattern                          | Example
-    #     ------------------------|----------------------------------|---------------
-    #     base                    | base                             | base.tfvars
-    #     env                     | env                              | dev.tfvars
-    #     region base             | region/base                      | us-west-2/base.tfvars (provider specific)
-    #     region env              | region/env                       | us-west-2/dev.tfvars (provider specific)
-    #     provider base           | provider/base                    | aws/base.tfvars (provider specific)
-    #     provider env            | provider/env                     | aws/dev.tfvars (provider specific)
-    #     provider base           | provider/region/base             | aws/us-west-2/base.tfvars (provider specific)
-    #     provider env            | provider/region/env              | aws/us-west-2/dev.tfvars (provider specific)
-    #     provider namespace base | provider/namespace/region/base   | aws/112233445566/us-west-2/base.tfvars (provider specific)
-    #     provider namespace env  | provider/namespace/region/env    | aws/112233445566/us-west-2/dev.tfvars (provider specific)
+    #     Name / Pattern                   | Example
+    #     ---------------------------------|---------------
+    #     base                             | base.tfvars
+    #     env                              | dev.tfvars
+    #     region/base                      | us-west-2/base.tfvars (provider specific)
+    #     region/env                       | us-west-2/dev.tfvars (provider specific)
+    #     provider/base                    | aws/base.tfvars (provider specific)
+    #     provider/env                     | aws/dev.tfvars (provider specific)
+    #     provider/region/base             | aws/us-west-2/base.tfvars (provider specific)
+    #     provider/region/env              | aws/us-west-2/dev.tfvars (provider specific)
+    #     provider/namespace/region/base   | aws/112233445566/us-west-2/base.tfvars (provider specific)
+    #     provider/namespace/region/env    | aws/112233445566/us-west-2/dev.tfvars (provider specific)
     #
     # namespace and region depends on the provider. Here an example of the mapping:
     #
@@ -41,7 +41,7 @@ class Terraspace::Compiler::Strategy::Tfvar
     #
     #
     def layers
-      ["base", Terraspace.env] + plugin_layers
+      layer + plugin_layers
     end
 
     def plugin_layers
@@ -49,24 +49,32 @@ class Terraspace::Compiler::Strategy::Tfvar
       Terraspace::Plugin.layer_classes.each do |klass|
         layer = klass.new
 
-        # flatten because its simpler and the more common case is a single provider
-        layers << "#{layer.region}/base"
-        layers << "#{layer.region}/#{Terraspace.env}"
+        # region is first its simpler and the more common case is a single provider
+        layers += layer(layer.region)
 
         # in case using multiple providers and one region
-        layers << "#{layer.provider}/base"
-        layers << "#{layer.provider}/#{Terraspace.env}"
+        layers += layer(layer.provider)
 
         # in case another provider has colliding regions
-        layers << "#{layer.provider}/#{layer.region}/base"
-        layers << "#{layer.provider}/#{layer.region}/#{Terraspace.env}"
+        layers += layer("#{layer.provider}/#{layer.region}")
 
         # For AWS: in case mapping env is not mapped to account
         # Generally: in case mapping env is not mapped to namespace
-        layers << "#{layer.provider}/#{layer.namespace}/#{layer.region}/base"
-        layers << "#{layer.provider}/#{layer.namespace}/#{layer.region}/#{Terraspace.env}"
+        layers += layer("#{layer.provider}/#{layer.namespace}/#{layer.region}")
       end
       layers
+    end
+
+    # adds prefix and to each layer pair that has base and Terraspace.env. IE:
+    #
+    #    "#{prefix}/base"
+    #    "#{prefix}/#{Terraspace.env}"
+    #
+    def layer(prefix=nil)
+      pair = ["base", Terraspace.env] # layer pairs
+      pair.map do |i|
+        [prefix, i].compact.join('/')
+      end
     end
 
     # seed dir takes higher precedence than the tfvars folder within the stack module. Example:
