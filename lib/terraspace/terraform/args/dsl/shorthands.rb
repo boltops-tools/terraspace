@@ -1,5 +1,5 @@
 module Terraspace::Terraform::Args::Dsl
-  module Shortcuts
+  module Shorthands
     COMMANDS_WITH_INPUT = %w[
       apply
       import
@@ -35,7 +35,7 @@ module Terraspace::Terraform::Args::Dsl
       refresh
     ]
 
-    def shortcuts
+    def shorthands
       {
         with_input: COMMANDS_WITH_INPUT,
         with_locking: COMMANDS_WITH_LOCKING,
