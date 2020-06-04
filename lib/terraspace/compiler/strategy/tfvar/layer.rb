@@ -41,7 +41,7 @@ class Terraspace::Compiler::Strategy::Tfvar
     #
     #
     def layers
-      layer + plugin_layers
+      layer_pair + plugin_layers
     end
 
     def plugin_layers
@@ -50,17 +50,17 @@ class Terraspace::Compiler::Strategy::Tfvar
         layer = klass.new
 
         # region is first its simpler and the more common case is a single provider
-        layers += layer(layer.region)
+        layers += layer_pair(layer.region)
 
         # in case using multiple providers and one region
-        layers += layer(layer.provider)
+        layers += layer_pair(layer.provider)
 
         # in case another provider has colliding regions
-        layers += layer("#{layer.provider}/#{layer.region}")
+        layers += layer_pair("#{layer.provider}/#{layer.region}")
 
         # For AWS: in case mapping env is not mapped to account
         # Generally: in case mapping env is not mapped to namespace
-        layers += layer("#{layer.provider}/#{layer.namespace}/#{layer.region}")
+        layers += layer_pair("#{layer.provider}/#{layer.namespace}/#{layer.region}")
       end
       layers
     end
@@ -70,7 +70,7 @@ class Terraspace::Compiler::Strategy::Tfvar
     #    "#{prefix}/base"
     #    "#{prefix}/#{Terraspace.env}"
     #
-    def layer(prefix=nil)
+    def layer_pair(prefix=nil)
       pair = ["base", Terraspace.env] # layer pairs
       pair.map do |i|
         [prefix, i].compact.join('/')
