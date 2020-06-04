@@ -4,7 +4,7 @@ module Terraspace::Terraform::Args
 
     def command(*commands, **props)
       commands.each do |name|
-        if name.is_a?(Symbol)
+        if shorthand?(name)
           shorthand_commands(name, props)
         else
           each_command(name, props)
@@ -12,6 +12,10 @@ module Terraspace::Terraform::Args
       end
     end
     alias_method :commands, :command
+
+    def shorthand?(name)
+      shorthands.key?(name.to_sym)
+    end
 
     def shorthand_commands(name, props)
       shorthands[name].each do |n|
