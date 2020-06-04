@@ -9,8 +9,8 @@ class Terraspace::CLI
       @options = options
     end
 
+    # Used for the CLI
     def run
-      puts "Checking setup."
       puts "Detected Terrspace version: #{Terraspace::VERSION}"
       if terraform_bin
         puts "Detected Terraform bin: #{terraform_bin}"
@@ -28,14 +28,17 @@ class Terraspace::CLI
         puts "You're all set!"
       else
         puts "The installed version of terraform may not work with terraspace. Recommend using terraform v#{REQUIRED_TERRAFORM_VERSION}.x"
+        exit 1
       end
     end
 
     def version_ok?
       version = terraform_version_message.sub(/.*v/,'') # => 0.12.24
       major, minor, _ = version.split('.')
-      required_major, required_minor = REQUIRED_TERRAFORM_VERSION.split
-      major.to_i >= required_major.to_i && minor.to_i >= required_minor.to_i
+      required_major, required_minor = REQUIRED_TERRAFORM_VERSION.split('.')
+      x = major.to_i >= required_major.to_i
+      y = minor.to_i >= required_minor.to_i
+      x && y
     end
 
     def terraform_bin
@@ -56,5 +59,15 @@ class Terraspace::CLI
       `terraform --version`.split("\n").first.strip
     end
     memoize :terraform_version_message
+
+    class << self
+      # Used as library call
+      def check!
+        setup = new
+        return if setup.version_ok?
+        # run meth designed for CLI and will puts out informative messages about installed version and exit 1 when version is not ok
+        setup.run
+      end
+    end
   end
 end
