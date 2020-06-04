@@ -32,6 +32,12 @@ module Terraspace
       Build.new(options.merge(mod: mod)).run
     end
 
+    desc "check_setup", "check_setup"
+    long_desc Help.text(:check_setup)
+    def check_setup
+      CheckSetup.new(options).run
+    end
+
     desc "clean", "clean .terraspace-cache dir"
     long_desc Help.text(:clean)
     def clean
