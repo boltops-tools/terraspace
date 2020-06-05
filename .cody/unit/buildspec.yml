@@ -1,0 +1,9 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      ruby: latest
+  build:
+    commands:
+      - .cody/unit/bin/build.sh
