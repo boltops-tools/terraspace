@@ -12,5 +12,6 @@ stage "Build" do
     "terraspace-aws",
     "terraspace-azurerm",
     "terraspace-google",
+    "terraspace-unit",
   )
 end
