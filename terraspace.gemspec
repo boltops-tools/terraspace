@@ -30,6 +30,7 @@ Gem::Specification.new do |spec|
 
   # baseline plugins
   spec.add_dependency "terraspace_plugin_aws"
+  spec.add_dependency "terraspace_plugin_azurerm"
   spec.add_dependency "terraspace_plugin_google"
 
   spec.add_development_dependency "bundler"
