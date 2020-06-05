@@ -34,6 +34,7 @@ module Terraspace
     end
 
     def auto_create_backend
+      return unless @options[:command] == "update"
       Compiler::Backend.new(@mod).create
     end
 
