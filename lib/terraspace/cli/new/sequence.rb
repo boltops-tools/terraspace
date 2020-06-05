@@ -33,7 +33,7 @@ class Terraspace::CLI::New
       ]
       args += ["--lang", @options[:lang]] if @options[:lang]
       args += ["--plugin", @options[:plugin]] if @options[:plugin]
-      args += ["--plugin-name", @options[:plugin_name]] if @options[:plugin_name]
+      args += ["--plugin-gem", @options[:plugin_gem]] if @options[:plugin_gem]
       args += ["--examples"] if @options[:examples]
       args += ["--force"] if @options[:force]
       args

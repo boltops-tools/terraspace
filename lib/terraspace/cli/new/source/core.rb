@@ -32,6 +32,10 @@ module Terraspace::CLI::New::Source
     def set_plugin_gem_source(template, type)
       require_gem(plugin_gem_name)
       plugin = Terraspace::Plugin.find_with(plugin: @options[:plugin])
+      unless plugin
+        puts "ERROR: Unable to a find plugin for #{@options[:plugin]}. Are you sure the gem for the plugin is correct.".color(:red)
+        exit 1
+      end
       template_name = template_name(template, type)
       template_path = File.expand_path("#{plugin.root}/lib/templates/#{template_name}")
       override_source_paths(template_path)
