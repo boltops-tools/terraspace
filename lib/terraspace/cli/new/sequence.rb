@@ -11,7 +11,7 @@ class Terraspace::CLI::New
         [:force, type: :boolean, desc: "Bypass overwrite are you sure prompt for existing files"],
         [:lang, default: "hcl", desc: "Language to use: HCL/ERB or Ruby DSL"],
         [:plugin, default: "aws", desc: "Cloud Plugin. Supports: aws, google"],
-        [:plugin_gem, desc: "Useful if provider gem name doesnt follow terraspace_plugin_XXX naming convention"],
+        [:plugin_gem, desc: "Use if provider gem name doesnt follow terraspace_plugin_XXX naming convention. Must specify both --plugin and --plugin-name option"],
       ]
     end
 
