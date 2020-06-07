@@ -1,4 +1,4 @@
-module Terraspace::Terraform::Args::Dsl
+module Terraspace::Terraform::Args
   module Shorthands
     COMMANDS_WITH_INPUT = %w[
       apply

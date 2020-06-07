@@ -59,14 +59,20 @@ module Terraspace::Compiler
     end
 
     def with_mod_file(&block)
-      with_path("#{@mod.root}/*", &block) # Only build top-level files
+      with_path("#{@mod.root}/**/*", &block) # Only all files
     end
 
     def with_path(path)
       Dir.glob(path).each do |src_path|
-        next unless File.file?(src_path)
+        next if skip?(src_path)
         yield(src_path)
       end
+    end
+
+    def skip?(src_path)
+      return true unless File.file?(src_path)
+      # certain folders will be skipped
+      src_path.include?("test")
     end
   end
 end
