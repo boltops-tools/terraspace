@@ -92,9 +92,9 @@ class Terraspace::Compiler::Strategy::Tfvar
       seed_dir = "#{Terraspace.root}/seed/tfvars/#{@mod.build_dir}"
       mod_dir = "#{@mod.root}/tfvars"
 
-      # Do not consider tfvars files under the app/modules path at all.
+      # Do not consider tfvars files under the app/modules path at all, only consider seed_dir
       # Encourage users to treat modules as reusable libraries.
-      return mod_dir if @mod.type == "module"
+      return seed_dir if @mod.type == "module"
 
       Dir.glob("#{seed_dir}/*").empty? ? mod_dir : seed_dir
     end
