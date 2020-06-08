@@ -25,10 +25,16 @@ class Terraspace::Compiler::Strategy::Tfvar
     #     env                              | dev.tfvars
     #     region/base                      | us-west-2/base.tfvars (provider specific)
     #     region/env                       | us-west-2/dev.tfvars (provider specific)
+    #     namespace/base                   | 112233445566/base.tfvars (provider specific)
+    #     namespace/env                    | 112233445566/dev.tfvars (provider specific)
+    #     namespace/region/base            | 112233445566/us-west-2/base.tfvars (provider specific)
+    #     namespace/region/env             | 112233445566/us-west-2/dev.tfvars (provider specific)
     #     provider/base                    | aws/base.tfvars (provider specific)
     #     provider/env                     | aws/dev.tfvars (provider specific)
     #     provider/region/base             | aws/us-west-2/base.tfvars (provider specific)
     #     provider/region/env              | aws/us-west-2/dev.tfvars (provider specific)
+    #     provider/namespace/base          | aws/112233445566/base.tfvars (provider specific)
+    #     provider/namespace/env           | aws/112233445566/dev.tfvars (provider specific)
     #     provider/namespace/region/base   | aws/112233445566/us-west-2/base.tfvars (provider specific)
     #     provider/namespace/region/env    | aws/112233445566/us-west-2/dev.tfvars (provider specific)
     #
@@ -49,17 +55,19 @@ class Terraspace::Compiler::Strategy::Tfvar
       Terraspace::Plugin.layer_classes.each do |klass|
         layer = klass.new
 
-        # region is first its simpler and the more common case is a single provider
+        # region is high up because its simpler and the more common case is a single provider
         layers += layer_pair(layer.region)
+
+        # namespace is a simple way keep different tfvars between different engineers on different accounts
+        layers += layer_pair(layer.namespace)
+        layers += layer_pair("#{layer.namespace}/#{layer.region}")
 
         # in case using multiple providers and one region
         layers += layer_pair(layer.provider)
+        layers += layer_pair("#{layer.provider}/#{layer.region}") # also in case another provider has colliding regions
 
-        # in case another provider has colliding regions
-        layers += layer_pair("#{layer.provider}/#{layer.region}")
-
-        # For AWS: in case mapping env is not mapped to account
-        # Generally: in case mapping env is not mapped to namespace
+        # Most general layering
+        layers += layer_pair("#{layer.provider}/#{layer.namespace}")
         layers += layer_pair("#{layer.provider}/#{layer.namespace}/#{layer.region}")
       end
       layers
