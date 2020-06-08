@@ -19,24 +19,24 @@ class Terraspace::Compiler::Strategy::Tfvar
 
     # Layers in order
     #
-    #     Name / Pattern                   | Example
-    #     ---------------------------------|---------------
-    #     base                             | base.tfvars
-    #     env                              | dev.tfvars
-    #     region/base                      | us-west-2/base.tfvars (provider specific)
-    #     region/env                       | us-west-2/dev.tfvars (provider specific)
-    #     namespace/base                   | 112233445566/base.tfvars (provider specific)
-    #     namespace/env                    | 112233445566/dev.tfvars (provider specific)
-    #     namespace/region/base            | 112233445566/us-west-2/base.tfvars (provider specific)
-    #     namespace/region/env             | 112233445566/us-west-2/dev.tfvars (provider specific)
-    #     provider/base                    | aws/base.tfvars (provider specific)
-    #     provider/env                     | aws/dev.tfvars (provider specific)
-    #     provider/region/base             | aws/us-west-2/base.tfvars (provider specific)
-    #     provider/region/env              | aws/us-west-2/dev.tfvars (provider specific)
-    #     provider/namespace/base          | aws/112233445566/base.tfvars (provider specific)
-    #     provider/namespace/env           | aws/112233445566/dev.tfvars (provider specific)
-    #     provider/namespace/region/base   | aws/112233445566/us-west-2/base.tfvars (provider specific)
-    #     provider/namespace/region/env    | aws/112233445566/us-west-2/dev.tfvars (provider specific)
+    #     Name / Pattern                 | Example
+    #     -------------------------------|---------------
+    #     base                           | base.tfvars
+    #     env                            | dev.tfvars
+    #     region/base                    | us-west-2/base.tfvars (provider specific)
+    #     region/env                     | us-west-2/dev.tfvars (provider specific)
+    #     namespace/base                 | 112233445566/base.tfvars (provider specific)
+    #     namespace/env                  | 112233445566/dev.tfvars (provider specific)
+    #     namespace/region/base          | 112233445566/us-west-2/base.tfvars (provider specific)
+    #     namespace/region/env           | 112233445566/us-west-2/dev.tfvars (provider specific)
+    #     provider/base                  | aws/base.tfvars (provider specific)
+    #     provider/env                   | aws/dev.tfvars (provider specific)
+    #     provider/region/base           | aws/us-west-2/base.tfvars (provider specific)
+    #     provider/region/env            | aws/us-west-2/dev.tfvars (provider specific)
+    #     provider/namespace/base        | aws/112233445566/base.tfvars (provider specific)
+    #     provider/namespace/env         | aws/112233445566/dev.tfvars (provider specific)
+    #     provider/namespace/region/base | aws/112233445566/us-west-2/base.tfvars (provider specific)
+    #     provider/namespace/region/env  | aws/112233445566/us-west-2/dev.tfvars (provider specific)
     #
     # namespace and region depends on the provider. Here an example of the mapping:
     #
