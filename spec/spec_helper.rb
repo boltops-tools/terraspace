@@ -11,16 +11,10 @@ require "#{root}/lib/terraspace"
 
 module Helper
   def execute(cmd)
-    puts "Running: #{cmd}" if show_command?
+    puts "Running: #{cmd}" if ENV['SHOW_COMMAND']
     out = `#{cmd}`
-    puts out if show_command?
+    puts out if ENV['SHOW_COMMAND']
     out
-  end
-
-  # Added SHOW_COMMAND because DEBUG is also used by other libraries like
-  # bundler and it shows its internal debugging logging also.
-  def show_command?
-    ENV['DEBUG'] || ENV['SHOW_COMMAND']
   end
 
   def fixture(path)
