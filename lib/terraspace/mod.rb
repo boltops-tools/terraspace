@@ -58,7 +58,7 @@ module Terraspace
     #
     def build_dir
       if type == "stack" && @instance != "default"
-        instance_name = [name, @instance].compact.join('_')
+        instance_name = ["", name, @instance].compact.join('_') # add _ in front so instance dont collodile with other default stacks
       else
         instance_name = name
       end
