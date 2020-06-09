@@ -58,7 +58,7 @@ module Terraspace::Terraform
       t1 = Time.now
       yield
       t2 = Time.now
-      if @name == "apply"
+      if %w[apply destroy].include?(@name)
         puts "Time took: #{pretty_time(t2-t1)}"
       end
     end

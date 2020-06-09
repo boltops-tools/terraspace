@@ -24,7 +24,8 @@ module Terraspace::Compiler::Strategy
     # Also name auto.tfvars so it will automatically load
     def ordered_name(layer_path)
       @order += 1
-      name = "#{@order}-#{File.basename(layer_path)}"
+      prefix = @order.to_s.rjust(2, '0') # add leading 0 in case there are more than 10 layers
+      name = "#{prefix}-#{File.basename(layer_path)}"
       name.sub('.tfvars','.auto.tfvars')
           .sub('.rb','.auto.tfvars.json')
     end
