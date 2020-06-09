@@ -32,9 +32,11 @@ class Terraspace::CLI::New
         component_name,
         "--project-name", project_name,
       ]
+
       args += ["--lang", @options[:lang]] if @options[:lang]
       args += ["--plugin", @options[:plugin]] if @options[:plugin]
       args += ["--plugin-gem", @options[:plugin_gem]] if @options[:plugin_gem]
+      args += @options[:test] ? ["--test"] : ["--no-test"] # since test is true by default
       args += ["--examples"] if @options[:examples]
       args += ["--force"] if @options[:force]
       args

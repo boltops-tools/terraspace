@@ -5,7 +5,7 @@ class Terraspace::CLI::New
   private
     def build_gemfile(*list)
       if ENV['TS_EDGE']
-        base = ENV['TS_EDGE_ROOT'] || "#{ENV['HOME']}/environment/terraspace-edge"
+        base = ENV['TS_EDGE_ROOT'] || '#{ENV["HOME"]}/environment/terraspace-edge'
       end
 
       lines = []
