@@ -47,7 +47,7 @@ class Terraspace::Compiler::Strategy::Tfvar
     #
     #
     def layers
-      layer_pair + plugin_layers
+      layer_levels + plugin_layers
     end
 
     def plugin_layers
@@ -56,19 +56,19 @@ class Terraspace::Compiler::Strategy::Tfvar
         layer = klass.new
 
         # region is high up because its simpler and the more common case is a single provider
-        layers += layer_pair(layer.region)
+        layers += layer_levels(layer.region)
 
         # namespace is a simple way keep different tfvars between different engineers on different accounts
-        layers += layer_pair(layer.namespace)
-        layers += layer_pair("#{layer.namespace}/#{layer.region}")
+        layers += layer_levels(layer.namespace)
+        layers += layer_levels("#{layer.namespace}/#{layer.region}")
 
         # in case using multiple providers and one region
-        layers += layer_pair(layer.provider)
-        layers += layer_pair("#{layer.provider}/#{layer.region}") # also in case another provider has colliding regions
+        layers += layer_levels(layer.provider)
+        layers += layer_levels("#{layer.provider}/#{layer.region}") # also in case another provider has colliding regions
 
         # Most general layering
-        layers += layer_pair("#{layer.provider}/#{layer.namespace}")
-        layers += layer_pair("#{layer.provider}/#{layer.namespace}/#{layer.region}")
+        layers += layer_levels("#{layer.provider}/#{layer.namespace}")
+        layers += layer_levels("#{layer.provider}/#{layer.namespace}/#{layer.region}")
       end
       layers
     end
@@ -78,9 +78,11 @@ class Terraspace::Compiler::Strategy::Tfvar
     #    "#{prefix}/base"
     #    "#{prefix}/#{Terraspace.env}"
     #
-    def layer_pair(prefix=nil)
-      pair = ["base", Terraspace.env] # layer pairs
-      pair.map do |i|
+    def layer_levels(prefix=nil)
+      levels = ["base", Terraspace.env, @mod.instance] # layer levels
+      env_levels = levels.map { |l| "#{Terraspace.env}/#{l}" } # env folder also
+      levels = levels + env_levels
+      levels.map do |i|
         [prefix, i].compact.join('/')
       end
     end

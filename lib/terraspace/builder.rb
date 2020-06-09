@@ -26,7 +26,7 @@ module Terraspace
         next if built.include?(mod_name) # ensures modules in app folder take higher precedence than vendor folder
 
         consider_stacks = type_dir == "stacks"
-        mod = Mod.new(mod_name, consider_stacks: consider_stacks)
+        mod = Mod.new(mod_name, instance: @options[:instance], consider_stacks: consider_stacks)
         mod.root_module = root?(mod)
         Compiler::Builder.new(mod).build
         built << mod_name

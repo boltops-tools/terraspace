@@ -4,7 +4,7 @@ class Terraspace::CLI
 
     def initialize(options={})
       @options = options
-      @mod = Terraspace::Mod.new(options[:mod]) # mod metadata
+      @mod = Terraspace::Mod.new(options[:mod], @options) # mod metadata
       @mod.check_exist!
     end
   end
