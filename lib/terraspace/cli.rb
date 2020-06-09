@@ -18,6 +18,9 @@ module Terraspace
     auto_option = Proc.new {
       option :auto, type: :boolean, desc: "Auto mode is useful for CI automation. It enables appropriate flags."
     }
+    instance_option = Proc.new {
+      option :instance, default: "default", desc: "Instance of the deployed module or stack"
+    }
 
     desc "new SUBCOMMAND", "new subcommands"
     long_desc Help.text(:new)
@@ -28,6 +31,7 @@ module Terraspace
     option :quiet, type: :boolean, default: true, desc: "quiet output"
     input_option.call
     auto_option.call
+    instance_option.call
     def build(mod)
       Build.new(options.merge(mod: mod)).run
     end
@@ -46,12 +50,14 @@ module Terraspace
 
     desc "console", "console .terraspace-cache dir"
     long_desc Help.text(:console)
+    instance_option.call
     def console(mod)
       Commander.new("console", options.merge(mod: mod)).run
     end
 
     desc "down MODULE", "down"
     long_desc Help.text(:down)
+    instance_option.call
     yes_option.call
     def down(mod)
       Commander.new("destroy", options.merge(mod: mod)).run
@@ -60,27 +66,31 @@ module Terraspace
     desc "info MODULE", "info"
     long_desc Help.text(:info)
     format_option.call
+    instance_option.call
     def info(mod)
       Info.new(options.merge(mod: mod)).run
     end
 
     desc "plan MODULE", "plan module"
     long_desc Help.text(:plan)
-    out_option.call
-    input_option.call
     auto_option.call
+    input_option.call
+    instance_option.call
+    out_option.call
     def plan(mod)
       Commander.new("plan", options.merge(mod: mod)).run
     end
 
     desc "providers MODULE", "providers"
     long_desc Help.text(:providers)
+    instance_option.call
     def providers(mod)
       Commander.new("providers", options.merge(mod: mod)).run
     end
 
     desc "refresh", "refresh"
     long_desc Help.text(:refresh)
+    instance_option.call
     def refresh(mod)
       Commander.new("refresh", options.merge(mod: mod)).run
     end
@@ -89,12 +99,14 @@ module Terraspace
     long_desc Help.text(:seed)
     option :yes, aliases: :y, type: :boolean, desc: "bypass prompts and force overwrite files"
     option :where, desc: "where to create file. either under app or seed folder structure. values: app or stack"
+    instance_option.call
     def seed(mod)
       Seed.new(options.merge(mod: mod)).run
     end
 
     desc "show MODULE", "show"
     long_desc Help.text(:show)
+    instance_option.call
     def show(mod)
       Commander.new("show", options.merge(mod: mod)).run
     end
@@ -108,6 +120,7 @@ module Terraspace
     desc "output MODULE", "output"
     long_desc Help.text(:output)
     format_option.call
+    instance_option.call
     out_option.call
     def output(mod)
       Commander.new("output", options.merge(mod: mod)).run
@@ -117,6 +130,7 @@ module Terraspace
     long_desc Help.text(:update)
     input_option.call
     auto_option.call
+    instance_option.call
     yes_option.call
     option :plan, desc: "Execution plan that can be used to only execute a pre-determined set of actions."
     option :var_files, type: :array, desc: "list of var files"
@@ -126,6 +140,7 @@ module Terraspace
 
     desc "validate MODULE", "validate"
     long_desc Help.text(:validate)
+    instance_option.call
     def validate(mod)
       Commander.new("validate", options.merge(mod: mod)).run
     end

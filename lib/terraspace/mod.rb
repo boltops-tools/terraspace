@@ -9,10 +9,11 @@ module Terraspace
     extend Memoist
     include Terraspace::Util
 
-    attr_reader :consider_stacks, :name
-    def initialize(name, consider_stacks: true)
+    attr_reader :name, :consider_stacks, :instance
+    def initialize(name, options={})
       @name = name
-      @consider_stacks = consider_stacks
+      @consider_stacks = options[:consider_stacks].nil? ? true : options[:consider_stacks]
+      @instance = options[:instance]
     end
 
     attr_accessor :root_module
@@ -56,7 +57,12 @@ module Terraspace
     #     modules/vpc
     #
     def build_dir
-      "#{type_dir}/#{name}"
+      if type == "stack" && @instance != "default"
+        instance_name = [name, @instance].compact.join('_')
+      else
+        instance_name = name
+      end
+      [type_dir, instance_name].compact.join('/')
     end
 
     # Full path with build_dir
