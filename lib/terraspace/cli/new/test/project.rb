@@ -3,6 +3,7 @@ module Terraspace::CLI::New::Test
     argument :name
 
     def create
+      return if @options[:test] == false
       test_template_source(@options[:lang], "project")
 
       puts "=> Creating project test: #{name}"
