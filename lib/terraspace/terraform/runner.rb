@@ -10,7 +10,9 @@ module Terraspace::Terraform
     end
 
     def run
-      terraform(name, args)
+      time_took do
+        terraform(name, args)
+      end
     end
 
     def terraform(name, *args)
@@ -50,5 +52,26 @@ module Terraspace::Terraform
       Args::Default.new(@mod, @name, @options)
     end
     memoize :default
+
+  private
+    def time_took
+      t1 = Time.now
+      yield
+      t2 = Time.now
+      if @name == "apply"
+        puts "Time took: #{pretty_time(t2-t1)}"
+      end
+    end
+
+    # http://stackoverflow.com/questions/4175733/convert-duration-to-hoursminutesseconds-or-similar-in-rails-3-or-ruby
+    def pretty_time(total_seconds)
+      minutes = (total_seconds / 60) % 60
+      seconds = total_seconds % 60
+      if total_seconds < 60
+        "#{seconds.to_i}s"
+      else
+        "#{minutes.to_i}m #{seconds.to_i}s"
+      end
+    end
   end
 end
