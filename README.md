@@ -4,7 +4,22 @@
 
 [![BoltOps Badge](https://img.boltops.com/boltops/badges/boltops-badge.png)](https://www.boltops.com)
 
-The Terraform Framework
+The Terraform Framework.
+
+Official Docs Site: [terraspace.cloud](https://terraspace.cloud)
+
+## Quick Start
+
+The commands creates s3 bucket:
+
+    terraspace new project infra --plugin aws --examples
+    cd infra
+    terraspace up demo
+    terraspace down demo
+
+The last `down` command cleans up and deletes the bucket.
+
+The default plugin is aws. Other plugins also supported are: google and azurerm.
 
 ## Usage
 
@@ -50,7 +65,8 @@ Destroy infrastructure:
 
 * [Config Structure](https://terraspace.cloud/docs/config/): A common config structure that gets materializes with the deployed module. Configs can be dynamically controlled to keep your code DRY. You can override the settings if needed, like for using existing backends. See: [Existing Backends](https://terraspace.cloud/docs/state/existing/).
 * [Generators](https://terraspace.cloud/docs/generators/): Built-in generators to quickly create the starter module. Focus on code instead of boilerplate structure.
-* [Tfvars](https://terraspace.cloud/docs/tfvars/): Use the same code with different tfvars to create multiple environments. Terraspace conventionally loads tfvars from the `tfvars` folder. Tfvars also support [Layering](https://terraspace.cloud/docs/tfvars/layering/).
+* [Tfvars](https://terraspace.cloud/docs/tfvars/): Use the same code with different tfvars to create multiple environments. Terraspace conventionally loads tfvars from the `tfvars` folder.
+* [Layering](https://terraspace.cloud/docs/tfvars/layering/): Rich layering support. This allows you to build different environments like dev and prod with the same code.
 * [Testing](https://terraspace.cloud/docs/testing/): A testing framework that allows you to create test harnesses, deploy real-resources, and have higher confidence that your code works.
 * [Configurable CLI](https://terraspace.cloud/docs/cli/): Configurable [CLI Hooks](https://terraspace.cloud/docs/cli/hooks/) and [CLI Args](https://terraspace.cloud/docs/cli/args/) allow you to adjust the underlying terraform command.
 

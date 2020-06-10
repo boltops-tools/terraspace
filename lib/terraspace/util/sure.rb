@@ -1,14 +1,13 @@
 module Terraspace::Util
   module Sure
-    def sure?(message, desc=nil)
+    def sure?(message="Are you sure?", desc=nil)
       if @options[:yes]
         sure = 'y'
       else
-        out = message
-        if desc
-          out += "\n#{desc}\nAre you sure? (y/N) "
+        out = if desc
+          "\n#{desc}\n#{message} (y/N) "
         else
-          out += " (y/N) "
+          "#{message} (y/N) "
         end
         print out
         sure = $stdin.gets

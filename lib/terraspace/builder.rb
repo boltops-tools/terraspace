@@ -6,8 +6,11 @@ module Terraspace
       Compiler::Cleaner.new(@mod, @options).clean
       build_dir = Util.pretty_path(@mod.cache_build_dir)
       logger.info "Building #{build_dir}"
-      build_all("modules")
+
+      build_all("modules") # build all modules and stacks as dependencies
       build_all("stacks")
+      build_root_module    # build root module at the end
+
       auto_create_backend
       Terraform::Runner.new("init", @options).run if !auto? && @options[:init] != false # will run on @options[:init].nil?
       build_remote_dependencies # runs after terraform init, which downloads remote modules
@@ -19,6 +22,10 @@ module Terraspace
       @options[:auto] && @options[:command] == "update"
     end
 
+    def build_root_module
+      Compiler::Builder.new(@mod).build
+    end
+
     def build_all(type_dir)
       built = []
       local_paths(type_dir).each do |path|
@@ -27,11 +34,16 @@ module Terraspace
         next if built.include?(mod_name) # ensures modules in app folder take higher precedence than vendor folder
 
         consider_stacks = type_dir == "stacks"
-        mod = Mod.new(mod_name, instance: @options[:instance], consider_stacks: consider_stacks)
-        mod.root_module = root?(mod)
+        mod = Mod.new(mod_name, consider_stacks: consider_stacks)
+        next if root?(mod) # will build root module at the end
+
         Compiler::Builder.new(mod).build
         built << mod_name
       end
+    end
+
+    def root?(mod)
+      mod.name == @mod.name && mod.type == @mod.type
     end
 
     def auto_create_backend
@@ -45,10 +57,6 @@ module Terraspace
 
     def dirs(path)
       Dir.glob("#{Terraspace.root}/#{path}")
-    end
-
-    def root?(mod)
-      mod.build_dir == @mod.build_dir
     end
 
     # Currently only handles remote modules only one-level deep.

@@ -4,6 +4,7 @@ module Terraspace
       Terraspace::Bundle.require # load plugins
       load_plugin_default_configs
       Terraspace.config # load project config
+      Terraspace::App::Hooks.run_hook(:on_boot)
     end
 
     def load_plugin_default_configs

@@ -13,6 +13,7 @@ module Terraspace
       config.test_framework = "rspec"
       config.logger = Logger.new($stdout)
       config.logger.level = :info
+      config.hooks = Hooks.new
       config
     end
 
@@ -22,6 +23,8 @@ module Terraspace
 
     def load_project_config
       evaluate_file("#{Terraspace.root}/config/app.rb")
+      path = "#{Terraspace.root}/config/env/#{Terraspace.env}.rb"
+      evaluate_file(path)
     end
   end
 end

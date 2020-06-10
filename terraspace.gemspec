@@ -25,6 +25,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "memoist"
   spec.add_dependency "rainbow"
   spec.add_dependency "render_me_pretty"
+  spec.add_dependency "terraspace-bundler"
   spec.add_dependency "thor"
   spec.add_dependency "zeitwerk"
 

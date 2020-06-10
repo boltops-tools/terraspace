@@ -1,0 +1,14 @@
+# Starter Terrafile
+# More info: https://terraspace.cloud/docs/terrafile/
+#
+# org "boltopspro" # set default github org
+#
+# Use modules from your org
+# mod "instance", source: "terraform-aws-instance", version: "v0.1.0"
+# mod "elb", source: "terraform-aws-elb"
+#
+# Use modules and specify org explicitly
+# mod "vpc", source: "boltops-tools/terraform-aws-vpc", version: "master"
+#
+# Use modules from the Terraform registry
+# mod "sqs", source: "terraform-aws-modules/sqs/aws"
