@@ -8,6 +8,7 @@ module Terraspace::Compiler::Strategy
     end
 
     def strategy_class(ext)
+      return Mod::Pass if ext.empty? # infinite loop without this
       "Terraspace::Compiler::Strategy::Mod::#{ext.camelize}".constantize rescue Mod::Pass
     end
   end
