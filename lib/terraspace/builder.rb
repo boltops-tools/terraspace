@@ -2,6 +2,7 @@ module Terraspace
   class Builder < Terraspace::CLI::Base
     def run
       Terraspace::CLI::CheckSetup.check!
+      @mod.root_module = true
       Compiler::Cleaner.new(@mod, @options).clean
       build_dir = Util.pretty_path(@mod.cache_build_dir)
       logger.info "Building #{build_dir}"
