@@ -43,7 +43,7 @@ module Terraspace::Compiler
     end
 
     def build_config_file(file)
-      existing = !!Dir.glob("#{@mod.root}/#{file}").first
+      existing = Dir.glob("#{@mod.root}/#{file}").first
       return if existing && existing.ends_with?(".tf") # do not overwrite existing backend.tf, provider.tf, etc
 
       if file.ends_with?(".rb")
