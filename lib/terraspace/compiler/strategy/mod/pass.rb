@@ -1,7 +1,7 @@
 class Terraspace::Compiler::Strategy::Mod
   class Pass < Base
     def run
-      IO.read(@src_path)
+      File.open(@src_path) # return filehandle instead of content. Writer also handles
     end
   end
 end

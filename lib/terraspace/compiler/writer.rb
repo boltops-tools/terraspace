@@ -25,7 +25,11 @@ module Terraspace::Compiler
 
     def write(content)
       FileUtils.mkdir_p(File.dirname(dest_path))
-      IO.write(dest_path, content)
+      if content.respond_to?(:path) # IO filehandle
+        FileUtils.cp(content.path, dest_path) # preserves permission
+      else # just content
+        IO.write(dest_path, content)
+      end
       logger.debug "Created #{Terraspace::Util.pretty_path(dest_path)}"
     end
   end
