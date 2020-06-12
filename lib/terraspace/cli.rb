@@ -21,6 +21,9 @@ module Terraspace
     instance_option = Proc.new {
       option :instance, aliases: %w[i], default: "default", desc: "Instance of stack"
     }
+    init_option = Proc.new {
+      option :init, type: :boolean, default: true, desc: "Instance of stack"
+    }
 
     desc "new SUBCOMMAND", "new subcommands"
     long_desc Help.text(:new)
@@ -29,8 +32,9 @@ module Terraspace
     desc "build MODULE", "build"
     long_desc Help.text(:build)
     option :quiet, type: :boolean, default: true, desc: "quiet output"
-    input_option.call
     auto_option.call
+    init_option.call
+    input_option.call
     instance_option.call
     def build(mod)
       Build.new(options.merge(mod: mod)).run
@@ -99,6 +103,7 @@ module Terraspace
     long_desc Help.text(:seed)
     option :yes, aliases: :y, type: :boolean, desc: "bypass prompts and force overwrite files"
     option :where, desc: "where to create file. either under app or seed folder structure. values: app or stack"
+    init_option.call
     instance_option.call
     def seed(mod)
       Seed.new(options.merge(mod: mod)).run
@@ -128,8 +133,9 @@ module Terraspace
 
     desc "update MODULE", "Update infrasturcture. IE: apply plan"
     long_desc Help.text(:update)
-    input_option.call
     auto_option.call
+    init_option.call
+    input_option.call
     instance_option.call
     yes_option.call
     option :plan, desc: "Execution plan that can be used to only execute a pre-determined set of actions."
