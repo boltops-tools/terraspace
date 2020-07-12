@@ -115,6 +115,13 @@ module Terraspace
       Seed.new(options.merge(mod: mod)).run
     end
 
+    desc "summary", "Summary of resources"
+    long_desc Help.text(:clean)
+    option :mod, desc: "Module to build to generate a backend file for discovery. By default the first module is used. Usually, it wont matter."
+    def summary
+      Summary.new(options).run
+    end
+
     desc "show MODULE", "show"
     long_desc Help.text(:show)
     instance_option.call
