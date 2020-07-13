@@ -56,10 +56,10 @@ module Terraspace
     #
     #     modules/vpc
     #
-    def build_dir
-      if type == "stack" && @instance != "default" && root_module?
+    def build_dir(disable_instance: false)
+      if !disable_instance && !@instance.nil? && @instance != "default"
         # add _ in front so instance doesnt collide with other default stacks
-        instance_name = ["", name, @instance].compact.join('_')
+        instance_name = [name, @instance].compact.join('__')
       else
         instance_name = name
       end

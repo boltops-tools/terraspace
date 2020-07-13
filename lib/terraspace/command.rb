@@ -13,6 +13,17 @@ class Thor
   end
 end
 
+# Gets rid of the c_l_i extra commands in the help menu. Seems like thor_classes_in is only used
+# for this purpose. More details: https://gist.github.com/tongueroo/ee92ec28a4d3eed301d88e8ccdd2fe10
+module ThorPrepend
+  module Util
+    def thor_classes_in(klass)
+      klass.name.include?("CLI") ? [] : super
+    end
+  end
+end
+Thor::Util.singleton_class.prepend(ThorPrepend::Util)
+
 module Terraspace
   class Command < Thor
     class << self

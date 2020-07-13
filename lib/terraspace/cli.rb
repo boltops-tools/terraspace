@@ -40,6 +40,12 @@ module Terraspace
       Build.new(options.merge(mod: mod)).run
     end
 
+    desc "bundle", "bundle"
+    long_desc Help.text(:bundle)
+    def bundle(*args)
+      Bundle.new(options.merge(args: args)).run
+    end
+
     desc "check_setup", "check_setup"
     long_desc Help.text(:check_setup)
     def check_setup

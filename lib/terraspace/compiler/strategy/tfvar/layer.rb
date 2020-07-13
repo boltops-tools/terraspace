@@ -89,24 +89,21 @@ class Terraspace::Compiler::Strategy::Tfvar
 
     # seed dir takes higher precedence than the tfvars folder within the stack module. Example:
     #
-    #     seed/tfvars/stacks/core (folder must have *.tfvars or *.rb files)
-    #     app/stacks/core/tfvars
+    #     seed/tfvars/stacks/demo (folder must have *.tfvars or *.rb files)
+    #     app/stacks/demo/tfvars
     #
     # This allows user to take over the tfvars embedded in the stack if they need to. Generally,
     # putting tfvars in within the app/stacks/MOD/tfvars folder seems cleaner and easier to follow.
     #
-    # Do not consider app/modules at all. Encourage modules to be reuseable instead. Stacks are ok
-    # to have business logic and tfvars.
+    # Will also consider app/modules/demo/tfvars. Though modules to be reuseable and stacks is where business logic
+    # should go.
     #
     def tfvars_dir
-      seed_dir = "#{Terraspace.root}/seed/tfvars/#{@mod.build_dir}"
+      seed_dir = "#{Terraspace.root}/seed/tfvars/#{@mod.build_dir(disable_instance: true)}"
       mod_dir = "#{@mod.root}/tfvars"
 
-      # Do not consider tfvars files under the app/modules path at all, only consider seed_dir
-      # Encourage users to treat modules as reusable libraries.
-      return seed_dir if @mod.type == "module"
-
-      Dir.glob("#{seed_dir}/*").empty? ? mod_dir : seed_dir
+      empty = Dir.glob("#{seed_dir}/*").empty?
+      empty ? mod_dir : seed_dir
     end
 
   end

@@ -44,7 +44,7 @@ module Terraspace::Terraform
     end
 
     def custom
-      Args::Custom.new(@mod, name)
+      Args::Custom.new(@mod, @name)
     end
     memoize :custom
 

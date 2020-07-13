@@ -9,6 +9,7 @@ module Terraspace::Compiler
     def build
       build_config
       build_module
+      build_tfvars
     end
 
     # build common config files: provider and backend for the root module
@@ -17,19 +18,14 @@ module Terraspace::Compiler
       build_config_templates
     end
 
-    # build all module .rb to .tf.json files
     def build_module
-      build_mod_files
-      build_tfvars
-    end
-
-    def build_mod_files
       with_mod_file do |src_path|
         build_mod_file(src_path)
       end
     end
 
     def build_tfvars
+      return unless @mod.root_module?
       Strategy::Tfvar.new(@mod).run # writer within Strategy to control file ordering
     end
 
