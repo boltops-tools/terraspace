@@ -42,10 +42,9 @@ module Terraspace::Plugin::Summary
       'bucket'
     end
 
-    # Allow override by plugin implementation class. Needed for azurerm
-    # interface method
+    # Allow override by plugin implementation class. Generally, all files in these folders are tfstate files.
     def statefile_expr
-      "#{@dest_folder}**/*.tfstate"
+      "#{@dest_folder}**/*"
     end
 
     def download_statefiles

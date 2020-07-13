@@ -117,7 +117,7 @@ module Terraspace
 
     desc "summary", "Summary of resources"
     long_desc Help.text(:clean)
-    option :mod, desc: "Module to build to generate a backend file for discovery. By default the first module is used. Usually, it wont matter."
+    option :mod, desc: "Module to build to generate a backend file for discovery. By default the last module is used. Usually, it wont matter."
     def summary
       Summary.new(options).run
     end

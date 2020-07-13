@@ -20,7 +20,7 @@ class Terraspace::CLI
       end
     end
 
-    # Grab the first module and build that.
+    # Grab the last module and build that.
     # Assume the backend key has the same prefix
     def build
       return if ENV['TS_SUMMARY_BUILD'] == '0'
