@@ -1,6 +1,6 @@
 describe Terraspace::Compiler::Dsl::Mod do
-  let(:builder)        { described_class.new(mod, path) }
-  let(:mod)            { "core" }
+  let(:builder) { described_class.new(mod, path) }
+  let(:mod)     { Terraspace::Mod.new("core") }
 
   context "core" do
     let(:path) { fixture("orphans/module/core/main.rb") }

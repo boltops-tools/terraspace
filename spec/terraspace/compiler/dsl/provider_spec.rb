@@ -1,6 +1,6 @@
 describe Terraspace::Compiler::Dsl::Mod do
-  let(:builder)        { described_class.new(mod, path) }
-  let(:mod)            { "vpc" }
+  let(:builder) { described_class.new(mod, path) }
+  let(:mod)     { Terraspace::Mod.new("vpc") }
 
   context "single provider" do
     let(:path) { fixture("orphans/config/provider.rb") }

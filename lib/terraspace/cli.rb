@@ -19,7 +19,7 @@ module Terraspace
       option :auto, type: :boolean, desc: "Auto mode is useful for CI automation. It enables appropriate flags."
     }
     instance_option = Proc.new {
-      option :instance, aliases: %w[i], default: "default", desc: "Instance of stack"
+      option :instance, aliases: %w[i], desc: "Instance of stack"
     }
     init_option = Proc.new {
       option :init, type: :boolean, default: true, desc: "Instance of stack"

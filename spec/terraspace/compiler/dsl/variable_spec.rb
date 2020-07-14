@@ -1,6 +1,6 @@
 describe Terraspace::Compiler::Dsl::Mod do
-  let(:builder)        { described_class.new(mod, path) }
-  let(:mod)            { "vpc" }
+  let(:builder) { described_class.new(mod, path) }
+  let(:mod)     { Terraspace::Mod.new("vpc") }
 
   context "vpc" do
     let(:path) { fixture("projects/ruby/aws/app/modules/vpc/variables.rb") }
