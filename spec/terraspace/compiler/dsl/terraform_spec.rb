@@ -1,6 +1,6 @@
 describe Terraspace::Compiler::Dsl::Mod do
-  let(:builder)        { described_class.new(mod, path) }
-  let(:mod)            { "terraform" }
+  let(:builder) { described_class.new(mod, path) }
+  let(:mod)     { Terraspace::Mod.new("terraform") }
 
   context "forum" do
     let(:path) { fixture("orphans/terraform/terraform.rb") }

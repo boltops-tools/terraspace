@@ -1,6 +1,6 @@
 describe Terraspace::Compiler::Dsl::Mod do
-  let(:builder)        { described_class.new(mod, path) }
-  let(:mod)            { "vpc" }
+  let(:builder) { described_class.new(mod, path) }
+  let(:mod)     { Terraspace::Mod.new("vpc") }
 
   context "security_group with hash ingress" do
     let(:path) { fixture("orphans/resource/security_group/hash_example.rb") }
