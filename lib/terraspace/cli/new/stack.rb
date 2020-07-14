@@ -16,5 +16,11 @@ class Terraspace::CLI::New
     def create_test
       Test::Project.start(component_args(name, @options[:project_name]))
     end
+
+    def run_generator_hook_script
+      script = ENV['TS_GENERATOR_STACK']
+      return unless script
+      run_script(script, "app/stacks/#{name}")
+    end
   end
 end

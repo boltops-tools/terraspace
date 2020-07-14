@@ -47,5 +47,13 @@ class Terraspace::CLI::New
       source = Source::Plugin.new(self, @options)
       source.set_source_paths(template, type)
     end
+
+    # A generator script hook to allow for further customizations
+    # The dest folder like app/modules/demo is provided as a first argument to the command.
+    def run_script(script, dest)
+      command = "#{script} #{dest}"
+      puts "Running: #{command}" unless ENV['TS_GENERATOR_MUTE']
+      system(command)
+    end
   end
 end
