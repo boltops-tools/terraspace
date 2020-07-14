@@ -59,7 +59,7 @@ module Terraspace
     def build_dir(disable_instance: false)
       if !disable_instance && !@instance.nil?
         # add _ in front so instance doesnt collide with other default stacks
-        instance_name = [name, @instance].compact.join('__')
+        instance_name = [name, @instance].compact.join('.')
       else
         instance_name = name
       end
