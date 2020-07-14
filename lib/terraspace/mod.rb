@@ -9,9 +9,9 @@ module Terraspace
     extend Memoist
     include Terraspace::Util
 
-    attr_reader :name, :consider_stacks, :instance
+    attr_reader :name, :consider_stacks, :instance, :options
     def initialize(name, options={})
-      @name = name
+      @name, @options = name, options
       @consider_stacks = options[:consider_stacks].nil? ? true : options[:consider_stacks]
       @instance = options[:instance]
     end
@@ -57,7 +57,7 @@ module Terraspace
     #     modules/vpc
     #
     def build_dir(disable_instance: false)
-      if !disable_instance && !@instance.nil? && @instance != "default"
+      if !disable_instance && !@instance.nil?
         # add _ in front so instance doesnt collide with other default stacks
         instance_name = [name, @instance].compact.join('__')
       else
