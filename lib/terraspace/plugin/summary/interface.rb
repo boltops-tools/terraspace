@@ -55,8 +55,9 @@ module Terraspace::Plugin::Summary
     end
 
     def show_resources
-      Dir.glob(statefile_expr).each do |path|
+      Dir.glob(statefile_expr).sort.each do |path|
         next unless File.file?(path)
+        next if path.include?(".tflock")
         show_each(path)
       end
       logger.info("No resources found in statefiles") unless @has_shown_resources
@@ -65,7 +66,7 @@ module Terraspace::Plugin::Summary
     def show_each(path)
       data = JSON.load(IO.read(path))
       resources = data['resources']
-      return unless resources.size > 0
+      return unless resources && resources.size > 0
 
       pretty_path = path.sub(Regexp.new(".*#{@bucket}/#{@folder}"), '')
       logger.info pretty_path.color(:green)
