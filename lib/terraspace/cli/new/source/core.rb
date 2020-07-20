@@ -1,6 +1,6 @@
 module Terraspace::CLI::New::Source
   class Core
-    include Terraspace::CLI::New::Helper::PluginGem
+    include Terraspace::CLI::New::Helpers::PluginGem
     include Terraspace::Util
 
     def initialize(sequence, options)

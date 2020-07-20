@@ -7,14 +7,14 @@ module Terraspace::Hooks
 
     # IE: dsl_file: config/hooks/terraform.rb
     attr_accessor :name
-    def initialize(mod, dsl_file, name)
-      @mod, @dsl_file, @name = mod, dsl_file, name
+    def initialize(mod, file, name)
+      @mod, @file, @name = mod, file, name
       @hooks = {before: {}, after: {}}
     end
 
     def build
-      return @hooks unless File.exist?(@dsl_file)
-      evaluate_file(@dsl_file)
+      evaluate_file("#{Terraspace.root}/config/hooks/#{@file}")
+      evaluate_file("#{@mod.root}/config/hooks/#{@file}")
       @hooks.deep_stringify_keys!
     end
     memoize :build
@@ -37,11 +37,10 @@ module Terraspace::Hooks
     def run_hook(type, hook)
       return unless run?(hook)
 
-      command = File.basename(@dsl_file).sub('.rb','') # IE: kubes, kubectl, docker
+      command = File.basename(@file).sub('.rb','') # IE: terraform or terraspace
       id = "#{command} #{type} #{@name}"
       label = " label: #{hook["label"]}" if hook["label"]
-      logger.info  "Running #{id} hook.#{label}"
-      logger.debug "Hook options: #{hook}"
+      logger.info  "Hook: Running #{id} hook.#{label}".color(:cyan)
       Runner.new(@mod, hook).run
     end
 

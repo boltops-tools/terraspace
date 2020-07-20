@@ -11,7 +11,7 @@ module Terraspace::Compiler::Dsl::Syntax::Mod
       Terraspace::Compiler::Expander.new(@mod, backend_name).expand(props)
     end
 
-    # Can set opts to explicitly use an specfic backend. Example:
+    # Can set opts to explicitly use an specific backend. Example:
     #
     #    opts = {backend: s3}
     #

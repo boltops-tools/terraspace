@@ -1,15 +1,15 @@
 class Terraspace::CLI::New
   class Plugin < Sequence
-    include Helper
+    include Helpers
+
+    argument :name
 
     def self.options
       [
-        [:force, type: :boolean, desc: "Bypass overwrite are you sure prompt for existing files"],
+        [:force, aliases: %w[y], type: :boolean, desc: "Bypass overwrite are you sure prompt for existing files"],
       ]
     end
     options.each { |args| class_option(*args) }
-
-    argument :name
 
     def create_plugin
       puts "=> Creating new plugin: #{name}"

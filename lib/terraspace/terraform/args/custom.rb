@@ -7,13 +7,12 @@ module Terraspace::Terraform::Args
     attr_accessor :name
     def initialize(mod, name)
       @mod, @name = mod, name
-      @file = "#{Terraspace.root}/config/args/terraform.rb"
       @commands = {}
     end
 
     def build
-      return @commands unless File.exist?(@file)
-      evaluate_file(@file)
+      evaluate_file("#{Terraspace.root}/config/args/terraform.rb")
+      evaluate_file("#{@mod.root}/config/args/terraform.rb")
       @commands.deep_stringify_keys!
     end
     memoize :build

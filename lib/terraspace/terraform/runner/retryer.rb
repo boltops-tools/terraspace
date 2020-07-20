@@ -9,7 +9,7 @@ class Terraspace::Terraform::Runner
     end
 
     def retry?
-      if @retries <= 3
+      if @retries <= 3 && !@stop_retrying
         true # will retry
       else
         logger.info "ERROR: #{@exception.message}"
@@ -36,8 +36,12 @@ class Terraspace::Terraform::Runner
       logger.debug "Retry attempt: #{@retries}"
       logger.debug "#{@exception.class}"
       logger.debug "#{@exception.message}"
-      purge_caches # Purging the cache "fixes" this terraform bug
-      reinit
+      if Terraspace.config.terraform.plugin_cache.purge_on_error # Purging the cache "fixes" this terraform bug
+        purge_caches
+        reinit
+      else
+        @stop_retrying = true
+      end
     end
 
     def init_required_error

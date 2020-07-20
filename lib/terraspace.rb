@@ -1,6 +1,10 @@
 $stdout.sync = true unless ENV["TS_STDOUT_SYNC"] == "0"
 
 $:.unshift(File.expand_path("../", __FILE__))
+
+require "terraspace/autoloader"
+Terraspace::Autoloader.setup
+
 require "active_support/concern"
 require "active_support/core_ext/class"
 require "active_support/core_ext/hash"
@@ -17,9 +21,6 @@ require "render_me_pretty"
 require "set"
 require "terraspace/ext"
 require "terraspace/version"
-
-require "terraspace/autoloader"
-Terraspace::Autoloader.setup
 
 DslEvaluator.backtrace_reject = "lib/terraspace"
 

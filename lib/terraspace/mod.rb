@@ -31,7 +31,6 @@ module Terraspace
     end
 
     def check_exist!
-      Terraspace.check_project!
       return if root
 
       pretty_paths = paths.map { |p| Terraspace::Util.pretty_path(p) }.join(", ")

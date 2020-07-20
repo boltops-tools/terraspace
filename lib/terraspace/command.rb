@@ -27,7 +27,11 @@ Thor::Util.singleton_class.prepend(ThorPrepend::Util)
 module Terraspace
   class Command < Thor
     class << self
+      include Terraspace::Util::Logging
+
       def dispatch(m, args, options, config)
+        check_project!(args.first)
+
         # Allow calling for help via:
         #   terraspace command help
         #   terraspace command -h
@@ -52,6 +56,18 @@ module Terraspace
         end
 
         super
+      end
+
+      def check_project!(command_name)
+        return if subcommand?
+        return if %w[-h -v completion completion_script help new test version].include?(command_name)
+        return if File.exist?("#{Terraspace.root}/config/app.rb")
+        logger.error "ERROR: It doesnt look like this is a terraspace project. Are you sure you are in a terraspace project?".color(:red)
+        ENV['TS_TEST'] ? raise : exit(1)
+      end
+
+      def subcommand?
+        !!caller.detect { |l| l.include?('in subcommand') }
       end
 
       # Override command_help to include the description at the top of the
