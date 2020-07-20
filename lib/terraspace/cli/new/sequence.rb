@@ -11,7 +11,7 @@ class Terraspace::CLI::New
         [:force, type: :boolean, desc: "Bypass overwrite are you sure prompt for existing files"],
         [:lang, default: "hcl", desc: "Language to use: HCL/ERB or Ruby DSL"],
         [:plugin, aliases: %w[p], default: "aws", desc: "Cloud Plugin. Supports: aws, google"],
-        [:test, default: true, type: :boolean, desc: "Whether or not to generate tests"],
+        [:test, default: !!ENV['TS_NEW_TEST'], type: :boolean, desc: "Whether or not to generate tests"],
         [:plugin_gem, desc: "Use if provider gem name doesnt follow terraspace_plugin_XXX naming convention. Must specify both --plugin and --plugin-name option"],
       ]
     end
@@ -36,7 +36,7 @@ class Terraspace::CLI::New
       args += ["--lang", @options[:lang]] if @options[:lang]
       args += ["--plugin", @options[:plugin]] if @options[:plugin]
       args += ["--plugin-gem", @options[:plugin_gem]] if @options[:plugin_gem]
-      args += @options[:test] ? ["--test"] : ["--no-test"] # since test is true by default
+      args += @options[:test] ? ["--test"] : ["--no-test"] # since test may be true by default
       args += ["--examples"] if @options[:examples]
       args += ["--force"] if @options[:force]
       args
