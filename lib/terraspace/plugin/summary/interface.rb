@@ -66,6 +66,7 @@ module Terraspace::Plugin::Summary
     def show_each(path)
       data = JSON.load(IO.read(path))
       resources = data['resources']
+      remove_statefile(path) if resources && resources.size == 0 && !ENV['TS_KEEP_EMPTY_STATEFILES']
       return unless resources && resources.size > 0
 
       pretty_path = path.sub(Regexp.new(".*#{@bucket}/#{@folder}"), '')
@@ -77,6 +78,17 @@ module Terraspace::Plugin::Summary
         logger.info "    #{r['type']} #{r['name']}: #{identifier}"
         @has_shown_resources = true # flag to note some resources there were shown
       end
+    end
+
+    # Clean up empty statefiles because over time the extra network calls to download them
+    # slow down the summary command
+    def remove_statefile(path)
+      key = path.sub("#{statefiles_root}/#{@bucket}/",'')
+      delete_empty_statefile(key)
+    end
+
+    # interface method
+    def delete_empty_statefile(key)
     end
 
   private
@@ -99,7 +111,11 @@ module Terraspace::Plugin::Summary
     end
 
     def dest(bucket)
-      "#{Terraspace.tmp_root}/statefiles/#{bucket}"
+      "#{statefiles_root}/#{bucket}"
+    end
+
+    def statefiles_root
+      "#{Terraspace.tmp_root}/statefiles"
     end
 
     def logger
