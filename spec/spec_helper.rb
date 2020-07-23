@@ -7,6 +7,11 @@ ENV["TS_TEST"] = "1"
 require "pp"
 require "byebug"
 root = File.expand_path("../", File.dirname(__FILE__))
+
+# require plugins so Terraspace::Plugin.meta is populated
+require "terraspace_plugin_aws"
+require "terraspace_plugin_azurerm"
+require "terraspace_plugin_google"
 require "#{root}/lib/terraspace"
 
 module Helper
