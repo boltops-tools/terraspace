@@ -43,7 +43,7 @@ class Terraspace::CLI
 
       info = backend.values.first # structure within the s3 or gcs key
       klass = summary_class(name)
-      summary = klass.new(info)
+      summary = klass.new(info, @options)
       summary.call
     end
 

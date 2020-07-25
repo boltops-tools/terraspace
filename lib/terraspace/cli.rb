@@ -119,6 +119,7 @@ module Terraspace
     long_desc Help.text(:clean)
     option :mod, desc: "Module to build to generate a backend file for discovery. By default the last module is used. Usually, it wont matter."
     init_option.call
+    option :short, aliases: %w[s], type: :boolean, desc: "Only show statefiles"
     def summary
       Summary.new(options).run
     end
