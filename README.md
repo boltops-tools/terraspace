@@ -10,14 +10,16 @@ Official Docs Site: [terraspace.cloud](https://terraspace.cloud)
 
 ## Quick Start
 
-The commands creates s3 bucket:
+Here are commands to get started:
 
     terraspace new project infra --plugin aws --examples
     cd infra
     terraspace up demo
     terraspace down demo
 
-The last `down` command cleans up and deletes the bucket.
+* The `new` command generates a starter project. 
+* The `up` command creates an s3 bucket. 
+* The `down` command cleans up and deletes the bucket.
 
 The default plugin is aws. Other plugins also supported are: google and azurerm.
 
@@ -26,7 +28,7 @@ The default plugin is aws. Other plugins also supported are: google and azurerm.
 Create infrastructure:
 
     $ terraspace up demo -y
-    Materializing .terraspace-cache/dev/stacks/demo
+    Building .terraspace-cache/dev/stacks/demo
     Current directory: .terraspace-cache/dev/stacks/demo
     => terraform init -get > /dev/null
     Built in .terraspace-cache/dev/stacks/demo
@@ -46,7 +48,7 @@ Create infrastructure:
 Destroy infrastructure:
 
     $ terraspace down demo -y
-    Materializing .terraspace-cache/dev/stacks/demo
+    Building .terraspace-cache/dev/stacks/demo
     Current directory: .terraspace-cache/dev/stacks/demo
     => terraform init -get > /dev/null
     Built in .terraspace-cache/dev/stacks/demo
