@@ -3,7 +3,6 @@
 #   key_field: if need to override default key
 #   bucket_field: if need to override default bucket
 #   download
-#   statefile_expr: needed for azurerm
 #
 # If need more customization, then override and implement the call method.
 #
