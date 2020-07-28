@@ -8,8 +8,8 @@
 #
 module Terraspace::Plugin::Summary
   module Interface
-    def initialize(info)
-      @info = info
+    def initialize(info, options={})
+      @info, @options = info, options
     end
 
     # 1. download state files to temp area
@@ -71,11 +71,12 @@ module Terraspace::Plugin::Summary
       pretty_path = path.sub(Regexp.new(".*#{@bucket}/#{@folder}"), '')
       logger.info pretty_path.color(:green)
       resources.each do |r|
+        @has_shown_resources = true # flag to note some resources there were shown
         identifier = r['instances'].map do |i|
           i['attributes']['name'] || i['attributes']['id']
         end.join(',')
+        return if @options[:short]
         logger.info "    #{r['type']} #{r['name']}: #{identifier}"
-        @has_shown_resources = true # flag to note some resources there were shown
       end
     end
 
