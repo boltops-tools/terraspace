@@ -22,17 +22,11 @@ module Terraspace
     end
 
     def check_exist!
-      check_terraspace_project!
+      Terraspace.check_project!
       return if root
 
       pretty_paths = paths.map { |p| Terraspace::Util.pretty_path(p) }
       logger.error "ERROR: Unable to find #{@name.color(:green)} module. Searched paths: #{pretty_paths}"
-      ENV['TS_TEST'] ? raise : exit(1)
-    end
-
-    def check_terraspace_project!
-      return if File.exist?("#{Terraspace.root}/config/app.rb")
-      logger.error "ERROR: It doesnt look like this is a terraspace project. Are you sure you are in a terraspace project?".color(:red)
       ENV['TS_TEST'] ? raise : exit(1)
     end
 

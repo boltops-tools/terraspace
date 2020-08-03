@@ -11,6 +11,7 @@ class Terraspace::CLI
     end
 
     def run
+      Terraspace.check_project!
       build
       puts "Summary of resources based on backend storage statefiles"
       backend_expr = '.terraspace-cache/**/backend.*'
@@ -28,6 +29,13 @@ class Terraspace::CLI
       mod = @options[:mod]
       unless mod
         mod_path = Dir.glob("{app,vendor}/{modules,stacks}/*").last
+        unless mod_path
+          logger.info <<~EOL
+            No modules or stacks found.
+            Unable to determine the backend state path without at least one module.
+          EOL
+          exit 0
+        end
         mod = File.basename(mod_path)
       end
       Build.new(@options.merge(mod: mod)).run # generate and init
