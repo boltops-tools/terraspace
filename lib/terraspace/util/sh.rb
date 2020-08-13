@@ -9,7 +9,7 @@ module Terraspace::Util
       logger.info "=> #{command}"
       return if ENV['TS_TEST']
 
-      success = system(env, command, chdir: @mod.cache_build_dir)
+      success = system(env, command, chdir: @mod.cache_dir)
       unless success
         logger.info "Error running command: #{command}".color(:red)
         exit $?.exitstatus if exit_on_fail

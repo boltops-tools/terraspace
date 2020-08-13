@@ -21,7 +21,7 @@ module Terraspace
       elsif exist?("variables.tf.json")
         JSON.load(read("variables.tf.json"))
       else
-        logger.warn "WARN: no variables.tf or variables.tf.json found in: #{@mod.cache_build_dir}"
+        logger.warn "WARN: no variables.tf or variables.tf.json found in: #{@mod.cache_dir}"
         ENV['TS_TEST'] ? raise : exit
       end
     end
@@ -30,7 +30,7 @@ module Terraspace
     def load_hcl_variables
       HclParser.load(read("variables.tf"))
     rescue Racc::ParseError => e
-      logger.error "ERROR: Unable to parse the #{Util.pretty_path(@mod.cache_build_dir)}/variables.tf file".color(:red)
+      logger.error "ERROR: Unable to parse the #{Util.pretty_path(@mod.cache_dir)}/variables.tf file".color(:red)
       logger.error "and generate the starter tfvars file. This is probably due to a complex variable type."
       logger.error "#{e.class}: #{e.message}"
       puts
@@ -48,12 +48,12 @@ module Terraspace
     memoize :dest_path
 
     def exist?(file)
-      path = "#{@mod.cache_build_dir}/#{file}"
+      path = "#{@mod.cache_dir}/#{file}"
       File.exist?(path)
     end
 
     def read(file)
-      path = "#{@mod.cache_build_dir}/#{file}"
+      path = "#{@mod.cache_dir}/#{file}"
       logger.info "Reading: #{Util.pretty_path(path)}"
       IO.read(path)
     end

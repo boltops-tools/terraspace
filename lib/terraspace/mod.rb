@@ -11,9 +11,17 @@ module Terraspace
 
     attr_reader :name, :consider_stacks, :instance, :options
     def initialize(name, options={})
-      @name, @options = name, options
+      @name, @options = placeholder(name), options
       @consider_stacks = options[:consider_stacks].nil? ? true : options[:consider_stacks]
       @instance = options[:instance]
+    end
+
+    def placeholder(name)
+      if name == "placeholder"
+        Terraspace::CLI::Build::Placeholder.new(@options).find_mod
+      else
+        name
+      end
     end
 
     attr_accessor :root_module
@@ -33,7 +41,7 @@ module Terraspace
     def to_info
       {
         build_dir: build_dir,
-        cache_build_dir: Terraspace::Util.pretty_path(cache_build_dir),
+        cache_dir: Terraspace::Util.pretty_path(cache_dir),
         name: name,
         root: Terraspace::Util.pretty_path(root),
         type: type,
@@ -42,9 +50,29 @@ module Terraspace
     end
 
     def root
-      paths.find { |p| File.exist?(p) }
+      root = paths.find { |p| File.exist?(p) }
+      if root.nil?
+        possible_fake_root
+      else
+        root
+      end
     end
     memoize :root
+
+    # If the app/stacks/NAME has been removed in source code but stack still exist in the cloud.
+    # allow user to delete by materializing an empty stack with the backend.tf
+    # Note this does not seem to work for Terraform Cloud as terraform init doesnt seem to download the plugins
+    # required. SIt only works for s3, azurerm, and gcs backends. On TFC, you can delete the stack via the GUI though.
+    #
+    #   down - so user can delete stacks w/o needing to create an empty app/stacks/demo folder
+    #   null - for the terraspace summary command when there are zero stacks.
+    #          Also useful for terraspace cloud list_workspaces
+    #
+    def possible_fake_root
+      if @options[:command] == "down"
+        "#{Terraspace.root}/app/stacks/#{@name}" # fake stack root
+      end
+    end
 
     # Relative folder path without app or vendor. For example, the actual location can be found in a couple of places
     #
@@ -68,9 +96,12 @@ module Terraspace
     end
 
     # Full path with build_dir
-    def cache_build_dir
-      "#{Terraspace.cache_root}/#{Terraspace.env}/#{build_dir}"
+    def cache_dir
+      pattern = Terraspace.config.build.cache_dir # IE: :CACHE_ROOT/:REGION/:ENV/:BUILD_DIR
+      expander = Terraspace::Compiler::Expander.autodetect(self)
+      expander.expansion(pattern)
     end
+    memoize :cache_dir
 
     def type
       root.include?("/stacks/") ? "stack" : "module"

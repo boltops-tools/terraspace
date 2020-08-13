@@ -1,5 +1,13 @@
 class Terraspace::CLI
   class New < Terraspace::Command
+    long_desc Help.text(:git_hook)
+    GitHook.cli_options.each { |args| option(*args) }
+    register(GitHook, "git_hook", "git_hook", "Generates new git hook")
+
+    long_desc Help.text(:shim)
+    Shim.cli_options.each { |args| option(*args) }
+    register(Shim, "shim", "shim", "Generates terraspace shim")
+
     long_desc Help.text(:module)
     Module.base_options.each { |args| option(*args) }
     Module.component_options.each { |args| option(*args) }

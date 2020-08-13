@@ -37,7 +37,7 @@ module Terraspace::Terraform::Args
     end
 
     def var_file_exist?(var_file)
-      File.exist?("#{@mod.cache_build_dir}/#{var_file}")
+      File.exist?("#{@mod.cache_dir}/#{var_file}")
     end
 
     def dig(prop, default=[])

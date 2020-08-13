@@ -3,8 +3,8 @@
 # terraform {
 #   backend "s3" {
 #     bucket         = "<%= options[:bucket] || "terraform-state-:ACCOUNT-:REGION-:ENV" %>"
-#     key            = "<%%= "s3", ":REGION/:ENV/:BUILD_DIR/terraform.tfstate" %> # IE: us-west-2/dev/ec2/modules/vpc/terraform.tfstate
-#     region         = "<%%= "s3", ":REGION" %>"
+#     key            = "<%%= expansion(":REGION/:ENV/:BUILD_DIR/terraform.tfstate") %> # IE: us-west-2/dev/ec2/modules/vpc/terraform.tfstate
+#     region         = "<%%= expansion(":REGION") %>"
 #     encrypt        = true
 #     dynamodb_table = "terraform_locks"
 #   }
@@ -13,6 +13,6 @@
 # terraform {
 #   backend "gcs" {
 #     bucket = "<%= options[:bucket] || "terraform-state-:PROJECT-:REGION-:ENV" %>"
-#     prefix = "<%%= backend_expand("gcs", ":REGION/:ENV/:BUILD_DIR") %>" # IE: us-central1/dev/modules/vm
+#     prefix = "<%%= expansion(":REGION/:ENV/:BUILD_DIR") %>" # IE: us-central1/dev/modules/vm
 #   }
 # }
