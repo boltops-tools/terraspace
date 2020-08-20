@@ -16,7 +16,7 @@ class Terraspace::CLI
       puts "Summary of resources based on backend storage statefiles"
       backend_expr = '.terraspace-cache/**/backend.*'
       # Currently summary assumes backend are within the same bucket and key prefix
-      backend = Dir.glob(backend_expr).first
+      backend = Dir.glob(backend_expr).find { |p| p.include?("/#{Terraspace.env}/") }
       process(backend) if backend
     end
 
