@@ -1,3 +1,5 @@
+require "tempfile"
+
 module Terraspace::Terraform::Args
   class Default
     def initialize(mod, name, options={})
