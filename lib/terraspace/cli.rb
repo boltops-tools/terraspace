@@ -24,20 +24,25 @@ module Terraspace
     init_option = Proc.new {
       option :init, type: :boolean, default: true, desc: "Instance of stack"
     }
+    reconfigure_option = Proc.new {
+      option :reconfigure, type: :boolean, desc: "Add terraform -reconfigure option"
+    }
 
     desc "new SUBCOMMAND", "new subcommands"
     long_desc Help.text(:new)
     subcommand "new", New
 
-    desc "build MODULE", "build"
+    desc "cloud SUBCOMMAND", "cloud subcommands"
+    long_desc Help.text(:cloud)
+    subcommand "cloud", Cloud
+
+    desc "build STACK", "build"
     long_desc Help.text(:build)
     option :quiet, type: :boolean, default: true, desc: "quiet output"
-    auto_option.call
-    init_option.call
-    input_option.call
     instance_option.call
+    yes_option.call
     def build(mod)
-      Build.new(options.merge(mod: mod)).run
+      Terraspace::Builder.new(@options.merge(mod: mod)).run
     end
 
     desc "bundle", "bundle"
@@ -58,22 +63,25 @@ module Terraspace
       Clean.new(options).run
     end
 
-    desc "console", "console .terraspace-cache dir"
+    desc "console STACK", "console .terraspace-cache dir"
     long_desc Help.text(:console)
     instance_option.call
     def console(mod)
       Commander.new("console", options.merge(mod: mod)).run
     end
 
-    desc "down MODULE", "down"
+    desc "down STACK", "down"
     long_desc Help.text(:down)
     instance_option.call
     yes_option.call
+    reconfigure_option.call
+    option :destroy_workspace, type: :boolean, desc: "Also destroy the Cloud workspace. Only applies when using Terraform Cloud remote backend."
     def down(mod)
-      Commander.new("destroy", options.merge(mod: mod)).run
+      Commander.new("destroy", options.merge(mod: mod, command: "down")).run
+      Terraspace::Terraform::Cloud::Workspace.new(options.merge(mod: mod)).destroy if @options[:destroy_workspace]
     end
 
-    desc "info MODULE", "info"
+    desc "info STACK", "info"
     long_desc Help.text(:info)
     format_option.call
     instance_option.call
@@ -81,31 +89,38 @@ module Terraspace
       Info.new(options.merge(mod: mod)).run
     end
 
-    desc "plan MODULE", "plan module"
+    desc "list", "list stacks and modules"
+    long_desc Help.text(:list)
+    def list
+      List.new(options).run
+    end
+
+    desc "plan STACK", "plan stack"
     long_desc Help.text(:plan)
     auto_option.call
     input_option.call
     instance_option.call
     out_option.call
+    reconfigure_option.call
     def plan(mod)
       Commander.new("plan", options.merge(mod: mod)).run
     end
 
-    desc "providers MODULE", "providers"
+    desc "providers STACK", "providers"
     long_desc Help.text(:providers)
     instance_option.call
     def providers(mod)
       Commander.new("providers", options.merge(mod: mod)).run
     end
 
-    desc "refresh", "refresh"
+    desc "refresh STACK", "refresh"
     long_desc Help.text(:refresh)
     instance_option.call
     def refresh(mod)
       Commander.new("refresh", options.merge(mod: mod)).run
     end
 
-    desc "seed MODULE", "seed"
+    desc "seed STACK", "seed"
     long_desc Help.text(:seed)
     option :yes, aliases: :y, type: :boolean, desc: "bypass prompts and force overwrite files"
     option :where, desc: "where to create file. either under app or seed folder structure. values: app or stack"
@@ -124,7 +139,7 @@ module Terraspace
       Summary.new(options).run
     end
 
-    desc "show MODULE", "show"
+    desc "show STACK", "show"
     long_desc Help.text(:show)
     instance_option.call
     def show(mod)
@@ -137,7 +152,7 @@ module Terraspace
       Test.new(options).run
     end
 
-    desc "output MODULE", "output"
+    desc "output STACK", "output"
     long_desc Help.text(:output)
     format_option.call
     instance_option.call
@@ -146,20 +161,21 @@ module Terraspace
       Commander.new("output", options.merge(mod: mod)).run
     end
 
-    desc "update MODULE", "Update infrasturcture. IE: apply plan"
+    desc "update STACK", "Update infrasturcture. IE: apply plan"
     long_desc Help.text(:update)
     auto_option.call
     init_option.call
     input_option.call
     instance_option.call
     yes_option.call
+    reconfigure_option.call
     option :plan, desc: "Execution plan that can be used to only execute a pre-determined set of actions."
     option :var_files, type: :array, desc: "list of var files"
     def update(mod)
-      Commander.new("apply", options.merge(mod: mod, command: "update")).run
+      Commander.new("apply", options.merge(mod: mod)).run
     end
 
-    desc "validate MODULE", "validate"
+    desc "validate STACK", "validate"
     long_desc Help.text(:validate)
     instance_option.call
     def validate(mod)

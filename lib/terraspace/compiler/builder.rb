@@ -14,7 +14,7 @@ module Terraspace::Compiler
 
     # build common config files: provider and backend for the root module
     def build_config
-      return unless @mod.root_module?
+      return unless build?
       build_config_templates
     end
 
@@ -25,11 +25,15 @@ module Terraspace::Compiler
     end
 
     def build_tfvars
-      return unless @mod.root_module?
+      return unless build?
       Strategy::Tfvar.new(@mod).run # writer within Strategy to control file ordering
     end
 
   private
+    def build?
+      @mod.type == "stack" || @mod.root_module?
+    end
+
     def build_config_templates
       expr = "#{Terraspace.root}/config/terraform/**/*"
       Dir.glob(expr).each do |path|

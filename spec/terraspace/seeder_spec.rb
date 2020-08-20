@@ -2,7 +2,7 @@ describe Terraspace::Seeder do
   let(:seeder) { described_class.new(mod) }
   let(:mod) do
     mod = double(:mod).as_null_object
-    allow(mod).to receive(:cache_build_dir).and_return("spec/fixtures/cache_build_dir")
+    allow(mod).to receive(:cache_dir).and_return("spec/fixtures/cache_dir")
     mod
   end
 

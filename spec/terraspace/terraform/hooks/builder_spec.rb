@@ -6,7 +6,7 @@ describe Terraspace::Terraform::Hooks::Builder do
   end
   let(:mod) do
     mod = double(:mod).as_null_object
-    allow(mod).to receive(:cache_build_dir).and_return("/tmp")
+    allow(mod).to receive(:cache_dir).and_return("/tmp")
     mod
   end
 

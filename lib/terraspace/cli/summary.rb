@@ -15,30 +15,15 @@ class Terraspace::CLI
       build
       puts "Summary of resources based on backend storage statefiles"
       backend_expr = '.terraspace-cache/**/backend.*'
-      backends = Dir.glob(backend_expr)
-      backends.each do |backend|
-        process(backend)
-      end
+      # Currently summary assumes backend are within the same bucket and key prefix
+      backend = Dir.glob(backend_expr).first
+      process(backend) if backend
     end
 
     # Grab the last module and build that.
     # Assume the backend key has the same prefix
     def build
-      return if ENV['TS_SUMMARY_BUILD'] == '0'
-
-      mod = @options[:mod]
-      unless mod
-        mod_path = Dir.glob("{app,vendor}/{modules,stacks}/*").last
-        unless mod_path
-          logger.info <<~EOL
-            No modules or stacks found.
-            Unable to determine the backend state path without at least one module.
-          EOL
-          exit 0
-        end
-        mod = File.basename(mod_path)
-      end
-      Build.new(@options.merge(mod: mod)).run # generate and init
+      Build::Placeholder.new(@options).build
     end
 
     def process(path)
@@ -51,6 +36,10 @@ class Terraspace::CLI
 
       info = backend.values.first # structure within the s3 or gcs key
       klass = summary_class(name)
+      unless klass
+        logger.info "Summary is unavailable for this backend: #{name}"
+        exit
+      end
       summary = klass.new(info, @options)
       summary.call
     end

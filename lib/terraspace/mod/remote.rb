@@ -8,7 +8,7 @@ class Terraspace::Mod
     end
 
     def root
-      "#{@parent.cache_build_dir}/#{@meta['Dir']}"
+      "#{@parent.cache_dir}/#{@meta['Dir']}"
     end
 
     def type

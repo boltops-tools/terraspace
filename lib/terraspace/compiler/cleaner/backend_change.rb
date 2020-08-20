@@ -27,7 +27,7 @@ class Terraspace::Compiler::Cleaner
     end
 
     def current_backend
-      materialized_path = find_src_path("#{@mod.cache_build_dir}/backend*")
+      materialized_path = find_src_path("#{@mod.cache_dir}/backend*")
       IO.read(materialized_path) if materialized_path
     end
 

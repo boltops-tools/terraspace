@@ -40,7 +40,7 @@ module Terraspace::Terraform::Args
           dest = src
         else
           src = "#{Dir.pwd}/#{plan}"
-          dest = "#{@mod.cache_build_dir}/#{File.basename(src)}"
+          dest = "#{@mod.cache_dir}/#{File.basename(src)}"
         end
         FileUtils.cp(src, dest)
         args << " #{dest}"
@@ -58,9 +58,11 @@ module Terraspace::Terraform::Args
         args << " -input=#{input}"
       end
 
+      args << " -reconfigure" if @options[:reconfigure]
+
       # must be at the end
       if @quiet && !ENV['TS_INIT_LOUD']
-        out_path = "#{Terraspace.tmp_root}/out/terraform-init.out"
+        out_path = self.class.terraform_init_log
         FileUtils.mkdir_p(File.dirname(out_path))
         args << " > #{out_path}"
       end
@@ -91,6 +93,16 @@ module Terraspace::Terraform::Args
 
     def auto_approve_arg
       @options[:yes] || @options[:auto] ? ["-auto-approve"] : []
+    end
+
+    class << self
+      # Use different tmp log file in case uses run terraspace up in 2 terminals at the same time
+      @@terraform_init_log = nil
+      def terraform_init_log
+        return @@terraform_init_log if @@terraform_init_log
+        basename = File.basename(Tempfile.new('terraform-init').path)
+        @@terraform_init_log = "#{Terraspace.tmp_root}/out/#{basename}.out"
+      end
     end
   end
 end

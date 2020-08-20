@@ -14,6 +14,12 @@ module Terraspace
       config.logger = Logger.new($stdout)
       config.logger.level = :info
       config.hooks = Hooks.new
+      config.cloud = ActiveSupport::OrderedOptions.new
+      config.cloud.overwrite = true
+      config.cloud.overwrite_sensitive = true
+      config.build = ActiveSupport::OrderedOptions.new
+      config.build.cache_root = nil # defaults to .terraspace-cache
+      config.build.cache_dir = ":CACHE_ROOT/:REGION/:ENV/:BUILD_DIR"
       config
     end
 

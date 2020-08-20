@@ -4,22 +4,13 @@ module Terraspace
       Terraspace::CLI::CheckSetup.check!
       @mod.root_module = true
       Compiler::Cleaner.new(@mod, @options).clean
-      build_dir = Util.pretty_path(@mod.cache_build_dir)
+      build_dir = Util.pretty_path(@mod.cache_dir)
       logger.info "Building #{build_dir}"
 
       build_all("modules") # build all modules and stacks as dependencies
       build_all("stacks")
-      build_root_module    # build root module at the end
-
-      auto_create_backend
-      Terraform::Runner.new("init", @options).run if !auto? && @options[:init] != false # will run on @options[:init].nil?
-      build_remote_dependencies # runs after terraform init, which downloads remote modules
+      build_root_module
       logger.info "Built in #{build_dir}"
-    end
-
-    def auto?
-      # command is only passed from CLI in the update specifically for this check
-      @options[:auto] && @options[:command] == "update"
     end
 
     def build_root_module
@@ -35,20 +26,10 @@ module Terraspace
 
         consider_stacks = type_dir == "stacks"
         mod = Mod.new(mod_name, consider_stacks: consider_stacks)
-        next if root?(mod) # will build root module at the end
 
         Compiler::Builder.new(mod).build
         built << mod_name
       end
-    end
-
-    def root?(mod)
-      mod.name == @mod.name && mod.type == @mod.type
-    end
-
-    def auto_create_backend
-      return unless @options[:command] == "update"
-      Compiler::Backend.new(@mod).create
     end
 
     def local_paths(type_dir)
@@ -57,31 +38,6 @@ module Terraspace
 
     def dirs(path)
       Dir.glob("#{Terraspace.root}/#{path}")
-    end
-
-    # Currently only handles remote modules only one-level deep.
-    def build_remote_dependencies
-      modules_json_path = "#{@mod.cache_build_dir}/.terraform/modules/modules.json"
-      return unless File.exist?(modules_json_path)
-
-      initialized_modules = JSON.load(IO.read(modules_json_path))
-      # For example of structure see spec/fixtures/initialized/modules.json
-      initialized_modules["Modules"].each do |meta|
-        build_remote_mod(meta)
-      end
-    end
-
-    def build_remote_mod(meta)
-      return if local_source?(meta["Source"])
-      return if meta['Dir'] == '.' # root is already built
-
-      remote_mod = Mod::Remote.new(meta, @mod)
-      Compiler::Builder.new(remote_mod).build
-    end
-
-  private
-    def local_source?(s)
-       s =~ %r{^\.} || s =~ %r{^/}
     end
   end
 end

@@ -18,7 +18,7 @@ module Terraspace
     end
 
     def cache_root
-      ENV['TS_CACHE_ROOT'] || "#{root}/.terraspace-cache"
+      ENV['TS_CACHE_ROOT'] || config.build.cache_root || "#{root}/.terraspace-cache"
     end
     memoize :cache_root
 
