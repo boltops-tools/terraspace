@@ -104,6 +104,7 @@ module Terraspace::Plugin::Summary
       index = path.index(regexp)
       unless index
         logger.error "ERROR: Unable to find the #{Terraspace.env} position in the prefix"
+        logger.error "path used: #{path}"
         exit 1
       end
       env_chars = Terraspace.env.size + 1
