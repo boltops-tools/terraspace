@@ -12,7 +12,6 @@ module Terraspace::Terraform
 
     # Docs: https://www.terraform.io/docs/cloud/api/workspaces.html
     def set_working_dir
-      working_directory = @mod.cache_dir.sub("#{Terraspace.root}/", '')
       return if working_directory == workspace['attributes']['working-directory']
 
       payload = {
@@ -24,6 +23,12 @@ module Terraspace::Terraform
         }
       }
       http.patch("organizations/#{@organization}/workspaces/#{@workspace_name}", payload)
+    end
+
+    def working_directory
+      cache_dir = @mod.cache_dir.sub("#{Terraspace.root}/", '')
+      relative_root = Terraspace.config.cloud.relative_root # prepended to TFC Working Directory
+      relative_root ? "#{relative_root}/#{cache_dir}" : cache_dir
     end
 
     def set_env_vars
