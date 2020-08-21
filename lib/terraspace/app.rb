@@ -17,8 +17,9 @@ module Terraspace
       config.cloud = ActiveSupport::OrderedOptions.new
       config.cloud.overwrite = true
       config.cloud.overwrite_sensitive = true
+      config.cloud.relative_root = nil
       config.build = ActiveSupport::OrderedOptions.new
-      config.build.cache_root = nil # defaults to .terraspace-cache
+      config.build.cache_root = nil # defaults to /full/path/to/.terraspace-cache
       config.build.cache_dir = ":CACHE_ROOT/:REGION/:ENV/:BUILD_DIR"
       config
     end
