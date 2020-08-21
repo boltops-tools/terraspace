@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [0.2.1]
+* #35 fix summary bug when ran multiple times with different envs
+
 ## [0.2.0]
 * #34 Terraform Cloud and Terraform Enterprise support added.
 * TFC Vars support: JSON and DSL. config.overwrite and config.overwrite_sensitive configs
@@ -25,10 +28,10 @@ This project *loosely tries* to adhere to [Semantic Versioning](http://semver.or
 * terraspace up: --reconfigure option. This is useful if upgrading Terraform version.
 
 ## [0.1.2]
-- #33 rspec-terraspace dependency added
+* #33 rspec-terraspace dependency added
 
 ## [0.1.1]
-- #32 terraspace summary --short option
+* #32 terraspace summary --short option
 
 ## [0.1.0]
-- Initial release
+* Initial release
