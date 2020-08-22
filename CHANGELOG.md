@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [0.2.2]
+* #36 cloud.relative_root setting
+
 ## [0.2.1]
 * #35 fix summary bug when ran multiple times with different envs
 
