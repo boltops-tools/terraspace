@@ -1,3 +1,7 @@
+<div align="center">
+  <a href="https://terraspace.cloud"><img src="https://img.boltops.com/boltops/logos/terraspace-dark-v1.png" /></a>
+</div>
+
 # Terraspace
 
 [![Gem Version](https://badge.fury.io/rb/terraspace.png)](http://badge.fury.io/rb/terraspace)
@@ -17,8 +21,8 @@ Here are commands to get started:
     terraspace up demo
     terraspace down demo
 
-* The `new` command generates a starter project. 
-* The `up` command creates an s3 bucket. 
+* The `new` command generates a starter project.
+* The `up` command creates an s3 bucket.
 * The `down` command cleans up and deletes the bucket.
 
 The default plugin is aws. Other plugins also supported are: google and azurerm.
