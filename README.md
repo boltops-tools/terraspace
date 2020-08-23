@@ -1,5 +1,5 @@
 <div align="center">
-  <a href="https://terraspace.cloud"><img src="https://img.boltops.com/boltops/logos/terraspace-dark-v1.png" /></a>
+  <a href="https://terraspace.cloud"><img src="https://img.boltops.com/boltops/logos/terraspace-dark-v2.png" /></a>
 </div>
 
 # Terraspace
