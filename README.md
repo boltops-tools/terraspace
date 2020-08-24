@@ -32,10 +32,10 @@ The default plugin is aws. Other plugins also supported are: google and azurerm.
 Create infrastructure:
 
     $ terraspace up demo -y
-    Building .terraspace-cache/dev/stacks/demo
-    Current directory: .terraspace-cache/dev/stacks/demo
-    => terraform init -get > /dev/null
-    Built in .terraspace-cache/dev/stacks/demo
+    Building .terraspace-cache/us-west-2/dev/stacks/demo
+    Current directory: .terraspace-cache/us-west-2/dev/stacks/demo
+    => terraform init -get > /tmp/terraspace/out/terraform-init20200824-21379-bkfvnh.out
+    Built in .terraspace-cache/us-west-2/dev/stacks/demo
     => terraform apply -auto-approve
     random_pet.bucket: Creating...
     random_pet.bucket: Creation complete after 0s [id=amusing-mouse]
@@ -52,10 +52,10 @@ Create infrastructure:
 Destroy infrastructure:
 
     $ terraspace down demo -y
-    Building .terraspace-cache/dev/stacks/demo
-    Current directory: .terraspace-cache/dev/stacks/demo
-    => terraform init -get > /dev/null
-    Built in .terraspace-cache/dev/stacks/demo
+    Building .terraspace-cache/us-west-2/dev/stacks/demo
+    Current directory: .terraspace-cache/us-west-2/dev/stacks/demo
+    => terraform init -get > /tmp/terraspace/out/terraform-init20200824-21379-bkfvnh.out
+    Built in .terraspace-cache/us-west-2/dev/stacks/demo
     => terraform destroy -auto-approve
     random_pet.bucket: Refreshing state... [id=amusing-mouse]
     module.bucket.aws_s3_bucket.this: Refreshing state... [id=bucket-amusing-mouse]
