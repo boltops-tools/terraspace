@@ -12,6 +12,10 @@ The Terraform Framework.
 
 Official Docs Site: [terraspace.cloud](https://terraspace.cloud)
 
+Introduction Video:
+
+[![Watch the video](https://img.boltops.com/boltops/tools/terraspace/terraspace-youtube.png)](https://www.youtube.com/watch?v=O87t5q22YNc)
+
 ## Quick Start
 
 Here are commands to get started:
