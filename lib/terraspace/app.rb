@@ -21,6 +21,7 @@ module Terraspace
       config.build = ActiveSupport::OrderedOptions.new
       config.build.cache_root = nil # defaults to /full/path/to/.terraspace-cache
       config.build.cache_dir = ":CACHE_ROOT/:REGION/:ENV/:BUILD_DIR"
+      config.build.clean_cache = nil # defaults to /full/path/to/.terraspace-cache
       config
     end
 
