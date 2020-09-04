@@ -1,0 +1,5 @@
+# Logfile created on 2020-09-09 13:32:51 +0000 by logger.rb/v1.4.2
+[2020-09-09T13:32:51 #11221 terraspace validate a1]: Current directory: .terraspace-cache/us-west-2/dev/stacks/a1
+[2020-09-09T13:32:51 #11221 terraspace validate a1]: => terraform validate
+[2020-09-09T13:32:52 #11221 terraspace validate a1]: [32m[1mSuccess![0m The configuration is valid.
+[2020-09-09T13:32:52 #11221 terraspace validate a1]: [0m

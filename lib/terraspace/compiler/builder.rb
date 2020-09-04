@@ -8,14 +8,14 @@ module Terraspace::Compiler
 
     def build
       build_config
-      build_module
+      build_module if @mod.resolved
       build_tfvars
     end
 
     # build common config files: provider and backend for the root module
     def build_config
       return unless build?
-      build_config_templates
+      build_config_terraform
     end
 
     def build_module
@@ -34,7 +34,7 @@ module Terraspace::Compiler
       @mod.type == "stack" || @mod.root_module?
     end
 
-    def build_config_templates
+    def build_config_terraform
       expr = "#{Terraspace.root}/config/terraform/**/*"
       Dir.glob(expr).each do |path|
         next unless File.file?(path)

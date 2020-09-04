@@ -20,11 +20,15 @@ class Terraspace::Seeder
     end
 
     def app_path
-      "#{Terraspace.root}/app/#{@mod.build_dir}/tfvars/#{Terraspace.env}.tfvars"
+      "#{Terraspace.root}/app/#{@mod.build_dir}/tfvars/#{seed_file}.tfvars"
     end
 
     def seed_path
-      "#{Terraspace.root}/seed/tfvars/#{@mod.build_dir}/#{Terraspace.env}.tfvars"
+      "#{Terraspace.root}/seed/tfvars/#{@mod.build_dir}/#{seed_file}.tfvars"
+    end
+
+    def seed_file
+      @options[:instance] || Terraspace.env
     end
   end
 end

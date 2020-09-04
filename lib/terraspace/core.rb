@@ -27,6 +27,10 @@ module Terraspace
     end
     memoize :tmp_root
 
+    def log_root
+      "#{root}/log"
+    end
+
     def configure(&block)
       App.instance.configure(&block)
     end
@@ -38,10 +42,15 @@ module Terraspace
     end
     memoize :config
 
+    @@logger = nil
     def logger
-      config.logger
+      @@logger ||= config.logger
     end
-    memoize :logger
+
+    # allow different logger when running up all
+    def logger=(v)
+      @@logger = v
+    end
 
     def check_project!
       return if File.exist?("#{Terraspace.root}/config/app.rb")

@@ -1,0 +1,22 @@
+# Logfile created on 2020-09-09 13:31:26 +0000 by logger.rb/v1.4.2
+[2020-09-09T13:31:26 #32045 terraspace show a1]: Current directory: .terraspace-cache/us-west-2/dev/stacks/a1
+[2020-09-09T13:31:26 #32045 terraspace show a1]: => terraform show
+[2020-09-09T13:31:26 #32045 terraspace show a1]: [0m# random_pet.pet1:
+[2020-09-09T13:31:26 #32045 terraspace show a1]: resource "random_pet" "pet1" {
+[2020-09-09T13:31:26 #32045 terraspace show a1]:     [1m[0mid[0m[0m        = "krill"
+[2020-09-09T13:31:26 #32045 terraspace show a1]:     [1m[0mlength[0m[0m    = 1
+[2020-09-09T13:31:26 #32045 terraspace show a1]:     [1m[0mseparator[0m[0m = "-"
+[2020-09-09T13:31:26 #32045 terraspace show a1]: }
+[2020-09-09T13:31:26 #32045 terraspace show a1]:
+[2020-09-09T13:31:26 #32045 terraspace show a1]: # random_pet.pet2:
+[2020-09-09T13:31:26 #32045 terraspace show a1]: resource "random_pet" "pet2" {
+[2020-09-09T13:31:26 #32045 terraspace show a1]:     [1m[0mid[0m[0m        = "sunfish"
+[2020-09-09T13:31:26 #32045 terraspace show a1]:     [1m[0mlength[0m[0m    = 1
+[2020-09-09T13:31:26 #32045 terraspace show a1]:     [1m[0mseparator[0m[0m = "-"
+[2020-09-09T13:31:26 #32045 terraspace show a1]: }
+[2020-09-09T13:31:26 #32045 terraspace show a1]:
+[2020-09-09T13:31:26 #32045 terraspace show a1]:
+[2020-09-09T13:31:26 #32045 terraspace show a1]: Outputs:
+[2020-09-09T13:31:26 #32045 terraspace show a1]:
+[2020-09-09T13:31:26 #32045 terraspace show a1]: pet1 = "krill"
+[2020-09-09T13:31:26 #32045 terraspace show a1]: pet2 = "sunfish"[0m[0m

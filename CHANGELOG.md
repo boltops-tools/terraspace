@@ -3,9 +3,27 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [0.3.0 UNRELEASED]
+* All commands: Dependency graph calculated and deployed in proper order
+* All commands: `terraspace all up`, `terraspace all build`, `terraspace all down`, etc. `terraspace all -h`
+* Terraspace log: view and tail log files
+* Terraspace logs management commands: `terraspace logs truncate` and `terraspace logs remove`
+* TFC/TFE: Improve support. `config.cloud.vars`, `config.cloud.workspace.attrs`
+* TFC commands: terraspace cloud runs list, terraspace cloud runs prune
+* TFC VCS also sync as part of deploy. Also separate `terraspace cloud sync` command
+* Logger improvements: configurable formatter, log to stderr by default
+* Rename: `cloud.relative_root` to `cloud.working_dir_prefix`
+* Run a plan to capture the diff as part of `-y` option. IE: `terraspace up demo -y`
+* Run plan -destroy as part of down -y
+* Rename update cli to up. Only support the shorthand.
+* Config options: config.all.concurrency, config.all.exit_on_fail, etc
+* TFC: cloud.auto_sync option
+* Improve terraform version check
+* Terraform init: auto mode will retry initializing up to 3 times
+* Terraspace seed: fix instance option
+
 ## [0.2.4]
 - fix version check for some versions of terraform
-
 ## [0.2.3]
 * #37 config.clean_cache option
 

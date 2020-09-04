@@ -40,6 +40,10 @@ class Terraspace::CLI
 
     def ok?
       version = terraform_version_message.sub(/.*v/,'') # => 0.12.24
+      unless version.match(/\d+\.\d+\.\d+/) # just parse did not find the version number
+        puts "WARN: Unable to get the terraform version".color(:yellow)
+        return true
+      end
       major, minor, _ = version.split('.')
       required_major, required_minor = REQUIRED_TERRAFORM_VERSION.split('.')
       x = major.to_i >= required_major.to_i
@@ -62,6 +66,7 @@ class Terraspace::CLI
     #     Your version of Terraform is out of date! The latest version
     #     is 0.12.26. You can update by downloading from https://www.terraform.io/downloads.html
     #
+    # Note: The -json option is only available in v0.13+
     def terraform_version_message
       `terraform --version`.split("\n").find { |l| l =~ /^Terraform / }.strip
     end

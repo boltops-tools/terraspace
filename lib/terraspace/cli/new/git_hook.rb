@@ -25,7 +25,7 @@ class Terraspace::CLI::New
     def terraspace_build_commands
       code = []
       @options[:envs].each do |env|
-        code << %Q|TS_ENV=#{env} terraspace build placeholder|
+        code << %Q|TS_ENV=#{env} terraspace build|
       end
       code.join("\n")
     end

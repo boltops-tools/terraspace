@@ -1,0 +1,13 @@
+# Logfile created on 2020-09-09 13:34:25 +0000 by logger.rb/v1.4.2
+[2020-09-09T13:34:25 #22695 terraspace validate a1]: Current directory: .terraspace-cache/us-west-2/dev/stacks/a1
+[2020-09-09T13:34:25 #22695 terraspace validate a1]: => terraform validate
+[2020-09-09T13:34:26 #22695 terraspace validate a1]: [31m
+[2020-09-09T13:34:26 #22695 terraspace validate a1]: [1m[31mError: [0m[0m[1mUnsupported attribute[0m
+[2020-09-09T13:34:26 #22695 terraspace validate a1]:
+[2020-09-09T13:34:26 #22695 terraspace validate a1]: [0m  on outputs.tf line 8, in output "pet2":
+[2020-09-09T13:34:26 #22695 terraspace validate a1]:    8:   value       = random_pet.pet2[4m.id2[0m
+[2020-09-09T13:34:26 #22695 terraspace validate a1]: [0m
+[2020-09-09T13:34:26 #22695 terraspace validate a1]: This object has no argument, nested block, or exported attribute named "id2".
+[2020-09-09T13:34:26 #22695 terraspace validate a1]: Did you mean "id"?
+[2020-09-09T13:34:26 #22695 terraspace validate a1]: [0m[0m
+[2020-09-09T13:34:26 #22695 terraspace validate a1]: [31mError running command: terraform validate [0m

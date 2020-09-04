@@ -20,13 +20,17 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "activesupport"
   spec.add_dependency "cli-format"
+  spec.add_dependency "deep_merge"
   spec.add_dependency "dsl_evaluator"
+  spec.add_dependency "eventmachine-tail"
+  spec.add_dependency "graph"
   spec.add_dependency "hcl_parser"
   spec.add_dependency "memoist"
   spec.add_dependency "rainbow"
   spec.add_dependency "render_me_pretty"
-  spec.add_dependency "terraspace-bundler"
+  spec.add_dependency "terraspace-bundler", "~> 0.2.0"
   spec.add_dependency "thor"
+  spec.add_dependency "tty-tree"
   spec.add_dependency "zeitwerk"
 
   # core baseline plugins

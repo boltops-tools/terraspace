@@ -71,13 +71,26 @@ Destroy infrastructure:
     Destroy complete! Resources: 2 destroyed.
     $
 
+## Deploy Multiple Stacks
+
+To deploy all the infrastructure stacks:
+
+    terraspace all up
+
+To choose multiple stacks to deploy
+
+    terraspace all up instance vpc
+
+When you use the all command, the dependency graph is calculated and the stacks are deployed in the right order. To learn more: [Deploy Multiple Stacks](https://terraspace.cloud/docs/dependencies/deploy-all/).
+
 ## Features
 
 * [Config Structure](https://terraspace.cloud/docs/config/): A common config structure that gets materializes with the deployed module. Configs can be dynamically controlled to keep your code DRY. You can override the settings if needed, like for using existing backends. See: [Existing Backends](https://terraspace.cloud/docs/state/existing/).
 * [Generators](https://terraspace.cloud/docs/generators/): Built-in generators to quickly create the starter module. Focus on code instead of boilerplate structure.
 * [Tfvars](https://terraspace.cloud/docs/tfvars/) & [Layering](https://terraspace.cloud/docs/tfvars/layering/): Use the same code with different tfvars to create multiple environments. Terraspace conventionally loads tfvars from the `tfvars` folder. Rich layering support allows you to build different environments like dev and prod with the same code.  Examples are in [Full Layering](https://terraspace.cloud/docs/tfvars/full-layering/).
-* [Testing](https://terraspace.cloud/docs/testing/): A testing framework that allows you to create test harnesses, deploy real-resources, and have higher confidence that your code works.
+* [Deploy Multiple Stacks](https://terraspace.cloud/docs/dependencies/deploy-all/): The ability to deploy multiple stacks with a single command. Terraspace calculates the [dependency graph](https://terraspace.cloud/docs/dependencies/) and deploys stacks in the right order. You can also target specific stacks and deploy [subgraphs](https://terraspace.cloud/docs/dependencies/subgraphs/).
 * [Configurable CLI](https://terraspace.cloud/docs/cli/): Configurable [CLI Hooks](https://terraspace.cloud/docs/cli/hooks/) and [CLI Args](https://terraspace.cloud/docs/cli/args/) allow you to adjust the underlying terraform command.
+* [Testing](https://terraspace.cloud/docs/testing/): A testing framework that allows you to create test harnesses, deploy real-resources, and have higher confidence that your code works.
 * [Terraform Cloud and Terraform Enterprise Support](https://terraspace.cloud/docs/cloud/): TFC and TFE are both supported. Terraspace adds additional conveniences to make working with Terraform Cloud Workspaces easier.
 
 For more info: [terraspace.cloud](https://terraspace.cloud)

@@ -5,7 +5,7 @@ module Terraspace::Compiler
     end
 
     def clean
-      return if ENV['TS_NO_CLEAN']
+      return if ENV['TS_CLEAN'] == '0'
       backend_change_purge
       remove_materialized_artifacts
       # remove_materialized_artifacts_dot_terraform

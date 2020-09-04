@@ -1,0 +1,20 @@
+# Logfile created on 2020-09-09 12:49:43 +0000 by logger.rb/v1.4.2
+[2020-09-09T12:49:43 #9022 terraspace plan a1]: Current directory: .terraspace-cache/us-west-2/dev/stacks/a1
+[2020-09-09T12:49:43 #9022 terraspace plan a1]: => terraform plan
+[2020-09-09T12:49:44 #9022 terraspace plan a1]: [31m
+[2020-09-09T12:49:44 #9022 terraspace plan a1]: [1m[31mError: [0m[0m[1mUnbalanced parentheses[0m
+[2020-09-09T12:49:44 #9022 terraspace plan a1]:
+[2020-09-09T12:49:44 #9022 terraspace plan a1]: [0m  on 01-dev.auto.tfvars line 4:
+[2020-09-09T12:49:44 #9022 terraspace plan a1]:    4: length1 = (Output [4mlength[0m was not found for the a1 tfvars file. Either b1 stack has not been deployed yet or it has no outputs)
+[2020-09-09T12:49:44 #9022 terraspace plan a1]: [0m
+[2020-09-09T12:49:44 #9022 terraspace plan a1]: Expected a closing parenthesis to terminate the expression.
+[2020-09-09T12:49:44 #9022 terraspace plan a1]: [0m[0m
+[2020-09-09T12:49:44 #9022 terraspace plan a1]: [31m
+[2020-09-09T12:49:44 #9022 terraspace plan a1]: [1m[31mError: [0m[0m[1mUnbalanced parentheses[0m
+[2020-09-09T12:49:44 #9022 terraspace plan a1]:
+[2020-09-09T12:49:44 #9022 terraspace plan a1]: [0m  on 01-dev.auto.tfvars line 5:
+[2020-09-09T12:49:44 #9022 terraspace plan a1]:    5: length2 = (Output [4mlength[0m was not found for the a1 tfvars file. Either b2 stack has not been deployed yet or it has no outputs)
+[2020-09-09T12:49:44 #9022 terraspace plan a1]: [0m
+[2020-09-09T12:49:44 #9022 terraspace plan a1]: Expected a closing parenthesis to terminate the expression.
+[2020-09-09T12:49:44 #9022 terraspace plan a1]: [0m[0m
+[2020-09-09T12:49:44 #9022 terraspace plan a1]: [31mError running command: terraform plan [0m

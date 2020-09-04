@@ -28,21 +28,29 @@ module Terraspace
       option :reconfigure, type: :boolean, desc: "Add terraform -reconfigure option"
     }
 
-    desc "new SUBCOMMAND", "new subcommands"
-    long_desc Help.text(:new)
-    subcommand "new", New
+    desc "all SUBCOMMAND", "all subcommands"
+    long_desc Help.text(:all)
+    subcommand "all", All
 
     desc "cloud SUBCOMMAND", "cloud subcommands"
     long_desc Help.text(:cloud)
     subcommand "cloud", Cloud
 
-    desc "build STACK", "build"
+    desc "logs SUBCOMMAND", "logs management subcommands"
+    long_desc Help.text(:logs)
+    subcommand "logs", Logs
+
+    desc "new SUBCOMMAND", "new subcommands"
+    long_desc Help.text(:new)
+    subcommand "new", New
+
+    desc "build [STACK]", "build"
     long_desc Help.text(:build)
-    option :quiet, type: :boolean, default: true, desc: "quiet output"
+    option :quiet, type: :boolean, desc: "quiet output"
     instance_option.call
     yes_option.call
-    def build(mod)
-      Terraspace::Builder.new(@options.merge(mod: mod)).run
+    def build(mod="placeholder")
+      Terraspace::Builder.new(options.merge(mod: mod)).run # building any stack builds them all
     end
 
     desc "bundle", "bundle"
@@ -77,8 +85,7 @@ module Terraspace
     reconfigure_option.call
     option :destroy_workspace, type: :boolean, desc: "Also destroy the Cloud workspace. Only applies when using Terraform Cloud remote backend."
     def down(mod)
-      Commander.new("destroy", options.merge(mod: mod, command: "down")).run
-      Terraspace::Terraform::Cloud::Workspace.new(options.merge(mod: mod)).destroy if @options[:destroy_workspace]
+      Down.new(options.merge(mod: mod)).run
     end
 
     desc "info STACK", "info"
@@ -89,10 +96,28 @@ module Terraspace
       Info.new(options.merge(mod: mod)).run
     end
 
+    desc "init STACK", "init"
+    long_desc Help.text(:init)
+    instance_option.call
+    def init(mod)
+      Commander.new("init", options.merge(mod: mod, quiet: false)).run
+    end
+
     desc "list", "list stacks and modules"
     long_desc Help.text(:list)
+    option :type, aliases: %w[t], desc: "Type: stack or module. Default all"
     def list
       List.new(options).run
+    end
+
+    desc "log [ACTION] [STACK]", "The all log command allows you to view multiple logs."
+    long_desc Help.text("log")
+    option :timestamps, aliases: %w[t], type: :boolean, desc: "Whether or not to show the leading timestamp. Defaults to timestamps for multiple logs, and no timestamp if a single log is specified. Note: In follow mode, timestamp always shown"
+    option :follow, aliases: %w[f], type: :boolean, desc: "Follow the log in live tail fashion. Must specify a stack if using this option."
+    option :limit, aliases: %w[n], default: 10, type: :numeric, desc: "Number of lines to limit showing. Only applies in no-follow mode."
+    option :all, aliases: %w[a], type: :boolean, desc: "All mode turns off the limit. Defaults to all if a single log is specified. Only applies in no-follow mode."
+    def log(action=nil, stack=nil)
+      Log.new(@options.merge(action: action, stack: stack)).run
     end
 
     desc "plan STACK", "plan stack"
@@ -142,6 +167,8 @@ module Terraspace
     desc "show STACK", "show"
     long_desc Help.text(:show)
     instance_option.call
+    option :plan, desc: "path to created.plan"
+    option :json, type: :boolean, desc: "show plan in json format"
     def show(mod)
       Commander.new("show", options.merge(mod: mod)).run
     end
@@ -161,7 +188,7 @@ module Terraspace
       Commander.new("output", options.merge(mod: mod)).run
     end
 
-    desc "update STACK", "Update infrasturcture. IE: apply plan"
+    desc "up STACK", "Deploy infrastructure. IE: terraform apply"
     long_desc Help.text(:update)
     auto_option.call
     init_option.call
@@ -171,8 +198,8 @@ module Terraspace
     reconfigure_option.call
     option :plan, desc: "Execution plan that can be used to only execute a pre-determined set of actions."
     option :var_files, type: :array, desc: "list of var files"
-    def update(mod)
-      Commander.new("apply", options.merge(mod: mod)).run
+    def up(mod)
+      Up.new(options.merge(mod: mod)).run
     end
 
     desc "validate STACK", "validate"
