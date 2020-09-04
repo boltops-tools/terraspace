@@ -3,7 +3,7 @@ module Terraspace
     def run
       Terraspace::CLI::CheckSetup.check!
       @mod.root_module = true
-      Compiler::Cleaner.new(@mod, @options).clean
+      Compiler::Cleaner.new(@mod, @options).clean if clean?
       build_dir = Util.pretty_path(@mod.cache_dir)
       logger.info "Building #{build_dir}"
 
@@ -38,6 +38,11 @@ module Terraspace
 
     def dirs(path)
       Dir.glob("#{Terraspace.root}/#{path}")
+    end
+
+    def clean?
+      clean_cache = Terraspace.config.build.clean_cache
+      clean_cache.nil? ? true : clean_cache
     end
   end
 end
