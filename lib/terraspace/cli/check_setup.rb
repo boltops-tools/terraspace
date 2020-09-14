@@ -23,13 +23,19 @@ class Terraspace::CLI
     end
 
     def check_required_version!
-      puts "Terraspace requires Terraform v#{REQUIRED_TERRAFORM_VERSION}.x"
+      puts "Terraspace requires Terraform v#{REQUIRED_TERRAFORM_VERSION}.x and above"
       if ok?
         puts "You're all set!"
       else
-        puts "The installed version of terraform may not work with terraspace. Recommend using terraform v#{REQUIRED_TERRAFORM_VERSION}.x"
-        exit 1
+        puts "The installed version of terraform may not work with terraspace."
+        puts "Recommend using at least terraform v#{REQUIRED_TERRAFORM_VERSION}.x"
+        puts "If you would like to bypass this check. Use TS_VERSION_CHECK=0" unless check_command?
+        exit 1 unless ENV['TS_VERSION_CHECK'] == '0'
       end
+    end
+
+    def check_command?
+      ARGV[0] == "check_setup"
     end
 
     def ok?
@@ -47,7 +53,8 @@ class Terraspace::CLI
     end
     memoize :terraform_bin
 
-    # First line contains the Terraform version info:
+    # Sometimes Terraform shows the version info on the first line and sometimes on the bottom line.
+    # Account for that by finding the line.
     #
     #     $ terraform --version
     #     Terraform v0.12.24
@@ -56,7 +63,7 @@ class Terraspace::CLI
     #     is 0.12.26. You can update by downloading from https://www.terraform.io/downloads.html
     #
     def terraform_version_message
-      `terraform --version`.split("\n").first.strip
+      `terraform --version`.split("\n").find { |l| l =~ /^Terraform / }.strip
     end
     memoize :terraform_version_message
 
