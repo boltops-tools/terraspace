@@ -7,6 +7,7 @@ module Terraspace::Terraform
     def initialize(name, options={})
       @name = name
       super(options)
+      @retries = 1
     end
 
     def run
@@ -21,15 +22,35 @@ module Terraspace::Terraform
       params = args.flatten.join(' ')
       command = "terraform #{name} #{params}"
       run_hooks(name) do
-        sh(command, env: custom.env_vars)
+        Terraspace::Shell.new(@mod, command, @options.merge(env: custom.env_vars)).run
+      end
+    rescue Terraspace::InitRequiredError => e
+      logger.info "Terraform reinitialization required detected. Will run `terraform init` and try again."
+      logger.debug "Retry attempt: #{@retries}"
+      logger.debug "#{e.class}"
+      Runner.new("init", @options).run
+      if @retries <= 3
+        backoff = 2 ** @retries # 2, 4, 8
+        logger.debug "Waiting #{backoff}s before retrying"
+        sleep(backoff)
+        @retries += 1
+        retry
+      else
+        logger.info "ERROR: #{e.message}"
+        exit 1
       end
     end
 
     @@current_dir_message_shown = false
     def current_dir_message
       return if @@current_dir_message_shown
-      logger.info "Current directory: #{Terraspace::Util.pretty_path(@mod.cache_dir)}"
+      log "Current directory: #{Terraspace::Util.pretty_path(@mod.cache_dir)}"
       @@current_dir_message_shown = true
+    end
+
+    def log(msg)
+      # quiet useful for RemoteState::Fetcher
+      @options[:quiet] ? logger.debug(msg) : logger.info(msg)
     end
 
     def run_hooks(name, &block)
@@ -59,18 +80,7 @@ module Terraspace::Terraform
       yield
       t2 = Time.now
       if %w[apply destroy].include?(@name)
-        puts "Time took: #{pretty_time(t2-t1)}"
-      end
-    end
-
-    # http://stackoverflow.com/questions/4175733/convert-duration-to-hoursminutesseconds-or-similar-in-rails-3-or-ruby
-    def pretty_time(total_seconds)
-      minutes = (total_seconds / 60) % 60
-      seconds = total_seconds % 60
-      if total_seconds < 60
-        "#{seconds.to_i}s"
-      else
-        "#{minutes.to_i}m #{seconds.to_i}s"
+        logger.info "Time took: #{pretty_time(t2-t1)}"
       end
     end
   end

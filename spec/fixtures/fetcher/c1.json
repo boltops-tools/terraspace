@@ -1,0 +1,37 @@
+{
+  "version": 4,
+  "terraform_version": "0.13.1",
+  "serial": 30,
+  "lineage": "9b6b98f3-3bc7-362d-5232-71847ce6d86a",
+  "outputs": {
+    "length": {
+      "value": 1,
+      "type": "number"
+    },
+    "random_pet_id": {
+      "value": "valued-buzzard",
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "mode": "managed",
+      "type": "random_pet",
+      "name": "this",
+      "provider": "provider[\"registry.terraform.io/hashicorp/random\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "valued-buzzard",
+            "keepers": null,
+            "length": 2,
+            "prefix": null,
+            "separator": "-"
+          },
+          "private": "bnVsbA=="
+        }
+      ]
+    }
+  ]
+}

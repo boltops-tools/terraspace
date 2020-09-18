@@ -16,7 +16,7 @@ module Terraspace::CLI::Build
       return if ENV['TS_SUMMARY_BUILD'] == '0'
 
       mod = @options[:mod]
-      if !mod or mod == "placeholder"
+      if !mod or %w[placeholder].include?(mod)
         logger.info "Building one of the modules to get backend.tf info"
         mod = find_mod
       end
@@ -28,10 +28,7 @@ module Terraspace::CLI::Build
     def find_mod
       mod_path = Dir.glob("{app,vendor}/{modules,stacks}/*").last
       unless mod_path
-        logger.info <<~EOL
-          No modules or stacks found.
-          Unable to determine the backend state path without at least one module.
-        EOL
+        logger.info "No modules or stacks found."
         exit 0
       end
       File.basename(mod_path) # mod name

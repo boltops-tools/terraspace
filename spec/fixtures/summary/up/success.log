@@ -1,0 +1,63 @@
+# Logfile created on 2020-09-09 12:43:06 +0000 by logger.rb/v1.4.2
+[2020-09-09T12:43:06 #14973 terraspace up a1]: Current directory: .terraspace-cache/us-west-2/dev/stacks/a1
+[2020-09-09T12:43:06 #14973 terraspace up a1]: => terraform plan -out /tmp/terraspace/plans/a1-20200909124306.plan
+[2020-09-09T12:43:07 #14973 terraspace up a1]: [0m[1mRefreshing Terraform state in-memory prior to plan...[0m
+[2020-09-09T12:43:07 #14973 terraspace up a1]: The refreshed state will be used to calculate this plan, but will not be
+[2020-09-09T12:43:07 #14973 terraspace up a1]: persisted to local or remote state storage.
+[2020-09-09T12:43:07 #14973 terraspace up a1]: [0m
+[2020-09-09T12:43:07 #14973 terraspace up a1]:
+[2020-09-09T12:43:07 #14973 terraspace up a1]: ------------------------------------------------------------------------
+[2020-09-09T12:43:07 #14973 terraspace up a1]:
+[2020-09-09T12:43:07 #14973 terraspace up a1]: An execution plan has been generated and is shown below.
+[2020-09-09T12:43:07 #14973 terraspace up a1]: Resource actions are indicated with the following symbols:
+[2020-09-09T12:43:07 #14973 terraspace up a1]:   [32m+[0m create
+[2020-09-09T12:43:07 #14973 terraspace up a1]: [0m
+[2020-09-09T12:43:07 #14973 terraspace up a1]: Terraform will perform the following actions:
+[2020-09-09T12:43:07 #14973 terraspace up a1]:
+[2020-09-09T12:43:07 #14973 terraspace up a1]: [1m  # random_pet.pet1[0m will be created[0m[0m
+[2020-09-09T12:43:07 #14973 terraspace up a1]: [0m  [32m+[0m[0m resource "random_pet" "pet1" {
+[2020-09-09T12:43:07 #14973 terraspace up a1]:       [32m+[0m [0m[1m[0mid[0m[0m        = (known after apply)
+[2020-09-09T12:43:07 #14973 terraspace up a1]:       [32m+[0m [0m[1m[0mlength[0m[0m    = 1
+[2020-09-09T12:43:07 #14973 terraspace up a1]:       [32m+[0m [0m[1m[0mseparator[0m[0m = "-"
+[2020-09-09T12:43:07 #14973 terraspace up a1]:     }
+[2020-09-09T12:43:07 #14973 terraspace up a1]:
+[2020-09-09T12:43:07 #14973 terraspace up a1]: [1m  # random_pet.pet2[0m will be created[0m[0m
+[2020-09-09T12:43:07 #14973 terraspace up a1]: [0m  [32m+[0m[0m resource "random_pet" "pet2" {
+[2020-09-09T12:43:07 #14973 terraspace up a1]:       [32m+[0m [0m[1m[0mid[0m[0m        = (known after apply)
+[2020-09-09T12:43:07 #14973 terraspace up a1]:       [32m+[0m [0m[1m[0mlength[0m[0m    = 1
+[2020-09-09T12:43:07 #14973 terraspace up a1]:       [32m+[0m [0m[1m[0mseparator[0m[0m = "-"
+[2020-09-09T12:43:07 #14973 terraspace up a1]:     }
+[2020-09-09T12:43:07 #14973 terraspace up a1]:
+[2020-09-09T12:43:07 #14973 terraspace up a1]: [0m[1mPlan:[0m 2 to add, 0 to change, 0 to destroy.[0m
+[2020-09-09T12:43:07 #14973 terraspace up a1]: [0m
+[2020-09-09T12:43:07 #14973 terraspace up a1]: [1mChanges to Outputs:[0m
+[2020-09-09T12:43:07 #14973 terraspace up a1]:   [32m+[0m [0m[1m[0mpet1[0m[0m = (known after apply)
+[2020-09-09T12:43:07 #14973 terraspace up a1]:   [32m+[0m [0m[1m[0mpet2[0m[0m = (known after apply)[0m
+[2020-09-09T12:43:07 #14973 terraspace up a1]:
+[2020-09-09T12:43:07 #14973 terraspace up a1]: ------------------------------------------------------------------------
+[2020-09-09T12:43:07 #14973 terraspace up a1]:
+[2020-09-09T12:43:07 #14973 terraspace up a1]: This plan was saved to: /tmp/terraspace/plans/a1-20200909124306.plan
+[2020-09-09T12:43:07 #14973 terraspace up a1]:
+[2020-09-09T12:43:07 #14973 terraspace up a1]: To perform exactly these actions, run the following command to apply:
+[2020-09-09T12:43:07 #14973 terraspace up a1]:     terraform apply "/tmp/terraspace/plans/a1-20200909124306.plan"
+[2020-09-09T12:43:07 #14973 terraspace up a1]:
+[2020-09-09T12:43:07 #14973 terraspace up a1]: => terraform apply -auto-approve  /tmp/terraspace/plans/a1-20200909124306.plan
+[2020-09-09T12:43:08 #14973 terraspace up a1]: [0m[1mrandom_pet.pet2: Creating...[0m[0m
+[2020-09-09T12:43:08 #14973 terraspace up a1]: [0m[1mrandom_pet.pet1: Creating...[0m[0m
+[2020-09-09T12:43:08 #14973 terraspace up a1]: [0m[1mrandom_pet.pet2: Creation complete after 0s [id=hound][0m[0m
+[2020-09-09T12:43:08 #14973 terraspace up a1]: [0m[1mrandom_pet.pet1: Creation complete after 0s [id=python][0m[0m
+[2020-09-09T12:43:08 #14973 terraspace up a1]: [0m[1m[32m
+[2020-09-09T12:43:08 #14973 terraspace up a1]: Apply complete! Resources: 2 added, 0 changed, 0 destroyed.[0m
+[2020-09-09T12:43:08 #14973 terraspace up a1]: [0m
+[2020-09-09T12:43:08 #14973 terraspace up a1]: The state of your infrastructure has been saved to the path
+[2020-09-09T12:43:08 #14973 terraspace up a1]: below. This state is required to modify and destroy your
+[2020-09-09T12:43:08 #14973 terraspace up a1]: infrastructure, so keep it safe. To inspect the complete state
+[2020-09-09T12:43:08 #14973 terraspace up a1]: use the `terraform show` command.
+[2020-09-09T12:43:08 #14973 terraspace up a1]:
+[2020-09-09T12:43:08 #14973 terraspace up a1]: State path: terraform.tfstate[0m
+[2020-09-09T12:43:08 #14973 terraspace up a1]: [0m[1m[32m
+[2020-09-09T12:43:08 #14973 terraspace up a1]: Outputs:
+[2020-09-09T12:43:08 #14973 terraspace up a1]:
+[2020-09-09T12:43:08 #14973 terraspace up a1]: pet1 = python
+[2020-09-09T12:43:08 #14973 terraspace up a1]: pet2 = hound[0m
+[2020-09-09T12:43:08 #14973 terraspace up a1]: Time took: 0s

@@ -11,7 +11,7 @@ module Terraspace::Terraform::Args
       # https://terraspace.cloud/docs/ci-automation/
       ENV['TF_IN_AUTOMATION'] = '1' if @options[:auto]
 
-      if %w[apply destroy init output plan].include?(@name)
+      if %w[apply destroy init output plan show].include?(@name)
         meth = "#{@name}_args"
         send(meth)
       else
@@ -26,13 +26,7 @@ module Terraspace::Terraform::Args
         args << var_files.map { |f| "-var-file #{Dir.pwd}/#{f}" }.join(' ')
       end
 
-      if @options[:auto] && @options[:input].nil?
-        args << " -input=false"
-      end
-      unless @options[:input].nil?
-        input = @options[:input] ? "true" : "false"
-        args << " -input=#{input}" # = sign required for apply when there's a plan at the end. so input=false works input false doesnt
-      end
+      args << input_option if input_option
 
       # must be at the end
       plan = @options[:plan]
@@ -44,10 +38,22 @@ module Terraspace::Terraform::Args
           src = "#{Dir.pwd}/#{plan}"
           dest = "#{@mod.cache_dir}/#{File.basename(src)}"
         end
-        FileUtils.cp(src, dest)
+        FileUtils.cp(src, dest) unless same_file?(src, dest)
         args << " #{dest}"
       end
       args
+    end
+
+    def input_option
+      option = nil
+      if @options[:auto] && @options[:input].nil?
+        option = " -input=false"
+      end
+      unless @options[:input].nil?
+        input = @options[:input] ? "true" : "false"
+        option = " -input=#{input}" # = sign required for apply when there's a plan at the end. so input=false works input false doesnt
+      end
+      option
     end
 
     def init_args
@@ -63,24 +69,33 @@ module Terraspace::Terraform::Args
       args << " -reconfigure" if @options[:reconfigure]
 
       # must be at the end
-      if @quiet && !ENV['TS_INIT_LOUD']
-        out_path = self.class.terraform_init_log
-        FileUtils.mkdir_p(File.dirname(out_path))
-        args << " > #{out_path}"
+      if @quiet
+        log_path = self.class.terraform_init_log(@mod.name)
+        FileUtils.mkdir_p(File.dirname(log_path))
+        args << " >> #{log_path}"
       end
       [args]
-    end
-
-    def plan_args
-      args = []
-      args << "-out #{expanded_out}" if @options[:out]
-      args
     end
 
     def output_args
       args = []
       args << "-json" if @options[:format] == "json"
       args << "> #{expanded_out}" if @options[:out]
+      args
+    end
+
+    def plan_args
+      args = []
+      args << input_option if input_option
+      args << "-destroy" if @options[:destroy]
+      args << "-out #{expanded_out}" if @options[:out]
+      args
+    end
+
+    def show_args
+      args = []
+      args << " -json" if @options[:json]
+      args << " #{@options[:plan]}" if @options[:plan] # terraform show /path/to/plan
       args
     end
 
@@ -98,13 +113,25 @@ module Terraspace::Terraform::Args
     end
 
     class << self
+      extend Memoist
+
       # Use different tmp log file in case uses run terraspace up in 2 terminals at the same time
-      @@terraform_init_log = nil
-      def terraform_init_log
-        return @@terraform_init_log if @@terraform_init_log
-        basename = File.basename(Tempfile.new('terraform-init').path)
-        @@terraform_init_log = "#{Terraspace.tmp_root}/out/#{basename}.out"
+      #
+      # Log for init is in /tmp because using shell >> redirection
+      # It requires full path since we're running terraform within the .terraspace-cache folder
+      # This keeps the printed command shorter:
+      #
+      #     => terraform init -get >> /tmp/terraspace/log/init/demo.log
+      #
+      def terraform_init_log(mod_name)
+        "#{Terraspace.tmp_root}/log/init/#{mod_name}.log"
       end
+      memoize :terraform_init_log
+    end
+
+  private
+    def same_file?(src, dest)
+      src == dest
     end
   end
 end

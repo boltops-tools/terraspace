@@ -2,10 +2,10 @@ require 'net/http'
 
 class Terraspace::Terraform::Api
   class Http
-    include Terraspace::Util::Logging
-
     API = ENV['TERRAFORM_API'] || 'https://app.terraform.io/api/v2'
+
     extend Memoist
+    include Terraspace::Util::Logging
 
     def get(path)
       request(Net::HTTP::Get, path)
@@ -63,44 +63,24 @@ class Terraspace::Terraform::Api
     end
 
     def load_json(res)
-      if res.code == "200"
+      if ok?(res.code)
         JSON.load(res.body)
       else
-        if ENV['TERRASPACE_DEBUG_API']
-          puts "Error: Non-successful http response status code: #{res.code}"
-          puts "headers: #{res.each_header.to_h.inspect}"
-        end
-        nil
+        logger.info "Error: Non-successful http response status code: #{res.code}"
+        logger.info "headers: #{res.each_header.to_h.inspect}"
+        raise "TFC API called failed"
       end
     end
 
+    # Note: 422 is Unprocessable Entity. This means an invalid data payload was sent.
+    # We want that to error and raise
+    def ok?(http_code)
+      http_code =~ /^20/ ||
+      http_code =~ /^40/
+    end
+
     def token
-      token ||= ENV['TERRAFORM_TOKEN']
-      return token if token
-
-      creds_path = "#{ENV['HOME']}/.terraform.d/credentials.tfrc.json"
-      if File.exist?(creds_path)
-        data = JSON.load(IO.read(creds_path))
-        token = data.dig('credentials', 'app.terraform.io', 'token')
-      end
-
-      # Note only way to get here is to bypass init. Example:
-      #
-      #     terraspace up demo --no-init
-      #
-      unless token
-        logger.error "ERROR: Unable to not find a Terraform token. A Terraform token is needed for Terraspace to call the Terraform API.".color(:red)
-        logger.error <<~EOL
-          Here are some ways to provide the Terraform token:
-
-              1. By running: terraform login
-              2. With an env variable: export TERRAFORM_TOKEN=xxx
-
-          Please configure a Terraform token and try again.
-        EOL
-        exit 1
-      end
-      token
+      Token.get
     end
   end
 end

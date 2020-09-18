@@ -10,6 +10,7 @@ module Terraspace
     include Terraspace::Util
 
     attr_reader :name, :consider_stacks, :instance, :options
+    attr_accessor :resolved # dependencies resolved
     def initialize(name, options={})
       @name, @options = placeholder(name), options
       @consider_stacks = options[:consider_stacks].nil? ? true : options[:consider_stacks]
@@ -74,6 +75,10 @@ module Terraspace
       end
     end
 
+    def exist?
+      !!root
+    end
+
     # Relative folder path without app or vendor. For example, the actual location can be found in a couple of places
     #
     #     app/modules/vpc
@@ -86,8 +91,9 @@ module Terraspace
     #     modules/vpc
     #
     def build_dir(disable_instance: false)
-      if !disable_instance && !@instance.nil?
+      if !@instance.nil? && type_dir == "stacks" && !disable_instance
         # add _ in front so instance doesnt collide with other default stacks
+        # never add for app/modules sources
         instance_name = [name, @instance].compact.join('.')
       else
         instance_name = name

@@ -1,0 +1,5 @@
+# Logfile created on 2020-09-09 13:30:18 +0000 by logger.rb/v1.4.2
+[2020-09-09T13:30:18 #20693 terraspace output a1]: Current directory: .terraspace-cache/us-west-2/dev/stacks/a1
+[2020-09-09T13:30:18 #20693 terraspace output a1]: => terraform output
+[2020-09-09T13:30:19 #20693 terraspace output a1]: pet1 = krill
+[2020-09-09T13:30:19 #20693 terraspace output a1]: pet2 = sunfish

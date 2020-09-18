@@ -1,5 +1,5 @@
 require "terraspace-bundler"
-TerraspaceBundler.logger = Terraspace.logger
+TerraspaceBundler.config.logger = Terraspace.logger
 
 class Terraspace::CLI
   class Bundle

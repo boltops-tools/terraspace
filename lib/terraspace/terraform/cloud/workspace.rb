@@ -1,8 +1,9 @@
-class Terraspace::Terraform::Cloud
+module Terraspace::Terraform::Cloud
   class Workspace < Terraspace::CLI::Base
     extend Memoist
     include Terraspace::Util::Logging
     include Terraspace::Terraform::Api::Client
+    include Terraspace::Terraform::Api::Http::Concern
 
     # List will not have @mod set.
     def list
@@ -32,10 +33,15 @@ class Terraspace::Terraform::Cloud
       Terraspace::CLI::Init.new(@options.merge(calling_command: "cloud-setup")).run
     end
 
+    def create
+      build
+      return unless api
+      api.workspace.create
+    end
+
     def destroy
       build
-      return unless backend.dig('remote','workspaces') # in case called by terraspace down demo -y --destroy-workspace with a non-remote backend
-      api = Terraspace::Terraform::Api.new(@mod, remote)
+      return unless api
       workspace = api.workspace(exit_on_fail: false)
       unless workspace
         logger.info "Workspace #{workspace_name} not found for #{@mod.type}: #{@mod.name}"
@@ -43,25 +49,8 @@ class Terraspace::Terraform::Cloud
       end
       sure?
       logger.info "Destroying workspace #{workspace_name}"
-      api.destroy_workspace
+      api.workspace.destroy
     end
-
-    def build
-      Terraspace::Builder.new(@options).run
-    end
-
-    def workspace_name
-      remote['workspaces']['name']
-    end
-
-    def remote
-      backend["remote"]
-    end
-
-    def backend
-      Terraspace::Compiler::Backend::Parser.new(@mod).result
-    end
-    memoize :backend
 
     def sure?
       message = <<~EOL.chop + " " # chop to remove newline

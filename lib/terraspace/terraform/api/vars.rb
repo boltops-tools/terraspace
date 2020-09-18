@@ -1,8 +1,9 @@
 class Terraspace::Terraform::Api
   class Vars
     extend Memoist
-    include Client
+    include Http::Concern
 
+    # workspace: details from the api response
     def initialize(mod, workspace)
       @mod, @workspace = mod, workspace
     end

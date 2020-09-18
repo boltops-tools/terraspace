@@ -1,9 +1,10 @@
 class Terraspace::Terraform::Api
   class Var
     extend Memoist
-    include Client
+    include Http::Concern
     include Terraspace::Util::Logging
 
+    # workspace: details from the api response
     def initialize(workspace, attrs={})
       @workspace, @attrs = workspace, attrs
       @workspace_id = @workspace['id']
@@ -15,19 +16,22 @@ class Terraspace::Terraform::Api
 
     def update
       return unless overwrite?
-      logger.debug "Updating Terraform Cloud #{category} variable: #{@attrs['key']}"
+      updating_message
       variable_id = variable_id(@attrs['key'])
       payload = payload(variable_id)
       http.patch("workspaces/#{@workspace_id}/vars/#{variable_id}", payload)
     end
 
     def overwrite?
-      cloud = Terraspace.config.cloud
       if @attrs['sensitive']
-        cloud.overwrite_sensitive
+        vars.overwrite_sensitive
       else
-        cloud.overwrite
+        vars.overwrite
       end
+    end
+
+    def vars
+      Terraspace.config.cloud.vars
     end
 
     def variable_id(key)
@@ -35,7 +39,7 @@ class Terraspace::Terraform::Api
     end
 
     def create
-      logger.info "Creating Terraform Cloud #{category} variable: #{@attrs['key']}"
+      creating_message
       http.post("workspaces/#{@workspace_id}/vars", payload)
     end
 
@@ -46,6 +50,16 @@ class Terraspace::Terraform::Api
       }
       data[:id] = id if id
       { data: data }
+    end
+
+    def updating_message
+      return unless %w[all update].include?(vars.show_message)
+      logger.info "Updating Terraform Cloud #{category} variable: #{@attrs['key']}"
+    end
+
+    def creating_message
+      return unless %w[all create].include?(vars.show_message)
+      logger.info "Creating Terraform Cloud #{category} variable: #{@attrs['key']}"
     end
 
     def exist?

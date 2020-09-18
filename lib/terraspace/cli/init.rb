@@ -10,13 +10,14 @@ class Terraspace::CLI
     end
 
     def run
-      init if init?
-      build_remote_dependencies # runs after terraform init, which downloads remote modules
+      init
+      # build_remote_dependencies # runs after terraform init, which downloads remote modules
       sync_cloud
     end
 
     # Note the init will always create the Terraform Cloud Workspace
     def init
+      return unless run_init? # check here because RemoteState::Fetcher#pull calls init directly
       # default init timeout is pretty generous in case of slow internet to download the provider plugins
       init_timeout = Integer(ENV['TS_INIT_TIMEOUT'] || 600)
       Timeout::timeout(init_timeout) do
@@ -28,7 +29,7 @@ class Terraspace::CLI
     end
 
     def sync_cloud
-      Terraspace::Terraform::Cloud.new(@options).run if %w[apply plan destroy cloud-setup].include?(@calling_command)
+      Terraspace::Terraform::Cloud::Sync.new(@options).run if %w[apply plan destroy cloud-setup].include?(@calling_command)
     end
 
     # Currently only handles remote modules only one-level deep.
@@ -47,8 +48,8 @@ class Terraspace::CLI
       return if local_source?(meta["Source"])
       return if meta['Dir'] == '.' # root is already built
 
-      remote_mod = Mod::Remote.new(meta, @mod)
-      Compiler::Builder.new(remote_mod).build
+      remote_mod = Terraspace::Mod::Remote.new(meta, @mod)
+      Terraspace::Compiler::Builder.new(remote_mod).build
     end
 
     def auto?
@@ -60,8 +61,35 @@ class Terraspace::CLI
        s =~ %r{^\.} || s =~ %r{^/}
     end
 
-    def init?
-      %w[apply console destroy output plan providers refresh show validate cloud-setup].include?(@calling_command)
+    def run_init?
+      commands = %w[apply console destroy output plan providers refresh show validate cloud-setup]
+      return false unless commands.include?(@calling_command)
+      mode = ENV['TS_INIT_MODE'] || Terraspace.config.init.mode
+      case mode.to_sym
+      when :auto
+        !already_initialized?
+      when :always
+        true
+      when :never
+        false
+      end
+    end
+
+    # Would like to improve this detection
+    #
+    # Traverse symlink dirs also: linux_amd64 is a symlink
+    #   plugins/registry.terraform.io/hashicorp/google/3.39.0/linux_amd64/terraform-provider-google_v3.39.0_x5
+    #
+    # Check modules/modules.json also because during the tfvars dependency pass main.tf modules are not built.
+    # So init happens again during the second pass.
+    #
+    def already_initialized?
+      terraform = "#{@mod.cache_dir}/.terraform"
+      provider = Dir.glob("#{terraform}/**{,/*/**}/*").find do |path|
+        path.include?("terraform-provider-")
+      end
+      modules = File.exist?("#{terraform}/modules/modules.json")
+      !!(provider && modules)
     end
   end
 end

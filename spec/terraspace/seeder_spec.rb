@@ -17,4 +17,3 @@ describe Terraspace::Seeder do
     end
   end
 end
-

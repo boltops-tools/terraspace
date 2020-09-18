@@ -23,6 +23,7 @@ terraform.tfvars
 /Gemfile.lock
 /InstalledFiles
 /lib/bundler/man
+/log
 /output
 /pkg
 /rdoc

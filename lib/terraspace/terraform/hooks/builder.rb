@@ -34,7 +34,7 @@ module Terraspace::Terraform::Hooks
       exit_on_fail = exit_on_fail.nil? ? true : exit_on_fail
 
       logger.info "Running #{type} hook"
-      sh(execute, exit_on_fail: exit_on_fail)
+      Terraspace::Shell.new(@mod, execute, exit_on_fail: exit_on_fail).run
     end
   end
 end

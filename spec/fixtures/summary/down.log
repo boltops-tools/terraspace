@@ -1,0 +1,12 @@
+# Logfile created on 2020-09-09 12:43:23 +0000 by logger.rb/v1.4.2
+[2020-09-09T12:43:23 #18949 terraspace down a1]: Current directory: .terraspace-cache/us-west-2/dev/stacks/a1
+[2020-09-09T12:43:23 #18949 terraspace down a1]: => terraform destroy -auto-approve
+[2020-09-09T12:43:24 #18949 terraspace down a1]: [0m[1mrandom_pet.pet1: Refreshing state... [id=python][0m
+[2020-09-09T12:43:24 #18949 terraspace down a1]: [0m[1mrandom_pet.pet2: Refreshing state... [id=hound][0m
+[2020-09-09T12:43:24 #18949 terraspace down a1]: [0m[1mrandom_pet.pet2: Destroying... [id=hound][0m[0m
+[2020-09-09T12:43:24 #18949 terraspace down a1]: [0m[1mrandom_pet.pet1: Destroying... [id=python][0m[0m
+[2020-09-09T12:43:24 #18949 terraspace down a1]: [0m[1mrandom_pet.pet2: Destruction complete after 0s[0m[0m
+[2020-09-09T12:43:24 #18949 terraspace down a1]: [0m[1mrandom_pet.pet1: Destruction complete after 0s[0m[0m
+[2020-09-09T12:43:24 #18949 terraspace down a1]: [0m[1m[32m
+[2020-09-09T12:43:24 #18949 terraspace down a1]: Destroy complete! Resources: 2 destroyed.[0m
+[2020-09-09T12:43:24 #18949 terraspace down a1]: Time took: 1s

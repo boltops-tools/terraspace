@@ -9,14 +9,9 @@ class Terraspace::Compiler::Cleaner
     def purge
       return unless purge?
 
+      are_you_sure? if local_statefile_exist?
       cache_root = Terraspace::Util.pretty_path(Terraspace.cache_root)
-      message =<<~EOL
-        Backend change detected. Will remove #{cache_root} for complete reinitialization
-        WARN: If you are using local storage for state, this will remove it.
-        Will remove #{cache_root}
-      EOL
-      sure?(message.strip)
-      logger.info "Backend change detected. Removing #{cache_root} for complete reinitialization"
+      logger.debug "Backend change detected. Removing #{cache_root} for complete reinitialization"
       FileUtils.rm_rf(Terraspace.cache_root)
     end
 
@@ -24,6 +19,15 @@ class Terraspace::Compiler::Cleaner
     def purge?
       return false unless current_backend
       current_backend != fresh_backend
+    end
+
+    def local_statefile_exist?
+      # Note: Will not go into .terraform folders. No need to for terraform.tfstate
+      Dir.glob("#{Terraspace.cache_root}/**/*").each do |path|
+        basename = File.basename(path)
+        return true if basename == 'terraform.tfstate'
+      end
+      false
     end
 
     def current_backend
@@ -37,6 +41,16 @@ class Terraspace::Compiler::Cleaner
     end
 
   private
+    def are_you_sure?
+      cache_root = Terraspace::Util.pretty_path(Terraspace.cache_root)
+      message =<<~EOL
+        Backend change detected. Will remove #{cache_root} for complete reinitialization
+        #{"WARN: You are using local storage for state, this will remove it.".color(:yellow)}
+        Will remove #{cache_root} and all terraform.tfstate files
+      EOL
+      sure?(message.strip) # from Util
+    end
+
     def find_src_path(expr)
       path = Dir.glob(expr).first
       path if path && File.exist?(path)
