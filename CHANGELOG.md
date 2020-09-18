@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [0.3.1]
+* #39 fix backend auto creation
+
 ## [0.3.0]
 * All commands: Dependency graph calculated and deployed in proper order
 * All commands: `terraspace all up`, `terraspace all build`, `terraspace all down`, etc. `terraspace all -h`
@@ -23,7 +26,8 @@ This project *loosely tries* to adhere to [Semantic Versioning](http://semver.or
 * Terraspace seed: fix instance option
 
 ## [0.2.4]
-- fix version check for some versions of terraform
+* fix version check for some versions of terraform
+
 ## [0.2.3]
 * #37 config.clean_cache option
 
