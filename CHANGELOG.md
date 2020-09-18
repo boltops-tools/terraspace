@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
-## [0.3.0 UNRELEASED]
+## [0.3.0]
 * All commands: Dependency graph calculated and deployed in proper order
 * All commands: `terraspace all up`, `terraspace all build`, `terraspace all down`, etc. `terraspace all -h`
 * Terraspace log: view and tail log files
