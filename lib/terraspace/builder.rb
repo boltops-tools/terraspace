@@ -14,6 +14,7 @@ module Terraspace
       logger.info "Building #{build_dir}" unless @options[:quiet] # from terraspace all
 
       build_unresolved
+      auto_create_backend
       batches = build_batches
       build_all
       logger.info "Built in #{build_dir}" unless @options[:quiet] # from terraspace all
@@ -52,6 +53,17 @@ module Terraspace
         next if is_root_module # handled by build_root_module
         Compiler::Builder.new(mod).build
       end
+    end
+
+    # Auto create after build_unresolved since will need to run state pull for dependencies
+    def auto_create_backend
+      return unless create_backend?
+      Terraspace::Compiler::Backend.new(@mod).create
+    end
+
+    def create_backend?
+      ARGV[0] == "up" || # terraspace up
+      ARGV[0] == "all" && ARGV[1] == "up" # terraspace up
     end
 
     def clean
