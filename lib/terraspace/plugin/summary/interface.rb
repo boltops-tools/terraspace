@@ -18,7 +18,7 @@ module Terraspace::Plugin::Summary
       # Note: will not change any of these instance variables unless we note breaking changes
       @bucket = @info[bucket_field]
       @key = @info[key_field] # key_field is INTERFACE METHOD IE: aws: key , google: prefix
-      @folder = folder(@key)
+      @folder = folder(@key)  # useful as prefix for performance when listing objects in buckets
       @dest = dest(@bucket)
       # May change any of these instance variables that follow
       @dest_folder = "#{@dest}/#{@folder}"

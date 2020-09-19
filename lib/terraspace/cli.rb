@@ -44,7 +44,7 @@ module Terraspace
     long_desc Help.text(:new)
     subcommand "new", New
 
-    desc "build [STACK]", "build"
+    desc "build [STACK]", "Build project."
     long_desc Help.text(:build)
     option :quiet, type: :boolean, desc: "quiet output"
     instance_option.call
@@ -53,32 +53,32 @@ module Terraspace
       Terraspace::Builder.new(options.merge(mod: mod)).run # building any stack builds them all
     end
 
-    desc "bundle", "bundle"
+    desc "bundle", "Bundle with Terrafile."
     long_desc Help.text(:bundle)
     def bundle(*args)
       Bundle.new(options.merge(args: args)).run
     end
 
-    desc "check_setup", "check_setup"
+    desc "check_setup", "Check setup."
     long_desc Help.text(:check_setup)
     def check_setup
       CheckSetup.new(options).run
     end
 
-    desc "clean", "clean .terraspace-cache dir"
+    desc "clean", "Removes .terraspace-cache dir."
     long_desc Help.text(:clean)
     def clean
       Clean.new(options).run
     end
 
-    desc "console STACK", "console .terraspace-cache dir"
+    desc "console STACK", "Run console in built terraform project."
     long_desc Help.text(:console)
     instance_option.call
     def console(mod)
-      Commander.new("console", options.merge(mod: mod)).run
+      Commander.new("console", options.merge(mod: mod, shell: "system")).run
     end
 
-    desc "down STACK", "down"
+    desc "down STACK", "Destroy infrastructure stack."
     long_desc Help.text(:down)
     instance_option.call
     yes_option.call
@@ -88,29 +88,29 @@ module Terraspace
       Down.new(options.merge(mod: mod)).run
     end
 
-    desc "info STACK", "info"
+    desc "info STACK", "Get info about stack."
     long_desc Help.text(:info)
-    format_option.call
     instance_option.call
+    option :format, desc: "Output formats: #{CliFormat.formats.join(', ')}"
     def info(mod)
       Info.new(options.merge(mod: mod)).run
     end
 
-    desc "init STACK", "init"
+    desc "init STACK", "Run init in built terraform project."
     long_desc Help.text(:init)
     instance_option.call
     def init(mod)
       Commander.new("init", options.merge(mod: mod, quiet: false)).run
     end
 
-    desc "list", "list stacks and modules"
+    desc "list", "List stacks and modules."
     long_desc Help.text(:list)
     option :type, aliases: %w[t], desc: "Type: stack or module. Default all"
     def list
       List.new(options).run
     end
 
-    desc "log [ACTION] [STACK]", "The log command allows you to view multiple logs."
+    desc "log [ACTION] [STACK]", "View and tail logs."
     long_desc Help.text("log")
     option :timestamps, aliases: %w[t], type: :boolean, desc: "Whether or not to show the leading timestamp. Defaults to timestamps for multiple logs, and no timestamp if a single log is specified. Note: In follow mode, timestamp always shown"
     option :follow, aliases: %w[f], type: :boolean, desc: "Follow the log in live tail fashion. Must specify a stack if using this option."
@@ -120,7 +120,7 @@ module Terraspace
       Log.new(@options.merge(action: action, stack: stack)).run
     end
 
-    desc "plan STACK", "plan stack"
+    desc "plan STACK", "Plan stack."
     long_desc Help.text(:plan)
     auto_option.call
     input_option.call
@@ -131,21 +131,21 @@ module Terraspace
       Commander.new("plan", options.merge(mod: mod)).run
     end
 
-    desc "providers STACK", "providers"
+    desc "providers STACK", "Show providers."
     long_desc Help.text(:providers)
     instance_option.call
     def providers(mod)
       Commander.new("providers", options.merge(mod: mod)).run
     end
 
-    desc "refresh STACK", "refresh"
+    desc "refresh STACK", "Run refresh."
     long_desc Help.text(:refresh)
     instance_option.call
     def refresh(mod)
       Commander.new("refresh", options.merge(mod: mod)).run
     end
 
-    desc "seed STACK", "seed"
+    desc "seed STACK", "Build starer seed tfvars file."
     long_desc Help.text(:seed)
     option :yes, aliases: :y, type: :boolean, desc: "bypass prompts and force overwrite files"
     option :where, desc: "where to create file. either under app or seed folder structure. values: app or stack"
@@ -155,8 +155,8 @@ module Terraspace
       Seed.new(options.merge(mod: mod)).run
     end
 
-    desc "summary", "Summary of resources"
-    long_desc Help.text(:clean)
+    desc "summary", "Summarize resources."
+    long_desc Help.text(:summary)
     option :mod, desc: "Module to build to generate a backend file for discovery. By default the last module is used. Usually, it wont matter."
     init_option.call
     option :short, aliases: %w[s], type: :boolean, desc: "Only show statefiles"
@@ -164,7 +164,7 @@ module Terraspace
       Summary.new(options).run
     end
 
-    desc "show STACK", "show"
+    desc "show STACK", "Run show."
     long_desc Help.text(:show)
     instance_option.call
     option :plan, desc: "path to created.plan"
@@ -173,13 +173,13 @@ module Terraspace
       Commander.new("show", options.merge(mod: mod)).run
     end
 
-    desc "test", "test"
+    desc "test", "Run test."
     long_desc Help.text(:test)
     def test
       Test.new(options).run
     end
 
-    desc "output STACK", "output"
+    desc "output STACK", "Run output."
     long_desc Help.text(:output)
     format_option.call
     instance_option.call
@@ -188,8 +188,8 @@ module Terraspace
       Commander.new("output", options.merge(mod: mod)).run
     end
 
-    desc "up STACK", "Deploy infrastructure. IE: terraform apply"
-    long_desc Help.text(:update)
+    desc "up STACK", "Deploy infrastructure stack."
+    long_desc Help.text(:up)
     auto_option.call
     init_option.call
     input_option.call
@@ -202,7 +202,7 @@ module Terraspace
       Up.new(options.merge(mod: mod)).run
     end
 
-    desc "validate STACK", "validate"
+    desc "validate STACK", "Validate stack."
     long_desc Help.text(:validate)
     instance_option.call
     def validate(mod)
@@ -221,7 +221,7 @@ module Terraspace
       Completer::Script.generate
     end
 
-    desc "version", "prints version"
+    desc "version", "Prints version."
     def version
       puts VERSION
     end

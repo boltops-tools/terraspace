@@ -54,7 +54,7 @@ class Terraspace::CLI::New
     end
 
     def create_test
-      return if @options[:test_structure] == false
+      return unless @options[:test_structure]
       Test::Bootstrap.start(["--dir", name])
     end
 

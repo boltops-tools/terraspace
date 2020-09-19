@@ -51,7 +51,15 @@ module Terraspace::All
     end
 
     def output
-      @lines # pass through all output info
+      if @lines.grep(/No outputs found/).empty?
+        @lines.select! do |line|
+          line.include?(" = ") # looks like output
+        end
+      else
+        @lines.select! do |line|
+          line.include?("No outputs found")
+        end
+      end
     end
 
     def show
@@ -63,6 +71,18 @@ module Terraspace::All
         line.include?("Error: ")  # error
       end
       @lines.unshift(summary) # add to top
+    end
+
+    # [2020-09-19T19:36:33 #14387 terraspace providers c1]: => terraform providers
+    # [2020-09-19T19:36:33 #14387 terraspace providers c1]:
+    # [2020-09-19T19:36:33 #14387 terraspace providers c1]: Providers required by configuration:
+    # [2020-09-19T19:36:33 #14387 terraspace providers c1]: .
+    # [2020-09-19T19:36:33 #14387 terraspace providers c1]: └── provider[registry.terraform.io/hashicorp/random]
+    # [2020-09-19T19:36:33 #14387 terraspace providers c1]:
+    def providers
+      @lines.select! do |line|
+        line.include?("provider[")
+      end
     end
 
     # [2020-09-07T14:53:36 #31106 terraspace show b1]: Outputs:

@@ -14,4 +14,6 @@ export GOOGLE_PROJECT=$(cat $GOOGLE_APPLICATION_CREDENTIALS | jq -r '.project_id
 set -x
 terraspace new project infra --examples --plugin google
 cd infra
+terraspace new bootstrap_test
+terraspace new project_test demo --examples --plugin google
 terraspace test

@@ -6,6 +6,8 @@ Follow all the logs as you're running `terraspace all up`:
 
     terraspace log -f
 
+Note, Terraspace automatically checks every second for new logs and adds them to be followed.
+
 ## View Logs
 
 View last 10 lines of each log file.

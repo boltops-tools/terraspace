@@ -10,15 +10,25 @@ module Terraspace
     end
 
     # requires @mod to be set
+    # quiet useful for RemoteState::Fetcher
     def run
-      env = @options[:env] || {}
-      env.stringify_keys!
-
-      # quiet useful for RemoteState::Fetcher
       msg = "=> #{@command}"
       @options[:quiet] ? logger.debug(msg) : logger.info(msg)
       return if ENV['TS_TEST']
+      shell
+    end
 
+    def shell
+      env = @options[:env] || {}
+      env.stringify_keys!
+      if @options[:shell] == "system" # terraspace console
+        system(env, @command, chdir: @mod.cache_dir)
+      else
+        popen3(env)
+      end
+    end
+
+    def popen3(env)
       Open3.popen3(env, @command, chdir: @mod.cache_dir) do |stdin, stdout, stderr, wait_thread|
         mimic_terraform_input(stdin, stdout)
         while err = stderr.gets
