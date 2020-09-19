@@ -26,6 +26,7 @@ module Terraspace
   extend Core # for Terraspace.root
   class Error < StandardError; end
   class InitRequiredError < Error; end
+  class BucketNotFoundError < Error; end
 end
 
 Terraspace::Booter.boot

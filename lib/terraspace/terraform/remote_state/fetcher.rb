@@ -1,6 +1,7 @@
 module Terraspace::Terraform::RemoteState
   class Fetcher
     extend Memoist
+    include Terraspace::Compiler::CommandsConcern
     include Terraspace::Util::Logging
 
     def initialize(parent, identifier, options={})
@@ -10,7 +11,7 @@ module Terraspace::Terraform::RemoteState
     end
 
     def run
-      validate!
+      validate! # check child stack exists
       pull
       load
     end
@@ -22,7 +23,8 @@ module Terraspace::Terraform::RemoteState
         error = output_error(:key_not_found) unless @outputs.key?(@output_key)
         OutputProxy.new(value, @options.merge(error: error))
       else
-        error = output_error(:state_not_found)
+        @error_type ||= :state_not_found # could be set to :bucket_not_found by bucket_not_found_error
+        error = output_error(@error_type)
         OutputProxy.new(nil, @options.merge(error: error))
       end
     end
@@ -39,6 +41,8 @@ module Terraspace::Terraform::RemoteState
         "Output #{@output_key} was not found for the #{@parent.name} tfvars file. Either #{@child.name} stack has not been deployed yet or it does not have this output: #{@output_key}"
       when :state_not_found
         "Output #{@output_key} could not be looked up for the #{@parent.name} tfvars file. #{@child.name} stack needs to be deployed"
+      when :bucket_not_found
+        "The bucket for the backend could not be found"
       end
       msg = "(#{msg})"
       log_message(msg)
@@ -52,7 +56,10 @@ module Terraspace::Terraform::RemoteState
       logger.info "Downloading tfstate files for dependencies defined in tfvars..." unless @@download_shown || @options[:quiet]
       @@download_shown = true
       logger.debug "Downloading tfstate for stack: #{@child.name}"
-      Terraspace::CLI::Init.new(mod: @child.name, calling_command: "apply", quiet: true).init # init not run, so only init
+
+      success = init # init not yet run. only run .init directly, not .run. init can completely error and early exit.
+      return unless success
+
       FileUtils.mkdir_p(File.dirname(state_path))
       command = "cd #{@child.cache_dir} && terraform state pull > #{state_path}"
       logger.debug "=> #{command}"
@@ -65,6 +72,20 @@ module Terraspace::Terraform::RemoteState
         logger.info "Please fix the error before continuing"
       end
       @@pull_successes[cache_key] = success
+    end
+
+    def init
+      Terraspace::CLI::Init.new(mod: @child.name, calling_command: "apply", quiet: true, suppress_error_color: true).init
+      true
+    rescue Terraspace::BucketNotFoundError # from Terraspace::Shell
+      bucket_not_found_error
+      false
+    end
+
+    # mimic pull error
+    def bucket_not_found_error
+      @@pull_successes[cache_key] = false
+      @error_type = :bucket_not_found
     end
 
     def load
