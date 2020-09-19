@@ -110,7 +110,7 @@ module Terraspace
       List.new(options).run
     end
 
-    desc "log [ACTION] [STACK]", "The all log command allows you to view multiple logs."
+    desc "log [ACTION] [STACK]", "The log command allows you to view multiple logs."
     long_desc Help.text("log")
     option :timestamps, aliases: %w[t], type: :boolean, desc: "Whether or not to show the leading timestamp. Defaults to timestamps for multiple logs, and no timestamp if a single log is specified. Note: In follow mode, timestamp always shown"
     option :follow, aliases: %w[f], type: :boolean, desc: "Follow the log in live tail fashion. Must specify a stack if using this option."

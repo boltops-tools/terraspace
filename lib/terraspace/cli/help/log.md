@@ -23,7 +23,7 @@ To show all logs, use the `-a` option.
 
     terraspace log up -a
 
-Note, if both an action and stack is specified, then it defaults to showing all logs. If you want to not show all logs in thta case, then you can use `--no-all`.
+Note, if both an action and stack is specified, then it defaults to showing all logs. If you want not to show all logs, use `--no-all`.
 
 ## Tail Logs
 
@@ -36,7 +36,11 @@ To tail logs, use the `-f` option.
 
 ## Timestamps
 
-The timestamps are shown by default when you are looking for multiple files.  When you specify a both the action and stack for a single log file, then timestamps are not shown.
+The timestamps are shown by default when you are looking for multiple files.  When you specify both the action and stack for a single log file, then timestamps are not shown.
 
     terraspace log up         # timestamps will be shown in this case
     terraspace log up network # timestamps not be shown in this case
+
+To show timestamps:
+
+    terraspace up up network --timestamps

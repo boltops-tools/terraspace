@@ -1,4 +1,4 @@
-This leaves the to most recent run alone. The top run will immediately start planning. Runs that are also in "Needs Confirmation" will be cancelled.
+This leaves the top run alone. The top run usually starts immediately planning once the other runs are pruned. Runs that are also in "Needs Confirmation" will be cancelled.
 
 ## Examples
 

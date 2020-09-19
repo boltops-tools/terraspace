@@ -1,5 +1,6 @@
 module Terraspace::Compiler
   class Builder
+    include CommandsConcern
     include Basename
 
     def initialize(mod)
@@ -9,7 +10,7 @@ module Terraspace::Compiler
     def build
       build_config
       build_module if @mod.resolved
-      build_tfvars
+      build_tfvars unless command_is?(:seed) #  avoid dependencies being built and erroring when backend bucket doesnt exist
     end
 
     # build common config files: provider and backend for the root module

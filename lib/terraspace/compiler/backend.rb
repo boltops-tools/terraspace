@@ -6,12 +6,22 @@ module Terraspace::Compiler
       @mod = mod
     end
 
+    @@created = {}
     def create
+      return if @@created[cache_key]
+      # set immediately, since local storage wont reach bottom.
+      # if fail for other backends, there will be an exception anyway
+      @@created[cache_key] = true
+
       klass = backend_interface(backend_name)
       return unless klass # in case auto-creation is not supported for specific backend
 
       interface = klass.new(backend_info)
       interface.call
+    end
+
+    def cache_key
+      @mod.build_dir
     end
 
     def backend_name

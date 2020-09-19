@@ -1,6 +1,7 @@
 module Terraspace
   class Builder < Terraspace::CLI::Base
     include Compiler::DirsConcern
+    include Compiler::CommandsConcern
 
     attr_reader :graph
 
@@ -58,14 +59,8 @@ module Terraspace
     # Auto create after build_unresolved since will need to run state pull for dependencies
     def auto_create_backend
       return if Terraspace.config.auto_create_backend == false
-      return unless create_backend?
+      return unless requires_backend?
       Terraspace::Compiler::Backend.new(@mod).create
-    end
-
-    def create_backend?
-      commands = %w[down init output plan providers refresh show up validate]
-      commands.include?(ARGV[0]) ||                  # IE: terraspace up
-      ARGV[0] == "all" && commands.include?(ARGV[1]) # IE: terraspace all up
     end
 
     def clean
