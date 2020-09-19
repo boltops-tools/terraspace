@@ -57,13 +57,15 @@ module Terraspace
 
     # Auto create after build_unresolved since will need to run state pull for dependencies
     def auto_create_backend
+      return if Terraspace.config.auto_create_backend == false
       return unless create_backend?
       Terraspace::Compiler::Backend.new(@mod).create
     end
 
     def create_backend?
-      ARGV[0] == "up" || # terraspace up
-      ARGV[0] == "all" && ARGV[1] == "up" # terraspace up
+      commands = %w[down init output plan providers refresh show up validate]
+      commands.include?(ARGV[0]) ||                  # IE: terraspace up
+      ARGV[0] == "all" && commands.include?(ARGV[1]) # IE: terraspace all up
     end
 
     def clean
