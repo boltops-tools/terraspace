@@ -62,8 +62,9 @@ module Terraspace
     end
 
     def create_backend?
-      ARGV[0] == "up" || # terraspace up
-      ARGV[0] == "all" && ARGV[1] == "up" # terraspace up
+      commands = %w[down init output plan providers refresh show up validate]
+      commands.include?(ARGV[0]) ||                  # IE: terraspace up
+      ARGV[0] == "all" && commands.include?(ARGV[1]) # IE: terraspace all up
     end
 
     def clean
