@@ -1,5 +1,3 @@
-require 'cli-format'
-
 class Terraspace::Terraform::Cloud::Runs
   class Lister < Base
     def run

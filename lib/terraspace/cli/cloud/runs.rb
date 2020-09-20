@@ -1,5 +1,3 @@
-require 'cli-format'
-
 class Terraspace::CLI::Cloud
   class Runs < Terraspace::Command
     Help = Terraspace::CLI::Help

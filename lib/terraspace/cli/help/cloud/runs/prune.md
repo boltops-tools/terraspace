@@ -7,7 +7,7 @@ This leaves the top run alone. The top run usually starts immediately planning o
 
 ## Example with Output
 
-    $ terraspace cloud runs prune pet
+    $ terraspace cloud runs prune demo
     Will keep:
 
         run-9muMrjrd22vhsP4u pending test 2020-09-18T12:47:11

@@ -20,8 +20,9 @@ module Terraspace::Dependency
       @batches
     end
 
+    # Only check when stacks option is pass. Edge case: There can be app/modules but no app/stacks yet
     def check_empty_nodes!
-      return unless @nodes.empty?
+      return unless @nodes.empty? && @options[:stacks]
       logger.error "ERROR: No stacks were found that match: #{@options[:stacks].join(' ')}".color(:red)
       exit 1
     end

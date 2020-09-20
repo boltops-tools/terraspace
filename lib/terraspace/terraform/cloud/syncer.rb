@@ -12,8 +12,8 @@ module Terraspace::Terraform::Cloud
     end
 
     def mods
-      mod = @options[:mod]
-      mod ? [mod] : stack_names
+      stacks = @options[:stacks]
+      stacks.empty? ? stack_names : stacks
     end
 
     def run_sync(mod)

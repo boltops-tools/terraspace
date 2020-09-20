@@ -20,15 +20,6 @@ module Terraspace::Terraform::Cloud
       logger.info names.join("\n")
     end
 
-    def setup
-      build
-      unless backend.dig('remote','workspaces') # in case called by terraspace down demo -y --destroy-workspace with a non-remote backend
-        logger.info "ERROR: Workspace not configured in backend.tf"
-        exit 1
-      end
-      init
-    end
-
     def init
       Terraspace::CLI::Init.new(@options.merge(calling_command: "cloud-setup")).run
     end

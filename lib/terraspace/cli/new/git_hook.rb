@@ -15,7 +15,10 @@ class Terraspace::CLI::New
     end
 
     def create
-      return unless File.exist?(".git")
+      unless File.exist?(".git")
+        puts "No .git folder found. Not creating git hook."
+        return
+      end
       dest = ".git/hooks/#{options[:type]}"
       template "hook.sh", dest
       chmod dest, 0755

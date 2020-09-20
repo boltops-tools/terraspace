@@ -20,17 +20,11 @@ class Terraspace::CLI
       Workspace.new(options.merge(mod: mod)).destroy
     end
 
-    desc "setup STACK", "Setup workspace"
-    long_desc Help.text("cloud:setup")
-    def setup(mod)
-      Workspace.new(options.merge(mod: mod)).setup
-    end
-
-    desc "sync [STACK]", "sync workspace"
+    desc "sync [STACK]", "Sync all or multiple workspaces."
     long_desc Help.text("cloud:sync")
     yes_option.call
-    def sync(mod=nil)
-      Syncer.new(options.merge(mod: mod, override_auto_sync: true)).run
+    def sync(*stacks)
+      Syncer.new(options.merge(stacks: stacks, override_auto_sync: true)).run
     end
 
     desc "runs SUBCOMMAND", "runs subcommands"

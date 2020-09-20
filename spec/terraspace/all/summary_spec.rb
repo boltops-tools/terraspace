@@ -68,7 +68,7 @@ describe Terraspace::All::Summary do
     let(:log_path) { "spec/fixtures/summary/output.log" }
     it "run" do
       summary.run
-      expect(@io.string).to include "=> terraform output"
+      expect(@io.string).to include "pet1 = krill"
     end
   end
 

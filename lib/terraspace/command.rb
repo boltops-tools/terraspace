@@ -86,7 +86,7 @@ module Terraspace
 
       # meant to be overriden
       def website
-        ""
+        "https://terraspace.cloud"
       end
 
       # https://github.com/erikhuda/thor/issues/244

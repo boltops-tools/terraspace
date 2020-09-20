@@ -12,7 +12,7 @@ class Terraspace::CLI
 
     def run
       Terraspace.check_project!
-      build
+      build_placeholder
       puts "Summary of resources based on backend storage statefiles"
       backend_expr = '.terraspace-cache/**/backend.*'
       # Currently summary assumes backend are within the same bucket and key prefix
@@ -22,7 +22,7 @@ class Terraspace::CLI
 
     # Grab the last module and build that.
     # Assume the backend key has the same prefix
-    def build
+    def build_placeholder
       Build::Placeholder.new(@options).build
     end
 
