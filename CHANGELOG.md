@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [0.3.4]
+* #42 update cli docs and bug fixes
+* fix console by using system instead of popen3
+* fix build for edge case when app/modules exist but app/stacks do not
+* terraspace new project: do not generate spec folder by default
+* improve all output summary
+* remove redundant `terraspace cloud setup`, instead use: `terraspace cloud sync`
+* improve terraspace info output
+* fix integration test pipeline
+
 ## [0.3.3]
 * #41 fix `terraspace build` and `terraspace seed` when bucket doesnt exist yet and there are dependenices defined.
 
