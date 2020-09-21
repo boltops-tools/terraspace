@@ -81,7 +81,7 @@ To choose multiple stacks to deploy
 
     terraspace all up instance vpc
 
-When you use the all command, the dependency graph is calculated and the stacks are deployed in the right order. To learn more: [Deploy Multiple Stacks](https://terraspace.cloud/docs/dependencies/deploy-all/).
+When you use the all command, the dependency graph is calculated and the stacks are deployed in the right order. To learn more: [Deploy Multiple Stacks](https://terraspace.cloud/docs/intro/deploy-all/).
 
 ## Features
 
