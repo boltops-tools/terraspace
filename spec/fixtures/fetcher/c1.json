@@ -8,6 +8,10 @@
       "value": 1,
       "type": "number"
     },
+    "complex": {
+      "value": ["a","b"],
+      "type": "list"
+    },
     "random_pet_id": {
       "value": "valued-buzzard",
       "type": "string"

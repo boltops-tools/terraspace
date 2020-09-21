@@ -22,7 +22,7 @@ module Terraspace::All
       @batches.map do |batch|
         i += 1
         batch.map do |stack|
-          command = "   terraspace #{@command}"
+          command = "    terraspace #{@command}"
           ljust = command.size + max_name_size + 1
           command = "#{command} #{stack.name}"
           command.ljust(ljust, ' ') + " # batch #{i}"
