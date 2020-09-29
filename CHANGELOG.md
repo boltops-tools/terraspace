@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [0.3.5 UNRELEASED]
+* rename `terraform_output` helper to `output`. Keep `terraform_output` for backwards compatibility
+* output formatters removed in favor for `.to_ruby` method.
+
 ## [0.3.4]
 * #42 update cli docs and bug fixes
 * fix console by using system instead of popen3

@@ -8,6 +8,7 @@ module Terraspace::Terraform::RemoteState::Marker
       @child_name, @output_key = @identifier.split('.')
     end
 
+    # Returns OutputProxy
     def build
       if valid?
         Terraspace::Dependency::Registry.register(@parent_name, @child_name)
@@ -16,7 +17,7 @@ module Terraspace::Terraform::RemoteState::Marker
       end
       # MARKER for debugging. Only appears on 1st pass. Will not see unless changing Terraspace code for debugging.
       marker = "MARKER:terraform_output('#{@identifier}')"
-      Terraspace::Terraform::RemoteState::OutputProxy.new(marker, @options)
+      Terraspace::Terraform::RemoteState::OutputProxy.new(@mod, marker, @options)
     end
 
     def valid?
@@ -26,6 +27,7 @@ module Terraspace::Terraform::RemoteState::Marker
     def warning
       logger.warn "WARN: The #{@child_name} stack does not exist".color(:yellow)
       caller_line = caller.find { |l| l.include?('.tfvars') }
+      return unless caller_line # specs dont have a tfvars file
       source_code = PrettyTracer.new(caller_line).source_code
       logger.info source_code
     end

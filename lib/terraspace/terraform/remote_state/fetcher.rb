@@ -8,6 +8,7 @@ module Terraspace::Terraform::RemoteState
       @parent, @identifier, @options = parent, identifier, options
       child_name, @output_key = identifier.split('.')
       @child = Terraspace::Mod.new(child_name)
+      @child.resolved = @parent.resolved
     end
 
     def run
@@ -16,16 +17,24 @@ module Terraspace::Terraform::RemoteState
       load
     end
 
+    # Returns OutputProxy
     def output
       run
       if pull_success?
-        value = output_value
-        error = output_error(:key_not_found) unless @outputs.key?(@output_key)
-        OutputProxy.new(value, @options.merge(error: error))
+        pull_success_output
       else
         @error_type ||= :state_not_found # could be set to :bucket_not_found by bucket_not_found_error
         error = output_error(@error_type)
-        OutputProxy.new(nil, @options.merge(error: error))
+        OutputProxy.new(@child, nil, @options.merge(error: error))
+      end
+    end
+
+    def pull_success_output
+      if @outputs.key?(@output_key)
+        OutputProxy.new(@child, output_value, @options)
+      else
+        error = output_error(:key_not_found)
+        OutputProxy.new(@child, nil, @options.merge(error: error))
       end
     end
 

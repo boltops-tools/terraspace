@@ -1,0 +1,1 @@
+length = <%= output('b1.length') %>

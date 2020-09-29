@@ -1,29 +1,33 @@
 module Terraspace::Terraform::RemoteState
   class OutputProxy
     # raw: can be anything: String, Array, Hash, etc
-    # options: original options passed by user with terraform_output
+    # options: original options passed by user from the output helper in tfvars
     attr_reader :raw, :options
-    def initialize(raw, options={})
-      @raw, @options = raw, options
+    def initialize(mod, raw, options={})
+      @mod, @raw, @options = mod, raw, options
       @format = @options[:format]
     end
 
     # Should always return a String
     def to_s
-      case @format
-      when "string"
-        content.to_s
-      else # "json"
-        content.to_json
+      if @mod.resolved
+        # Dont use NullObject wrapper because Integer get changed to Strings.
+        # Want raw value to be used for the to_json call
+        value = @raw.nil? ? mock_or_error : @raw
+        value.to_json
+      else
+        NullObject.new # to_s => (unresolved)
       end
     end
 
-    def content
-      if @raw.nil?
-        @options[:mock] || @options[:error]
-      else
-        @raw
-      end
+    def to_ruby
+      data = @raw.nil? ? mock_or_error : @raw
+      @mod.resolved ? data : NullObject.new
+    end
+
+  private
+    def mock_or_error
+      @options[:mock] || @options[:error]
     end
   end
 end

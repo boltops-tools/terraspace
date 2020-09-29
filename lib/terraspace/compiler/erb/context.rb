@@ -1,6 +1,6 @@
 module Terraspace::Compiler::Erb
   class Context
-    include Terraspace::Compiler::Dsl::Syntax::Mod
+    include Helpers
 
     attr_reader :mod, :options
     def initialize(mod)
