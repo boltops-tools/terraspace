@@ -1,7 +1,8 @@
 module Terraspace
   class Builder < Terraspace::CLI::Base
-    include Compiler::DirsConcern
     include Compiler::CommandsConcern
+    include Compiler::DirsConcern
+    include Hooks::Concern
 
     attr_reader :graph
 
@@ -14,11 +15,14 @@ module Terraspace
       placeholder_stack_message
       logger.info "Building #{build_dir}" unless @options[:quiet] # from terraspace all
 
-      build_unresolved
-      auto_create_backend
-      batches = build_batches
-      build_all
-      logger.info "Built in #{build_dir}" unless @options[:quiet] # from terraspace all
+      batches = nil
+      run_hooks("terraspace.rb", "build") do
+        build_unresolved
+        auto_create_backend
+        batches = build_batches
+        build_all
+        logger.info "Built in #{build_dir}" unless @options[:quiet] # from terraspace all
+      end
       batches
     end
 

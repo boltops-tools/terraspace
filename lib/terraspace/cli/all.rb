@@ -18,6 +18,12 @@ class Terraspace::CLI
       Terraspace::All::Grapher.new(@options.merge(stacks: stacks)).run
     end
 
+    desc "init", "Init."
+    long_desc Help.text("all/init")
+    def init(*stacks)
+      Terraspace::All::Runner.new("init", @options.merge(stacks: stacks)).run
+    end
+
     desc "refresh", "Refresh all or multiple stacks."
     long_desc Help.text("all/refresh")
     def refresh(*stacks)

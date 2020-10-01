@@ -1,5 +1,5 @@
 module Terraspace::Terraform::RemoteState
-  class NullObject
+  class Unresolved
     def to_a
       []
     end

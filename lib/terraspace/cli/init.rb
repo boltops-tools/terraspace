@@ -67,7 +67,7 @@ class Terraspace::CLI
       mode = ENV['TS_INIT_MODE'] || Terraspace.config.init.mode
       case mode.to_sym
       when :auto
-        !already_initialized?
+        !already_init?
       when :always
         true
       when :never
@@ -80,16 +80,12 @@ class Terraspace::CLI
     # Traverse symlink dirs also: linux_amd64 is a symlink
     #   plugins/registry.terraform.io/hashicorp/google/3.39.0/linux_amd64/terraform-provider-google_v3.39.0_x5
     #
-    # Check modules/modules.json also because during the tfvars dependency pass main.tf modules are not built.
-    # So init happens again during the second pass.
-    #
-    def already_initialized?
+    def already_init?
       terraform = "#{@mod.cache_dir}/.terraform"
       provider = Dir.glob("#{terraform}/**{,/*/**}/*").find do |path|
         path.include?("terraform-provider-")
       end
-      modules = File.exist?("#{terraform}/modules/modules.json")
-      !!(provider && modules)
+      !!provider
     end
   end
 end

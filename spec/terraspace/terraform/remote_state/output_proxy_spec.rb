@@ -1,4 +1,4 @@
-NullObject = Terraspace::Terraform::RemoteState::NullObject
+Unresolved = Terraspace::Terraform::RemoteState::Unresolved
 
 describe Terraspace::Terraform::RemoteState::OutputProxy do
   let(:proxy) do
@@ -10,9 +10,9 @@ describe Terraspace::Terraform::RemoteState::OutputProxy do
 
   context "unresolved" do
     before(:each) { mod.resolved = false }
-    it "always return NullObject" do
+    it "always return Unresolved" do
       value = proxy.to_s
-      expect(value).to be_a(NullObject)
+      expect(value).to be_a(Unresolved)
       expect(value.to_str).to eq "(unresolved)"
     end
   end

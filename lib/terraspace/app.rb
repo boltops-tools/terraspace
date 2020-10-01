@@ -9,6 +9,8 @@ module Terraspace
     end
 
     def defaults
+      ts_logger = Logger.new(ENV['TS_LOG_PATH'] || $stderr)
+
       config = ActiveSupport::OrderedOptions.new
       config.all = ActiveSupport::OrderedOptions.new
       config.all.concurrency = 5
@@ -21,14 +23,16 @@ module Terraspace
       config.build.cache_dir = ":CACHE_ROOT/:REGION/:ENV/:BUILD_DIR"
       config.build.cache_root = nil # defaults to /full/path/to/.terraspace-cache
       config.build.clean_cache = nil # defaults to /full/path/to/.terraspace-cache
+      config.bundle = ActiveSupport::OrderedOptions.new
+      config.bundle.logger = ts_logger
       config.cloud = ActiveSupport::OrderedOptions.new
       config.cloud.auto_sync = true
-      config.cloud.working_dir_prefix = nil
       config.cloud.hostname = nil
       config.cloud.vars = ActiveSupport::OrderedOptions.new
       config.cloud.vars.overwrite = true
       config.cloud.vars.overwrite_sensitive = true
       config.cloud.vars.show_message = "create"
+      config.cloud.working_dir_prefix = nil
       config.cloud.workspace = ActiveSupport::OrderedOptions.new
       config.cloud.workspace.attrs = ActiveSupport::OrderedOptions.new
       config.hooks = Hooks.new
@@ -36,14 +40,14 @@ module Terraspace
       config.init.mode = "auto" # auto, never, always
       config.log = ActiveSupport::OrderedOptions.new
       config.log.root = Terraspace.log_root
-      config.logger = Logger.new(ENV['TS_LOG_PATH'] || $stderr)
-      config.logger.level = ENV['TS_LOG_LEVEL'] || :info
+      config.logger = ts_logger
       config.logger.formatter = Logger::Formatter.new
-      config.test_framework = "rspec"
+      config.logger.level = ENV['TS_LOG_LEVEL'] || :info
       config.terraform = ActiveSupport::OrderedOptions.new
       config.terraform.plugin_cache = ActiveSupport::OrderedOptions.new
-      config.terraform.plugin_cache.enabled = true
       config.terraform.plugin_cache.dir = ENV['TF_PLUGIN_CACHE_DIR'] || "#{Terraspace.tmp_root}/plugin_cache"
+      config.terraform.plugin_cache.enabled = true
+      config.test_framework = "rspec"
       config
     end
 

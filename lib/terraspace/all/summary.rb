@@ -1,6 +1,6 @@
 module Terraspace::All
   class Summary
-    include Terraspace::CLI::Log::Concern
+    include Terraspace::CLI::Logs::Concern
     include Terraspace::Util::Logging
 
     def initialize(data={})
@@ -31,6 +31,13 @@ module Terraspace::All
         line.include?("complete! Resources:") || # success: handles both apply and destroy output
         line.include?("Changes to Outputs") ||
         line.include?("No changes") ||
+        line.include?("Error: ")  # error
+      end
+    end
+
+    def init
+      @lines.select! do |line|
+        line.include?("successfully initialized") || # success
         line.include?("Error: ")  # error
       end
     end

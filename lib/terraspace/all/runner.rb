@@ -105,6 +105,7 @@ module Terraspace::All
       set_log_path!(mod_name)
       name = command_map(@command)
       o = @options.merge(mod: mod_name, yes: true, build: false, input: false)
+      o.merge!(quiet: false) if @command == "init" # noisy so can filter and summarize output
       case @command
       when "up"
         Terraspace::CLI::Up.new(o).run
