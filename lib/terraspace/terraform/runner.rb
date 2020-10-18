@@ -1,6 +1,7 @@
 module Terraspace::Terraform
   class Runner < Terraspace::CLI::Base
     extend Memoist
+    include Terraspace::Hooks::Concern
     include Terraspace::Util
 
     attr_reader :name
@@ -21,7 +22,7 @@ module Terraspace::Terraform
 
       params = args.flatten.join(' ')
       command = "terraform #{name} #{params}"
-      run_hooks(name) do
+      run_hooks("terraform.rb", name) do
         Terraspace::Shell.new(@mod, command, @options.merge(env: custom.env_vars)).run
       end
     rescue Terraspace::InitRequiredError => e
@@ -51,12 +52,6 @@ module Terraspace::Terraform
     def log(msg)
       # quiet useful for RemoteState::Fetcher
       @options[:quiet] ? logger.debug(msg) : logger.info(msg)
-    end
-
-    def run_hooks(name, &block)
-      hooks = Hooks::Builder.new(@mod, name)
-      hooks.build # build hooks
-      hooks.run_hooks(&block)
     end
 
     def args

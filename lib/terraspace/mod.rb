@@ -34,8 +34,17 @@ module Terraspace
       Terraspace.check_project!
       return if root
 
-      pretty_paths = paths.map { |p| Terraspace::Util.pretty_path(p) }
-      logger.error "ERROR: Unable to find #{@name.color(:green)} module. Searched paths: #{pretty_paths}"
+      pretty_paths = paths.map { |p| Terraspace::Util.pretty_path(p) }.join(", ")
+      logger.error <<~EOL
+        ERROR: Unable to find #{@name.color(:green)}. Searched paths:
+
+            #{pretty_paths}
+
+        To see available stacks, try running:
+
+            terraspace list
+
+      EOL
       ENV['TS_TEST'] ? raise : exit(1)
     end
 

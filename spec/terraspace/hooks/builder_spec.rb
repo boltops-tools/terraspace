@@ -1,7 +1,6 @@
-describe Terraspace::Terraform::Hooks::Builder do
+describe Terraspace::Hooks::Builder do
   let(:builder) do
-    builder = described_class.new(mod, name)
-    builder.instance_variable_set(:@file, file) # override @file for spec
+    builder = described_class.new(mod, dsl_file, name)
     builder
   end
   let(:mod) do
@@ -11,7 +10,7 @@ describe Terraspace::Terraform::Hooks::Builder do
   end
 
   context "single" do
-    let(:file) { fixture("terraform/hooks/single.rb") }
+    let(:dsl_file) { fixture("terraform/hooks/single.rb") }
     let(:name) { "apply" }
     it "build creates the @hooks structure" do
       hooks = builder.build
@@ -25,7 +24,7 @@ describe Terraspace::Terraform::Hooks::Builder do
   end
 
   context "multiple" do
-    let(:file) { fixture("terraform/hooks/multiple.rb") }
+    let(:dsl_file) { fixture("terraform/hooks/multiple.rb") }
     let(:name) { "apply" }
     it "build creates the @hooks structure" do
       hooks = builder.build

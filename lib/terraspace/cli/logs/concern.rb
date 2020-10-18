@@ -1,4 +1,4 @@
-class Terraspace::CLI::Log
+class Terraspace::CLI::Logs
   module Concern
     # Filters for lines that belong to the last ran process pid
     def readlines(path)

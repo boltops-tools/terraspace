@@ -28,7 +28,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "memoist"
   spec.add_dependency "rainbow"
   spec.add_dependency "render_me_pretty"
-  spec.add_dependency "terraspace-bundler", "~> 0.2.0"
+  spec.add_dependency "terraspace-bundler", "~> 0.3.0"
   spec.add_dependency "thor"
   spec.add_dependency "tty-tree"
   spec.add_dependency "zeitwerk"

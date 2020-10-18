@@ -7,7 +7,7 @@ module Terraspace::Terraform::Args
     attr_accessor :name
     def initialize(mod, name)
       @mod, @name = mod, name
-      @file = "#{Terraspace.root}/config/cli/args.rb"
+      @file = "#{Terraspace.root}/config/args/terraform.rb"
       @commands = {}
     end
 

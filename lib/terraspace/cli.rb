@@ -32,13 +32,13 @@ module Terraspace
     long_desc Help.text(:all)
     subcommand "all", All
 
+    desc "clean SUBCOMMAND", "clean subcommands"
+    long_desc Help.text(:clean)
+    subcommand "clean", Clean
+
     desc "cloud SUBCOMMAND", "cloud subcommands"
     long_desc Help.text(:cloud)
     subcommand "cloud", Cloud
-
-    desc "logs SUBCOMMAND", "logs management subcommands"
-    long_desc Help.text(:logs)
-    subcommand "logs", Logs
 
     desc "new SUBCOMMAND", "new subcommands"
     long_desc Help.text(:new)
@@ -63,12 +63,6 @@ module Terraspace
     long_desc Help.text(:check_setup)
     def check_setup
       CheckSetup.new(options).run
-    end
-
-    desc "clean", "Removes .terraspace-cache dir."
-    long_desc Help.text(:clean)
-    def clean
-      Clean.new(options).run
     end
 
     desc "console STACK", "Run console in built terraform project."
@@ -105,19 +99,19 @@ module Terraspace
 
     desc "list", "List stacks and modules."
     long_desc Help.text(:list)
-    option :type, aliases: %w[t], desc: "Type: stack or module. Default all"
+    option :type, default: "stack", aliases: %w[t], desc: "Type: stack, module, or all"
     def list
       List.new(options).run
     end
 
-    desc "log [ACTION] [STACK]", "View and tail logs."
-    long_desc Help.text("log")
+    desc "logs [ACTION] [STACK]", "View and tail logs."
+    long_desc Help.text("logs")
     option :timestamps, aliases: %w[t], type: :boolean, desc: "Whether or not to show the leading timestamp. Defaults to timestamps for multiple logs, and no timestamp if a single log is specified. Note: In follow mode, timestamp always shown"
     option :follow, aliases: %w[f], type: :boolean, desc: "Follow the log in live tail fashion. Must specify a stack if using this option."
     option :limit, aliases: %w[n], default: 10, type: :numeric, desc: "Number of lines to limit showing. Only applies in no-follow mode."
     option :all, aliases: %w[a], type: :boolean, desc: "All mode turns off the limit. Defaults to all if a single log is specified. Only applies in no-follow mode."
-    def log(action=nil, stack=nil)
-      Log.new(@options.merge(action: action, stack: stack)).run
+    def logs(action=nil, stack=nil)
+      Logs.new(@options.merge(action: action, stack: stack)).run
     end
 
     desc "plan STACK", "Plan stack."
@@ -159,7 +153,7 @@ module Terraspace
     long_desc Help.text(:summary)
     option :mod, desc: "Module to build to generate a backend file for discovery. By default the last module is used. Usually, it wont matter."
     init_option.call
-    option :short, aliases: %w[s], type: :boolean, desc: "Only show statefiles"
+    option :details, type: :boolean, desc: "Show details of the listed resources"
     def summary
       Summary.new(options).run
     end

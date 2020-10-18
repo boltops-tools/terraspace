@@ -11,18 +11,18 @@ module Terraspace::Terraform::RemoteState
     # Should always return a String
     def to_s
       if @mod.resolved
-        # Dont use NullObject wrapper because Integer get changed to Strings.
+        # Dont use Unresolved wrapper because Integer get changed to Strings.
         # Want raw value to be used for the to_json call
         value = @raw.nil? ? mock_or_error : @raw
         value.to_json
       else
-        NullObject.new # to_s => (unresolved)
+        Unresolved.new
       end
     end
 
     def to_ruby
       data = @raw.nil? ? mock_or_error : @raw
-      @mod.resolved ? data : NullObject.new
+      @mod.resolved ? data : Unresolved.new
     end
 
   private

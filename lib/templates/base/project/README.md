@@ -14,4 +14,4 @@ To deploy individual stacks:
 
 ## Terrafile
 
-To add more modules for use, you can add them to the [Terrafile](https://terraspace.cloud/docs/terrafile/).
+To use more modules, add them to the [Terrafile](https://terraspace.cloud/docs/terrafile/).

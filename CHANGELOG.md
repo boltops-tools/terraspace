@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [0.4.0 UNRELEASED]
+* improve hooks: allow multiple hooks of same type, change path hooks/terraform.rb
+* improve hooks: introduce terraspace-level as well as terraform-level hooks
+* improve hooks: can take Ruby block or shell script
+* improve auto init: reinit when module source changed, improve auto init: generalize retry check
+* fix already_init? detection for case when stack does use module
+* terraspace bundler options: can set any option now
+* add `terraspace all init` command
+* improve terraspace clean, prompt user and add `-y` option
+* bundle: check if in terraspace project
+* Rename NullObject to Unresolved
+* improve error message when stacks not found. give `terraspace list` hint
+* terraspace list. change default to `--type stack`
+* change summary option to --details
+* include terraspace version in generated Gemfile
+* logs command to handle viewing, and clean logs to clean
+
 ## [0.3.6]
 * #44 improve logs management commands: `terraspace logs remove` and `terraspace logs truncate`
 

@@ -6,10 +6,17 @@ class Terraspace::CLI::New
     def build_gemfile(*list)
       lines = []
       list.each do |name|
-        line =  %Q|gem "#{name}"|
-        lines << line
+        lines << gem_line(name)
       end
       lines.join("\n")
+    end
+
+    def gem_line(name)
+      if name == "terraspace"
+        %Q|gem "#{name}", '~> #{Terraspace::VERSION}'|
+      else
+        %Q|gem "#{name}"|
+      end
     end
   end
 end

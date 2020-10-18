@@ -64,7 +64,9 @@ module Terraspace::Plugin::Summary
 
     def show_each(path)
       data = JSON.load(IO.read(path))
+      return unless data # edge case: blank file
       resources = data['resources']
+      return unless resources
       remove_statefile(path) if resources && resources.size == 0 && !ENV['TS_KEEP_EMPTY_STATEFILES']
       return unless resources && resources.size > 0
 
@@ -75,7 +77,7 @@ module Terraspace::Plugin::Summary
         identifier = r['instances'].map do |i|
           i['attributes']['name'] || i['attributes']['id']
         end.join(',')
-        return if @options[:short]
+        return unless @options[:details]
         logger.info "    #{r['type']} #{r['name']}: #{identifier}"
       end
     end

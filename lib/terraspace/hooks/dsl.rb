@@ -1,4 +1,4 @@
-module Terraspace::Terraform::Hooks
+module Terraspace::Hooks
   module Dsl
     def before(*commands, **props)
       commands.each do |name|
@@ -13,7 +13,8 @@ module Terraspace::Terraform::Hooks
     end
 
     def each_hook(type, name, props={})
-      @hooks[type][name] = props
+      @hooks[type][name] ||= []
+      @hooks[type][name] << props
     end
   end
 end
