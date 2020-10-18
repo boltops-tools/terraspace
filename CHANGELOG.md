@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
-## [0.4.0 UNRELEASED]
+## [0.4.0]
 * improve hooks: allow multiple hooks of same type, change path hooks/terraform.rb
 * improve hooks: introduce terraspace-level as well as terraform-level hooks
 * improve hooks: can take Ruby block or shell script
