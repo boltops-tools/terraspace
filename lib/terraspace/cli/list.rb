@@ -6,7 +6,8 @@ class Terraspace::CLI
     end
 
     def run
-      Dir.glob("{app,vendor}/{modules,stacks}/*").sort.each do |path|
+      dirs = Dir.glob("{app,vendor}/{modules,stacks}/*").select { |p| File.directory?(p) }
+      dirs.sort.each do |path|
         if @type_dir
           puts path if path.include?("/#{@type_dir}/")
         else
