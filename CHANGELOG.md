@@ -3,7 +3,11 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [0.4.1]
+* #47 `terraspace list` fix and `terraspace all init` help updates
+
 ## [0.4.0]
+* #46 improve hooks, bundle, auto init and bug fixes
 * improve hooks: allow multiple hooks of same type, change path hooks/terraform.rb
 * improve hooks: introduce terraspace-level as well as terraform-level hooks
 * improve hooks: can take Ruby block or shell script
