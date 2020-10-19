@@ -110,6 +110,7 @@ module Terraspace
     option :follow, aliases: %w[f], type: :boolean, desc: "Follow the log in live tail fashion. Must specify a stack if using this option."
     option :limit, aliases: %w[n], default: 10, type: :numeric, desc: "Number of lines to limit showing. Only applies in no-follow mode."
     option :all, aliases: %w[a], type: :boolean, desc: "All mode turns off the limit. Defaults to all if a single log is specified. Only applies in no-follow mode."
+    option :pid, aliases: %w[p], desc: "Filter by pid. Defaults to the last pid at the bottom of the log file."
     def logs(action=nil, stack=nil)
       Logs.new(@options.merge(action: action, stack: stack)).run
     end

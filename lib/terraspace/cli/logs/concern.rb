@@ -17,6 +17,7 @@ class Terraspace::CLI::Logs
 
     # [2020-09-06T21:58:25 #11313 terraspace up b1]:
     def pid(line)
+      return @options[:pid] if @options && @options[:pid] # Terraspace::All::Summary: doesnt have @options set
       md = line.match(/:\d{2} #(\d+) /)
       md[1] if md
     end
