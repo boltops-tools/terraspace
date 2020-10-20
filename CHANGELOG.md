@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [0.4.2]
+* #48 add logs pid option
+* default to input false, encourage set tfvars
+
 ## [0.4.1]
 * #47 `terraspace list` fix and `terraspace all init` help updates
 
