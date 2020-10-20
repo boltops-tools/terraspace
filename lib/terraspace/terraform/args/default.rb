@@ -26,7 +26,7 @@ module Terraspace::Terraform::Args
         args << var_files.map { |f| "-var-file #{Dir.pwd}/#{f}" }.join(' ')
       end
 
-      args << input_option if input_option
+      args << input_option
 
       # must be at the end
       plan = @options[:plan]
@@ -45,27 +45,17 @@ module Terraspace::Terraform::Args
     end
 
     def input_option
-      option = nil
-      if @options[:auto] && @options[:input].nil?
-        option = " -input=false"
-      end
-      unless @options[:input].nil?
-        input = @options[:input] ? "true" : "false"
-        option = " -input=#{input}" # = sign required for apply when there's a plan at the end. so input=false works input false doesnt
-      end
-      option
+      option = if @options[:auto]
+                 "false"
+               else
+                 @options[:input] ? @options[:input] : "false"
+               end
+      " -input=#{option}"
     end
 
     def init_args
       args = "-get"
-      if @options[:auto] && @options[:input].nil?
-        args << " -input=false"
-      end
-      unless @options[:input].nil?
-        input = @options[:input] ? "true" : "false"
-        args << " -input=#{input}"
-      end
-
+      args << input_option
       args << " -reconfigure" if @options[:reconfigure]
 
       # must be at the end
@@ -86,7 +76,7 @@ module Terraspace::Terraform::Args
 
     def plan_args
       args = []
-      args << input_option if input_option
+      args << input_option
       args << "-destroy" if @options[:destroy]
       args << "-out #{expanded_out}" if @options[:out]
       args

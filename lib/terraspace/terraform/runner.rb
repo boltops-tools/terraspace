@@ -21,7 +21,7 @@ module Terraspace::Terraform
       current_dir_message # only show once
 
       params = args.flatten.join(' ')
-      command = "terraform #{name} #{params}"
+      command = "terraform #{name} #{params}".squish
       run_hooks("terraform.rb", name) do
         Terraspace::Shell.new(@mod, command, @options.merge(env: custom.env_vars)).run
       end
