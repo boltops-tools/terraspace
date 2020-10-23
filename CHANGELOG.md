@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [0.4.3]
+* #49 add info --path option
+
 ## [0.4.2]
 * #48 add logs pid option
 * default to input false, encourage set tfvars
