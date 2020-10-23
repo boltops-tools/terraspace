@@ -86,6 +86,7 @@ module Terraspace
     long_desc Help.text(:info)
     instance_option.call
     option :format, desc: "Output formats: #{CliFormat.formats.join(', ')}"
+    option :path, desc: "Print path to built path"
     def info(mod)
       Info.new(options.merge(mod: mod)).run
     end
