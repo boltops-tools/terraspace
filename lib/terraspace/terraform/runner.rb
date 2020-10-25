@@ -8,7 +8,6 @@ module Terraspace::Terraform
     def initialize(name, options={})
       @name = name
       super(options)
-      @retries = 1
     end
 
     def run
@@ -25,20 +24,13 @@ module Terraspace::Terraform
       run_hooks("terraform.rb", name) do
         Terraspace::Shell.new(@mod, command, @options.merge(env: custom.env_vars)).run
       end
-    rescue Terraspace::InitRequiredError => e
-      logger.info "Terraform reinitialization required detected. Will run `terraform init` and try again."
-      logger.debug "Retry attempt: #{@retries}"
-      logger.debug "#{e.class}"
-      Runner.new("init", @options).run
-      if @retries <= 3
-        backoff = 2 ** @retries # 2, 4, 8
-        logger.debug "Waiting #{backoff}s before retrying"
-        sleep(backoff)
-        @retries += 1
+    rescue Terraspace::SharedCacheError, Terraspace::InitRequiredError
+      @retryer ||= Retryer.new(@mod, @options, name, $!)
+      if @retryer.retry?
+        @retryer.run
         retry
       else
-        logger.info "ERROR: #{e.message}"
-        exit 1
+        exit(1)
       end
     end
 

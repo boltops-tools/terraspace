@@ -6,8 +6,6 @@ module Terraspace
 
     def initialize(mod, command, options={})
       @mod, @command, @options = mod, command, options
-      # error_messages holds aggregation of all error lines
-      @known_error, @error_messages = nil, ''
     end
 
     # requires @mod to be set
@@ -33,9 +31,9 @@ module Terraspace
       Open3.popen3(env, @command, chdir: @mod.cache_dir) do |stdin, stdout, stderr, wait_thread|
         mimic_terraform_input(stdin, stdout)
         while err = stderr.gets
-          @error_messages << err # aggregate all error lines
-          @known_error ||= known_error_type(err)
-          unless @known_error
+          @error ||= Error.new
+          @error.lines << err # aggregate all error lines
+          unless @error.known?
             # Sometimes may print a "\e[31m\n" which like during dependencies fetcher init
             # suppress it so dont get a bunch of annoying "newlines"
             next if err == "\e[31m\n" && @options[:suppress_error_color]
@@ -48,38 +46,12 @@ module Terraspace
       end
     end
 
-    def known_error_type(err)
-      if reinit_required?(err)
-        :reinit_required
-      elsif bucket_not_found?(err)
-        :bucket_not_found
-      end
-    end
-
-    def bucket_not_found?(err)
-      # Message is included in aws, azurerm, and google. See: https://bit.ly/3iOKDri
-      err.include?("Failed to get existing workspaces")
-    end
-
-    def reinit_required?(err)
-      # Example error: https://gist.github.com/tongueroo/f7e0a44b64f0a2e533089b18f331c21e
-      squeezed = @error_messages.gsub("\n", ' ').squeeze(' ') # remove double whitespaces and newlines
-      general_check = squeezed.include?("terraform init") && squeezed.include?("Error:")
-
-      general_check ||
-      err.include?("reinitialization required") ||
-      err.include?("terraform init") ||
-      err.include?("require reinitialization")
-    end
-
     def exit_status(status)
       return if status == 0
 
       exit_on_fail = @options[:exit_on_fail].nil? ? true : @options[:exit_on_fail]
-      if @known_error == :reinit_required
-        raise InitRequiredError.new(@error_messages)
-      elsif @known_error == :bucket_not_found
-        raise BucketNotFoundError.new(@error_messages)
+      if @error && @error.known?
+        raise @error.instance
       elsif exit_on_fail
         logger.error "Error running command: #{@command}".color(:red)
         exit status

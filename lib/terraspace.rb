@@ -26,8 +26,10 @@ DslEvaluator.backtrace_reject = "lib/terraspace"
 module Terraspace
   extend Core # for Terraspace.root
   class Error < StandardError; end
-  class InitRequiredError < Error; end
+
   class BucketNotFoundError < Error; end
+  class InitRequiredError < Error; end
+  class SharedCacheError < Error; end
 end
 
 Terraspace::Booter.boot
