@@ -16,6 +16,7 @@ class Terraspace::CLI
 
     desc "destroy STACK", "Destroy workspace by specifying the stack"
     long_desc Help.text("cloud:destroy")
+    yes_option.call
     def destroy(mod)
       Workspace.new(options.merge(mod: mod)).destroy
     end
@@ -24,6 +25,7 @@ class Terraspace::CLI
     long_desc Help.text("cloud:sync")
     yes_option.call
     def sync(*stacks)
+      Terraspace::CLI::Build::Placeholder.new(options).build
       Syncer.new(options.merge(stacks: stacks, override_auto_sync: true)).run
     end
 
