@@ -51,11 +51,5 @@ module Terraspace
     def logger=(v)
       @@logger = v
     end
-
-    def check_project!
-      return if File.exist?("#{Terraspace.root}/config/app.rb")
-      logger.error "ERROR: It doesnt look like this is a terraspace project. Are you sure you are in a terraspace project?".color(:red)
-      ENV['TS_TEST'] ? raise : exit(1)
-    end
   end
 end

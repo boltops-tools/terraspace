@@ -11,16 +11,5 @@ class Terraspace::CLI::New
       dest = "#{@options[:project_name]}/#{dest}" if @options[:project_name]
       directory ".", dest
     end
-
-    def create_test
-      args = component_args(name, @options[:project_name])
-      Test::Module.start(args)
-    end
-
-    def run_generator_hook_script
-      script = ENV['TS_GENERATOR_MODULE']
-      return unless script
-      run_script(script, "app/modules/#{name}")
-    end
   end
 end

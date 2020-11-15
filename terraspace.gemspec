@@ -34,10 +34,10 @@ Gem::Specification.new do |spec|
   spec.add_dependency "zeitwerk"
 
   # core baseline plugins
-  spec.add_dependency "terraspace_plugin_aws", "~> 0.2.0"
-  spec.add_dependency "terraspace_plugin_azurerm", "~> 0.2.0"
-  spec.add_dependency "terraspace_plugin_google", "~> 0.2.0"
-  spec.add_dependency "rspec-terraspace"
+  spec.add_dependency "terraspace_plugin_aws", "~> 0.3.0"
+  spec.add_dependency "terraspace_plugin_azurerm", "~> 0.3.0"
+  spec.add_dependency "terraspace_plugin_google", "~> 0.3.0"
+  spec.add_dependency "rspec-terraspace", "~> 0.2.0"
 
   spec.add_development_dependency "bundler"
   spec.add_development_dependency "byebug"

@@ -16,4 +16,20 @@ class Module
       include klass.constantize
     end
   end
+
+  def include_project_level_helpers
+    full_dir = "#{Terraspace.root}/config/helpers"
+    Dir.glob("#{full_dir}/**/*").each do |path|
+      regexp = Regexp.new(".*/config/helpers/")
+      klass = path.sub(regexp, '').sub('.rb','').camelize
+      klass = "Terraspace::Project::#{klass}"
+      include klass.constantize
+    end
+  end
+
+  def include_plugin_helpers
+    Terraspace::Plugin.helper_classes.each do |klass|
+      include klass # IE: TerraspacePluginAws::Interfaces::Helper
+    end
+  end
 end

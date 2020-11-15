@@ -7,7 +7,6 @@ class Terraspace::CLI
     end
 
     def run
-      Terraspace.check_project!
       TerraspaceBundler.config.deep_merge!(Terraspace.config.bundle)
       TerraspaceBundler::CLI.start(args)
     end

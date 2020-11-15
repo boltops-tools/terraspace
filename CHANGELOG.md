@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [UNRELEASED]
+- custom helpers support
+- plugin helpers support: aws_secret, aws_ssm, google_secret, etc
+- introduce stack-level test concept and change project-level test concept
+- generators: standardize and unifiy new test
+- new generators: arg, hook, helper
+- clean up Terraspace check project
+- setup up autoloader and bundler/setup earlier. removes need for shim
+- test generator plugin autodetection
+- remove internal run_generator_hook_script
+- stack-level args customization support
+- improve test output noise-level
+- new setting: config.terraform.plugin_cache.purge_on_error
+- quiet option for project generator
+
 ## [0.4.4]
 - #50 retry logic for shared cache error
 - #51 fix cloud sync: call build first

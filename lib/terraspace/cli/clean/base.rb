@@ -5,7 +5,6 @@ class Terraspace::CLI::Clean
 
     def initialize(options={})
       @options = options
-      Terraspace.check_project!
     end
 
     def pretty(path)

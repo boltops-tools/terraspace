@@ -1,7 +1,6 @@
 class Terraspace::CLI::Clean
   class Cache < Base
     def run
-      Terraspace.check_project!
       paths = [Terraspace.cache_root, Terraspace.tmp_root]
       are_you_sure?(paths)
       paths.each do |path|

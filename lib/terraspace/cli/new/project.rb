@@ -4,16 +4,23 @@ class Terraspace::CLI::New
       [
         [:bundle, type: :boolean, default: true, desc: "Runs bundle install on the project"],
         [:config, type: :boolean, default: true, desc: "Whether or not to generate config files."],
-        [:force, type: :boolean, desc: "Bypass overwrite are you sure prompt for existing files."],
-        [:test_structure, type: :boolean, desc: "Create project bootstrap test structure."]
+        [:force, aliases: %w[y], type: :boolean, desc: "Bypass overwrite are you sure prompt for existing files."],
+        [:quiet, type: :boolean, desc: "Quiet output."],
+        [:test_structure, type: :boolean, desc: "Create project bootstrap test structure."],
       ]
     end
 
     base_options.each { |args| class_option(*args) }
     project_options.each { |args| class_option(*args) }
 
+  private
+    def log(msg)
+      logger.info(msg) unless @options[:quiet]
+    end
+
+  public
     def creating_messaging
-      puts "=> Creating new project called #{name}."
+      log "=> Creating new project called #{name}."
     end
 
     def create_base
@@ -60,15 +67,17 @@ class Terraspace::CLI::New
 
     def bundle_install
       return if @options[:bundle] == false
-      puts "=> Installing dependencies with: bundle install"
+      log "=> Installing dependencies with: bundle install"
       Bundler.with_unbundled_env do
-        system("BUNDLE_IGNORE_CONFIG=1 bundle install", chdir: name)
+        bundle = "BUNDLE_IGNORE_CONFIG=1 bundle install"
+        bundle << " > /dev/null 2>&1" if @options[:quiet]
+        system(bundle, chdir: name)
       end
     end
 
     def welcome_message_examples
       return unless options[:examples]
-      puts <<~EOL
+      log <<~EOL
         #{"="*64}
         Congrats! You have successfully created a terraspace project.
         Check out the created files. Adjust to the examples and then deploy with:
@@ -83,7 +92,7 @@ class Terraspace::CLI::New
 
     def welcome_message_no_examples
       return if options[:examples]
-      puts <<~EOL
+      log <<~EOL
         #{"="*64}
         Congrats! You have successfully created a terraspace project.
         Check out the created files.

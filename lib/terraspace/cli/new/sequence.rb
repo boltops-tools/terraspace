@@ -3,12 +3,13 @@ require 'thor'
 class Terraspace::CLI::New
   class Sequence < Thor::Group
     include Thor::Actions
-    include Helper
+    include Terraspace::Util::Logging
+    include Helpers
 
     def self.base_options
       [
         [:examples, type: :boolean, default: false, desc: "Also generate examples"],
-        [:force, type: :boolean, desc: "Bypass overwrite are you sure prompt for existing files"],
+        [:force, aliases: %w[y], type: :boolean, desc: "Bypass overwrite are you sure prompt for existing files"],
         [:lang, default: "hcl", desc: "Language to use: HCL/ERB or Ruby DSL"],
         [:plugin, aliases: %w[p], default: "aws", desc: "Cloud Plugin. Supports: aws, google"],
         [:test, type: :boolean, desc: "Whether or not to generate tests"],
@@ -46,14 +47,6 @@ class Terraspace::CLI::New
     def plugin_template_source(template, type)
       source = Source::Plugin.new(self, @options)
       source.set_source_paths(template, type)
-    end
-
-    # A generator script hook to allow for further customizations
-    # The dest folder like app/modules/demo is provided as a first argument to the command.
-    def run_script(script, dest)
-      command = "#{script} #{dest}"
-      puts "Running: #{command}" unless ENV['TS_GENERATOR_MUTE']
-      system(command)
     end
   end
 end

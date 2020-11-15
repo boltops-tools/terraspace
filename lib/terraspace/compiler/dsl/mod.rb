@@ -1,8 +1,10 @@
 module Terraspace::Compiler::Dsl
   class Mod < Base
     include Syntax::Mod
+    include Terraspace::Compiler::HelperExtender
 
     def build
+      extend_module_level_helpers
       evaluate
       build_content
     end

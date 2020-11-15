@@ -16,8 +16,8 @@ module Terraspace::Plugin::Config
     end
 
     def load_project_config
-      project_config = "#{Terraspace.root}/config/plugins/#{provider}.rb"
-      evaluate_file(project_config)
+      evaluate_file("#{Terraspace.root}/config/plugins/#{provider}.rb")
+      evaluate_file("#{Terraspace.root}/config/plugins/#{provider}/#{Terraspace.env}.rb")
     end
 
     def configure

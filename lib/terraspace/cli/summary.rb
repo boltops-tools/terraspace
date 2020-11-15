@@ -11,7 +11,6 @@ class Terraspace::CLI
     end
 
     def run
-      Terraspace.check_project!
       build_placeholder
       puts "Summary of resources based on backend storage statefiles"
       backend_expr = '.terraspace-cache/**/backend.*'
