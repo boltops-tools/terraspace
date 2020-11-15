@@ -17,6 +17,6 @@ export ARM_TENANT_ID=$(cat ~/.azure/app-client.json | jq -r '.tenant_id')
 set -x
 terraspace new project infra --examples --plugin azurerm
 cd infra
-terraspace new bootstrap_test
-terraspace new project_test demo --examples --plugin azurerm
+terraspace new test demo --type stack
+cd app/stacks/demo
 terraspace test

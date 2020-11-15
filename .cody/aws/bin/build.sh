@@ -10,6 +10,6 @@ export PATH=~/bin:$PATH # ~/bin/terraspace wrapper
 set -x
 terraspace new project infra --examples
 cd infra
-terraspace new bootstrap_test
-terraspace new project_test demo --examples
+terraspace new test demo --type stack
+cd app/stacks/demo
 terraspace test
