@@ -39,6 +39,11 @@ class Terraspace::CLI
     end
 
     def ok?
+      unless terraform_bin
+        puts "Terraform not installed. Unable to detect a terraform command. Please double check that terraform is installed."
+        exit 1
+      end
+
       version = terraform_version_message.sub(/.*v/,'') # => 0.12.24
       unless version.match(/\d+\.\d+\.\d+/) # just parse did not find the version number
         puts "WARN: Unable to get the terraform version".color(:yellow)
