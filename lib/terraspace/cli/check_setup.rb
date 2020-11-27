@@ -17,7 +17,7 @@ class Terraspace::CLI
         puts "Detected #{terraform_version_message}"
         check_required_version!
       else
-        puts "Terraform not installed. Unable to detect a terraform command. Please double check that terraform is installed."
+        puts terraform_is_not_installed
         exit 1
       end
     end
@@ -38,9 +38,16 @@ class Terraspace::CLI
       ARGV[0] == "check_setup"
     end
 
+    def terraform_is_not_installed
+      <<~EOL
+        Terraform not installed. Unable to detect a terraform command. Please double check that terraform is installed.
+        See: https://terraform.cloud/docs/install/terraform/
+      EOL
+    end
+
     def ok?
       unless terraform_bin
-        puts "Terraform not installed. Unable to detect a terraform command. Please double check that terraform is installed."
+        puts terraform_is_not_installed
         exit 1
       end
 
