@@ -64,7 +64,8 @@ class Terraspace::CLI
     end
 
     def terraform_bin
-      bin_path = `which terraform 2>&1`.strip
+      out = `type terraform 2>&1`.strip
+      bin_path = out.match(/is (.*)/)[1]
       bin_path if $?.success?
     end
     memoize :terraform_bin
