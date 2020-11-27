@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [0.5.2] - 2020-11-27
+- [#59](https://github.com/boltops-tools/terraspace/pull/59) only run bundler/setup within terraspace project and check standalone install
+- fix terraspace help
+- fix terraspace setup check when terraform is not installed
+
 ## [0.5.1] - 2020-11-17
 - [#56](https://github.com/boltops-tools/terraspace/pull/56) fix arg and hook generators
 - fix ci build
