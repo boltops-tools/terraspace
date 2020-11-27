@@ -41,7 +41,7 @@ class Terraspace::CLI
     def terraform_is_not_installed
       <<~EOL
         Terraform not installed. Unable to detect a terraform command. Please double check that terraform is installed.
-        See: https://terraform.cloud/docs/install/terraform/
+        See: https://terraspace.cloud/docs/install/terraform/
       EOL
     end
 
