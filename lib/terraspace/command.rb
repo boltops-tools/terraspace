@@ -30,6 +30,7 @@ module Terraspace
       include Terraspace::Util::Logging
 
       def dispatch(m, args, options, config)
+        check_standalone_install!
         check_project!(args.first)
 
         # Allow calling for help via:
@@ -56,6 +57,38 @@ module Terraspace
         end
 
         super
+      end
+
+      def check_standalone_install!
+        return unless opt?
+        version_manager = "rvm" if rvm?
+        version_manager = "rbenv" if rbenv?
+        if rbenv? || rvm?
+          puts <<~EOL.color(:yellow)
+            WARN: It looks like a standalone Terraspace install and #{version_manager} is also in use.
+            Different gems from the standalone Terraspace install and #{version_manager} can cause all kinds of trouble.
+            Please install Terraspace as a gem instead and remove the standalone Terraspace /opt/terraspace installation.
+            See: https://terraspace.cloud/docs/install/gem/
+          EOL
+        end
+      end
+
+      def opt?
+        paths = ENV['PATH'].split(':')
+        opt = paths.detect { |p| p.include?('/opt/terraspace') }
+        opt && File.exist?('/opt/terraspace')
+      end
+
+      def rvm?
+        paths = ENV['PATH'].split(':')
+        rvm = paths.detect { |p| p.include?('/rvm/') || p.include?('/.rvm/') }
+        rvm && system("type rvm > /dev/null 2>&1")
+      end
+
+      def rbenv?
+        paths = ENV['PATH'].split(':')
+        rbenv = paths.detect { |p| p.include?('/rbenv/') || p.include?('/.rbenv/') }
+        rbenv && system("type rbenv > /dev/null 2>&1")
       end
 
       def check_project!(command_name)

@@ -8,6 +8,7 @@ module Terraspace
     #
     def setup
       return unless gemfile?
+      return unless terraspace_project?
       Kernel.require "bundler/setup"
       Bundler.setup # Same as Bundler.setup(:default)
     rescue LoadError => e
@@ -16,10 +17,15 @@ module Terraspace
 
     def require
       return unless gemfile?
+      return unless terraspace_project?
       Kernel.require "bundler/setup"
       Bundler.require(*bundler_groups)
     rescue LoadError => e
       handle_error(e)
+    end
+
+    def terraspace_project?
+      File.exist?("config/app.rb")
     end
 
     def handle_error(e)

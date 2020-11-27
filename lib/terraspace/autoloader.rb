@@ -1,7 +1,5 @@
-if File.exist?("config/app.rb")
-  require "terraspace/bundle"
-  Terraspace::Bundle.setup
-end
+require "terraspace/bundle"
+Terraspace::Bundle.setup
 require "zeitwerk"
 
 module Terraspace
