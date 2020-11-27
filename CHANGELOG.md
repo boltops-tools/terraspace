@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [0.5.4] - 2020-11-27
+- fix check setup when terraform not found
+
 ## [0.5.3] - 2020-11-27
 - [#60](https://github.com/boltops-tools/terraspace/pull/60) fix terraspace check_setup, use type and allow to run outside project
 - improve terraform is not installed message
