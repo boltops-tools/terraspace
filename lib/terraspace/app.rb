@@ -18,6 +18,9 @@ module Terraspace
       config.all.exit_on_fail.down = true
       config.all.exit_on_fail.up = true
       config.all.ignore_stacks = []
+      config.allow = ActiveSupport::OrderedOptions.new
+      config.allow.envs = nil
+      config.allow.regions = nil
       config.auto_create_backend = true
       config.build = ActiveSupport::OrderedOptions.new
       config.build.cache_dir = ":CACHE_ROOT/:REGION/:ENV/:BUILD_DIR"
