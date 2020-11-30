@@ -16,6 +16,7 @@ module Terraspace
       logger.info "Building #{build_dir}" unless @options[:quiet] # from terraspace all
 
       batches = nil
+      FileUtils.mkdir_p(@mod.cache_dir) # so terraspace before build hooks work
       run_hooks("terraspace.rb", "build") do
         build_unresolved
         auto_create_backend
