@@ -18,6 +18,7 @@ module Terraspace
       batches = nil
       FileUtils.mkdir_p(@mod.cache_dir) # so terraspace before build hooks work
       run_hooks("terraspace.rb", "build") do
+        check_allow!
         build_unresolved
         auto_create_backend
         batches = build_batches
@@ -25,6 +26,10 @@ module Terraspace
         logger.info "Built in #{build_dir}" unless @options[:quiet] # from terraspace all
       end
       batches
+    end
+
+    def check_allow!
+      Allow.new(@mod).check!
     end
 
     # Builds dependency graph and returns the batches to run
