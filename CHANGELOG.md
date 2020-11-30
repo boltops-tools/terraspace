@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [0.5.6] - 2020-11-30
+- [#61](https://github.com/boltops-tools/terraspace/pull/61) allow envs and regions check feature
+- fix terraspace build before hook
+
 ## [0.5.5] - 2020-11-27
 - fix link
 
