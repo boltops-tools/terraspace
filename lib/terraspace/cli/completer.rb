@@ -1,74 +1,69 @@
-=begin
-Code Explanation:
+# begin
+# Code Explanation:
+#
+# There are 3 types of things to auto-complete:
+#
+#   1. command: the command itself
+#   2. parameters: command parameters.
+#   3. options: command options
+#
+# Here's an example:
+#
+#   mycli hello name --from me
+#
+#   * command: hello
+#   * parameters: name
+#   * option: --from
+#
+# When command parameters are done processing, the remaining completion words will be options.  We can tell that the command params are completed based on the method arity.
+#
+# ## Arity
+#
+# For example, say you had a method for a CLI command with the following form:
+#
+#   terraspace up STACK
+#
+# It's equivalent ruby method:
+#
+#   up(mod) = has an arity of 1
+#
+# So typing:
+#
+#   terraspace up [TAB] # there is parameter including the "scale" command according to Thor's CLI processing.
+#
+# So the completion should only show options, something like this:
+#
+#   --noop --verbose --cluster
+#
+# ## Splat Arguments
+#
+# When the ruby method has a splat argument, it's arity is negative.  Here are some example methods and their arities.
+#
+#   up(mod) = 1
+#   scale(service, count) = 2
+#   bundle(*args) = -1
+#   foo(example, *rest) = -2
+#
+# Fortunately, negative and positive arity values are processed the same way. So we take simply take the absolute value of the arity and process it the same.
+#
+# Here are some test cases, hit TAB after typing the command:
+#
+#   terraspace completion
+#   terraspace completion up
+#   terraspace completion up name
+#   terraspace completion up name --
+#   terraspace completion up name --noop
+#
+# ## Subcommands and Thor::Group Registered Commands
+#
+# Sometimes the commands are not simple thor commands but are subcommands or Thor::Group commands. A good specific example is the terraspace tool.
+#
+#   * regular command: terraspace up
+#   * subcommand: terraspace all
+#   * Thor::Group command: terraspace new project
 
-There are 3 types of things to auto-complete:
-
-  1. command: the command itself
-  2. parameters: command parameters.
-  3. options: command options
-
-Here's an example:
-
-  mycli hello name --from me
-
-  * command: hello
-  * parameters: name
-  * option: --from
-
-When command parameters are done processing, the remaining completion words will be options.  We can tell that the command params are completed based on the method arity.
-
-## Arity
-
-For example, say you had a method for a CLI command with the following form:
-
-  ufo scale service count --cluster dev
-
-It's equivalent ruby method:
-
-  scale(service, count) = has an arity of 2
-
-So typing:
-
-  ufo scale service count [TAB] # there are 3 parameters including the "scale" command according to Thor's CLI processing.
-
-So the completion should only show options, something like this:
-
-  --noop --verbose --cluster
-
-## Splat Arguments
-
-When the ruby method has a splat argument, it's arity is negative.  Here are some example methods and their arities.
-
-   ship(service) = 1
-   scale(service, count) = 2
-   ships(*services) = -1
-   foo(example, *rest) = -2
-
-Fortunately, negative and positive arity values are processed the same way. So we take simply take the absolute value of the arity and process it the same.
-
-Here are some test cases, hit TAB after typing the command:
-
-  terraspace completion
-  terraspace completion hello
-  terraspace completion hello name
-  terraspace completion hello name --
-  terraspace completion hello name --noop
-
-  terraspace completion
-  terraspace completion sub:goodbye
-  terraspace completion sub:goodbye name
-
-## Subcommands and Thor::Group Registered Commands
-
-Sometimes the commands are not simple thor commands but are subcommands or Thor::Group commands. A good specific example is the ufo tool.
-
-  * regular command: ufo ship
-  * subcommand: ufo docker
-  * Thor::Group command: ufo init
-
-Auto-completion accounts for each of these type of commands.
-=end
-module Terraspace
+# Auto-completion accounts for each of these type of commands.
+class Terraspace::CLI
   class Completer
     def initialize(command_class, *params)
       @params = params
@@ -132,7 +127,6 @@ module Terraspace
 
     def params_completion
       offset = @params.size - 1
-      offset_params = command_params[offset..-1]
       command_params[offset..-1].first
     end
 
