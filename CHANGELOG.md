@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [0.5.8] - 2020-12-04
+- [#67](https://github.com/boltops-tools/terraspace/pull/67) fix find placeholder stack so config/terraform only builds for stacks
+
 ## [0.5.7] - 2020-12-02
 - [#64](https://github.com/boltops-tools/terraspace/pull/64) fix completion_script
 
