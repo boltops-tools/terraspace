@@ -19,7 +19,7 @@ module Terraspace
 
     def placeholder(name)
       if name == "placeholder"
-        Terraspace::CLI::Build::Placeholder.new(@options).find_mod
+        Terraspace::CLI::Build::Placeholder.new(@options).find_stack
       else
         name
       end

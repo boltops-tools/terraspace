@@ -18,17 +18,17 @@ module Terraspace::CLI::Build
       mod = @options[:mod]
       if !mod or %w[placeholder].include?(mod)
         logger.info "Building one of the modules to get backend.tf info"
-        mod = find_mod
+        mod = find_stack
       end
       Terraspace::Builder.new(@options.merge(mod: mod, init: false)).run # generate and init
       Terraspace::Mod.new(mod, @options) # mod metadata
     end
 
     # Used by: terraspace build placeholder
-    def find_mod
-      mod_path = Dir.glob("{app,vendor}/{modules,stacks}/*").last
+    def find_stack
+      mod_path = Dir.glob("{app,vendor}/{stacks}/*").last
       unless mod_path
-        logger.info "No modules or stacks found."
+        logger.info "No stacks found."
         exit 0
       end
       File.basename(mod_path) # mod name
