@@ -114,10 +114,7 @@ module Terraspace::All
       installed = system("type dot > /dev/null 2>&1") # dot is a command that is part of the graphviz package
       return if installed
       logger.error "ERROR: It appears that the Graphviz is not installed.  Please install it to use the graph command.".color(:red)
-      if RUBY_PLATFORM =~ /darwin/
-        logger.error "You can install Graphviz with homebrew:"
-        logger.error "    brew install graphviz"
-      end
+      install_instructions
       logger.info <<~EOL
         Also consider:
 
@@ -126,6 +123,24 @@ module Terraspace::All
         Which will print out the graph in text form.
       EOL
       exit 1
+    end
+
+    def install_instructions
+      installer = if RUBY_PLATFORM =~ /darwin/
+        "brew"
+      elsif system("type yum > /dev/null 2>&1")
+        "yum"
+      elsif system("type apt-get > /dev/null 2>&1")
+        "apt-get"
+      end
+
+      return unless installer
+      logger.error <<~EOL
+        You can install Graphviz with:
+
+            #{installer} install graphviz
+
+      EOL
     end
   end
 end
