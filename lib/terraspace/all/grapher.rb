@@ -109,6 +109,8 @@ module Terraspace::All
 
     # Check if Graphiz is installed and prints a user friendly message if it is not installed.
     def check_graphviz!
+      return if @options[:format] == 'text'
+
       installed = system("type dot > /dev/null 2>&1") # dot is a command that is part of the graphviz package
       return if installed
       logger.error "ERROR: It appears that the Graphviz is not installed.  Please install it to use the graph command.".color(:red)
