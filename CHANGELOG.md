@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [0.5.9] - 2020-12-11
+- [#68](https://github.com/boltops-tools/terraspace/pull/68) require singleton
+- fix graphviz check for format text, improve graphviz install help message
+
 ## [0.5.8] - 2020-12-04
 - [#67](https://github.com/boltops-tools/terraspace/pull/67) fix find placeholder stack so config/terraform only builds for stacks
 
