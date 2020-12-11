@@ -1,3 +1,5 @@
+require "singleton"
+
 module Terraspace
   class App
     include Singleton
