@@ -19,6 +19,7 @@ require "memoist"
 require "rainbow/ext/string"
 require "render_me_pretty"
 require "set"
+require "singleton"
 require "terraspace/ext"
 require "terraspace/version"
 
