@@ -15,7 +15,8 @@ issue may be closed without comment. If you repeatedly fail to provide enough
 details, you may be blocked from ever submitting issues to Terraspace again.
 Please use your best judgment. 👍
 
-If you are unsure this is a bug in Terraspace, please consider asking your question at sites like StackOverflow.
+If you are unsure this is a bug in Terraspace, please consider asking your question at:
+https://community.boltops.com
 
 Thanks!
 -->
@@ -26,8 +27,8 @@ Thanks!
 Make sure that you've done all of these.  To mark a checkbox done, replace [ ] with [x]. Or after you create the issue you can click the checkbox.
 -->
 
-- [ ] Upgrade Terraspace: Are you using the latest version of Terraspace? This allows Terraspace to fix issues fast.
-- [ ] Reproducibility: Are you reporting a bug others will be able to reproduce and not asking a question. If you're unsure or want to ask a question, do so on StackOverflow.
+- [ ] Upgrade Terraspace: Are you using the latest version of Terraspace? This allows Terraspace to fix issues fast. There's an Upgrading Guide: https://terraspace.cloud/docs/misc/upgrading/
+- [ ] Reproducibility: Are you reporting a bug others will be able to reproduce and not asking a question. If you're unsure or want to ask a question, do so on https://community.boltops.com
 - [ ] Code sample: Have you put together a code sample to reproduce the issue and make it available?  Code samples help speed up fixes dramatically. If it's an easily reproducible issue, then code samples are not needed. If you're unsure, please include a code sample.
 
 ## My Environment
