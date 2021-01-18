@@ -1,3 +1,5 @@
+require 'securerandom'
+
 class Terraspace::CLI
   class Up < Base
     include TfcConcern
@@ -25,8 +27,8 @@ class Terraspace::CLI
     end
 
     def plan_path
-      @@timestamp ||= Time.now.utc.strftime("%Y%m%d%H%M%S")
-      "#{Terraspace.tmp_root}/plans/#{@mod.name}-#{@@timestamp}.plan"
+      @@random ||= SecureRandom.hex
+      "#{Terraspace.tmp_root}/plans/#{@mod.name}-#{@@random}.plan"
     end
   end
 end
