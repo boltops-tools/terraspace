@@ -31,7 +31,7 @@ class Terraspace::Terraform::Api
     end
 
     def vars
-      Terraspace.config.cloud.vars
+      Terraspace.config.tfc.vars
     end
 
     def variable_id(key)

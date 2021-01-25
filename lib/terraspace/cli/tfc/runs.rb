@@ -1,10 +1,10 @@
-class Terraspace::CLI::Cloud
+class Terraspace::CLI::Tfc
   class Runs < Terraspace::Command
     Help = Terraspace::CLI::Help
-    Runs = Terraspace::Terraform::Cloud::Runs
+    Runs = Terraspace::Terraform::Tfc::Runs
 
     desc "list STACK", "List runs."
-    long_desc Help.text("cloud:runs:list")
+    long_desc Help.text("tfc:runs:list")
     option :format, desc: "Output formats: #{CliFormat.formats.join(', ')}"
     option :status, default: %w[pending planned], type: :array, desc: "Filter by statuses: pending, planned, all"
     def list(mod)
@@ -12,7 +12,7 @@ class Terraspace::CLI::Cloud
     end
 
     desc "prune STACK", "Prune runs that are possible to cancel or discard."
-    long_desc Help.text("cloud:runs:prune")
+    long_desc Help.text("tfc:runs:prune")
     option :noop, type: :boolean, desc: "Shows what would be cancelled/discarded."
     option :yes, aliases: :y, type: :boolean, desc: "bypass are you sure prompt"
     def prune(mod)

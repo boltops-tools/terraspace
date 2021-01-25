@@ -67,7 +67,7 @@ module Terraspace::Plugin::Summary
       return unless data # edge case: blank file
       resources = data['resources']
       return unless resources
-      remove_statefile(path) if resources && resources.size == 0 && !ENV['TS_KEEP_EMPTY_STATEFILES']
+      remove_statefile(path) if Terraspace.config.summary.prune && resources && resources.size == 0
       return unless resources && resources.size > 0
 
       pretty_path = path.sub(Regexp.new(".*#{@bucket}/#{@folder}"), '')

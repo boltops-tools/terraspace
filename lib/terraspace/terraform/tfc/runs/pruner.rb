@@ -1,4 +1,4 @@
-class Terraspace::Terraform::Cloud::Runs
+class Terraspace::Terraform::Tfc::Runs
   class Pruner < Base
     include Terraspace::Terraform::Api::Client
 

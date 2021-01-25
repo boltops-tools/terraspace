@@ -22,7 +22,9 @@ module Terraspace::Terraform
       params = args.flatten.join(' ')
       command = "terraform #{name} #{params}".squish
       run_hooks("terraform.rb", name) do
+        run_internal_hook(:before, name)
         Terraspace::Shell.new(@mod, command, @options.merge(env: custom.env_vars)).run
+        run_internal_hook(:after, name)
       end
     rescue Terraspace::SharedCacheError, Terraspace::InitRequiredError
       @retryer ||= Retryer.new(@mod, @options, name, $!)
@@ -32,6 +34,16 @@ module Terraspace::Terraform
       else
         exit(1)
       end
+    end
+
+    def run_internal_hook(type, name)
+      begin
+        klass = "Terraspace::Terraform::Ihooks::#{type.to_s.classify}::#{name.classify}".constantize
+      rescue NameError
+        return
+      end
+      ihook = klass.new(name, @options)
+      ihook.run
     end
 
     @@current_dir_message_shown = false

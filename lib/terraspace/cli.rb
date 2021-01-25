@@ -10,7 +10,7 @@ module Terraspace
       option :format, desc: "output formats: json, text"
     }
     out_option = Proc.new {
-      option :out, aliases: :o, desc: "write the output to path"
+      option :out, aliases: :o, desc: "Write the output to path"
     }
     input_option = Proc.new {
       option :input, type: :boolean, desc: "Ask for input for variables if not directly set."
@@ -36,13 +36,13 @@ module Terraspace
     long_desc Help.text(:clean)
     subcommand "clean", Clean
 
-    desc "cloud SUBCOMMAND", "cloud subcommands"
-    long_desc Help.text(:cloud)
-    subcommand "cloud", Cloud
-
     desc "new SUBCOMMAND", "new subcommands"
     long_desc Help.text(:new)
     subcommand "new", New
+
+    desc "tfc SUBCOMMAND", "tfc subcommands"
+    long_desc Help.text(:tfc)
+    subcommand "tfc", Tfc
 
     desc "build [STACK]", "Build project."
     long_desc Help.text(:build)
@@ -123,6 +123,7 @@ module Terraspace
     instance_option.call
     out_option.call
     reconfigure_option.call
+    option :copy_to_root, type: :boolean, default: true, desc: "Copy plan file generated in the cache folder back to project root"
     def plan(mod)
       Commander.new("plan", options.merge(mod: mod)).run
     end
@@ -167,6 +168,12 @@ module Terraspace
     option :json, type: :boolean, desc: "show plan in json format"
     def show(mod)
       Commander.new("show", options.merge(mod: mod)).run
+    end
+
+    desc "state SUBCOMMAND STACK", "Run state."
+    long_desc Help.text(:state)
+    def state(subcommand, mod)
+      State.new(options.merge(subcommand: subcommand, mod: mod)).run
     end
 
     desc "test", "Run test."

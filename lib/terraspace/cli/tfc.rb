@@ -1,7 +1,7 @@
 class Terraspace::CLI
-  class Cloud < Terraspace::Command
-    Syncer = Terraspace::Terraform::Cloud::Syncer
-    Workspace = Terraspace::Terraform::Cloud::Workspace
+  class Tfc < Terraspace::Command
+    Syncer = Terraspace::Terraform::Tfc::Syncer
+    Workspace = Terraspace::Terraform::Tfc::Workspace
 
     yes_option = Proc.new {
       option :yes, aliases: :y, type: :boolean, desc: "bypass are you sure prompt"

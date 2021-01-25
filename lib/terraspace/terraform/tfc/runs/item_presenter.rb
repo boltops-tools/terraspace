@@ -1,4 +1,4 @@
-class Terraspace::Terraform::Cloud::Runs
+class Terraspace::Terraform::Tfc::Runs
   class ItemPresenter
     attr_reader :id
     def initialize(raw)

@@ -1,4 +1,4 @@
-class Terraspace::Terraform::Cloud::Runs
+class Terraspace::Terraform::Tfc::Runs
   class Base
     extend Memoist
     include Terraspace::Util::Logging

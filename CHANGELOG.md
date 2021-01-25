@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [UNRELEASED]
+- Rename `terraspace cloud` to `terraspace tfc` and tfc improvements
+- Improve stdout handling, so this works: `terraspace show demo --json | jq`
+- `terraspace plan --output plan.save` writes to relative cache path.
+- `terraspace up --plan plan.save` copies plan.save to cache path.
+- Add state command. Initial simple version.
+
 ## [0.5.12] - 2021-02-27
 - [#79](https://github.com/boltops-tools/terraspace/pull/79) Fix syntax issue
 - [#85](https://github.com/boltops-tools/terraspace/pull/85) Add all.include_stacks option and fix all.ignore_stacks option when building dependency graph
@@ -108,7 +115,7 @@ This project *loosely tries* to adhere to [Semantic Versioning](http://semver.or
 * fix build for edge case when app/modules exist but app/stacks do not
 * terraspace new project: do not generate spec folder by default
 * improve all output summary
-* remove redundant `terraspace cloud setup`, instead use: `terraspace cloud sync`
+* remove redundant `terraspace tfc setup`, instead use: `terraspace tfc sync`
 * improve terraspace info output
 * fix integration test pipeline
 
@@ -127,8 +134,8 @@ This project *loosely tries* to adhere to [Semantic Versioning](http://semver.or
 * Terraspace log: view and tail log files
 * Terraspace logs management commands: `terraspace logs truncate` and `terraspace logs remove`
 * TFC/TFE: Improve support. `config.cloud.vars`, `config.cloud.workspace.attrs`
-* TFC commands: terraspace cloud runs list, terraspace cloud runs prune
-* TFC VCS also sync as part of deploy. Also separate `terraspace cloud sync` command
+* TFC commands: terraspace tfc runs list, terraspace tfc runs prune
+* TFC VCS also sync as part of deploy. Also separate `terraspace tfc sync` command
 * Logger improvements: configurable formatter, log to stderr by default
 * Rename: `cloud.relative_root` to `cloud.working_dir_prefix`
 * Run a plan to capture the diff as part of `-y` option. IE: `terraspace up demo -y`
@@ -161,11 +168,11 @@ This project *loosely tries* to adhere to [Semantic Versioning](http://semver.or
 * New expander variables: TYPE_INSTANCE, INSTANCE, CACHE_ROOT. Also added strip trailing - and / behavior.
 * Timeout for terraform init. The default timeout is 10m and will then print out the terraform init log.
 * Terraspace 0.2.x is compatible with terraspace\_plugin_aws 0.2.x, terraspace\_plugin_google 0.2.x, and terraspace\_plugin_azurerm 0.2.x
-* New commands: terraspace list, terraspace cloud list, terraspace cloud setup, terraspace cloud destroy, terraspace new shim, terraspace new git_hook
+* New commands: terraspace list, terraspace tfc list, terraspace tfc setup, terraspace tfc destroy, terraspace new shim, terraspace new git_hook
 * terraspace list: list of modules and stacks
-* terraspace cloud list: shows list of TFC workspaces
-* terraspace cloud setup: setups up TFC workspace for VCS-driven workflow. This automatically happens for the TFC CLI-driven workflow.
-* terraspace cloud destroy: destroys the TFC workspace associated with the stack. Can also use the `terraspace down demo --destroy-workspace` option.
+* terraspace tfc list: shows list of TFC workspaces
+* terraspace tfc setup: setups up TFC workspace for VCS-driven workflow. This automatically happens for the TFC CLI-driven workflow.
+* terraspace tfc destroy: destroys the TFC workspace associated with the stack. Can also use the `terraspace down demo --destroy-workspace` option.
 * terraspace new shim: An quick way to generate a terraspace shim.
 * terraspace new git_hook: An quick way to set up a git pre-push hook for the TFC VCS-driven workflow.
 * terraspace down: works even if there's no app/stacks folder. A fake stack is built.

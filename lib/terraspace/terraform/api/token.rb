@@ -51,11 +51,11 @@ class Terraspace::Terraform::Api
     end
 
     def hostname
-      ENV['TS_HOST'] || Terraspace.config.cloud.hostname || 'app.terraform.io'
+      ENV['TFC_HOST'] || Terraspace.config.tfc.hostname || 'app.terraform.io'
     end
 
     def hostname_configured?
-      !!Terraspace.config.cloud.hostname
+      !!Terraspace.config.tfc.hostname
     end
 
     def self.get

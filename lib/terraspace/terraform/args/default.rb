@@ -23,7 +23,10 @@ module Terraspace::Terraform::Args
       args = auto_approve_arg
       var_files = @options[:var_files]
       if var_files
-        args << var_files.map { |f| "-var-file #{Dir.pwd}/#{f}" }.join(' ')
+        var_files.each do |file|
+          copy_to_cache(plan)
+        end
+        args << var_files.map { |f| "-var-file #{f}" }.join(' ')
       end
 
       args << input_option
@@ -31,15 +34,8 @@ module Terraspace::Terraform::Args
       # must be at the end
       plan = @options[:plan]
       if plan
-        if plan.starts_with?('/')
-          src  = plan
-          dest = src
-        else
-          src = "#{Dir.pwd}/#{plan}"
-          dest = "#{@mod.cache_dir}/#{File.basename(src)}"
-        end
-        FileUtils.cp(src, dest) unless same_file?(src, dest)
-        args << " #{dest}"
+        copy_to_cache(plan)
+        args << " #{plan}"
       end
       args
     end
@@ -79,19 +75,24 @@ module Terraspace::Terraform::Args
       args << input_option
       args << "-destroy" if @options[:destroy]
       args << "-out #{expanded_out}" if @options[:out]
+      # Note: based on the @options[:out] will run an internal hook to copy plan
+      # file back up to the root project folder for use. Think this is convenient and expected behavior.
       args
     end
 
     def show_args
       args = []
       args << " -json" if @options[:json]
-      args << " #{@options[:plan]}" if @options[:plan] # terraform show /path/to/plan
+      plan = @options[:plan]
+      if plan
+        copy_to_cache(@options[:plan])
+        args << " #{@options[:plan]}" # terraform show /path/to/plan
+      end
       args
     end
 
     def expanded_out
-      out = @options[:out]
-      out.starts_with?('/') ? out : "#{Dir.pwd}/#{out}"
+      @options[:out]
     end
 
     def destroy_args
@@ -122,6 +123,15 @@ module Terraspace::Terraform::Args
   private
     def same_file?(src, dest)
       src == dest
+    end
+
+    def copy_to_cache(file)
+      return if file =~ %r{^/} # not need to copy absolute path
+      name = file.sub("#{Terraspace.root}/",'')
+      src = name
+      dest = "#{@mod.cache_dir}/#{name}"
+      FileUtils.mkdir_p(File.dirname(dest))
+      FileUtils.cp(src, dest) unless same_file?(src, dest)
     end
   end
 end

@@ -14,7 +14,7 @@ class Terraspace::CLI
 
     def destroy
       Commander.new("destroy", @options.merge(command: "down")).run
-      Terraspace::Terraform::Cloud::Workspace.new(@options).destroy if @options[:destroy_workspace]
+      Terraspace::Terraform::Tfc::Workspace.new(@options).destroy if @options[:destroy_workspace]
     end
   end
 end

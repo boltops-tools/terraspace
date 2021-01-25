@@ -12,7 +12,8 @@ module Terraspace::Util
     end
 
     def pretty_path(path)
-      ENV['TS_TEST'] ? path : path.sub("#{Terraspace.root}/",'')
+      return path if ENV['TS_TEST']
+      path.sub("#{Terraspace.root}/",'').sub(ENV['HOME'], '~')
     end
   end
 end

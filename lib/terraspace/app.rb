@@ -29,16 +29,6 @@ module Terraspace
       config.build.clean_cache = nil # defaults to /full/path/to/.terraspace-cache
       config.bundle = ActiveSupport::OrderedOptions.new
       config.bundle.logger = ts_logger
-      config.cloud = ActiveSupport::OrderedOptions.new
-      config.cloud.auto_sync = true
-      config.cloud.hostname = nil
-      config.cloud.vars = ActiveSupport::OrderedOptions.new
-      config.cloud.vars.overwrite = true
-      config.cloud.vars.overwrite_sensitive = true
-      config.cloud.vars.show_message = "create"
-      config.cloud.working_dir_prefix = nil
-      config.cloud.workspace = ActiveSupport::OrderedOptions.new
-      config.cloud.workspace.attrs = ActiveSupport::OrderedOptions.new
       config.hooks = Hooks.new
       config.init = ActiveSupport::OrderedOptions.new
       config.init.mode = "auto" # auto, never, always
@@ -47,12 +37,24 @@ module Terraspace
       config.logger = ts_logger
       config.logger.formatter = Logger::Formatter.new
       config.logger.level = ENV['TS_LOG_LEVEL'] || :info
+      config.summary = ActiveSupport::OrderedOptions.new
+      config.summary.prune = false
       config.terraform = ActiveSupport::OrderedOptions.new
       config.terraform.plugin_cache = ActiveSupport::OrderedOptions.new
       config.terraform.plugin_cache.dir = ENV['TF_PLUGIN_CACHE_DIR'] || "#{Terraspace.tmp_root}/plugin_cache"
       config.terraform.plugin_cache.enabled = true
       config.terraform.plugin_cache.purge_on_error = true
       config.test_framework = "rspec"
+      config.tfc = ActiveSupport::OrderedOptions.new
+      config.tfc.auto_sync = true
+      config.tfc.hostname = nil
+      config.tfc.vars = ActiveSupport::OrderedOptions.new
+      config.tfc.vars.overwrite = true
+      config.tfc.vars.overwrite_sensitive = true
+      config.tfc.vars.show_message = "create"
+      config.tfc.working_dir_prefix = nil
+      config.tfc.workspace = ActiveSupport::OrderedOptions.new
+      config.tfc.workspace.attrs = ActiveSupport::OrderedOptions.new
       config
     end
 

@@ -8,8 +8,19 @@ class Terraspace::Terraform::Api
     end
 
     def list
-      payload = http.get("workspaces/#{@workspace_id}/runs")
-      payload['data'] if payload
+      data, next_page = [], :start
+      while next_page == :start || next_page
+        url = "workspaces/#{@workspace_id}/runs"
+        if next_page
+          qs = URI.encode_www_form('page[number]': next_page) if next_page
+          url += "?#{qs}"
+        end
+        payload = http.get(url)
+        return unless payload
+        data += payload['data']
+        next_page = payload['meta']['pagination']['next-page']
+      end
+      data
     end
 
     def discard(id)

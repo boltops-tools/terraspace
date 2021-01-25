@@ -1,4 +1,4 @@
-module Terraspace::Terraform::Cloud
+module Terraspace::Terraform::Tfc
   class Runs < Terraspace::CLI::Base
     def list
       lister = Lister.new(@mod, @options)
