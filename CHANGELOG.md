@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [0.5.11] - 2021-02-11
+- [#76](https://github.com/boltops-tools/terraspace/pull/76) dont use auto generated plan when both yes and plan options used
+- fix plan path when 2 stacks of same name run at the same time
+
 ## [0.5.10] - 2020-12-11
 - [#69](https://github.com/boltops-tools/terraspace/pull/69) require singleton earlier
 
