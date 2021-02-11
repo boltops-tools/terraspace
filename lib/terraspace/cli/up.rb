@@ -6,7 +6,7 @@ class Terraspace::CLI
 
     def run
       build
-      if @options[:yes] && !tfc?
+      if @options[:yes] && !@options[:plan] && !tfc?
         plan
         Commander.new("apply", @options.merge(plan: plan_path)).run
       else
