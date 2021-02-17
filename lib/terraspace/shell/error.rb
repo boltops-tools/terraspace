@@ -13,7 +13,7 @@ class Terraspace::Shell
       if reinit_required?
         Terraspace::InitRequiredError.new(@lines)
       elsif bucket_not_found?
-        Terraspace::BucketNotFound.new(@lines)
+        Terraspace::BucketNotFoundError.new(@lines)
       elsif shared_cache_error?
         Terraspace::SharedCacheError.new(@lines)
       end
