@@ -54,6 +54,12 @@ module Terraspace::Dependency
     def build_nodes_with_dependencies
       @dependencies.each do |item|
         parent_name, child_name = item.split(':')
+
+        if Terraspace.config.all.ignore_stacks.include? parent_name
+          logger.info("Stack: #{parent_name} skipped due to ignore_stacks configuration")
+          next
+        end
+
         save_node_parent(parent_name, child_name)
       end
     end
