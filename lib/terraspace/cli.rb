@@ -144,7 +144,7 @@ module Terraspace
     desc "seed STACK", "Build starer seed tfvars file."
     long_desc Help.text(:seed)
     option :yes, aliases: :y, type: :boolean, desc: "bypass prompts and force overwrite files"
-    option :where, desc: "where to create file. either under app or seed folder structure. values: app or stack"
+    option :where, desc: "where to create file. either under app or seed folder structure. values: seed or stack"
     init_option.call
     instance_option.call
     def seed(mod)
