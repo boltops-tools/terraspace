@@ -6,11 +6,19 @@ module Terraspace::Compiler
     end
 
     def selected?
-      !all.ignore_stacks.include?(@stack_name)
-    end
+      all = Terraspace.config.all
+      # Key difference between include_stacks vs all.include_stacks option is that
+      # the option can be nil. The local variable is guaranteed to be an Array.
+      # This simplifies the logic.
+      include_stacks = all.include_stacks || []
+      ignore_stacks  = all.ignore_stacks  || []
 
-    def all
-      Terraspace.config.all
+      if all.include_stacks.nil?
+        !ignore_stacks.include?(@stack_name)
+      else
+        stacks = include_stacks - ignore_stacks
+        stacks.include?(@stack_name)
+      end
     end
 
     def extract_stack_name(path)
