@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [0.5.12] - 2021-02-27
+- [#79](https://github.com/boltops-tools/terraspace/pull/79) Fix syntax issue
+- [#85](https://github.com/boltops-tools/terraspace/pull/85) Add all.include_stacks option and fix all.ignore_stacks option when building dependency graph
+
 ## [0.5.11] - 2021-02-11
 - [#76](https://github.com/boltops-tools/terraspace/pull/76) dont use auto generated plan when both yes and plan options used
 - fix plan path when 2 stacks of same name run at the same time
