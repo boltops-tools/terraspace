@@ -26,7 +26,12 @@ module Terraspace::CLI::Build
 
     # Used by: terraspace build placeholder
     def find_stack
-      mod_path = Dir.glob("{app,vendor}/stacks/*").last
+      stack_paths = Dir.glob("{app,vendor}/stacks/*")
+      stack_paths.select! do |path|
+        select = Terraspace::Compiler::Select.new(path)
+        select.selected?
+      end
+      mod_path = stack_paths.last
       unless mod_path
         logger.info "No stacks found."
         exit 0
