@@ -23,6 +23,7 @@ module Terraspace::Compiler
       names, built = [], []
       local_paths(type_dir).each do |path|
         next unless File.directory?(path)
+        next unless select_stack?(type_dir, path)
         mod_name = File.basename(path)
         next if built.include?(mod_name) # ensures modules in app folder take higher precedence than vendor folder
         names << mod_name
@@ -30,6 +31,15 @@ module Terraspace::Compiler
       names
     end
     memoize :mod_names
+
+    # Examples:
+    #   type_dir stacks
+    #   path     /home/ec2-user/environment/downloads/infra/app/stacks/demo
+    def select_stack?(type_dir, path)
+      return true unless type_dir == "stacks"
+      select = Terraspace::Compiler::Select.new(path)
+      select.selected?
+    end
 
     def local_paths(type_dir)
       dirs("app/#{type_dir}/*") + dirs("vendor/#{type_dir}/*")
@@ -40,7 +50,7 @@ module Terraspace::Compiler
     end
 
     def stack_names
-      mod_names("stacks") - Terraspace.config.all.ignore_stacks
+      mod_names("stacks")
     end
     memoize :stack_names
   end
