@@ -17,8 +17,8 @@ module Terraspace
       config.all.exit_on_fail = ActiveSupport::OrderedOptions.new
       config.all.exit_on_fail.down = true
       config.all.exit_on_fail.up = true
-      config.all.include_stacks = nil
       config.all.ignore_stacks = nil
+      config.all.include_stacks = nil
       config.allow = ActiveSupport::OrderedOptions.new
       config.allow.envs = nil
       config.allow.regions = nil
