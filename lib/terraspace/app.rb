@@ -1,7 +1,9 @@
 module Terraspace
   class App
-    include Singleton
+    extend Memoist
     include DslEvaluator
+    include Singleton
+    include Terraspace::Util::Logging
 
     attr_reader :config
     def initialize
@@ -9,8 +11,6 @@ module Terraspace
     end
 
     def defaults
-      ts_logger = Logger.new(ENV['TS_LOG_PATH'] || $stderr)
-
       config = ActiveSupport::OrderedOptions.new
       config.all = ActiveSupport::OrderedOptions.new
       config.all.concurrency = 5
@@ -37,6 +37,10 @@ module Terraspace
       config.logger = ts_logger
       config.logger.formatter = Logger::Formatter.new
       config.logger.level = ENV['TS_LOG_LEVEL'] || :info
+      config.layering = ActiveSupport::OrderedOptions.new
+      config.layering.names = {}
+      config.layering.enable_names = ActiveSupport::OrderedOptions.new
+      config.layering.enable_names.cache_dir = true
       config.summary = ActiveSupport::OrderedOptions.new
       config.summary.prune = false
       config.terraform = ActiveSupport::OrderedOptions.new
@@ -58,13 +62,28 @@ module Terraspace
       config
     end
 
+    def ts_logger
+      Logger.new(ENV['TS_LOG_PATH'] || $stderr)
+    end
+    memoize :ts_logger
+
     def configure
       yield(@config)
     end
 
     def load_project_config
       evaluate_file("#{Terraspace.root}/config/app.rb")
+
+      # deprecated config/env for config/envs
       path = "#{Terraspace.root}/config/env/#{Terraspace.env}.rb"
+      if File.exist?(path)
+        # so early on in the boot process that logger.info is unavailable, use ts_logger which is available and same thing.
+        ts_logger.info "DEPRECATED: Please rename config/env to config/envs. IE:".color(:yellow)
+        ts_logger.info "    mv config/env config/envs"
+        evaluate_file(path)
+      end
+
+      path = "#{Terraspace.root}/config/envs/#{Terraspace.env}.rb"
       evaluate_file(path)
     end
   end
