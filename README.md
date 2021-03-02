@@ -10,6 +10,8 @@
 
 The Terraform Framework.
 
+Please **watch/star** this repo to help grow and support the project.
+
 Official Docs Site: [terraspace.cloud](https://terraspace.cloud)
 
 Quick Start Demo:
