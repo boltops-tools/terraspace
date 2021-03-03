@@ -3,7 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
-## [UNRELEASED]
+## [0.6.0] - 2021-03-03
+- Update README.md
+- [#87](https://github.com/boltops-tools/terraspace/pull/87) rename cloud to tfc command and improvements
+- [#88](https://github.com/boltops-tools/terraspace/pull/88) custom layering support
 - Rename `terraspace cloud` to `terraspace tfc` and tfc improvements
 - Improve stdout handling, so this works: `terraspace show demo --json | jq`
 - `terraspace plan --output plan.save` writes to relative cache path.
