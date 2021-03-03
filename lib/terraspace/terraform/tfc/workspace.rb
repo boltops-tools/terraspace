@@ -1,4 +1,4 @@
-module Terraspace::Terraform::Cloud
+module Terraspace::Terraform::Tfc
   class Workspace < Terraspace::CLI::Base
     extend Memoist
     include Terraspace::Util::Logging
@@ -21,7 +21,7 @@ module Terraspace::Terraform::Cloud
     end
 
     def init
-      Terraspace::CLI::Init.new(@options.merge(calling_command: "cloud-setup")).run
+      Terraspace::CLI::Init.new(@options).run
     end
 
     def create
@@ -72,4 +72,3 @@ module Terraspace::Terraform::Cloud
     end
   end
 end
-

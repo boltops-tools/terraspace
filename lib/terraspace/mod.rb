@@ -75,7 +75,7 @@ module Terraspace
     #
     #   down - so user can delete stacks w/o needing to create an empty app/stacks/demo folder
     #   null - for the terraspace summary command when there are zero stacks.
-    #          Also useful for terraspace cloud list_workspaces
+    #          Also useful for terraspace tfc list_workspaces
     #
     def possible_fake_root
       if @options[:command] == "down"

@@ -2,12 +2,12 @@ This leaves the top run alone. The top run usually starts immediately planning o
 
 ## Examples
 
-    terraspace cloud runs prune demo --noop
-    terraspace cloud runs prune demo # live run
+    terraspace tfc runs prune demo --noop
+    terraspace tfc runs prune demo # live run
 
 ## Example with Output
 
-    $ terraspace cloud runs prune demo
+    $ terraspace tfc runs prune demo
     Will keep:
 
         run-9muMrjrd22vhsP4u pending test 2020-09-18T12:47:11

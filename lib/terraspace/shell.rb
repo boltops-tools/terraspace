@@ -30,6 +30,10 @@ module Terraspace
     def popen3(env)
       Open3.popen3(env, @command, chdir: @mod.cache_dir) do |stdin, stdout, stderr, wait_thread|
         mimic_terraform_input(stdin, stdout)
+        while out = stdout.gets
+          terraform_to_stdout(out)
+        end
+
         while err = stderr.gets
           @error ||= Error.new
           @error.lines << err # aggregate all error lines
@@ -69,7 +73,7 @@ module Terraspace
         "\e[0m\e[1mvar.", # prompts for variable input. can happen on plan or apply. looking for bold marker also in case "var." shows up somewhere else
       ]
       while out = stdout.gets
-        logger.info(out) unless shown && out.include?("Enter a value:")
+        terraform_to_stdout(out) unless shown && out.include?("Enter a value:")
         shown = false if out.include?("Enter a value:") # reset shown in case of multiple input prompts
 
         # Sometimes stdout doesnt flush and show "Enter a value: ", so mimic it
@@ -78,6 +82,17 @@ module Terraspace
           shown = true
           stdin.write_nonblock($stdin.gets)
         end
+      end
+    end
+
+    # Allows piping to jq. IE:
+    #   terraspace show demo --json | jq
+    def terraform_to_stdout(out)
+      # so terraform output goes stdout
+      if logger.respond_to?(:stdout) && !@options[:log_to_stderr]
+        logger.stdout(out)
+      else
+        logger.info(out)
       end
     end
   end

@@ -1,4 +1,4 @@
-module Terraspace::Terraform::Cloud
+module Terraspace::Terraform::Tfc
   class Syncer < Terraspace::CLI::Base
     extend Memoist
     include Terraspace::Compiler::DirsConcern

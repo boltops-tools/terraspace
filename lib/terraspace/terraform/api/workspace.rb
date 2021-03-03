@@ -24,7 +24,7 @@ class Terraspace::Terraform::Api
 
     def working_directory
       cache_dir = @mod.cache_dir.sub("#{Terraspace.root}/", '')
-      prefix = Terraspace.config.cloud.working_dir_prefix # prepended to TFC Working Directory
+      prefix = Terraspace.config.tfc.working_dir_prefix # prepended to TFC Working Directory
       prefix ? "#{prefix}/#{cache_dir}" : cache_dir
     end
 
@@ -38,13 +38,20 @@ class Terraspace::Terraform::Api
       #
       #     terraspace up demo --no-init
       #
-      unless payload || options[:exit_on_fail] == false
+      exit_on_fail = options[:exit_on_fail].nil? ? true : options[:exit_on_fail]
+      if exit_on_fail && not_found_error?(payload)
         logger.error "ERROR: Unable to find the workspace: #{@name}. The workspace may not exist. Or the Terraform token may be invalid. Please double check your Terraform token.".color(:red)
         exit 1
       end
       payload['data'] if payload
     end
     memoize :details
+
+    def not_found_error?(payload)
+      return true unless payload
+      return false unless payload.key?('errors')
+      payload['errors'][0]['status'] == '404'
+    end
 
     def destroy
       # response payload from delete operation is nil
@@ -74,7 +81,7 @@ class Terraspace::Terraform::Api
 
     def attributes
       attrs = { name: @name }
-      config = Terraspace.config.cloud.workspace.attrs
+      config = Terraspace.config.tfc.workspace.attrs
       attrs.merge!(config)
       # Default: run on all changes since app/modules can affect app/stacks
       if config['vcs-repo'] && config['file-triggers-enabled'].nil?

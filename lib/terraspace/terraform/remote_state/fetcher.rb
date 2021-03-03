@@ -84,7 +84,7 @@ module Terraspace::Terraform::RemoteState
     end
 
     def init
-      Terraspace::CLI::Init.new(mod: @child.name, calling_command: "apply", quiet: true, suppress_error_color: true).init
+      Terraspace::CLI::Init.new(mod: @child.name, quiet: true, suppress_error_color: true).init
       true
     rescue Terraspace::BucketNotFoundError # from Terraspace::Shell
       bucket_not_found_error

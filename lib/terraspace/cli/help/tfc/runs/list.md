@@ -2,7 +2,7 @@
 
 Statuses of pending and planned are shown by default.
 
-    $ terraspace cloud runs list demo
+    $ terraspace tfc runs list demo
     +----------------------+---------+---------------------------------+---------------------+
     |          Id          | Status  |             Message             |     Created At      |
     +----------------------+---------+---------------------------------+---------------------+
@@ -13,7 +13,7 @@ Statuses of pending and planned are shown by default.
 
 To see all most recent runs, use `--status all`.
 
-    $ terraspace cloud runs list demo --status all
+    $ terraspace tfc runs list demo --status all
     +----------------------+-----------+--------------------------------+---------------------+
     |          Id          |  Status   |            Message             |     Created At      |
     +----------------------+-----------+--------------------------------+---------------------+
@@ -26,7 +26,7 @@ To see all most recent runs, use `--status all`.
 
 You can provide a list of statuses to the `--status` filter option.
 
-    $ terraspace cloud runs list demo --status canceled discarded
+    $ terraspace tfc runs list demo --status canceled discarded
     +----------------------+-----------+--------------------------------+---------------------+
     |          Id          |  Status   |            Message             |     Created At      |
     +----------------------+-----------+--------------------------------+---------------------+

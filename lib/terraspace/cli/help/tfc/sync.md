@@ -2,7 +2,7 @@
 
 Sync all stacks:
 
-    $ terraspace cloud sync
+    $ terraspace tfc sync
     About to sync these project stacks with Terraform Cloud workspaces:
 
         Stack => Workspace
@@ -22,7 +22,7 @@ Sync all stacks:
 
 Sync specific stacks:
 
-    $ terraspace cloud sync demo
+    $ terraspace tfc sync demo
     About to sync these project stacks with Terraform Cloud workspaces:
 
         Stack => Workspace
@@ -40,4 +40,4 @@ Sync specific stacks:
 
 Can also specify multiple stacks:
 
-    terraspace cloud sync demo demo2
+    terraspace tfc sync demo demo2

@@ -7,7 +7,7 @@ class Terraspace::CLI
 
     def run
       Terraspace::Builder.new(@options).run unless @options[:build] # Up already ran build
-      Init.new(@options.merge(calling_command: @name)).run
+      Init.new(@options).run
       Terraspace::Terraform::Runner.new(@name, @options).run
     end
   end

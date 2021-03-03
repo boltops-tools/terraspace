@@ -33,7 +33,7 @@ class Terraspace::Terraform::Api
 
     def vars_path
       # .rb takes higher precedence
-      Dir.glob("#{Terraspace.root}/config/terraform/cloud/vars.{rb,json}").first
+      Dir.glob("#{Terraspace.root}/config/terraform/tfc/vars.{rb,json}").first
     end
   end
 end

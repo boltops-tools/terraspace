@@ -3,10 +3,9 @@ require 'timeout'
 class Terraspace::CLI
   class Init < Base
     def initialize(options={})
-      # Original calling command. Can be from Commander which is a terraform command. IE: terraform apply
-      # Or can be from terraspace cloud setup. Which will be cloud-setup.
-      @calling_command = options[:calling_command]
-      super(options)
+      # terraform init output goes to default Terraspace.logger.info which is stderr
+      # Unless the logger has been overridden.
+      super(options.merge(log_to_stderr: true))
     end
 
     def run
@@ -29,7 +28,11 @@ class Terraspace::CLI
     end
 
     def sync_cloud
-      Terraspace::Terraform::Cloud::Sync.new(@options).run if %w[apply plan destroy cloud-setup].include?(@calling_command)
+      Terraspace::Terraform::Tfc::Sync.new(@options).run if sync_cloud?
+    end
+
+    def sync_cloud?
+       %w[apply down plan up].include?(calling_command)
     end
 
     # Currently only handles remote modules only one-level deep.
@@ -54,16 +57,21 @@ class Terraspace::CLI
 
     def auto?
       # command is only passed from CLI in the update specifically for this check
-      @options[:auto] && @calling_command == "apply"
+      @options[:auto] && calling_command == "up"
     end
   private
     def local_source?(s)
        s =~ %r{^\.} || s =~ %r{^/}
     end
 
+    def auto_init?
+      # terraspace commands not terraform commands. included some extra terraform commands here in case terrapace adds those later
+      commands = %w[all apply console down output plan providers refresh show state up validate]
+      commands.include?(calling_command)
+    end
+
     def run_init?
-      commands = %w[apply console destroy output plan providers refresh show validate cloud-setup]
-      return false unless commands.include?(@calling_command)
+      return false unless auto_init?
       mode = ENV['TS_INIT_MODE'] || Terraspace.config.init.mode
       case mode.to_sym
       when :auto
@@ -86,6 +94,11 @@ class Terraspace::CLI
         path.include?("terraform-provider-")
       end
       !!provider
+    end
+
+    # only top level command considered
+    def calling_command
+      ARGV[0]
     end
   end
 end
