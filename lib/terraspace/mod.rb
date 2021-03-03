@@ -111,9 +111,24 @@ module Terraspace
 
     # Full path with build_dir
     def cache_dir
-      pattern = Terraspace.config.build.cache_dir # IE: :CACHE_ROOT/:REGION/:ENV/:BUILD_DIR
+      # config.build.cache_dir is a String or object that respond_to call. IE:
+      #   :CACHE_ROOT/:REGION/:ENV/:BUILD_DIR
+      #   CustomBuildDir.call
+      # The call method should return a String pattern used for substitutions
+      object = Terraspace.config.build.cache_dir
+      pattern = if object.is_a?(String)
+          object
+        elsif object.respond_to?(:call)
+          object.call(self)
+        elsif object.public_instance_methods.include?(:call)
+          instance = object.new
+          instance.call(self)
+        else
+          raise "ERROR: config.build.cache_dir is not a String or responds to the .call method."
+        end
+
       expander = Terraspace::Compiler::Expander.autodetect(self)
-      expander.expansion(pattern)
+      expander.expansion(pattern) # pattern is a String that contains placeholders for substitutions
     end
     memoize :cache_dir
 

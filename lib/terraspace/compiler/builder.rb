@@ -39,6 +39,7 @@ module Terraspace::Compiler
       expr = "#{Terraspace.root}/config/terraform/**/*"
       Dir.glob(expr).each do |path|
         next unless File.file?(path)
+        next if path.include?('config/terraform/tfvars')
         build_config_file(basename(path))
       end
     end
@@ -73,6 +74,7 @@ module Terraspace::Compiler
     def skip?(src_path)
       return true unless File.file?(src_path)
       # certain folders will be skipped
+      src_path.include?("#{@mod.root}/tfvars") ||
       src_path.include?("#{@mod.root}/config/args") ||
       src_path.include?("#{@mod.root}/config/hooks") ||
       src_path.include?("#{@mod.root}/test")

@@ -20,18 +20,30 @@ module Terraspace::Compiler::Strategy
       end
     end
 
+    def layer_paths
+      Layer.new(@mod).paths
+    end
+
     # Tact on number to ensure that tfvars will be processed in desired order.
     # Also name auto.tfvars so it will automatically load
     def ordered_name(layer_path)
       @order += 1
-      prefix = @order.to_s.rjust(2, '0') # add leading 0 in case there are more than 10 layers
-      name = "#{prefix}-#{File.basename(layer_path)}"
+      prefix = @order.to_s
+      # add leading 0 when more than 10 layers
+      prefix = prefix.rjust(2, '0') if layer_paths.size > 9
+      name = "#{prefix}-#{tfvar_name(layer_path)}"
       name.sub('.tfvars','.auto.tfvars')
           .sub('.rb','.auto.tfvars.json')
     end
 
-    def layer_paths
-      Layer.new(@mod).paths
+    def tfvar_name(layer_path)
+      if layer_path.include?('/tfvars/')
+        name = layer_path.sub(%r{.*/tfvars/},'').gsub('/','-')
+        name = "project-#{name}" if layer_path.include?("config/terraform/tfvars")
+        name
+      else
+        File.basename(layer_path)
+      end
     end
 
     def strategy_class(ext)

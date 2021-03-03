@@ -5,6 +5,7 @@ module Terraspace
       load_plugin_default_configs
       Terraspace.config # load project config
       Terraspace::App::Hooks.run_hook(:on_boot)
+      Terraspace::App::Inits.run_all
       set_plugin_cache!
     end
 

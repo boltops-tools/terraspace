@@ -7,6 +7,7 @@
 module Terraspace::Plugin::Expander
   module Interface
     include Terraspace::Plugin::InferProvider
+    include Terraspace::Plugin::Expander::Friendly
 
     delegate :build_dir, :type_dir, :type, to: :mod
 
@@ -68,7 +69,11 @@ module Terraspace::Plugin::Expander
 
     def var_value(name)
       name = name.sub(':','').downcase
-      send(name)
+      value = send(name)
+      if name == "namespace" && Terraspace.config.layering.enable_names.cache_dir
+        value = friendly_name(value)
+      end
+      value
     end
 
     def mod_name
