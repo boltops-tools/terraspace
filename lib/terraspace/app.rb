@@ -40,7 +40,7 @@ module Terraspace
       config.layering = ActiveSupport::OrderedOptions.new
       config.layering.names = {}
       config.layering.enable_names = ActiveSupport::OrderedOptions.new
-      config.layering.enable_names.cache_dir = true
+      config.layering.enable_names.expansion = true
       config.summary = ActiveSupport::OrderedOptions.new
       config.summary.prune = false
       config.terraform = ActiveSupport::OrderedOptions.new
