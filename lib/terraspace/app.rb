@@ -29,7 +29,6 @@ module Terraspace
       config.build.clean_cache = nil # defaults to /full/path/to/.terraspace-cache
       config.bundle = ActiveSupport::OrderedOptions.new
       config.bundle.logger = ts_logger
-      config.hooks = Hooks.new # Only keeping to warn user. TODO: Should remove in an patch release
       config.init = ActiveSupport::OrderedOptions.new
       config.init.mode = "auto" # auto, never, always
       config.log = ActiveSupport::OrderedOptions.new
