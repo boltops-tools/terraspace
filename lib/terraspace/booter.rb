@@ -1,10 +1,9 @@
 module Terraspace
   module Booter
     def boot
+      run_hooks
       Terraspace::Bundle.require # load plugins
       load_plugin_default_configs
-      Terraspace.config # load project config
-      Terraspace::App::Hooks.run_hook(:on_boot)
       Terraspace::App::Inits.run_all
       set_plugin_cache!
     end
@@ -22,6 +21,23 @@ module Terraspace
       dir = ENV['TF_PLUGIN_CACHE_DIR'] ||= plugin_cache.dir
       FileUtils.mkdir_p(dir)
       dir
+    end
+
+    # Special boot hooks run super early, even before plugins are loaded.
+    # Useful for setting env vars and other early things.
+    #
+    #    config/boot.rb
+    #    config/boot/dev.rb
+    #
+    def run_hooks
+      run_hook
+      run_hook(Terraspace.env)
+    end
+
+    def run_hook(env=nil)
+      name = env ? "boot/#{env}" : "boot"
+      path = "#{Terraspace.root}/config/#{name}.rb"
+      require path if File.exist?(path)
     end
 
     extend self
