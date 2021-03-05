@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [0.6.2] - 2021-03-05
+- [#90](https://github.com/boltops-tools/terraspace/pull/90) Boot hooks: new and improved boot hooks interface
+- remove old config.hooks.on_boot
+
 ## [0.6.1] - 2021-03-04
 - [#89](https://github.com/boltops-tools/terraspace/pull/89) rename option to enable_names.expansion
 
