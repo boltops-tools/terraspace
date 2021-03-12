@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [0.6.3] - 2021-03-12
+- [#91](https://github.com/boltops-tools/terraspace/pull/91) Camelcase
+- [#92](https://github.com/boltops-tools/terraspace/pull/92) disable terraform.plugin_cache by default
+- skip build config/helpers
+
 ## [0.6.2] - 2021-03-05
 - [#90](https://github.com/boltops-tools/terraspace/pull/90) Boot hooks: new and improved boot hooks interface
 - remove old config.hooks.on_boot
