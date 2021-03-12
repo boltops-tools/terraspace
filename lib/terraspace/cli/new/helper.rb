@@ -26,9 +26,9 @@ class Terraspace::CLI::New
 
     def helper_class
       if type == "project"
-        "Terraspace::#{type.camelize}::#{name.camelize}Helper"
+        "Terraspace::#{type.camelcase}::#{name.camelcase}Helper"
       else
-        "Terraspace::#{type.camelize}::#{stack.camelize}::#{name.camelize}Helper"
+        "Terraspace::#{type.camelcase}::#{stack.camelcase}::#{name.camelcase}Helper"
       end
     end
 
