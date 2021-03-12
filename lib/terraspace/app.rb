@@ -45,7 +45,7 @@ module Terraspace
       config.terraform = ActiveSupport::OrderedOptions.new
       config.terraform.plugin_cache = ActiveSupport::OrderedOptions.new
       config.terraform.plugin_cache.dir = ENV['TF_PLUGIN_CACHE_DIR'] || "#{Terraspace.tmp_root}/plugin_cache"
-      config.terraform.plugin_cache.enabled = true
+      config.terraform.plugin_cache.enabled = false
       config.terraform.plugin_cache.purge_on_error = true
       config.test_framework = "rspec"
       config.tfc = ActiveSupport::OrderedOptions.new
