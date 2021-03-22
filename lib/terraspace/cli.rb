@@ -82,6 +82,12 @@ module Terraspace
       Down.new(options.merge(mod: mod)).run
     end
 
+    desc "fmt", "Run terraform fmt"
+    long_desc Help.text(:fmt)
+    def fmt
+      Fmt.new(options).run
+    end
+
     desc "info STACK", "Get info about stack."
     long_desc Help.text(:info)
     instance_option.call

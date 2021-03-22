@@ -1,13 +1,14 @@
 class Terraspace::CLI
   class List
+    include Concerns::SourceDirs
+
     def initialize(options={})
       @options = options
       @type_dir = normalized_type
     end
 
     def run
-      dirs = Dir.glob("{app,vendor}/{modules,stacks}/*").select { |p| File.directory?(p) }
-      dirs.sort.each do |path|
+      source_dirs.each do |path|
         if @type_dir
           puts path if path.include?("/#{@type_dir}/")
         else
