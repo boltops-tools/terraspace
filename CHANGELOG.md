@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [0.6.5] - 2021-03-24
+- [#96](https://github.com/boltops-tools/terraspace/pull/96) terraspace fmt: ability to specific module or stack
+
 ## [0.6.4] - 2021-03-22
 - [#94](https://github.com/boltops-tools/terraspace/pull/94) terraspace fmt command
 
