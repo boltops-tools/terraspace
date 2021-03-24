@@ -27,6 +27,9 @@ module Terraspace
     reconfigure_option = Proc.new {
       option :reconfigure, type: :boolean, desc: "Add terraform -reconfigure option"
     }
+    type_option = Proc.new {
+      option :type, default: "stack", aliases: %w[t], desc: "Type: stack, module, or all"
+    }
 
     desc "all SUBCOMMAND", "all subcommands"
     long_desc Help.text(:all)
@@ -84,8 +87,9 @@ module Terraspace
 
     desc "fmt", "Run terraform fmt"
     long_desc Help.text(:fmt)
-    def fmt
-      Fmt.new(options).run
+    type_option.call
+    def fmt(mod=nil)
+      Fmt.new(options.merge(mod: mod)).run
     end
 
     desc "info STACK", "Get info about stack."
@@ -106,7 +110,7 @@ module Terraspace
 
     desc "list", "List stacks and modules."
     long_desc Help.text(:list)
-    option :type, default: "stack", aliases: %w[t], desc: "Type: stack, module, or all"
+    type_option.call
     def list
       List.new(options).run
     end
