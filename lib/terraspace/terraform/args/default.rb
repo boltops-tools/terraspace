@@ -3,7 +3,7 @@ require "tempfile"
 module Terraspace::Terraform::Args
   class Default
     def initialize(mod, name, options={})
-      @mod, @name, @options = mod, name, options
+      @mod, @name, @options = mod, name.underscore, options
       @quiet = @options[:quiet].nil? ? true : @options[:quiet]
     end
 
@@ -11,12 +11,16 @@ module Terraspace::Terraform::Args
       # https://terraspace.cloud/docs/ci-automation/
       ENV['TF_IN_AUTOMATION'] = '1' if @options[:auto]
 
-      if %w[apply destroy init output plan show].include?(@name)
-        meth = "#{@name}_args"
-        send(meth)
+      args_meth = "#{@name}_args"
+      if respond_to?(args_meth)
+        send(args_meth)
       else
         []
       end
+    end
+
+    def force_unlock_args
+      [" -force #{@options[:lock_id]}"]
     end
 
     def apply_args
