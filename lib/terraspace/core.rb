@@ -51,5 +51,12 @@ module Terraspace
     def logger=(v)
       @@logger = v
     end
+
+    def pass_file?(path)
+      pass_files = config.build.pass_files + config.build.default_pass_files
+      pass_files.uniq.detect do |i|
+        i.is_a?(Regexp) ? path =~ i : path.include?(i)
+      end
+    end
   end
 end
