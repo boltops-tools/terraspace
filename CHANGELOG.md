@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [0.6.6] - 2021-04-15
+- [#101](https://github.com/boltops-tools/terraspace/pull/101) terraspace force-unlock command
+- [#102](https://github.com/boltops-tools/terraspace/pull/102) fix terraspace all summarized logging
+- [#103](https://github.com/boltops-tools/terraspace/pull/103) config.build.pass_files with default files use pass strategy
+
 ## [0.6.5] - 2021-03-24
 - [#96](https://github.com/boltops-tools/terraspace/pull/96) terraspace fmt: ability to specific module or stack
 
