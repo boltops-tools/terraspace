@@ -10,9 +10,15 @@ module Terraspace::Compiler
     end
 
     def dest_path
-      name = @dest_name || @src_path.sub('.rb','.tf.json')
+      name = get_name
       name = basename(name)
       "#{dest_dir}/#{name}"
+    end
+
+    def get_name
+      return @dest_name if @dest_name
+      return @src_path if Terraspace.pass_file?(@src_path)
+      @src_path.sub('.rb','.tf.json')
     end
 
     def dest_dir
