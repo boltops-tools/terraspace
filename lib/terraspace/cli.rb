@@ -85,6 +85,13 @@ module Terraspace
       Down.new(options.merge(mod: mod)).run
     end
 
+    desc "force_unlock", "Calls terrform force-unlock"
+    long_desc Help.text(:force_unlock)
+    instance_option.call
+    def force_unlock(mod, lock_id)
+      Commander.new("force-unlock", options.merge(mod: mod, lock_id: lock_id)).run
+    end
+
     desc "fmt", "Run terraform fmt"
     long_desc Help.text(:fmt)
     type_option.call
