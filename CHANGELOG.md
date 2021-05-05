@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [0.6.7] - 2021-05-05
+- [#108](https://github.com/boltops-tools/terraspace/pull/108) provide runner context to terraspace hook
+
 ## [0.6.6] - 2021-04-15
 - [#101](https://github.com/boltops-tools/terraspace/pull/101) terraspace force-unlock command
 - [#102](https://github.com/boltops-tools/terraspace/pull/102) fix terraspace all summarized logging
