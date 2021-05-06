@@ -51,8 +51,11 @@ module Terraspace
             buffer = f.read_nonblock(BLOCK_SIZE, exception: false)
             next unless buffer
 
-            terraform_to_stdout(buffer)
-            handle_input(stdin, buffer)
+            lines = buffer.split("\n")
+            lines.each do |line|
+              terraform_to_stdout(line)
+              handle_input(stdin, line)
+            end
           end
         end
       end
@@ -66,7 +69,7 @@ module Terraspace
     # Hack around it by mimicking the "Enter a value:" prompt
     #
     # Note: system does stream the prompt but using Open3.popen3 so we can capture output to save to logs.
-    def handle_input(stdin, buffer)
+    def handle_input(stdin, line)
       # stdout doesnt seem to flush and show "Enter a value: " look for earlier output
       patterns = [
         "Only 'yes' will be accepted", # prompt for apply. can happen on apply
@@ -90,8 +93,8 @@ module Terraspace
       end
     end
 
-    def terraform_to_stdout(buffer)
-      prompted = buffer.include?('Enter a value')
+    def terraform_to_stdout(line)
+      prompted = line.include?('Enter a value')
       @prompt_shown ||= prompted
       return if @prompt_shown && prompted
 
@@ -99,9 +102,9 @@ module Terraspace
       # can be piped to jq. IE:
       #   terraspace show demo --json | jq
       if logger.respond_to?(:stdout) && !@options[:log_to_stderr]
-        logger.stdout(buffer)
+        logger.stdout(line)
       else
-        logger.info(buffer)
+        logger.info(line)
       end
     end
   end
