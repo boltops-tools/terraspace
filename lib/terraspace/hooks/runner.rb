@@ -30,16 +30,16 @@ module Terraspace::Hooks
         logger.warn "WARN: execute option not set for hook: #{@hook.inspect}"
       end
 
-      if executor
-        meth = executor.method(:call)
-        case meth.arity
-        when 0
-          executor.call # backwards compatibility
-        when 1
-          executor.call(self)
-        else
-          raise "The #{executor} call method definition has been more than 1 arguments and is not supported"
-        end
+      return unless executor
+
+      meth = executor.method(:call)
+      case meth.arity
+      when 0
+        executor.call # backwards compatibility
+      when 1
+        executor.call(self)
+      else
+        raise "The #{executor} call method definition has been more than 1 arguments and is not supported"
       end
     end
   end
