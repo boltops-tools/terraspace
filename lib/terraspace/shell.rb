@@ -53,12 +53,28 @@ module Terraspace
 
             lines = buffer.split("\n")
             lines.each do |line|
-              terraform_to_stdout(line)
-              handle_input(stdin, line)
+              if f.fileno == stdout.fileno
+                handle_stdout(line)
+                handle_input(stdin, line)
+              else
+                handle_stderr(line)
+              end
             end
           end
         end
       end
+    end
+
+    def handle_stderr(line)
+      @error ||= Error.new
+      @error.lines << line # aggregate all error lines
+
+      return if @error.known?
+      # Sometimes may print a "\e[31m\n" which like during dependencies fetcher init
+      # suppress it so dont get a bunch of annoying "newlines"
+      return if line == "\e[31m\n" && @options[:suppress_error_color]
+
+      logger.error(line)
     end
 
     def all_eof?(files)
@@ -93,7 +109,7 @@ module Terraspace
       end
     end
 
-    def terraform_to_stdout(line)
+    def handle_stdout(line)
       prompted = line.include?('Enter a value')
       @prompt_shown ||= prompted
       return if @prompt_shown && prompted
