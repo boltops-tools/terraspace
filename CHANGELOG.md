@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [0.6.9] - 2021-05-07
+- [#112](https://github.com/boltops-tools/terraspace/pull/112) fix smart auto retry
+
 ## [0.6.8] - 2021-05-07
 - [#110](https://github.com/boltops-tools/terraspace/pull/110) fix popen deadlock with large amounts of output [#97](https://github.com/boltops-tools/terraspace/pull/97) Terraspace hangs when TF_LOG=TRACE environment variable exists #97
 
