@@ -38,12 +38,12 @@ module Terraspace
     BLOCK_SIZE = Integer(ENV['TS_BUFFER_BLOCK_SIZE'] || 102400)
     BUFFER_TIMEOUT = Integer(ENV['TS_BUFFER_TIMEOUT'] || 3600) # 3600s = 1h
     def handle_streams(stdin, stdout, stderr)
-      files = [stdout, stderr]
       # note: t=0 and t=nil means no timeout. See: https://bit.ly/2PURlCX
       t = BUFFER_TIMEOUT.to_i unless BUFFER_TIMEOUT.nil?
       Timeout::timeout(t) do
+        files = [stdout, stderr]
         until all_eof?(files) do
-          ready = IO.select(files, nil, nil, 0.1)
+          ready = IO.select(files)
           next unless ready
 
           readable = ready[0]
