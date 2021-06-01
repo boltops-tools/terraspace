@@ -14,9 +14,13 @@ Format all source files.
 Format specific module or stack.
 
     $ terraspace fmt stack1
-    $ terraspace fmt module1
+    $ terraspace fmt module1 -t module
 
 Format scoping to module or stack types. In case there's a module and stack with the same name.
 
     $ terraspace fmt example -t module
-    $ terraspace fmt demo -t stacke
+    $ terraspace fmt demo -t stack
+
+Format all, so both modules and stacks:
+
+    $ terraspace fmt -t all
