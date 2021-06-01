@@ -30,7 +30,7 @@ class Terraspace::CLI
 
     def type_dirs
       type = @options[:type]
-      if type
+      if type && type != "all"
         app_source_dirs.select { |p| p.include?("/#{type.pluralize}/") }
       else
         app_source_dirs
