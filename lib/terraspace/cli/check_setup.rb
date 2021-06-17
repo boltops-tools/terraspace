@@ -58,6 +58,7 @@ class Terraspace::CLI
       end
       major, minor, _ = version.split('.')
       required_major, required_minor = REQUIRED_TERRAFORM_VERSION.split('.')
+      return true if major.to_i > required_major.to_i
       x = major.to_i >= required_major.to_i
       y = minor.to_i >= required_minor.to_i
       x && y
