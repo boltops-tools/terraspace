@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [0.6.11] - 2021-06-22
+- [#120](https://github.com/boltops-tools/terraspace/pull/120) version check handles a major change
+
 ## [0.6.10] - 2021-06-01
 - [#117](https://github.com/boltops-tools/terraspace/pull/117) fix terraspace fmt -t all
 - clean up IO select call
