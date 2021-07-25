@@ -56,6 +56,9 @@ module Terraspace
           args = ["version"]
         end
 
+        # Terraspace.argv provides consistency when terraspace is being called by rspec-terrspace test harness
+        Terraspace.argv = args.clone # important to clone since Thor removes the first argv
+
         super
       end
 

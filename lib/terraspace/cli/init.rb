@@ -98,7 +98,7 @@ class Terraspace::CLI
 
     # only top level command considered
     def calling_command
-      ARGV[0]
+      Terraspace.argv[0]
     end
   end
 end

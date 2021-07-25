@@ -35,7 +35,7 @@ class Terraspace::CLI
     end
 
     def check_command?
-      ARGV[0] == "check_setup"
+      Terraspace.argv[0] == "check_setup"
     end
 
     def terraform_is_not_installed
