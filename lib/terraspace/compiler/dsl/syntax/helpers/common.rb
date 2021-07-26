@@ -19,7 +19,7 @@ module Terraspace::Compiler::Dsl::Syntax::Helpers
     #     terraspace_command('-') => "terraspace-up-demo"
     #
     def terraspace_command(separator=' ')
-      args = ARGV[0..1] || []
+      args = Terraspace.argv[0..1] || []
       command = ["terraspace"] + args
       command.join(separator)
     end

@@ -58,5 +58,15 @@ module Terraspace
         i.is_a?(Regexp) ? path =~ i : path.include?(i)
       end
     end
+
+    # Terraspace.argv provides consistency when terraspace is being called by rspec-terrspace test harness
+    # So use Terraspace.argv instead of ARGV constant
+    def argv=(argv)
+      @@argv = argv
+    end
+
+    def argv
+      @@argv
+    end
   end
 end

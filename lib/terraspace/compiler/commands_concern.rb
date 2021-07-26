@@ -11,8 +11,8 @@ module Terraspace::Compiler
     def command_is?(*commands)
       commands.flatten!
       commands.map!(&:to_s)
-      commands.include?(ARGV[0]) ||                  # IE: terraspace up
-      ARGV[0] == "all" && commands.include?(ARGV[1]) # IE: terraspace all up
+      commands.include?(Terraspace.argv[0]) ||                  # IE: terraspace up
+      Terraspace.argv[0] == "all" && commands.include?(Terraspace.argv[1]) # IE: terraspace all up
     end
   end
 end

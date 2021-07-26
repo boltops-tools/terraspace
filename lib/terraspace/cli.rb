@@ -189,8 +189,8 @@ module Terraspace
 
     desc "state SUBCOMMAND STACK", "Run state."
     long_desc Help.text(:state)
-    def state(subcommand, mod)
-      State.new(options.merge(subcommand: subcommand, mod: mod)).run
+    def state(subcommand, mod, *rest)
+      State.new(options.merge(subcommand: subcommand, mod: mod, rest: rest)).run
     end
 
     desc "test", "Run test."
