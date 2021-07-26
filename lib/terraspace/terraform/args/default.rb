@@ -11,12 +11,24 @@ module Terraspace::Terraform::Args
       # https://terraspace.cloud/docs/ci-automation/
       ENV['TF_IN_AUTOMATION'] = '1' if @options[:auto]
 
-      args_meth = "#{@name}_args".gsub(' ', '_')
-      if respond_to?(args_meth)
-        send(args_meth)
-      else
-        []
+      args = []
+
+      if straight_delegate_args?
+        args += @options[:rest]
+        args.flatten!
       end
+
+      args_meth = "#{@name}_args".gsub(' ', '_') # IE: apply_args, init_args, state_pull_args
+      if respond_to?(args_meth)
+        args += send(args_meth)
+      end
+
+      args
+    end
+
+    # delegate args straight through for special commands, currently state seems to be the only case
+    def straight_delegate_args?
+      @name.include?("state") # IE: "state list", "state pull", "state show"
     end
 
     def force_unlock_args
