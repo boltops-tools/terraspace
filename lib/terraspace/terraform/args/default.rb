@@ -11,7 +11,7 @@ module Terraspace::Terraform::Args
       # https://terraspace.cloud/docs/ci-automation/
       ENV['TF_IN_AUTOMATION'] = '1' if @options[:auto]
 
-      args_meth = "#{@name}_args"
+      args_meth = "#{@name}_args".gsub(' ', '_')
       if respond_to?(args_meth)
         send(args_meth)
       else
@@ -101,6 +101,12 @@ module Terraspace::Terraform::Args
 
     def destroy_args
       auto_approve_arg
+    end
+
+    def state_pull_args
+      args = []
+      args << " > #{@options[:out]}" if @options[:out]
+      args
     end
 
     def auto_approve_arg
