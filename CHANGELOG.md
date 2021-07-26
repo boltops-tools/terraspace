@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [0.6.12] - 2021-07-26
+- [#128](https://github.com/boltops-tools/terraspace/pull/128) Improve terraspace state comands and Terraspace.argv for internal usage
+- [#129](https://github.com/boltops-tools/terraspace/pull/129) use Dir.glob(expr, File::FNM_DOTMATCH) so dotfiles are copied, allowing .terraform-version for tfenv
+- allow -h to help outside terraspace project generally
+- require rspec-terraspace 0.3.0
+- state subcommands: straight delegate args
+- Terraspace.argv for consistency with terraspace test
+
 ## [0.6.11] - 2021-06-22
 - [#120](https://github.com/boltops-tools/terraspace/pull/120) version check handles a major change
 
