@@ -189,7 +189,6 @@ module Terraspace
 
     desc "state SUBCOMMAND STACK", "Run state."
     long_desc Help.text(:state)
-    option :out, desc: "state pull only. where to write the output to"
     def state(subcommand, mod, *rest)
       State.new(options.merge(subcommand: subcommand, mod: mod, rest: rest)).run
     end

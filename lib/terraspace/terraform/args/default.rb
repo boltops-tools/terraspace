@@ -18,7 +18,7 @@ module Terraspace::Terraform::Args
         args.flatten!
       end
 
-      args_meth = "#{@name}_args".gsub(' ', '_') # IE: apply_args, init_args, state_pull_args
+      args_meth = "#{@name}_args".gsub(' ', '_') # IE: apply_args, init_args
       if respond_to?(args_meth)
         args += send(args_meth)
       end
@@ -113,12 +113,6 @@ module Terraspace::Terraform::Args
 
     def destroy_args
       auto_approve_arg
-    end
-
-    def state_pull_args
-      args = []
-      args << " > #{@options[:out]}" if @options[:out]
-      args
     end
 
     def auto_approve_arg
