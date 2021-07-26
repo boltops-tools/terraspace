@@ -37,7 +37,7 @@ module Terraspace::Compiler
 
     def build_config_terraform
       expr = "#{Terraspace.root}/config/terraform/**/*"
-      Dir.glob(expr).each do |path|
+      search(expr).each do |path|
         next unless File.file?(path)
         next if path.include?('config/terraform/tfvars')
         build_config_file(basename(path))
@@ -45,13 +45,13 @@ module Terraspace::Compiler
     end
 
     def build_config_file(file)
-      existing = Dir.glob("#{@mod.root}/#{file}").first
+      existing = search("#{@mod.root}/#{file}").first
       return if existing && existing.ends_with?(".tf") # do not overwrite existing backend.tf, provider.tf, etc
 
       if file.ends_with?(".rb")
-        src_path = Dir.glob("#{@mod.root}/#{basename(file)}").first # existing source. IE: backend.rb in module folder
+        src_path = search("#{@mod.root}/#{basename(file)}").first # existing source. IE: backend.rb in module folder
       end
-      src_path ||= Dir.glob("#{Terraspace.root}/config/terraform/#{file}").first
+      src_path ||= search("#{Terraspace.root}/config/terraform/#{file}").first
       build_mod_file(src_path) if src_path
     end
 
@@ -65,7 +65,7 @@ module Terraspace::Compiler
     end
 
     def with_path(path)
-      Dir.glob(path).each do |src_path|
+      search(path).each do |src_path|
         next if skip?(src_path)
         yield(src_path)
       end
@@ -79,6 +79,10 @@ module Terraspace::Compiler
       src_path.include?("#{@mod.root}/config/hooks") ||
       src_path.include?("#{@mod.root}/test") ||
       src_path.include?("#{@mod.root}/tfvars")
+    end
+
+    def search(expr)
+      Dir.glob(expr, File::FNM_DOTMATCH)
     end
   end
 end
