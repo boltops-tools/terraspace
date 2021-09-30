@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [0.6.14] - 2021-09-30
+- [#134](https://github.com/boltops-tools/terraspace/pull/134) Use file not plan for the var-files argument
+- [#139](https://github.com/boltops-tools/terraspace/pull/139) Fix terraspace output to not add extra newlines
+- terraspace list: change default to show both stacks and modules
+
 ## [0.6.13] - 2021-08-10
 - use terraspace-bundler 0.4.0
 
