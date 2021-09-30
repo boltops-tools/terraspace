@@ -28,7 +28,7 @@ module Terraspace
       option :reconfigure, type: :boolean, desc: "Add terraform -reconfigure option"
     }
     type_option = Proc.new {
-      option :type, default: "stack", aliases: %w[t], desc: "Type: stack, module, or all"
+      option :type, default: "all", aliases: %w[t], desc: "Type: stack, module, or all"
     }
 
     desc "all SUBCOMMAND", "all subcommands"
