@@ -40,7 +40,7 @@ module Terraspace::Terraform::Args
       var_files = @options[:var_files]
       if var_files
         var_files.each do |file|
-          copy_to_cache(plan)
+          copy_to_cache(file)
         end
         args << var_files.map { |f| "-var-file #{f}" }.join(' ')
       end
