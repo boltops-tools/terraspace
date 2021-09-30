@@ -20,11 +20,16 @@ module Terraspace
     def shell
       env = @options[:env] || {}
       env.stringify_keys!
-      if @options[:shell] == "system" # terraspace console
+      if system?
         system(env, @command, chdir: @mod.cache_dir)
       else
         popen3(env)
       end
+    end
+
+    def system?
+      @options[:shell] == "system" || # terraspace console
+      ENV['TS_RUNNER_SYSTEM'] # allow manual override
     end
 
     def popen3(env)
@@ -62,6 +67,7 @@ module Terraspace
             end
           end
         end
+        handle_stdout("\n") # final newline at the end is exactly system behavior
       end
     end
 

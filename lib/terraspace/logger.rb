@@ -21,7 +21,7 @@ module Terraspace
     # Terraspace output goes to stderr by default
     # See: terraspace/shell.rb
     def stdout(msg)
-      puts msg
+      print msg
     end
   end
 end
