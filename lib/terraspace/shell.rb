@@ -67,7 +67,6 @@ module Terraspace
             end
           end
         end
-        handle_stdout("\n") # final newline at the end is exactly system behavior
       end
     end
 
