@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [0.6.15] - 2021-10-01
+- [#140](https://github.com/boltops-tools/terraspace/pull/140) fix terraspace output and Enter a value handling
+
 ## [0.6.14] - 2021-09-30
 - [#134](https://github.com/boltops-tools/terraspace/pull/134) Use file not plan for the var-files argument
 - [#139](https://github.com/boltops-tools/terraspace/pull/139) Fix terraspace output to not add extra newlines
