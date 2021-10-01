@@ -59,7 +59,7 @@ module Terraspace
             lines = buffer.split("\n")
             lines.each do |line|
               if f.fileno == stdout.fileno
-                handle_stdout(line)
+                handle_stdout(line, newline: !suppress_newline(line))
                 handle_input(stdin, line)
               else
                 handle_stderr(line)
@@ -69,6 +69,11 @@ module Terraspace
         end
         handle_stdout("\n") # final newline at the end is exactly system behavior
       end
+    end
+
+    def suppress_newline(line)
+      line.size == 8192 && line[-1] != "\n" || # when buffer is very large buffer.split("\n") only gives 8192 chars at a time
+      line.include?("Enter a value:") # prompt
     end
 
     def handle_stderr(line)
@@ -87,19 +92,14 @@ module Terraspace
       files.find { |f| !f.eof }.nil?
     end
 
-    # Terraform doesnt seem to stream the line that prompts with "Enter a value:" when using Open3.popen3
-    # Hack around it by mimicking the "Enter a value:" prompt
-    #
-    # Note: system does stream the prompt but using Open3.popen3 so we can capture output to save to logs.
     def handle_input(stdin, line)
-      # stdout doesnt seem to flush and show "Enter a value: " look for earlier output
       patterns = [
-        "Only 'yes' will be accepted", # prompt for apply. can happen on apply
+        "Enter a value:",
         "\e[0m\e[1mvar.", # prompts for variable input. can happen on plan or apply. looking for bold marker also in case "var." shows up somewhere else
       ]
       if patterns.any? { |pattern| line.include?(pattern) }
-        print "\n  Enter a value: ".bright
-        stdin.write_nonblock($stdin.gets)
+        answer = $stdin.gets
+        stdin.write_nonblock(answer)
       end
     end
 
@@ -115,16 +115,12 @@ module Terraspace
       end
     end
 
-    def handle_stdout(line)
-      prompted = line.include?('Enter a value')
-      @prompt_shown ||= prompted
-      return if @prompt_shown && prompted
-
+    def handle_stdout(line, newline: true)
       # Terraspace logger has special stdout method so original terraform output
       # can be piped to jq. IE:
       #   terraspace show demo --json | jq
       if logger.respond_to?(:stdout) && !@options[:log_to_stderr]
-        logger.stdout(line)
+        logger.stdout(line, newline: newline)
       else
         logger.info(line)
       end

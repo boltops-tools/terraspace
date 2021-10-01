@@ -20,11 +20,11 @@ module Terraspace
     # Used to allow terraform output to always go to stdout
     # Terraspace output goes to stderr by default
     # See: terraspace/shell.rb
-    def stdout(msg)
-      if msg.size == 8192 && msg[-1] != "\n"
-        print msg
-      else
+    def stdout(msg, newline: true)
+      if newline
         puts msg
+      else
+        print msg
       end
     end
   end
