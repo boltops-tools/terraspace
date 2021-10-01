@@ -20,8 +20,12 @@ module Terraspace
     # Used to allow terraform output to always go to stdout
     # Terraspace output goes to stderr by default
     # See: terraspace/shell.rb
-    def stdout(msg)
-      print msg
+    def stdout(msg, newline: true)
+      if newline
+        puts msg
+      else
+        print msg
+      end
     end
   end
 end
