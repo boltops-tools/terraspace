@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [0.6.16] - 2021-10-01
+- [#141](https://github.com/boltops-tools/terraspace/pull/141) terraspace output: remove extra newline at the end
+
 ## [0.6.15] - 2021-10-01
 - [#140](https://github.com/boltops-tools/terraspace/pull/140) fix terraspace output and Enter a value handling
 
