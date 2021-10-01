@@ -21,7 +21,11 @@ module Terraspace
     # Terraspace output goes to stderr by default
     # See: terraspace/shell.rb
     def stdout(msg)
-      print msg
+      if msg.size == 8192 && msg[-1] != "\n"
+        print msg
+      else
+        puts msg
+      end
     end
   end
 end
