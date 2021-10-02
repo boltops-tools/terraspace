@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [0.6.17] - 2021-10-02
+- [#142](https://github.com/boltops-tools/terraspace/pull/142) improve builder skip check: check if its a dir
+
 ## [0.6.16] - 2021-10-01
 - [#141](https://github.com/boltops-tools/terraspace/pull/141) terraspace output: remove extra newline at the end
 
