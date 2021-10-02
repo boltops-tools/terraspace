@@ -72,13 +72,7 @@ module Terraspace::Compiler
     end
 
     def skip?(src_path)
-      return true unless File.file?(src_path)
-      # certain folders will be skipped
-      src_path.include?("#{@mod.root}/config/args") ||
-      src_path.include?("#{@mod.root}/config/helpers") ||
-      src_path.include?("#{@mod.root}/config/hooks") ||
-      src_path.include?("#{@mod.root}/test") ||
-      src_path.include?("#{@mod.root}/tfvars")
+      Skip.new(@mod, src_path).check?
     end
 
     def search(expr)
