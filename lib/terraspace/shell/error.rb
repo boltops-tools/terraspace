@@ -2,7 +2,7 @@ class Terraspace::Shell
   class Error
     attr_accessor :lines
     def initialize
-      @lines = '' # holds aggregation of all error lines
+      @lines = [] # holds aggregation of all error lines
     end
 
     def known?
@@ -11,11 +11,11 @@ class Terraspace::Shell
 
     def instance
       if reinit_required?
-        Terraspace::InitRequiredError.new(@lines)
+        Terraspace::InitRequiredError.new(message)
       elsif bucket_not_found?
-        Terraspace::BucketNotFoundError.new(@lines)
+        Terraspace::BucketNotFoundError.new(message)
       elsif shared_cache_error?
-        Terraspace::SharedCacheError.new(@lines)
+        Terraspace::SharedCacheError.new(message)
       end
     end
 
@@ -34,7 +34,8 @@ class Terraspace::Shell
     end
 
     def message
-      @lines.gsub("\n", ' ').squeeze(' ') # remove double whitespaces and newlines
+      # For error messages, terraform lines from buffer do not contain newlines. So join with newline
+      @lines.join("\n")
     end
 
     def shared_cache_error?

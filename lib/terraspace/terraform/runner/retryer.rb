@@ -9,10 +9,11 @@ class Terraspace::Terraform::Runner
     end
 
     def retry?
-      if @retries <= 3 && !@stop_retrying
+      max_retries = ENV['TS_MAX_RETRIES'] ? ENV['TS_MAX_RETRIES'].to_i : 3
+      if @retries <= max_retries && !@stop_retrying
         true # will retry
       else
-        logger.info "ERROR: #{@exception.message}"
+        logger.info "ERROR after max retries #{max_retries}: #{@exception.message}"
         false # will not retry
       end
     end
