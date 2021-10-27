@@ -18,7 +18,6 @@ class Terraspace::CLI::New
     end
 
     def create
-      return unless File.exist?(".git")
       dest = @path
       template "terraspace", dest
       chmod dest, 0755
@@ -44,6 +43,8 @@ class Terraspace::CLI::New
 
             export PATH=#{dir}:/$PATH
 
+        Also note, the shim wrapper contains starter code. Though it should generally work for most systems,
+        it might require adjustments depending on your system.
       EOL
     end
 
