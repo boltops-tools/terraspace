@@ -4,7 +4,6 @@ class Terraspace::CLI::Clean
       action = @options[:truncate] ? "truncate" : "remove"
       are_you_sure?(action)
       @options[:truncate] ? truncate : remove
-      logger.info "Logs #{action}d" # IE: Logs truncated or Logs removed
     end
 
     def truncate
@@ -14,6 +13,7 @@ class Terraspace::CLI::Clean
     end
 
     def remove
+      return unless File.exist?(log_root)
       puts "Removing all files in #{pretty_log_root}/" unless @options[:mute]
       FileUtils.rm_rf(log_root)
       FileUtils.mkdir_p(log_root)
