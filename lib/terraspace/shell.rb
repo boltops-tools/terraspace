@@ -71,8 +71,49 @@ module Terraspace
     end
 
     def suppress_newline(line)
-      line.size == 8192 && line[-1] != "\n" || # when buffer is very large buffer.split("\n") only gives 8192 chars at a time
-      line.include?("Enter a value:") # prompt
+      # Regular prompt
+      line.include?("Enter a value:") ||
+      # Edge case: When buffer is very large buffer.split("\n") only gives 8192 chars at a time
+      line.size == 8192 && line[-1] != "\n" ||
+      # Edge case: "value:" chopped off "Enter a" and "value" prompt
+      # Very hard to reproduce. Happens 1/5 times on terraspace up autoscaling example.
+      # Sometimes lines come in as:
+      #   [...,"  Only 'yes' will be accepted to approve.", "", "  \e[1mEnter a"]
+      #   [" value:\e[0m \e[0m"]
+      line.match(/Enter a$/) || line.match(/^ value:/) # chopped off prompt
+      # line.include?(" value:") && lines.last.match(/Enter a$/) # chopped off prompt
+    end
+
+    def handle_stdout(line, newline: true)
+      # Terraspace logger has special stdout method so original terraform output
+      # can be piped to jq. IE:
+      #   terraspace show demo --json | jq
+      if logger.respond_to?(:stdout) && !@options[:log_to_stderr]
+        logger.stdout(line, newline: newline)
+      else
+        logger.info(line)
+      end
+    end
+
+    def handle_input(stdin, line)
+      # Edge case: "value:" chopped off "Enter a" and "value" prompt
+      #   This means "Enter a value:" is not needed but leaving it for now
+      patterns = [
+        /^ value:/,
+        "Enter a value:",
+        "\e[0m\e[1mvar.", # prompts for variable input. can happen on plan or apply. looking for bold marker also in case "var." shows up somewhere else
+      ]
+      matched = patterns.any? do |pattern|
+        if pattern.is_a?(String)
+          line.include?(pattern)
+        else # Regexp
+          line.match(pattern)
+        end
+      end
+      if matched
+        answer = $stdin.gets
+        stdin.write_nonblock(answer)
+      end
     end
 
     def handle_stderr(line)
@@ -91,17 +132,6 @@ module Terraspace
       files.find { |f| !f.eof }.nil?
     end
 
-    def handle_input(stdin, line)
-      patterns = [
-        "Enter a value:",
-        "\e[0m\e[1mvar.", # prompts for variable input. can happen on plan or apply. looking for bold marker also in case "var." shows up somewhere else
-      ]
-      if patterns.any? { |pattern| line.include?(pattern) }
-        answer = $stdin.gets
-        stdin.write_nonblock(answer)
-      end
-    end
-
     def exit_status(status)
       return if status == 0
 
@@ -111,17 +141,6 @@ module Terraspace
       elsif exit_on_fail
         logger.error "Error running command: #{@command}".color(:red)
         exit status
-      end
-    end
-
-    def handle_stdout(line, newline: true)
-      # Terraspace logger has special stdout method so original terraform output
-      # can be piped to jq. IE:
-      #   terraspace show demo --json | jq
-      if logger.respond_to?(:stdout) && !@options[:log_to_stderr]
-        logger.stdout(line, newline: newline)
-      else
-        logger.info(line)
       end
     end
   end
