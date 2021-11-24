@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [0.6.19] - 2021-11-24
+- [#149](https://github.com/boltops-tools/terraspace/pull/149) change default fallback mod strategy to Mod::Tf instead of Mod::Pass for ERB support
+- [#152](https://github.com/boltops-tools/terraspace/pull/152) fix naming typo in cli help
+- [#153](https://github.com/boltops-tools/terraspace/pull/153) only remove and create log dir if it exists
+- [#155](https://github.com/boltops-tools/terraspace/pull/155) add terraspace bundle example cli help
+- [#157](https://github.com/boltops-tools/terraspace/pull/157) handle edge case: Enter a value chopped off
+- [#158](https://github.com/boltops-tools/terraspace/pull/158) use pass strategy for binary files
+- [#159](https://github.com/boltops-tools/terraspace/pull/159) process terraform.tfvars file with erb, change default processing strategy back to pass
+
 ## [0.6.18] - 2021-10-28
 - [#147](https://github.com/boltops-tools/terraspace/pull/147) improve error message output
 - [#148](https://github.com/boltops-tools/terraspace/pull/148) Improve shim wrapper generator
