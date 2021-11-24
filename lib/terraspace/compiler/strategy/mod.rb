@@ -13,7 +13,7 @@ module Terraspace::Compiler::Strategy
       return Mod::Pass if ext.empty? # infinite loop without this
       return Mod::Pass if Terraspace.pass_file?(path) or !text_file?(path)
       # Fallback to Mod::Tf for all other files. ERB useful for terraform.tfvars
-      "Terraspace::Compiler::Strategy::Mod::#{ext.camelize}".constantize rescue Mod::Tf
+      "Terraspace::Compiler::Strategy::Mod::#{ext.camelize}".constantize rescue Mod::Pass
     end
 
     # Thanks: https://stackoverflow.com/questions/2355866/ruby-how-to-determine-if-file-being-read-is-binary-or-text
