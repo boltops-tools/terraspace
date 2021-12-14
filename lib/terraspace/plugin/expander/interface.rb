@@ -34,6 +34,7 @@ module Terraspace::Plugin::Expander
     #
     def expansion(string)
       return string unless string.is_a?(String) # in case of nil
+      return string unless expand_string?(string)
 
       string = string.dup
       vars = string.scan(/:\w+/) # => [":ENV", ":BUILD_DIR"]
@@ -41,6 +42,11 @@ module Terraspace::Plugin::Expander
         string.gsub!(var, var_value(var))
       end
       strip(string)
+    end
+
+    # interface method
+    def expand_string?(string)
+      true
     end
 
     # remove leading and trailing common separators.
