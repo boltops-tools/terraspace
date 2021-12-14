@@ -49,7 +49,7 @@ class Terraspace::Seeder
     end
 
     def rpad
-      all_vars.keys.map(&:size).max
+      all_vars.keys.map(&:size).max + 2
     end
     memoize :rpad
 
