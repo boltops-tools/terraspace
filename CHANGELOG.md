@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [0.6.20] - 2021-12-14
+- [#162](https://github.com/boltops-tools/terraspace/pull/162) expand_string? interface method so plugins can decide whether or not to expand the string
+- improve seed generator column spacing
+
 ## [0.6.19] - 2021-11-24
 - [#149](https://github.com/boltops-tools/terraspace/pull/149) change default fallback mod strategy to Mod::Tf instead of Mod::Pass for ERB support
 - [#152](https://github.com/boltops-tools/terraspace/pull/152) fix naming typo in cli help
