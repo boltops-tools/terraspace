@@ -37,8 +37,8 @@ describe Terraspace::Seeder::Content do
       result = content.build
       expected =<<~EOL
         # Required variables:
-        name    = "string"
-        azs     = [...] # list(string)
+        name      = "string"
+        azs       = [...] # list(string)
 
         # Optional variables:
         # project = "project-name"
