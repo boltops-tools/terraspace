@@ -1,5 +1,3 @@
-require "open3"
-
 module Terraspace::Compiler::Strategy
   class Mod < AbstractBase
     def run
@@ -16,10 +14,9 @@ module Terraspace::Compiler::Strategy
       "Terraspace::Compiler::Strategy::Mod::#{ext.camelize}".constantize rescue Mod::Pass
     end
 
-    # Thanks: https://stackoverflow.com/questions/2355866/ruby-how-to-determine-if-file-being-read-is-binary-or-text
+  private
     def text_file?(filename)
-      file_type, status = Open3.capture2e("file", filename)
-      status.success? && file_type.include?("text")
+      TextFile.new(filename).check
     end
   end
 end
