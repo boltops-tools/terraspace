@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [0.6.21] - 2021-12-16
+- [#164](https://github.com/boltops-tools/terraspace/pull/164) Use Activesupport All
+
 ## [0.6.20] - 2021-12-14
 - [#162](https://github.com/boltops-tools/terraspace/pull/162) expand_string? interface method so plugins can decide whether or not to expand the string
 - improve seed generator column spacing
