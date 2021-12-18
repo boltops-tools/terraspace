@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [0.6.23] - 2021-12-18
+- [#167](https://github.com/boltops-tools/terraspace/pull/167) require active_support properly
+
 ## [0.6.22] - 2021-12-16
 - [#165](https://github.com/boltops-tools/terraspace/pull/165) check if file command is installed
 - [#166](https://github.com/boltops-tools/terraspace/pull/166) add bundler as a dependency
