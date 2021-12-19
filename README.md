@@ -16,7 +16,7 @@ Official Docs Site: [terraspace.cloud](https://terraspace.cloud)
 
 Quick Start Demo:
 
-[![Watch the video](https://img.boltops.com/boltops/tools/terraspace/youtube/terraspace-quick-start.png)](https://www.youtube.com/watch?v=EZfsBJx8pxQ)
+[![Watch the video](https://img.boltops.com/boltops/tools/terraspace/youtube/terraspace-quick-start.png)](https://learn.boltops.com/courses/terraspace-fundamentals/lessons/terraspace-quick-start)
 
 ## Quick Start
 
