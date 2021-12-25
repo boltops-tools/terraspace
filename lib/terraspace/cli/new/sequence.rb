@@ -28,7 +28,7 @@ class Terraspace::CLI::New
     argument :name
 
   private
-    def component_args(component_name, project_name)
+    def component_args(component_name, project_name=nil)
       args = [
         component_name,
         "--project-name", project_name,
