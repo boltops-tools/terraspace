@@ -3,13 +3,13 @@ class Terraspace::CLI::New
     include Thor::Actions
     include Terraspace::CLI::New::Helpers
 
-    argument :name
+    argument :name, required: false
 
     def self.options
       [
         [:force, aliases: %w[y], type: :boolean, desc: "Bypass overwrite are you sure prompt for existing files"],
         [:test_name, desc: "Test name. Defaults to the project, module or stack name"],
-        [:type, default: "project", desc: "project, stack or module"],
+        [:type, default: "stack", desc: "project, stack or module"],
       ]
     end
     options.each { |args| class_option(*args) }
@@ -42,6 +42,10 @@ class Terraspace::CLI::New
   public
 
     def create
+      if type != 'project' && name.nil?
+        puts "ERROR: require NAME for type stack and module".color(:red)
+        exit 1
+      end
       test_template_source(@options[:lang], type)
       puts "=> Creating #{type} test: #{name}"
       directory ".", dest
