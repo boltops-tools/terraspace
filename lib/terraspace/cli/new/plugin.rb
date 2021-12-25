@@ -1,6 +1,6 @@
 class Terraspace::CLI::New
   class Plugin < Sequence
-    include Helpers
+    include Helper
 
     argument :name
 

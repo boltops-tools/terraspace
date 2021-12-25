@@ -1,5 +1,5 @@
 class Terraspace::CLI::New::Plugin
-  module Helpers
+  module Helper
   private
     # helper
     def camel_name
