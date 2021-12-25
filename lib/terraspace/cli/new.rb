@@ -42,5 +42,8 @@ class Terraspace::CLI
     long_desc Help.text("new/test")
     Test.options.each { |args| option(*args) }
     register(Test, "test", "test NAME", "Generates new test.")
+
+    long_desc Help.text("new/example")
+    register(Example, "example", "example [NAME]", "Generates new example.")
   end
 end

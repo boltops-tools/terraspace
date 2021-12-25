@@ -22,7 +22,7 @@ module Terraspace::CLI::New::Source
         require name # require plugin for the templates, this registers the plugin
       rescue LoadError => e
         puts "#{e.class}: #{e.message}".color(:red)
-        logger.error "ERROR: Unable to require plugin #{name}.".color(:red)
+        logger.error "ERROR: Unable to require plugin #{name}".color(:red)
         puts "Are you sure you the plugin exists and you specified the right plugin option."
         puts "You specified --plugin #{@options[:plugin]}"
         exit 1

@@ -5,7 +5,7 @@ class Terraspace::CLI::New
     argument :name
 
     def create_stack
-      puts "=> Creating new stack called #{name}."
+      puts "=> Creating new stack called #{name}"
       plugin_template_source(@options[:lang], "stack") # IE: plugin_template_source("hcl", "stack")
       dest = "app/stacks/#{name}"
       dest = "#{@options[:project_name]}/#{dest}" if @options[:project_name]

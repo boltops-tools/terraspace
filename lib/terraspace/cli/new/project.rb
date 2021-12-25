@@ -20,7 +20,7 @@ class Terraspace::CLI::New
 
   public
     def creating_messaging
-      log "=> Creating new project called #{name}."
+      log "=> Creating new project called #{name}"
     end
 
     def create_base

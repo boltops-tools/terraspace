@@ -5,7 +5,7 @@ class Terraspace::CLI::New
     argument :name
 
     def create_module
-      puts "=> Creating test for new module: #{name}"
+      puts "=> Creating new module called #{name}"
       plugin_template_source(@options[:lang], "module") # IE: plugin_template_source("hcl", "module")
       dest = "app/modules/#{name}"
       dest = "#{@options[:project_name]}/#{dest}" if @options[:project_name]
