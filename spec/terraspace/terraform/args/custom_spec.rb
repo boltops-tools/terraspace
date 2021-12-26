@@ -20,10 +20,10 @@ describe Terraspace::Terraform::Args::Custom do
       expect(custom.args).to eq(["-lock-timeout=20m"])
     end
 
-    it "var_files" do
+    it "var_file_args" do
       custom.evaluate_file(file)
       allow(custom).to receive(:var_file_exist?).and_return(true)
-      expect(custom.var_files).to eq(["-var-file=a.tfvars", "-var-file=b.tfvars"])
+      expect(custom.send(:var_file_args)).to eq(["-var-file=a.tfvars", "-var-file=b.tfvars"])
     end
   end
 
@@ -41,10 +41,10 @@ describe Terraspace::Terraform::Args::Custom do
       expect(custom.args).to eq(["-lock-timeout=20m"])
     end
 
-    it "var_files" do
+    it "var_file_args" do
       custom.evaluate_file(file)
       allow(custom).to receive(:var_file_exist?).and_return(true)
-      expect(custom.var_files).to eq([])
+      expect(custom.send(:var_file_args)).to eq([])
     end
   end
 end

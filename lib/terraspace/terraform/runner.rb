@@ -16,6 +16,30 @@ module Terraspace::Terraform
       end
     end
 
+    # default at end in case of redirection. IE: terraform output > /path
+    def args
+      args = custom.args + thor.args + pass.args
+      args.uniq
+    end
+
+    # From config/args/terraform.rb https://terraspace.cloud/docs/config/args/terraform/
+    def custom
+      Args::Custom.new(@mod, @name)
+    end
+    memoize :custom
+
+    # From Thor defined/managed cli @options
+    def thor
+      Args::Thor.new(@mod, @name, @options)
+    end
+    memoize :thor
+
+    # From Thor passthrough cli @options[:args]
+    def pass
+      Args::Pass.new(@mod, @name, @options)
+    end
+    memoize :pass
+
     def terraform(name, *args)
       current_dir_message # only show once
 
@@ -57,21 +81,6 @@ module Terraspace::Terraform
       # quiet useful for RemoteState::Fetcher
       @options[:quiet] ? logger.debug(msg) : logger.info(msg)
     end
-
-    def args
-      # base at end in case of redirection. IE: terraform output > /path
-      custom.args + custom.var_files + default.args
-    end
-
-    def custom
-      Args::Custom.new(@mod, @name)
-    end
-    memoize :custom
-
-    def default
-      Args::Default.new(@mod, @name, @options)
-    end
-    memoize :default
 
   private
     def time_took

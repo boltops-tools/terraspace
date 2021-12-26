@@ -1,15 +1,12 @@
 module Terraspace
   class CLI < Command
-    include Help
+    include Concern
 
     class_option :verbose, type: :boolean
     class_option :noop, type: :boolean
 
     yes_option = Proc.new {
       option :yes, aliases: :y, type: :boolean, desc: "-auto-approve the terraform apply"
-    }
-    format_option = Proc.new {
-      option :format, desc: "output formats: json, text"
     }
     out_option = Proc.new {
       option :out, aliases: :o, desc: "Write the output to path"
@@ -73,8 +70,8 @@ module Terraspace
     desc "console STACK", "Run console in built terraform project."
     long_desc Help.text(:console)
     instance_option.call
-    def console(mod)
-      Commander.new("console", options.merge(mod: mod, shell: "system")).run
+    def console(mod, *args)
+      Commander.new("console", options.merge(mod: mod, args: args, shell: "system")).run
     end
 
     desc "down STACK", "Destroy infrastructure stack."
@@ -83,8 +80,8 @@ module Terraspace
     yes_option.call
     reconfigure_option.call
     option :destroy_workspace, type: :boolean, desc: "Also destroy the Cloud workspace. Only applies when using Terraform Cloud remote backend."
-    def down(mod)
-      Down.new(options.merge(mod: mod)).run
+    def down(mod, *args)
+      Down.new(options.merge(mod: mod, args: args)).run
     end
 
     desc "force_unlock", "Calls terrform force-unlock"
@@ -113,8 +110,8 @@ module Terraspace
     desc "init STACK", "Run init in built terraform project."
     long_desc Help.text(:init)
     instance_option.call
-    def init(mod)
-      Commander.new("init", options.merge(mod: mod, quiet: false)).run
+    def init(mod, *args)
+      Commander.new("init", options.merge(mod: mod, args: args, quiet: false)).run
     end
 
     desc "list", "List stacks and modules."
@@ -143,22 +140,22 @@ module Terraspace
     out_option.call
     reconfigure_option.call
     option :copy_to_root, type: :boolean, default: true, desc: "Copy plan file generated in the cache folder back to project root"
-    def plan(mod)
-      Commander.new("plan", options.merge(mod: mod)).run
+    def plan(mod, *args)
+      Commander.new("plan", options.merge(mod: mod, args: args)).run
     end
 
     desc "providers STACK", "Show providers."
     long_desc Help.text(:providers)
     instance_option.call
-    def providers(mod)
-      Commander.new("providers", options.merge(mod: mod)).run
+    def providers(mod, *args)
+      Commander.new("providers", options.merge(mod: mod, args: args)).run
     end
 
     desc "refresh STACK", "Run refresh."
     long_desc Help.text(:refresh)
     instance_option.call
-    def refresh(mod)
-      Commander.new("refresh", options.merge(mod: mod)).run
+    def refresh(mod, *args)
+      Commander.new("refresh", options.merge(mod: mod, args: args)).run
     end
 
     desc "seed STACK", "Build starer seed tfvars file."
@@ -184,9 +181,8 @@ module Terraspace
     long_desc Help.text(:show)
     instance_option.call
     option :plan, desc: "path to created.plan"
-    option :json, type: :boolean, desc: "show plan in json format"
-    def show(mod)
-      Commander.new("show", options.merge(mod: mod)).run
+    def show(mod, *args)
+      Commander.new("show", options.merge(mod: mod, args: args)).run
     end
 
     desc "state SUBCOMMAND STACK", "Run state."
@@ -203,11 +199,10 @@ module Terraspace
 
     desc "output STACK", "Run output."
     long_desc Help.text(:output)
-    format_option.call
     instance_option.call
     out_option.call
-    def output(mod)
-      Commander.new("output", options.merge(mod: mod)).run
+    def output(mod, *args)
+      Commander.new("output", options.merge(mod: mod, args: args)).run
     end
 
     desc "up STACK", "Deploy infrastructure stack."
@@ -220,15 +215,15 @@ module Terraspace
     reconfigure_option.call
     option :plan, desc: "Execution plan that can be used to only execute a pre-determined set of actions."
     option :var_files, type: :array, desc: "list of var files"
-    def up(mod)
-      Up.new(options.merge(mod: mod)).run
+    def up(mod, *args)
+      Up.new(options.merge(mod: mod, args: args)).run
     end
 
     desc "validate STACK", "Validate stack."
     long_desc Help.text(:validate)
     instance_option.call
-    def validate(mod)
-      Commander.new("validate", options.merge(mod: mod)).run
+    def validate(mod, *args)
+      Commander.new("validate", options.merge(mod: mod, args: args)).run
     end
 
     desc "completion *PARAMS", "Prints words for auto-completion."
