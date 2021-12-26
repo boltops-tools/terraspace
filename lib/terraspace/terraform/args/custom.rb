@@ -18,21 +18,26 @@ module Terraspace::Terraform::Args
     memoize :build
 
     def args
-      build
-      args = dig("args")
-      args.compact.flatten
-    end
-
-    def var_files
-      build
-      var_files = dig("var_files")
-      var_files.select! { |f| var_file_exist?(f) }
-      var_files.map { |f| "-var-file=#{f}" }
+      terraform_args + var_file_args
     end
 
     def env_vars
       build
       dig("env", {})
+    end
+
+  private
+    def terraform_args
+      build
+      args = dig("args")
+      args.compact.flatten
+    end
+
+    def var_file_args
+      build
+      var_files = dig("var_files")
+      var_files.select! { |f| var_file_exist?(f) }
+      var_files.map { |f| "-var-file=#{f}" }
     end
 
     def var_file_exist?(var_file)

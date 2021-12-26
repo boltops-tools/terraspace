@@ -1,7 +1,7 @@
 require "tempfile"
 
 module Terraspace::Terraform::Args
-  class Default
+  class Thor
     def initialize(mod, name, options={})
       @mod, @name, @options = mod, name.underscore, options
       @quiet = @options[:quiet].nil? ? true : @options[:quiet]
@@ -81,7 +81,6 @@ module Terraspace::Terraform::Args
 
     def output_args
       args = []
-      args << "-json" if @options[:format] == "json"
       args << "> #{expanded_out}" if @options[:out]
       args
     end
@@ -98,7 +97,6 @@ module Terraspace::Terraform::Args
 
     def show_args
       args = []
-      args << " -json" if @options[:json]
       plan = @options[:plan]
       if plan
         copy_to_cache(@options[:plan])
