@@ -34,9 +34,9 @@ class Terraspace::CLI
           less common or more advanced commands.
         EOL
         shell.say "\nMain Commands:\n\n"
-        shell.print_table(main, :indent => 2, :truncate => true)
+        shell.print_table(main, indent: 2, truncate: true)
         shell.say "\nOther Commands:\n\n"
-        shell.print_table(other, :indent => 2, :truncate => true)
+        shell.print_table(other, indent: 2, truncate: true)
         shell.say <<~EOL
 
           For more help on each command, you can use the -h option. Example:
