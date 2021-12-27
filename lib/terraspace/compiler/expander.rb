@@ -1,17 +1,21 @@
 module Terraspace::Compiler
   class Expander
+    extend Memoist
     delegate :expand, :expansion, to: :expander
 
-    attr_reader :expander
     def initialize(mod, name)
       @mod, @name = mod, name
-      @expander = expander_class.new(@mod)
     end
+
+    def expander
+      expander_class.new(@mod)
+    end
+    memoize :expander
 
     def expander_class
       # IE: TerraspacePluginAws::Interfaces::Expander
       klass_name = Terraspace::Plugin.klass("Expander", backend: @name)
-      klass_name.constantize if klass_name
+      klass_name ? klass_name.constantize : Terraspace::Plugin::Expander::Generic
     rescue NameError
       Terraspace::Plugin::Expander::Generic
     end
@@ -20,27 +24,15 @@ module Terraspace::Compiler
       extend Memoist
 
       def autodetect(mod, opts={})
-        backend = opts[:backend]
-        unless backend
-          plugin = find_plugin
-          backend = plugin[:backend]
-        end
+        backend = opts[:backend] || find_backend(mod)
         new(mod, backend)
       end
       memoize :autodetect
 
-      def find_plugin
-        plugins = Terraspace::Plugin.meta
-        if plugins.size == 1
-          plugins.first[1]
-        else
-          precedence = %w[aws azurerm google]
-          plugin = precedence.find do |provider|
-            plugins[provider]
-          end
-          plugins[plugin]
-        end
+      def find_backend(mod)
+        Backend.new(mod).detect
       end
+      memoize :find_backend
     end
   end
 end
