@@ -19,6 +19,8 @@ module Terraspace::CLI::New::Source
 
     def require_gem(name)
       begin
+        # Need to clear gem paths since installing plugins like terraspace_plugin_aws as part of terraspace new project
+        Gem.clear_paths
         require name # require plugin for the templates, this registers the plugin
       rescue LoadError => e
         puts "#{e.class}: #{e.message}".color(:red)

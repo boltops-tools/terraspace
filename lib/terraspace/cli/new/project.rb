@@ -27,6 +27,16 @@ class Terraspace::CLI::New
       directory ".", "#{name}"
     end
 
+    def bundle_install
+      return if @options[:bundle] == false
+      log "=> Installing dependencies with: bundle install"
+      Bundler.with_unbundled_env do
+        bundle = "BUNDLE_IGNORE_CONFIG=1 bundle install"
+        bundle << " > /dev/null 2>&1" if @options[:quiet]
+        system(bundle, chdir: name)
+      end
+    end
+
     # Will generate config folder from
     #
     #     1. terraspace code lang templates or
@@ -57,16 +67,6 @@ class Terraspace::CLI::New
     def create_starter_stack
       return unless @options[:examples]
       Stack.start(component_args("demo", name))
-    end
-
-    def bundle_install
-      return if @options[:bundle] == false
-      log "=> Installing dependencies with: bundle install"
-      Bundler.with_unbundled_env do
-        bundle = "BUNDLE_IGNORE_CONFIG=1 bundle install"
-        bundle << " > /dev/null 2>&1" if @options[:quiet]
-        system(bundle, chdir: name)
-      end
     end
 
     def welcome_message_examples
