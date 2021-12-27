@@ -16,6 +16,7 @@ module Terraspace::Compiler
       klass = backend_interface(backend_name)
       return unless klass # in case auto-creation is not supported for specific backend
 
+      # IE: TerraspacePluginAws::Interfaces::Backend.new
       interface = klass.new(backend_info)
       interface.call
     end

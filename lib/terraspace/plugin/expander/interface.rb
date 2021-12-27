@@ -70,7 +70,10 @@ module Terraspace::Plugin::Expander
     #
     def strip(string)
       string.sub(/^-+/,'').sub(/-+$/,'') # remove leading and trailing -
-            .sub(%r{/+$},'') # only remove trailing / or else /home/ec2-user => home/ec2-user
+            .sub(%r{/+$},'')  # only remove trailing / or else /home/ec2-user => home/ec2-user
+            .sub(/:\/\//, 'TMP_KEEP_HTTP') # so we can keep ://. IE: https:// or http://
+            .gsub(%r{/+},'/') # remove double slashes are more. IE: // -> / Useful of region is '' in generic expander
+            .sub('TMP_KEEP_HTTP', '://')   # restore :// IE: https:// or http://
     end
 
     def var_value(name)
@@ -101,6 +104,14 @@ module Terraspace::Plugin::Expander
 
     def cache_root
       Terraspace.cache_root
+    end
+
+    # So default config works:
+    #    config.cache_dir = ":CACHE_ROOT/:REGION/:ENV/:BUILD_DIR"
+    # For when folks configure it with the http backend for non-cloud providers
+    # The double slash // will be replace with a single slash in expander/interface.rb
+    def region
+      ''
     end
   end
 end
