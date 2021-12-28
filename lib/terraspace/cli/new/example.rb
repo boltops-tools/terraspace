@@ -6,8 +6,8 @@ class Terraspace::CLI::New
     argument :name, default: "demo"
 
     def create
-      Module.start(["example"])
-      Stack.start([name])
+      Module.start(["example", "--examples"])
+      Stack.start([name, "--examples"])
     end
   end
 end
