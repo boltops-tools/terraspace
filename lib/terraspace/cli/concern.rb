@@ -39,11 +39,13 @@ class Terraspace::CLI
       #     for i in init validate plan apply destroy console fmt force-unlock get graph import login logout output providers refresh show state taint test untaint version workspace ; terraform $i -h | grep '^  -' | grep -v =  | sed 's/  -//' | grep -v - | sed -r 's/\s+.*//' ; end | sort | uniq
       #
       def start(argv)
+        # Note: help is for terraspace -help
         single_word_boolean_args = %w[
           check
           destroy
           diff
           force
+          help
           json
           raw
           reconfigure
