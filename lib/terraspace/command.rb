@@ -71,7 +71,7 @@ module Terraspace
         version_manager = "rvm" if rvm?
         version_manager = "rbenv" if rbenv?
         if rbenv? || rvm?
-          puts <<~EOL.color(:yellow)
+          $stderr.puts <<~EOL.color(:yellow)
             WARN: It looks like a standalone Terraspace install and #{version_manager} is also in use.
             Different gems from the standalone Terraspace install and #{version_manager} can cause all kinds of trouble.
             Please install Terraspace as a gem instead and remove the standalone Terraspace /opt/terraspace installation.

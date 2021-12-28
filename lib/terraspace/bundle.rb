@@ -55,6 +55,71 @@ module Terraspace
       [:default, Terraspace.env.to_sym]
     end
 
+    # When there are gem dependency issues, requiring zeitwerk with this debugging code
+    #     begin
+    #       require "zeitwerk"
+    #     rescue LoadError => e
+    #       puts "#{e.class}: #{e.message}"
+    #       exit 1
+    #     end
+    #
+    # Produces:
+    #
+    #     You have already activated faraday 1.8.0, but your Gemfile requires faraday 1.7.2. Prepending `bundle exec` to your command may solve this.
+    #     LoadError: cannot load such file -- zeitwerk
+    #
+    # Sadly, the captured exception only contains this info:
+    #
+    #     LoadError: cannot load such file -- zeitwerk
+    #
+    # The useful "already activated" info that shows gem dependencies issues. Example:
+    #
+    #     You have already activated faraday 1.8.0, but your Gemfile requires faraday 1.7.2. Prepending `bundle exec` to your command may solve this.
+    #
+    # Is printed to stdout earlier and before exception.
+    #
+    # So making an assumption that a zeitwerk LoadError is due to gem dependencies issue.
+    # It's not ideal, but think this is ok.
+    #
+    # Note: Not checking shim upon install because it wont be a good user experience
+    # to check for a shim unless this error actually occurs.
+    #
+    # Only been able to reproduce this error for a gem install with: alpine
+    # The standalone install already has a shim wrapper.
+    #
+    def handle_already_activated_error(e)
+      # color is not yet available
+      puts "ERROR: #{e.class}: #{e.message}" if ENV['TS_DEBUG_ALREADY_ACTIVATED']
+      check_shim!
+      exit 1
+    end
+
+    def check_shim!
+      return unless which_installed?
+      # shelling out to `type` doesnt work since its a built-in? so using which
+      out = `which terraspace`
+      path = out.strip.split("\n").last
+      lines = IO.readlines(path)
+      found = lines.detect { |l| l.include?('bundle exec') }
+      return if found
+      return unless File.exist?("Gemfile")
+
+      $stderr.puts <<~EOL
+        Looks like there are issues trying to resolve gem dependencies.
+
+        To resolve this, you can generate a shim:
+
+            terraspace new shim
+
+        You only have to do this one time.
+
+        More info: https://terraspace.cloud/docs/install/shim/
+      EOL
+    end
+
+    def which_installed?
+      system "type which > /dev/null 2>&1"
+    end
     extend self
   end
 end

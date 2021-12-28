@@ -1,6 +1,10 @@
 require "terraspace/bundle"
 Terraspace::Bundle.setup
-require "zeitwerk"
+begin
+  require "zeitwerk"
+rescue LoadError => e
+  Terraspace::Bundle.handle_already_activated_error(e)
+end
 
 module Terraspace
   # These modules are namespaces for user-defined custom helpers
@@ -38,3 +42,4 @@ module Terraspace
     end
   end
 end
+
