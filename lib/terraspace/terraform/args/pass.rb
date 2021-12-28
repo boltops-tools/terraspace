@@ -11,14 +11,8 @@ module Terraspace::Terraform::Args
     #   -var 'foo=bar'
     def args
       args = pass_args.select do |arg|
-        arg_name = strip_for_arg_name(arg)
-        arg_type = terraform_arg_types[arg_name]
-        case arg_type
-        when :boolean, :assignment
-          terraform_arg_types.include?(arg_name)
-        when :hash
-          terraform_arg_types.include?(arg_name)
-        end
+        arg_name = get_arg_name(arg)
+        terraform_arg_types.include?(arg_name)
       end
 
       args.map { |arg| "-#{arg}" } # add back in the leading single dash (-)
@@ -90,7 +84,7 @@ module Terraspace::Terraform::Args
         # out: "var"
         # in:  "  -refresh=false      Skip checking for external changes to remote objects",
         # out: "refresh"
-        arg_name = strip_for_arg_name(line)
+        arg_name = get_arg_name(line)
 
         if line.match(/'\w+=\w+'/)  # hash. IE: -var 'foo=bar'
           result[arg_name] = :hash
@@ -103,8 +97,8 @@ module Terraspace::Terraform::Args
       end
     end
 
-    def strip_for_arg_name(line)
-      line.sub(/\s+.*/,'').split('=').first # strips the everything except arg name
+    def get_arg_name(line)
+      line.sub(/\s+.*/,'').split('=').first # strips everything except arg name only
     end
 
     @@terraform_help = {}
