@@ -102,7 +102,7 @@ module Terraspace
         return if subcommand?
         return if command_name.nil?
         return if help_flags.include?(Terraspace.argv.last) # IE: -h help
-        return if %w[-h -v check_setup completion completion_script help new test version].include?(command_name)
+        return if %w[-h -v --version check_setup completion completion_script help new test version].include?(command_name)
         return if File.exist?("#{Terraspace.root}/config/app.rb")
         logger.error "ERROR: It doesnt look like this is a terraspace project. Are you sure you are in a terraspace project?".color(:red)
         ENV['TS_TEST'] ? raise : exit(1)
