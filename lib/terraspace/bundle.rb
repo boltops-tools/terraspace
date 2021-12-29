@@ -95,15 +95,7 @@ module Terraspace
     end
 
     def check_shim!
-      return unless which_installed?
-      # shelling out to `type` doesnt work since its a built-in? so using which
-      out = `which terraspace`
-      path = out.strip.split("\n").last
-      lines = IO.readlines(path)
-      found = lines.detect { |l| l.include?('bundle exec') }
-      return if found
       return unless File.exist?("Gemfile")
-
       $stderr.puts <<~EOL
         Looks like there are issues trying to resolve gem dependencies.
 
@@ -117,9 +109,6 @@ module Terraspace
       EOL
     end
 
-    def which_installed?
-      system "type which > /dev/null 2>&1"
-    end
     extend self
   end
 end
