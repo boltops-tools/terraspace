@@ -42,6 +42,10 @@ module Terraspace
     long_desc Help.text(:new)
     subcommand "new", New
 
+    desc "setup SUBCOMMAND", "setup subcommands"
+    long_desc Help.text(:setup)
+    subcommand "setup", Setup
+
     desc "tfc SUBCOMMAND", "tfc subcommands"
     long_desc Help.text(:tfc)
     subcommand "tfc", Tfc
@@ -64,7 +68,13 @@ module Terraspace
     desc "check_setup", "Check setup."
     long_desc Help.text(:check_setup)
     def check_setup
-      CheckSetup.new(options).run
+      puts <<~EOL
+        DEPRECATED: The terraspace check_setup command is deprecated. Instead use:
+
+            terraspace setup check
+
+      EOL
+      Setup::Check.new(options).run
     end
 
     desc "console STACK", "Run console in built terraform project."
