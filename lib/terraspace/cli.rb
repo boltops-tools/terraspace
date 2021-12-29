@@ -65,7 +65,7 @@ module Terraspace
       Bundle.new(options.merge(args: args)).run
     end
 
-    desc "check_setup", "Check setup."
+    desc "check_setup", "Check setup.", hide: true
     long_desc Help.text(:check_setup)
     def check_setup
       puts <<~EOL
