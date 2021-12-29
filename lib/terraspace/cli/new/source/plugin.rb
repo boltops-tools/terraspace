@@ -9,12 +9,12 @@ module Terraspace::CLI::New::Source
       # project always uses the examples from the provider gem for configs
       # base always uses terraspace core templates
       # examples option always use examples from provider gems
-      if (type == "project" || @options[:examples]) && template != "base"
+      if (type == "project" || @options[:examples]) && template != "base" &&
+         (@options[:plugin] != "none" && !@options[:plugin].nil?)
         set_plugin_gem_source(template, type)   # provider gems has examples
       else
         set_core_source(template, type)  # terraspace core has empty starter files
       end
     end
-
   end
 end

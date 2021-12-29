@@ -50,5 +50,11 @@ class Terraspace::CLI::New
       puts "=> Creating #{type} test: #{name}"
       directory ".", dest
     end
+
+    # Used in ERB template
+    # rspec-terraspace/lib/templates/stack/test/spec/fixtures/config/terraform/provider.tf.tt
+    def autodetect_provider
+      Terraspace::Autodetect.new.plugin
+    end
   end
 end

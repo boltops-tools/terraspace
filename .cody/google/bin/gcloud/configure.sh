@@ -3,7 +3,8 @@
 set -eu
 
 mkdir -p ~/.gcp
-aws secretsmanager get-secret-value --secret-id terraspace/gcloud-credentials | jq '.SecretString | fromjson' > ~/.gcp/credentials.json
+# aws secretsmanager get-secret-value --secret-id terraspace/gcloud-credentials | jq '.SecretString | fromjson' > ~/.gcp/credentials.json
+echo $GOOGLE_CREDS_JSON > ~/.gcp/credentials.json
 
 # ~/.gcp/credentials.json
 export GOOGLE_APPLICATION_CREDENTIALS=~/.gcp/credentials.json

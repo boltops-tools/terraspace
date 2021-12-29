@@ -78,7 +78,7 @@ module Terraspace::Plugin::Expander
 
     def var_value(name)
       name = name.sub(':','').downcase
-      value = send(name)
+      value = send(name).to_s
       if name == "namespace" && Terraspace.config.layering.enable_names.expansion
         value = friendly_name(value)
       end

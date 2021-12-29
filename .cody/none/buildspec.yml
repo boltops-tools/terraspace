@@ -6,5 +6,5 @@ phases:
       ruby: latest
   build:
     commands:
-      - .cody/shared/script/install/terraform.sh
-      - .cody/unit/bin/build.sh
+      - .cody/shared/script/install.sh
+      - .cody/none/bin/build.sh

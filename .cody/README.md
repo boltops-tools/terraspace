@@ -19,6 +19,8 @@ To start a CodeBuild build:
     cody start --type aws
     cody start --type azurerm
     cody start --type google
+    cody start --type none
+    cody start --type unit
 
 To specify a branch:
 

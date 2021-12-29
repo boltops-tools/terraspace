@@ -4,6 +4,7 @@ module Terraspace::Plugin::Expander
     #   Terraspace::Compiler::Strategy::Tfvar::Layer
     #   Terraspace::Plugin::Expander::Interface
     def friendly_name(name)
+      return '' if name.nil?
       Terraspace.config.layering.names[name.to_sym] || name
     end
   end

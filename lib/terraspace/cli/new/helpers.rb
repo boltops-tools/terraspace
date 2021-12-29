@@ -5,7 +5,7 @@ class Terraspace::CLI::New
   private
     def build_gemfile(*list)
       lines = []
-      list.each do |name|
+      list.compact.each do |name|
         lines << gem_line(name)
       end
       lines.join("\n")

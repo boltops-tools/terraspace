@@ -2,10 +2,18 @@
 
 set -eu
 
-TERRAFORM_VERSION=0.12.26
+TERRAFORM_VERSION=latest
 
-mkdir /tmp/terraform
-cd /tmp/terraform
-wget -q https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip
-unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip
-mv terraform /usr/local/bin
+git clone https://github.com/tfutils/tfenv.git ~/.tfenv
+echo 'export PATH="$HOME/.tfenv/bin:$PATH"' >> ~/.bash_profile
+export PATH="$HOME/.tfenv/bin:$PATH"
+tfenv install $TERRAFORM_VERSION
+tfenv use $TERRAFORM_VERSION
+
+# Generate wrapper so dont have to worry about adding .tfenv/bin to PATH in codebuild env
+cat << 'EOL' > /usr/local/bin/terraform
+#!/bin/bash
+export PATH="$HOME/.tfenv/bin:$PATH"
+exec terraform "$@"
+EOL
+chmod +x /usr/local/bin/terraform
