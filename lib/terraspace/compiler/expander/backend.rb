@@ -15,6 +15,7 @@ class Terraspace::Compiler::Expander
     COMMENT = /^\s+#/
     # Works for both backend.rb DSL and backend.tf ERB
     def detect
+      return nil unless src_path # no backend file. returning nil means a local backend
       lines = IO.readlines(src_path)
       backend_line = lines.find { |l| l.include?("backend") && l !~ COMMENT }
       md = backend_line.match(/['"](.*)['"]/)
