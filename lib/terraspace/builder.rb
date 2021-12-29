@@ -8,7 +8,7 @@ module Terraspace
 
     def run
       return if @options[:build] == false
-      Terraspace::CLI::CheckSetup.check!
+      Terraspace::CLI::Setup::Check.check!
       @mod.root_module = true
       clean
       build_dir = Util.pretty_path(@mod.cache_dir)

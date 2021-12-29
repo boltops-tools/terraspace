@@ -52,12 +52,12 @@ class Terraspace::CLI
           recursive
           upgrade
         ]
+        args = single_word_boolean_args.map { |s| "-#{s}" }
         argv.map! do |arg|
-          word = arg.sub(/^-/,'')
-          if single_word_boolean_args.include?(word)
-            # Add double dash (--).
+          if args.include?(arg)
+            # Ensure double dash (--).
             # Later in Terraspace::Terraform::Args::Pass#args a single dash (-) is ensured.
-            "--#{word}" # IE: destroy => --destroy
+            "-#{arg}" # IE: -destroy => --destroy
           else
             arg
           end

@@ -1,5 +1,5 @@
-class Terraspace::CLI
-  class CheckSetup
+class Terraspace::CLI::Setup
+  class Check
     extend Memoist
 
     # Terraspace requires at least this version of terraform
