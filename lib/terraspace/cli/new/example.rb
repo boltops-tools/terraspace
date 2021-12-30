@@ -8,8 +8,9 @@ class Terraspace::CLI::New
     def self.options
       # default is nil for autodetection
       [
-        [:plugin, aliases: %w[p], default: nil, type: :string],
         [:force, aliases: %w[f], type: :boolean, desc: "Force overwrite"],
+        [:lang, default: "hcl", desc: "Language to use: HCL/ERB or Ruby DSL"],
+        [:plugin, aliases: %w[p], default: nil, type: :string],
       ]
     end
     options.each { |args| class_option(*args) }
@@ -28,6 +29,7 @@ class Terraspace::CLI::New
         ['--plugin', 'none'] # override default of aws
       end
       args << "--force" if @options[:force]
+      args += ["--lang", @options[:lang]] if @options[:lang]
       args
     end
   end

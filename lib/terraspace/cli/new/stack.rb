@@ -2,7 +2,8 @@ class Terraspace::CLI::New
   class Stack < Sequence
     component_options.each { |args| class_option(*args) }
 
-    argument :name
+    # default so terraspace new example works without a Thor warning
+    argument :name, default: "demo"
 
     def create_stack
       puts "=> Creating new stack called #{name}"
