@@ -7,7 +7,7 @@ class Terraspace::CLI
     end
 
     def backend
-      Terraspace::Compiler::Backend::Parser.new(@mod).result
+      Terraspace::Terraform::Runner::Backend::Parser.new(@mod).result
     end
     memoize :backend
   end

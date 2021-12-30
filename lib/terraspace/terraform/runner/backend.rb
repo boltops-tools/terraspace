@@ -1,6 +1,7 @@
-module Terraspace::Compiler
+class Terraspace::Terraform::Runner
   class Backend
     extend Memoist
+    include Terraspace::Compiler::CommandsConcern
 
     def initialize(mod)
       @mod = mod
@@ -9,6 +10,9 @@ module Terraspace::Compiler
     @@created = {}
     def create
       return if @@created[cache_key]
+      return if Terraspace.config.auto_create_backend == false
+      return unless requires_backend?
+
       # set immediately, since local storage wont reach bottom.
       # if fail for other backends, there will be an exception anyway
       @@created[cache_key] = true
@@ -44,6 +48,14 @@ module Terraspace::Compiler
       klass_name = Terraspace::Plugin.klass("Backend", backend: name)
       klass_name.constantize if klass_name
     rescue NameError
+    end
+
+    def requires_backend?
+      command_is?(requires_backend_commands)
+    end
+
+    def requires_backend_commands
+      %w[down init output plan providers refresh show up validate]
     end
   end
 end

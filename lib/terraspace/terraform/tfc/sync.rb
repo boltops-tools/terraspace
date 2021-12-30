@@ -35,7 +35,7 @@ module Terraspace::Terraform::Tfc
 
     # already memoized in Api::Client
     def backend
-      Terraspace::Compiler::Backend::Parser.new(@mod).result
+      Terraspace::Terraform::Runner::Backend::Parser.new(@mod).result
     end
   end
 end

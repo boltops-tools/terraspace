@@ -1,6 +1,6 @@
 require "hcl_parser"
 
-class Terraspace::Compiler::Backend
+class Terraspace::Terraform::Runner::Backend
   class Parser
     extend Memoist
 
