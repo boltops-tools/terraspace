@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [0.7.0] - 2021-12-30
+Highlights:
+- Non-cloud provider support
+- Better passthrough terraspace options to terraform. Pretty much all terraform options are now supported.
+- Remove `terraspace_plugin_*` gem dependencies out of core
+- Improve top CLI help: group main commands at top
+
+Details:
+- [#168](https://github.com/boltops-tools/terraspace/pull/168) terraspace new example command
+- [#169](https://github.com/boltops-tools/terraspace/pull/169) fix new plugin generator, use right include Helper
+- [#170](https://github.com/boltops-tools/terraspace/pull/170) remove project --test-structure option in favor of terraspace new test --type project
+- [#171](https://github.com/boltops-tools/terraspace/pull/171) improve cli help: group main commands at top
+- [#172](https://github.com/boltops-tools/terraspace/pull/172) better wrap and pass through terraform args
+- [#173](https://github.com/boltops-tools/terraspace/pull/173) remove `terraspace_plugin_*` gem dependencies out of core
+- [#174](https://github.com/boltops-tools/terraspace/pull/174) support non-cloud providers and backends
+- [#175](https://github.com/boltops-tools/terraspace/pull/175) Pass args cleanup
+- [#176](https://github.com/boltops-tools/terraspace/pull/176) fix new example command
+- [#177](https://github.com/boltops-tools/terraspace/pull/177) Shim message
+- [#178](https://github.com/boltops-tools/terraspace/pull/178) fix no backend.tf src file case
+- [#179](https://github.com/boltops-tools/terraspace/pull/179) terraspace check setup command
+- [#180](https://github.com/boltops-tools/terraspace/pull/180) hide check_setup command
+- [#181](https://github.com/boltops-tools/terraspace/pull/181) generator improvements: core examples for plugin=none. creates simple random_pet
+- [#182](https://github.com/boltops-tools/terraspace/pull/182) move backend auto creation to runner stage
+- [#183](https://github.com/boltops-tools/terraspace/pull/183) fix example generator lang option
+- allow --version command to run outside terraspace project
+- allow terraspace -help to work also
+- friendly shim message for gem dependency resolution errors
+
 ## [0.6.23] - 2021-12-18
 - [#167](https://github.com/boltops-tools/terraspace/pull/167) require active_support properly
 
