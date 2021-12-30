@@ -16,7 +16,7 @@ class Terraspace::Terraform::Api
 
     # backend may be overridden in classes including this Concern
     def backend
-      Terraspace::Compiler::Backend::Parser.new(@mod).result
+      Terraspace::Terraform::Runner::Backend::Parser.new(@mod).result
     end
     memoize :backend
 

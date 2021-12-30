@@ -1,4 +1,4 @@
-# Simpler than Terraspace::Compiler::Backend::Parser because
+# Simpler than Terraspace::Terraform::Runner::Backend::Parser because
 # Terraspace::Compiler::Expander autodetect backend super early on.
 # It's so early that don't want helper methods like <%= expansion(...) %> to be called.
 # Calling the expansion helper itself results in Terraspace autodetecting a concrete
