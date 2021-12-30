@@ -1,5 +1,5 @@
-variable "name" {
-  type        = string
-  description = "pet name"
-  default     = "demo-name"
+variable "length" {
+  type        = number
+  description = "number of words"
+  default     = 2
 }
