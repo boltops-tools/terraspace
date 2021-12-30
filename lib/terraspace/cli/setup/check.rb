@@ -83,7 +83,9 @@ class Terraspace::CLI::Setup
     #
     # Note: The -json option is only available in v0.13+
     def terraform_version_message
-      `terraform --version`.split("\n").find { |l| l =~ /^Terraform / }.strip
+      out = `terraform --version`
+      version = out.split("\n").find { |l| l =~ /^Terraform / }
+      version.strip if version
     end
     memoize :terraform_version_message
 

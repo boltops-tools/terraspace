@@ -1,18 +1,10 @@
-# This is where you put your backend declaration. Here are some examples:
+# This is where you put your backend declaration. Example:
 #
 # terraform {
-#   backend "s3" {
-#     bucket         = "<%= options[:bucket] || "terraform-state-:ACCOUNT-:REGION-:ENV" %>"
-#     key            = "<%%= expansion(":REGION/:ENV/:BUILD_DIR/terraform.tfstate") %> # IE: us-west-2/dev/ec2/modules/vpc/terraform.tfstate
-#     region         = "<%%= expansion(":REGION") %>"
-#     encrypt        = true
-#     dynamodb_table = "terraform_locks"
+#   backend "local" {
+#     path = "terraform.tfstate"
 #   }
 # }
 #
-# terraform {
-#   backend "gcs" {
-#     bucket = "<%= options[:bucket] || "terraform-state-:PROJECT-:REGION-:ENV" %>"
-#     prefix = "<%%= expansion(":REGION/:ENV/:BUILD_DIR") %>" # IE: us-central1/dev/modules/vm
-#   }
-# }
+# More examples: https://terraspace.cloud/docs/config/backend/examples/
+#

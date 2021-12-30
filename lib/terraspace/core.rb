@@ -68,5 +68,15 @@ module Terraspace
     def argv
       @@argv
     end
+
+    @@check_project = true
+    def check_project
+      @@check_project
+    end
+
+    # allow testing frameworks to disable
+    def check_project=(v)
+      @@check_project = v
+    end
   end
 end

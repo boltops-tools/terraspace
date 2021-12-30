@@ -9,7 +9,8 @@ module Terraspace::CLI::New::Source
 
     def set_core_source(template, type=nil)
       template_name = template_name(template, type)
-      template_path = File.expand_path("../../../../templates/#{template_name}", __dir__)
+      folder = @options[:examples] && type != "project" ? "examples/#{template_name}" : template_name
+      template_path = File.expand_path("../../../../templates/#{folder}", __dir__)
       override_source_paths(template_path)
     end
 
@@ -18,6 +19,7 @@ module Terraspace::CLI::New::Source
     end
 
     def require_gem(name)
+      return unless name # can be passed in name=nil with rspec test harness
       begin
         # Need to clear gem paths since installing plugins like terraspace_plugin_aws as part of terraspace new project
         Gem.clear_paths
@@ -34,10 +36,7 @@ module Terraspace::CLI::New::Source
     def set_plugin_gem_source(template, type)
       require_gem(plugin_gem_name)
       plugin = Terraspace::Plugin.find_with(plugin: @options[:plugin])
-      unless plugin
-        puts "ERROR: Unable to a find plugin for #{@options[:plugin]}. Are you sure the gem for the plugin is correct?".color(:red)
-        exit 1
-      end
+      return unless plugin # can be passed in name=nil with rspec test harness
       template_name = template_name(template, type)
       template_path = File.expand_path("#{plugin.root}/lib/templates/#{template_name}")
       override_source_paths(template_path)

@@ -6,6 +6,12 @@
 #
 # Docs: https://www.terraform.io/docs/providers/aws/index.html
 #
+# provider "azurerm" {
+#   features {} # required
+# }
+#
+# Docs: https://www.terraform.io/docs/providers/aws/index.html
+#
 # provider "google" {
 #   project = "REPLACE_ME"
 #   region  = "us-central1"   # update to your region
@@ -13,4 +19,7 @@
 # }
 #
 # Docs: https://www.terraform.io/docs/providers/google/index.html
+#
+# Note: If you add a provider, you should also configure a terraspace_plugin_* gem
+# in the Terraspace project Gemfile and run bundle.
 #
