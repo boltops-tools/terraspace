@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [0.7.1] - 2022-01-04
+- [#185](https://github.com/boltops-tools/terraspace/pull/185) pass value through untouch when expand method not defined
+
 ## [0.7.0] - 2021-12-30
 Highlights:
 - Non-cloud provider support
