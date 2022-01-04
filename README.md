@@ -8,17 +8,21 @@
 
 [![BoltOps Badge](https://img.boltops.com/boltops/badges/boltops-badge.png)](https://www.boltops.com)
 
-The Terraform Framework.
+[![BoltOps Learn Badge](https://img.boltops.com/boltops-learn/boltops-learn.png)](https://learn.boltops.com)
 
-Please **watch/star** this repo to help grow and support the project.
+
+The Terraform Framework.
 
 Official Docs Site: [terraspace.cloud](https://terraspace.cloud)
 
-Quick Start Demo:
+## Support the Project
 
-[![Watch the video](https://img.boltops.com/boltops/tools/terraspace/youtube/terraspace-quick-start.png)](https://learn.boltops.com/courses/terraspace-fundamentals/lessons/terraspace-quick-start)
+* Please **watch/star** this repo to help grow and support the project.
+* Consider subscribing to [BoltOps Learn](https://learn.boltops.com/). You'll get access to many training videos. Subscribing helps support the project.
 
 ## Quick Start
+
+[![Watch the video](https://img.boltops.com/boltops/tools/terraspace/youtube/terraspace-quick-start.png)](https://learn.boltops.com/courses/terraspace-fundamentals/lessons/terraspace-quick-start)
 
 Here are commands to get started:
 
