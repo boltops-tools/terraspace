@@ -76,9 +76,13 @@ module Terraspace::Plugin::Expander
             .sub('TMP_KEEP_HTTP', '://')   # restore :// IE: https:// or http://
     end
 
-    def var_value(name)
-      name = name.sub(':','').downcase
-      value = send(name).to_s
+    def var_value(unexpanded)
+      name = unexpanded.sub(':','').downcase
+      if respond_to?(name)
+        value = send(name).to_s
+      else
+        return unexpanded
+      end
       if name == "namespace" && Terraspace.config.layering.enable_names.expansion
         value = friendly_name(value)
       end
