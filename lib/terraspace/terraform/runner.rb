@@ -18,7 +18,7 @@ module Terraspace::Terraform
 
     # default at end in case of redirection. IE: terraform output > /path
     def args
-      args = custom.args + thor.args + pass.args
+      args = custom.args + pass.args + thor.args
       args.uniq
     end
 
@@ -28,17 +28,17 @@ module Terraspace::Terraform
     end
     memoize :custom
 
-    # From Thor defined/managed cli @options
-    def thor
-      Args::Thor.new(@mod, @name, @options)
-    end
-    memoize :thor
-
     # From Thor passthrough cli @options[:args]
     def pass
       Args::Pass.new(@mod, @name, @options)
     end
     memoize :pass
+
+    # From Thor defined/managed cli @options
+    def thor
+      Args::Thor.new(@mod, @name, @options)
+    end
+    memoize :thor
 
     def terraform(name, *args)
       current_dir_message # only show once
