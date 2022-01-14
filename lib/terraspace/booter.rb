@@ -1,6 +1,7 @@
 module Terraspace
   module Booter
     def boot
+      Dotenv.new.load!
       run_hooks
       Terraspace::Bundle.require # load plugins
       load_plugin_default_configs
