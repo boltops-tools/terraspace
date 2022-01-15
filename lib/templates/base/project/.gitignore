@@ -13,6 +13,7 @@ terraform.tfvars
 # Common ruby files
 *.gem
 *.rbc
+.env*
 .idea
 /.bundle
 /.config

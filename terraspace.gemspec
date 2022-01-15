@@ -22,6 +22,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "bundler"
   spec.add_dependency "cli-format"
   spec.add_dependency "deep_merge"
+  spec.add_dependency "dotenv"
   spec.add_dependency "dsl_evaluator"
   spec.add_dependency "eventmachine-tail"
   spec.add_dependency "graph"
