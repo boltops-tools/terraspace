@@ -31,13 +31,13 @@ Gem::Specification.new do |spec|
   spec.add_dependency "rainbow"
   spec.add_dependency "render_me_pretty"
   spec.add_dependency "rexml"
-  spec.add_dependency "terraspace-bundler", "~> 0.4.4"
+  spec.add_dependency "terraspace-bundler", ">= 0.5.0"
   spec.add_dependency "thor"
   spec.add_dependency "tty-tree"
   spec.add_dependency "zeitwerk"
 
   # core baseline plugins
-  spec.add_dependency "rspec-terraspace", "~> 0.3.0"
+  spec.add_dependency "rspec-terraspace", ">= 0.3.1"
 
   spec.add_development_dependency "bundler"
   spec.add_development_dependency "byebug"
