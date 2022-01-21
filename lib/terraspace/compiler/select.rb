@@ -1,5 +1,6 @@
 module Terraspace::Compiler
   class Select
+    include Terraspace::App::CallableOption::Concern
     include Terraspace::Util::Logging
 
     def initialize(path)
@@ -22,48 +23,42 @@ module Terraspace::Compiler
     end
 
     def include_stacks
-      include_option(:include_stacks)
+      if config.all.include_stacks
+        config_name = "config.all.include_stacks"
+        config_value = config.dig(:all, :include_stacks)
+      elsif config.all.consider_allow_deny_stacks
+        config_name = "config.allow.stacks"
+        config_value = config.dig(:allow, :stacks)
+      else
+        return
+      end
+      callable_option(
+        config_name: config_name,
+        config_value: config_value,
+        passed_args: [@stack_name],
+      )
     end
 
     def exclude_stacks
-      include_option(:exclude_stacks)
-    end
-
-    def include_option(name)
-      option = all[name]  # IE: include_stacks or exclude_stacks
-      option ||= all[:ignore_stacks] if name == :exclude_stacks
-      case option
-      when nil
-        return nil
-      when Array
-        return option
-      when -> (c) { c.respond_to?(:public_instance_methods) && c.public_instance_methods.include?(:call) }
-        object= option.new
-      when -> (c) { c.respond_to?(:call) }
-        object = option
+      if config.all.exclude_stacks
+        config_name = "config.all.exclude_stacks"
+        config_value = config.dig(:all, :exclude_stacks)
+      elsif config.all.consider_allow_deny_stacks
+        config_name = "config.deny.stacks"
+        config_value = config.dig(:deny, :stacks)
       else
-        raise "Invalid option for config.all.#{name}"
+        return
       end
-
-      if object
-        result = object.call(@stack_name)
-        unless result.is_a?(Array) || result.is_a?(NilClass)
-          message = "ERROR: The config.all.#{name} needs to return an Array or nil"
-          logger.info message.color(:yellow)
-          logger.info <<~EOL
-            The config.all.#{name} when assigned a class, object, or proc must implement
-            the call method and return an Array or nil.
-            The current return value is a #{result.class}
-          EOL
-          raise message
-        end
-      end
-      result
+      callable_option(
+        config_name: config_name,
+        config_value: config_value,
+        passed_args: [@stack_name],
+      )
     end
 
   private
-    def all
-      Terraspace.config.all
+    def config
+      Terraspace.config
     end
 
     def extract_stack_name(path)
@@ -72,7 +67,7 @@ module Terraspace::Compiler
 
     @@ignore_stacks_deprecation_warning = nil
     def ignore_stacks_deprecation_warning
-      return unless all.ignore_stacks
+      return unless config.all.ignore_stacks
       return if @@ignore_stacks_deprecation_warning
       puts <<~EOL.color(:yellow)
         DEPRECATED:  config.all.ignore_stacks
