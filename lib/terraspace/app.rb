@@ -12,16 +12,26 @@ module Terraspace
 
     def defaults
       config = ActiveSupport::OrderedOptions.new
+
       config.all = ActiveSupport::OrderedOptions.new
       config.all.concurrency = 5
       config.all.exit_on_fail = ActiveSupport::OrderedOptions.new
       config.all.exit_on_fail.down = true
       config.all.exit_on_fail.up = true
-      config.all.ignore_stacks = nil
-      config.all.include_stacks = nil
+
       config.allow = ActiveSupport::OrderedOptions.new
       config.allow.envs = nil
       config.allow.regions = nil
+      config.allow.stacks = nil
+      config.deny = ActiveSupport::OrderedOptions.new
+      config.deny.envs = nil
+      config.deny.regions = nil
+      config.deny.stacks = nil
+
+      config.all.exclude_stacks = nil
+      config.all.include_stacks = nil
+      config.all.consider_allow_deny_stacks = true
+
       config.auto_create_backend = true
       config.build = ActiveSupport::OrderedOptions.new
       config.build.cache_dir = ":CACHE_ROOT/:REGION/:ENV/:BUILD_DIR"
