@@ -12,7 +12,7 @@ class Terraspace::Compiler::Expander
       @mod = mod
     end
 
-    COMMENT = /^\s+#/
+    COMMENT = /^\s*#/
     # Works for both backend.rb DSL and backend.tf ERB
     def detect
       return nil unless src_path # no backend file. returning nil means a local backend
