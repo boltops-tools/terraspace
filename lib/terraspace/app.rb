@@ -33,6 +33,8 @@ module Terraspace
       config.all.consider_allow_deny_stacks = true
 
       config.auto_create_backend = true
+      config.autodetect = ActiveSupport::OrderedOptions.new
+      config.autodetect.expander = nil
       config.build = ActiveSupport::OrderedOptions.new
       config.build.cache_dir = ":CACHE_ROOT/:REGION/:ENV/:BUILD_DIR"
       config.build.cache_root = nil # defaults to /full/path/to/.terraspace-cache

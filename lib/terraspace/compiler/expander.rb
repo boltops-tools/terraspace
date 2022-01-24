@@ -3,8 +3,8 @@ module Terraspace::Compiler
     extend Memoist
     delegate :expand, :expansion, to: :expander
 
-    def initialize(mod, name)
-      @mod, @name = mod, name
+    def initialize(mod, backend=nil)
+      @mod, @backend = mod, backend
     end
 
     def expander
@@ -12,27 +12,51 @@ module Terraspace::Compiler
     end
     memoize :expander
 
+    # IE: TerraspacePluginAws::Interfaces::Expander
     def expander_class
-      # IE: TerraspacePluginAws::Interfaces::Expander
-      klass_name = Terraspace::Plugin.klass("Expander", backend: @name)
-      klass_name ? klass_name.constantize : Terraspace::Plugin::Expander::Generic
-    rescue NameError
+      class_name = expander_class_name
+      class_name ? class_name.constantize : Terraspace::Plugin::Expander::Generic
+    rescue NameError => e
+      logger.debug "#{e.class}: #{e.message}"
       Terraspace::Plugin::Expander::Generic
+    end
+
+    def expander_class_name
+      plugin = Terraspace.config.autodetect.expander # contains plugin name. IE: aws, azurerm, google
+      if plugin
+        # early return for user override of autodetection
+        return Terraspace::Plugin.klass("Expander", plugin: plugin) # can return nil
+      end
+
+      backend = @backend || parse_backend
+      class_name = Terraspace::Plugin.klass("Expander", backend: backend) # can return nil
+      unless class_name
+        backend = plugin_backend
+        class_name = Terraspace::Plugin.klass("Expander", backend: backend) # can return nil
+      end
+      class_name
+    end
+
+    # autodetect by parsing backend.tf or backend.rb
+    def parse_backend
+      Backend.new(@mod).detect
+    end
+
+    # autodetect by looking up loaded plugins
+    def plugin_backend
+      plugin = Terraspace::Autodetect.new.plugin # IE: aws, azurerm, google
+      if plugin
+        data = Terraspace::Plugin.meta[plugin]
+        data[:backend] # IE: s3, azurerm, gcs
+      end
     end
 
     class << self
       extend Memoist
-
       def autodetect(mod, opts={})
-        backend = opts[:backend] || find_backend(mod)
-        new(mod, backend)
+        new(mod, opts)
       end
       memoize :autodetect
-
-      def find_backend(mod)
-        Backend.new(mod).detect
-      end
-      memoize :find_backend
     end
   end
 end
