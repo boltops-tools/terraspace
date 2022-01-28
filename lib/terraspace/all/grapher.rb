@@ -3,19 +3,27 @@ require "tty-tree"
 
 module Terraspace::All
   class Grapher < Base
+    include Terraspace::Compiler::DirsConcern
     include Terraspace::Util::Logging
 
     def run
       check_graphviz!
       logger.info "Building graph..."
-      builder = Terraspace::Builder.new(@options.merge(mod: "placeholder", quiet: true, draw_full_graph: draw_full_graph))
-      builder.run
-      graph = builder.graph
+      graph = build_graph
       if @options[:format] == "text"
         text(graph.top_nodes)
       else
         draw(graph.nodes)
       end
+    end
+
+    def build_graph
+      resolver = Terraspace::Dependency::Resolver.new(@options.merge(quiet: true, draw_full_graph: draw_full_graph))
+      resolver.resolve
+      dependencies = Terraspace::Dependency::Registry.data # populated after build_unresolved
+      graph = Terraspace::Dependency::Graph.new(stack_names, dependencies, @options)
+      graph.build
+      graph
     end
 
     def text(nodes)

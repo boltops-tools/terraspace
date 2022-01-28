@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Tung Nguyen"]
   spec.email         = ["tung@boltops.com"]
   spec.summary       = "Terraspace: The Terraspace Framework"
-  spec.homepage      = "https://github.com/boltops-tools/terraspace"
+  spec.homepage      = "https://terraspace.cloud"
   spec.license       = "Apache-2.0"
 
   spec.files         = File.directory?('.git') ? `git ls-files`.split($/) : Dir.glob("**/*")

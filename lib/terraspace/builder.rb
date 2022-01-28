@@ -4,64 +4,42 @@ module Terraspace
     include Compiler::DirsConcern
     include Hooks::Concern
 
-    attr_reader :graph
-
     def run
       return if @options[:build] == false
       Terraspace::CLI::Setup::Check.check!
+      check_allow!
       @mod.root_module = true
       clean
+      build
+    end
+
+    def build(modules: true, stack: true)
       build_dir = Util.pretty_path(@mod.cache_dir)
       placeholder_stack_message
       logger.info "Building #{build_dir}" unless @options[:quiet] # from terraspace all
-
-      batches = nil
       FileUtils.mkdir_p(@mod.cache_dir) # so terraspace before build hooks work
       run_hooks("terraspace.rb", "build") do
-        check_allow!
-        build_unresolved
-        batches = build_batches
-        build_all
+        build_dir("modules") if modules
+        build_root_module if stack
         logger.info "Built in #{build_dir}" unless @options[:quiet] # from terraspace all
       end
-      batches
     end
 
     def check_allow!
       Allow.new(@mod).check!
     end
 
-    # Builds dependency graph and returns the batches to run
-    def build_batches
-      dependencies = Terraspace::Dependency::Registry.data # populated after build_unresolved
-      @graph = Terraspace::Dependency::Graph.new(stack_names, dependencies, @options)
-      @graph.build
-    end
-
-    def build_all
-      # At this point dependencies have been resolved.
-      Terraspace::Terraform::RemoteState::Fetcher.flush!
-      @resolved = true
-      build_unresolved
-    end
-
-    def build_unresolved
-      build_dir("modules")
-      build_dir("stacks")
-      build_root_module
-    end
-
     def build_root_module
-      @mod.resolved = @resolved
-      Compiler::Builder.new(@mod).build
+      @mod.resolved = true
+      Compiler::Perform.new(@mod).compile
     end
 
     def build_dir(type_dir)
       with_each_mod(type_dir) do |mod|
-        mod.resolved = @resolved
+        mod.resolved = true
         is_root_module = mod.cache_dir == @mod.cache_dir
         next if is_root_module # handled by build_root_module
-        Compiler::Builder.new(mod).build
+        Compiler::Perform.new(mod).compile
       end
     end
 

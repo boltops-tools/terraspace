@@ -1,6 +1,7 @@
 module Terraspace::All
   class Runner < Base
     include Terraspace::Util
+    extend Memoist
 
     def initialize(command, options={})
       @command, @options = command, options
@@ -21,24 +22,18 @@ module Terraspace::All
     end
 
     def build_batches
-      @batches = run_builder(quiet: false)
+      @batches = Terraspace::Dependency::Resolver.new(@options).resolve
       @batches.reverse! if @command == "down"
       @batches
     end
 
     def deploy_batches
       truncate_logs if ENV['TS_TRUNCATE_LOGS']
+      build_modules
       @batches.each_with_index do |batch,i|
         logger.info "Batch Run #{i+1}:"
-        run_builder unless i == 0 # already handled by build_batches the first time
         deploy_batch(batch)
       end
-    end
-
-    # Should run after each batch run. run_builder also calls replace_outputs.
-    # Important: rebuild from source so placeholders are in place.
-    def run_builder(quiet: true)
-      Terraspace::Builder.new(@options.merge(mod: "placeholder", quiet: quiet)).run
     end
 
     def deploy_batch(batch)
@@ -47,6 +42,7 @@ module Terraspace::All
       batch.sort_by(&:name).each_slice(concurrency) do |slice|
         slice.each do |node|
           pid = fork do
+            build_stack(node.name)
             run_terraspace(node.name)
           end
           @pids[pid] = node.name # store mod_name mapping
@@ -55,6 +51,16 @@ module Terraspace::All
       wait_for_child_proccess
       summarize     # also reports lower-level error info
       report_errors # reports finall errors and possibly exit
+    end
+
+    def build_modules
+      builder = Terraspace::Builder.new(@options.merge(mod: "placeholder", quiet: true, clean: true))
+      builder.build(modules: true, stack: false)
+    end
+
+    def build_stack(name)
+      builder = Terraspace::Builder.new(@options.merge(mod: name, quiet: true, clean: false))
+      builder.build(modules: false, stack: true)
     end
 
     def wait_for_child_proccess

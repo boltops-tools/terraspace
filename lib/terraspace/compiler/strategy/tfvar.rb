@@ -5,7 +5,7 @@ module Terraspace::Compiler::Strategy
       @order = 0
     end
 
-    def run
+    def run(write: true)
       layer_paths.each do |layer_path|
         ext = File.extname(layer_path).sub('.','')
         klass = strategy_class(ext)
@@ -14,6 +14,7 @@ module Terraspace::Compiler::Strategy
         strategy = klass.new(@mod, layer_path)
         content = strategy.run
 
+        next unless write
         dest_name = ordered_name(layer_path)
         writer = Terraspace::Compiler::Writer.new(@mod, dest_name: dest_name)
         writer.write(content)
