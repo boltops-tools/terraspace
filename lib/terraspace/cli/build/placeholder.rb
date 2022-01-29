@@ -3,6 +3,7 @@
 # It's useful for the summary command.
 module Terraspace::CLI::Build
   class Placeholder
+    include Terraspace::Compiler::DirsConcern
     include Terraspace::Util::Logging
 
     def initialize(options={})
@@ -28,7 +29,8 @@ module Terraspace::CLI::Build
     def find_stack
       stack_paths = Dir.glob("{app,vendor}/stacks/*")
       stack_paths.select! do |path|
-        select = Terraspace::Compiler::Select.new(path)
+        stack_name = extract_stack_name(path)
+        select = Terraspace::Compiler::Select.new(stack_name)
         select.selected?
       end
       mod_path = stack_paths.last

@@ -1,8 +1,8 @@
 module Terraspace::Terraform::Ihooks::After
   class Plan < Terraspace::Terraform::Ihooks::Base
     def run
-      return if !@options[:out] || @options[:copy_to_root] == false
-      copy_to_root(@options[:out])
+      return if !out_option || @options[:copy_to_root] == false
+      copy_to_root(out_option)
     end
 
     def copy_to_root(file)

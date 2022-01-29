@@ -2,6 +2,8 @@ require "tempfile"
 
 module Terraspace::Terraform::Args
   class Thor
+    extend Memoist
+
     def initialize(mod, name, options={})
       @mod, @name, @options = mod, name.underscore, options
       @quiet = @options[:quiet].nil? ? true : @options[:quiet]
@@ -48,7 +50,7 @@ module Terraspace::Terraform::Args
       args << input_option
 
       # must be at the end
-      plan = @options[:plan]
+      plan = expand.plan
       if plan
         copy_to_cache(plan)
         args << " #{plan}"
@@ -81,7 +83,7 @@ module Terraspace::Terraform::Args
 
     def output_args
       args = []
-      args << "> #{expanded_out}" if @options[:out]
+      args << "> #{expand.out}" if expand.out
       args
     end
 
@@ -89,24 +91,20 @@ module Terraspace::Terraform::Args
       args = []
       args << input_option
       args << "-destroy" if @options[:destroy]
-      args << "-out #{expanded_out}" if @options[:out]
-      # Note: based on the @options[:out] will run an internal hook to copy plan
+      args << "-out #{expand.out}" if expand.out
+      # Note: based on the expand.out will run an internal hook to copy plan
       # file back up to the root project folder for use. Think this is convenient and expected behavior.
       args
     end
 
     def show_args
       args = []
-      plan = @options[:plan]
+      plan = expand.plan
       if plan
-        copy_to_cache(@options[:plan])
-        args << " #{@options[:plan]}" # terraform show /path/to/plan
+        copy_to_cache(expand.plan)
+        args << " #{expand.plan}" # terraform show /path/to/plan
       end
       args
-    end
-
-    def expanded_out
-      @options[:out]
     end
 
     def destroy_args
@@ -147,5 +145,10 @@ module Terraspace::Terraform::Args
       FileUtils.mkdir_p(File.dirname(dest))
       FileUtils.cp(src, dest) unless same_file?(src, dest)
     end
+
+    def expand
+      Terraspace::Terraform::Args::Expand.new(@mod, @options)
+    end
+    memoize :expand
   end
 end

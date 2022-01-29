@@ -76,7 +76,7 @@ module Terraspace::All
       @errors.each do |pid|
         mod_name = @pids[pid]
         terraspace_command = terraspace_command(mod_name)
-        logger.error "Error running: #{terraspace_command}. Check logs and fix the error.".color(:red)
+        logger.error "Error running: #{terraspace_command}. Fix the error above or check logs for the error.".color(:red)
       end
       unless @errors.empty?
         exit 2 if exit_on_fail?
@@ -103,7 +103,8 @@ module Terraspace::All
           log_path: log_path(mod_name),
           terraspace_command: terraspace_command(mod_name),
         }
-        Summary.new(data).run
+        # Its possible for log file to not get created if RemoteState::Fetcher#validate! fails
+        Summary.new(data).run if File.exist?(data[:log_path])
       end
     end
 
