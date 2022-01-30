@@ -52,7 +52,7 @@ class Terraspace::CLI
       return if meta['Dir'] == '.' # root is already built
 
       remote_mod = Terraspace::Mod::Remote.new(meta, @mod)
-      Terraspace::Compiler::Builder.new(remote_mod).build
+      Terraspace::Compiler::Perform.new(remote_mod).build
     end
 
     def auto?

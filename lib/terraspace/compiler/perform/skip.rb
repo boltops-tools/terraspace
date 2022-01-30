@@ -1,4 +1,4 @@
-class Terraspace::Compiler::Builder
+class Terraspace::Compiler::Perform
   class Skip
     def initialize(mod, src_path)
       @mod, @src_path = mod, src_path

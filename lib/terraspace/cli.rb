@@ -55,6 +55,7 @@ module Terraspace
     option :quiet, type: :boolean, desc: "quiet output"
     instance_option.call
     yes_option.call
+    option :clean, type: :boolean, default: nil, desc: "Whether or not clean out .terraspace-cache folder first", hide: true
     def build(mod="placeholder")
       Terraspace::Builder.new(options.merge(mod: mod)).run # building any stack builds them all
     end

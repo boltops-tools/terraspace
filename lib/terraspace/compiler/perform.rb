@@ -1,5 +1,5 @@
 module Terraspace::Compiler
-  class Builder
+  class Perform
     include CommandsConcern
     include Basename
 
@@ -7,44 +7,45 @@ module Terraspace::Compiler
       @mod = mod
     end
 
-    def build
-      build_config
-      build_module if @mod.resolved
-      build_tfvars unless command_is?(:seed) #  avoid dependencies being built and erroring when backend bucket doesnt exist
+    def compile
+      compile_config
+      compile_module if @mod.resolved
+      compile_tfvars
     end
 
-    # build common config files: provider and backend for the root module
-    def build_config
-      return unless build?
-      build_config_terraform
+    # compile common config files: provider and backend for the root module
+    def compile_config
+      return unless compile?
+      compile_config_terraform
     end
 
-    def build_module
+    def compile_module
       with_mod_file do |src_path|
-        build_mod_file(src_path)
+        compile_mod_file(src_path)
       end
     end
 
-    def build_tfvars
-      return unless build?
-      Strategy::Tfvar.new(@mod).run # writer within Strategy to control file ordering
+    def compile_tfvars(write: true)
+      return unless compile?
+      return if command_is?(:seed) # avoid dependencies being built and erroring when backend bucket doesnt exist
+      Strategy::Tfvar.new(@mod).run(write: write) # writer within Strategy to control file ordering
     end
 
   private
-    def build?
+    def compile?
       @mod.type == "stack" || @mod.root_module?
     end
 
-    def build_config_terraform
+    def compile_config_terraform
       expr = "#{Terraspace.root}/config/terraform/**/*"
       search(expr).each do |path|
         next unless File.file?(path)
         next if path.include?('config/terraform/tfvars')
-        build_config_file(basename(path))
+        compile_config_file(basename(path))
       end
     end
 
-    def build_config_file(file)
+    def compile_config_file(file)
       existing = search("#{@mod.root}/#{file}").first
       return if existing && existing.ends_with?(".tf") # do not overwrite existing backend.tf, provider.tf, etc
 
@@ -52,10 +53,10 @@ module Terraspace::Compiler
         src_path = search("#{@mod.root}/#{basename(file)}").first # existing source. IE: backend.rb in module folder
       end
       src_path ||= search("#{Terraspace.root}/config/terraform/#{file}").first
-      build_mod_file(src_path) if src_path
+      compile_mod_file(src_path) if src_path
     end
 
-    def build_mod_file(src_path)
+    def compile_mod_file(src_path)
       content = Strategy::Mod.new(@mod, src_path).run
       Writer.new(@mod, src_path: src_path).write(content)
     end
