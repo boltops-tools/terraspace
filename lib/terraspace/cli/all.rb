@@ -38,6 +38,7 @@ class Terraspace::CLI
 
     desc "plan", "Run plan for all or multiple stacks."
     long_desc Help.text("all/plan")
+    option :out, aliases: :o, desc: "Output path. Can be a pattern like :MOD_NAME.plan"
     def plan(*stacks)
       Terraspace::All::Runner.new("plan", @options.merge(stacks: stacks)).run
     end
@@ -56,6 +57,7 @@ class Terraspace::CLI
 
     desc "up", "Deploy all or multiple stacks."
     long_desc Help.text("all/up")
+    option :plan, desc: "Plan path. Can be a pattern like :MOD_NAME.plan"
     def up(*stacks)
       Terraspace::All::Runner.new("up", @options.merge(stacks: stacks)).run
     end

@@ -23,3 +23,13 @@
     terraspace plan a1:  Changes to Outputs:
     Time took: 11s
     $
+
+## Using Plan Outputs
+
+Using plan output path. You can specify an output path for the plan that contains pattern for expansion. Example:
+
+    $ terraspace all plan --out ":MOD_NAME.plan"
+
+You can then use this later in terraspace up:
+
+    $ terraspace all up --plan ":MOD_NAME.plan"

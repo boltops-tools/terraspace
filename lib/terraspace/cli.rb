@@ -9,7 +9,7 @@ module Terraspace
       option :yes, aliases: :y, type: :boolean, desc: "-auto-approve the terraform apply"
     }
     out_option = Proc.new {
-      option :out, aliases: :o, desc: "Write the output to path"
+      option :out, aliases: :o, desc: "Output path. Can be a pattern like :MOD_NAME.plan"
     }
     input_option = Proc.new {
       option :input, type: :boolean, desc: "Ask for input for variables if not directly set."
@@ -191,7 +191,7 @@ module Terraspace
     desc "show STACK", "Run show."
     long_desc Help.text(:show)
     instance_option.call
-    option :plan, desc: "path to created.plan"
+    option :plan, desc: "Plan path. Can be a pattern like :MOD_NAME.plan"
     def show(mod, *args)
       Commander.new("show", options.merge(mod: mod, args: args)).run
     end

@@ -2,6 +2,7 @@ module Terraspace::Terraform::RemoteState
   class Fetcher
     extend Memoist
     include Terraspace::Compiler::CommandsConcern
+    include Terraspace::Compiler::DirsConcern
     include Terraspace::Util::Logging
 
     def initialize(parent, identifier, options={})
@@ -130,9 +131,15 @@ module Terraspace::Terraform::RemoteState
 
     # Note we already validate mod exist at the terraform_output helper. This is just in case that logic changes.
     def validate!
-      return if @child.exist?
-      logger.error "ERROR: stack #{@child.name} not found".color(:red)
-      exit 1
+      unless @child.exist?
+        logger.error "ERROR: stack #{@child.name} not found".color(:red)
+        exit 1
+      end
+      select = Terraspace::Compiler::Select.new(@child.name)
+      unless select.selected?
+        logger.error "ERROR: stack #{@child.name} is configured to not be included. IE: config.all.include_stacks or config.all.exclude_stacks".color(:red)
+        exit 1
+      end
     end
 
     # Using debug level because all the tfvar files always get evaluated.

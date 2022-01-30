@@ -3,9 +3,8 @@ module Terraspace::Compiler
     include Terraspace::App::CallableOption::Concern
     include Terraspace::Util::Logging
 
-    def initialize(path)
-      @path = path
-      @stack_name = extract_stack_name(path)
+    def initialize(stack_name)
+      @stack_name = stack_name
     end
 
     def selected?
@@ -59,10 +58,6 @@ module Terraspace::Compiler
   private
     def config
       Terraspace.config
-    end
-
-    def extract_stack_name(path)
-      path.sub(%r{.*(app|vendor)/stacks/}, '')
     end
 
     @@ignore_stacks_deprecation_warning = nil

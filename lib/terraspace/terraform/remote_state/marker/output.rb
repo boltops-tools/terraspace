@@ -25,7 +25,7 @@ module Terraspace::Terraform::RemoteState::Marker
     end
 
     def warning
-      logger.warn "WARN: The #{@child_name} stack does not exist".color(:yellow)
+      logger.warn "WARN: The #{@child_name} stack does not exist or is configured to be not included. IE: config.all.include_stacks or config.all.exclude_stacks".color(:yellow)
       caller_line = caller.find { |l| l.include?('.tfvars') }
       return unless caller_line # specs dont have a tfvars file
       source_code = PrettyTracer.new(caller_line).source_code

@@ -28,3 +28,11 @@
     bucket_name = bucket-trusty-marmoset
     Time took: 39s
     $
+
+Using plan output path. You can specify an output path for the plan. Example:
+
+    $ terraspace plan demo --out "my.plan"
+
+You can then use this later in terraspace up:
+
+    $ terraspace up demo --plan "my.plan"

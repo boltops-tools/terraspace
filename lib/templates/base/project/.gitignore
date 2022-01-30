@@ -5,6 +5,7 @@ terraform.tfvars
 *.tfstate*
 
 .terraspace-cache
+*.plan
 
 # OS X files
 .history

@@ -1,6 +1,7 @@
 describe Terraspace::All::Runner do
   let(:runner) do
     runner = described_class.new(command: "up", yes: true)
+    allow(runner).to receive(:build_modules)
     allow(runner).to receive(:build_batches).and_return(batches)
     allow(runner).to receive(:preview)
     # Just test to the point of the run_builder and deploy_batch

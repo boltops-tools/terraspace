@@ -4,5 +4,10 @@ module Terraspace::Terraform::Ihooks
       @name = name
       super(options)
     end
+
+    def out_option
+      expand = Terraspace::Terraform::Args::Expand.new(@mod, @options)
+      expand.out
+    end
   end
 end

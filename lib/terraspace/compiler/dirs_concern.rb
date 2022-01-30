@@ -37,8 +37,13 @@ module Terraspace::Compiler
     #   path     /home/ec2-user/environment/downloads/infra/app/stacks/demo
     def select_stack?(type_dir, path)
       return true unless type_dir == "stacks"
-      select = Terraspace::Compiler::Select.new(path)
+      stack_name = extract_stack_name(path)
+      select = Terraspace::Compiler::Select.new(stack_name)
       select.selected?
+    end
+
+    def extract_stack_name(path)
+      path.sub(%r{.*(app|vendor)/stacks/}, '')
     end
 
     def local_paths(type_dir)
