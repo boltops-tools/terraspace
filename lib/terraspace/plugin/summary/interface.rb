@@ -49,7 +49,7 @@ module Terraspace::Plugin::Summary
     def download_statefiles
       return unless download?
       FileUtils.rm_rf(@dest_folder)
-      logger.info("Downloading statefiles to #{@dest_folder}")
+      logger.debug("Downloading statefiles to #{@dest_folder}")
       download # INTERFACE METHOD
     end
 

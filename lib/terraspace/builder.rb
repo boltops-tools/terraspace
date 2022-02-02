@@ -4,23 +4,40 @@ module Terraspace
     include Compiler::DirsConcern
     include Hooks::Concern
 
+    # @include_stacks can be 3 values: root_with_children, none, root_only
+    #
+    #     none: dont build any stacks at all. used by `terraspace all up`
+    #     root_only: only build root stack. used by `terraspace all up`
+    #     root_with_children: build all parent stacks as well as the root stack. normal `terraspace up`
+    #
+    def initialize(options={})
+      super
+      @include_stacks = @options[:include_stacks] || :root_with_children
+    end
+
     def run
       return if @options[:build] == false
       Terraspace::CLI::Setup::Check.check!
       check_allow!
       @mod.root_module = true
       clean
+      resolve_dependencies if @include_stacks == :root_with_children
       build
     end
 
-    def build(modules: true, stack: true)
+    def resolve_dependencies
+      resolver = Terraspace::Dependency::Resolver.new(@options.merge(quiet: true))
+      resolver.resolve # returns batches
+    end
+
+    def build(modules: true)
       build_dir = Util.pretty_path(@mod.cache_dir)
       placeholder_stack_message
       logger.info "Building #{build_dir}" unless @options[:quiet] # from terraspace all
       FileUtils.mkdir_p(@mod.cache_dir) # so terraspace before build hooks work
       run_hooks("terraspace.rb", "build") do
         build_dir("modules") if modules
-        build_root_module if stack
+        build_stacks
         logger.info "Built in #{build_dir}" unless @options[:quiet] # from terraspace all
       end
     end
@@ -29,16 +46,23 @@ module Terraspace
       Allow.new(@mod).check!
     end
 
-    def build_root_module
-      @mod.resolved = true
-      Compiler::Perform.new(@mod).compile
+    def build_stacks
+      return if @include_stacks == :none
+      build_children_stacks if @include_stacks == :root_with_children
+      Compiler::Perform.new(@mod).compile # @include_stacks :root or :root_with_children
+    end
+
+    # Build stacks that are part of the dependency graph. Because .terraspace-cache folders
+    # need to exist so `terraform state pull` works to get the state info.
+    def build_children_stacks
+      children = Children.new(@mod, @options)
+      children.build
     end
 
     def build_dir(type_dir)
       with_each_mod(type_dir) do |mod|
-        mod.resolved = true
         is_root_module = mod.cache_dir == @mod.cache_dir
-        next if is_root_module # handled by build_root_module
+        next if is_root_module # handled by build_stacks
         Compiler::Perform.new(mod).compile
       end
     end

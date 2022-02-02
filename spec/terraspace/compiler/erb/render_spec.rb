@@ -1,6 +1,10 @@
 describe Terraspace::Compiler::Erb::Render do
   let(:render) { described_class.new(mod, src_path) }
-  let(:mod)    { Terraspace::Mod.new("a1") }
+  let(:mod)    do
+    mod = Terraspace::Mod.new("a1")
+    mod.resolved = false
+    mod
+  end
 
   # Only testing mod unresolved as a sanity check and its worth the ROI.
   # The resolved would the Fetcher. We have unit tests to cover those other changes.

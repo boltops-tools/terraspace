@@ -54,13 +54,13 @@ module Terraspace::All
     end
 
     def build_modules
-      builder = Terraspace::Builder.new(@options.merge(mod: "placeholder", quiet: true, clean: true))
-      builder.build(modules: true, stack: false)
+      builder = Terraspace::Builder.new(@options.merge(mod: "placeholder", clean: true, quiet: true, include_stacks: :none))
+      builder.build(modules: true)
     end
 
     def build_stack(name)
-      builder = Terraspace::Builder.new(@options.merge(mod: name, quiet: true, clean: false))
-      builder.build(modules: false, stack: true)
+      builder = Terraspace::Builder.new(@options.merge(mod: name, clean: false, quiet: true, include_stacks: :root_only))
+      builder.build(modules: false)
     end
 
     def wait_for_child_proccess
