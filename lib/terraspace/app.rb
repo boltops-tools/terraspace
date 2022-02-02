@@ -16,7 +16,7 @@ module Terraspace
       config.all = ActiveSupport::OrderedOptions.new
       config.all.concurrency = 5
       config.all.exit_on_fail = ActiveSupport::OrderedOptions.new
-      config.all.exit_on_fail.down = true
+      config.all.exit_on_fail.down = false
       config.all.exit_on_fail.plan = true
       config.all.exit_on_fail.up = true
 

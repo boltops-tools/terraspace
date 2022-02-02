@@ -15,6 +15,7 @@ module Terraspace
       @name, @options = placeholder(name), options
       @consider_stacks = options[:consider_stacks].nil? ? true : options[:consider_stacks]
       @instance = options[:instance]
+      @resolved = true # more common case
     end
 
     def placeholder(name)

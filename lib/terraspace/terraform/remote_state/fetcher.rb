@@ -48,7 +48,7 @@ module Terraspace::Terraform::RemoteState
     def output_error(type)
       msg = case type
       when :key_not_found
-        "Output #{@output_key} was not found for the #{@parent.name} tfvars file. Either #{@child.name} stack has not been deployed yet or it does not have this output: #{@output_key}"
+        "Output #{@output_key} was not found for the #{@parent.name} tfvars file. Either #{@child.name} stack has not been deployed yet or it does not have this output: #{@output_key}. Also, if local backend is being used and has been removed/cleaned, then it will also result zero-byte state.json with the 'terraform state pull' used to download the terraform state and output will not be found."
       when :state_not_found
         "Output #{@output_key} could not be looked up for the #{@parent.name} tfvars file. #{@child.name} stack needs to be deployed"
       when :bucket_not_found
@@ -63,7 +63,7 @@ module Terraspace::Terraform::RemoteState
     @@download_shown = false
     def pull
       return if @@pull_successes[cache_key]
-      logger.info "Downloading tfstate files for dependencies defined in tfvars..." unless @@download_shown || @options[:quiet]
+      logger.debug "Downloading tfstate files for dependencies defined in tfvars..." unless @@download_shown || @options[:quiet]
       @@download_shown = true
       logger.debug "Downloading tfstate for stack: #{@child.name}"
 

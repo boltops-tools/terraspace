@@ -8,6 +8,7 @@ module Terraspace::Dependency
 
     def resolve
       with_each_mod("stacks") do |mod|
+        mod.resolved = false
         Terraspace::Compiler::Perform.new(mod).compile_tfvars(write: false)
       end
 
