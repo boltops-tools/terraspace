@@ -59,7 +59,7 @@ module Terraspace
       end
     end
 
-    # Terraspace.argv provides consistency when terraspace is being called by rspec-terrspace test harness
+    # Terraspace.argv provides consistency when terraspace is being called by rspec-terraspace test harness
     # So use Terraspace.argv instead of ARGV constant
     def argv=(argv)
       @@argv = argv

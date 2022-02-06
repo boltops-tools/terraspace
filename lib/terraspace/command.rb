@@ -30,7 +30,7 @@ module Terraspace
       include Terraspace::Util::Logging
 
       def dispatch(m, args, options, config)
-        # Terraspace.argv provides consistency when terraspace is being called by rspec-terrspace test harness
+        # Terraspace.argv provides consistency when terraspace is being called by rspec-terraspace test harness
         Terraspace.argv = args.clone # important to clone since Thor removes the first argv
 
         check_standalone_install!
