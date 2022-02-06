@@ -11,7 +11,7 @@ class Terraspace::CLI::Setup
 
     # Used for the CLI
     def run
-      puts "Detected Terrspace version: #{Terraspace::VERSION}"
+      puts "Detected Terraspace version: #{Terraspace::VERSION}"
       if terraform_bin
         puts "Detected Terraform bin: #{terraform_bin}"
         puts "Detected #{terraform_version_message}"
