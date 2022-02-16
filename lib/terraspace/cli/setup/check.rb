@@ -65,8 +65,12 @@ class Terraspace::CLI::Setup
     end
 
     def terraform_bin
-      out = `type terraform 2>&1`.strip
-      return unless $?.success?
+      if Gem.win_platform?
+        out = "is terraform.exe".strip
+      else
+        out = `type terraform 2>&1`.strip
+        return unless $?.success?
+      end
       md = out.match(/is (.*)/)
       md[1] if md
     end

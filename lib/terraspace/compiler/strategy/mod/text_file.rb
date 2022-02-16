@@ -10,6 +10,7 @@ class Terraspace::Compiler::Strategy::Mod
 
     @@already_reported = false
     def check
+      return false if Gem.win_platform? # assume non-binary files if on windows
       unless file_installed?
         return true if @@already_reported
         logger.warn <<~EOL.color(:yellow)
