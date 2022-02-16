@@ -50,7 +50,7 @@ class Terraspace::CLI::New
 
   private
     def switch_ruby_version_line
-      rbenv_installed = system("type rbenv 2>&1 > /dev/null")
+      rbenv_installed = system("type rbenv > /dev/null 2>&1")
       if rbenv_installed
         'eval "$(rbenv init -)"'
       end
