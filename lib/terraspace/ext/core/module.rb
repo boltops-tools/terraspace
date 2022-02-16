@@ -5,8 +5,15 @@ class Module
   #    include Provider
   #    # etc
   #
+  # Caller lines are different for OSes:
+  #
+  #   windows: "C:/Ruby31-x64/lib/ruby/gems/3.1.0/gems/terraspace-1.1.1/lib/terraspace/builder.rb:34:in `build'"
+  #   linux: "/home/ec2-user/.rvm/gems/ruby-3.0.3/gems/terraspace-1.1.1//lib/terraspace/compiler/dsl/syntax/mod.rb:4:in `<module:Mod>'"
+  #
   def include_dir(dir)
-    calling_file = caller[0].split(':').first # IE: /home/ec2-user/environment/terraspace/lib/terraspace/compiler/dsl/syntax/mod.rb
+    caller_line = caller[0]
+    parts = caller_line.split(':')
+    calling_file = caller_line.match(/^[a-zA-Z]:/) ? parts[1] : parts[0]
     parent_dir = File.dirname(calling_file)
 
     full_dir = "#{parent_dir}/#{dir}"
