@@ -58,8 +58,9 @@ class Terraspace::Compiler::Strategy::Tfvar
     end
 
     def full_layering
-      # layers is defined in Terraspace::Layering module
-      layers.inject([]) do |sum, layer|
+      # layers defined in Terraspace::Layering module
+      all = layers.map { |layer| layer.sub(/\/$/,'') } # strip trailing slash
+      all.inject([]) do |sum, layer|
         sum += layer_levels(layer) unless layer.nil?
         sum
       end
