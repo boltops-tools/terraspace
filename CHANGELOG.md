@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [1.1.2] - 2022-02-17
+- [#200](https://github.com/boltops-tools/terraspace/pull/200) fix terraspace typos
+- [#202](https://github.com/boltops-tools/terraspace/pull/202) Windows support: fix include_dir for windows
+- [#203](https://github.com/boltops-tools/terraspace/pull/203) Fix ERB for windows
+- [#204](https://github.com/boltops-tools/terraspace/pull/204) improve file check
+- setup check terraform_bin windows support
+- slight layering improvement strip trailing slash, helps with custom layering
+
 ## [1.1.1] - 2022-02-02
 - [#199](https://github.com/boltops-tools/terraspace/pull/199) build required dependent stacks as part of terraspace up
 
