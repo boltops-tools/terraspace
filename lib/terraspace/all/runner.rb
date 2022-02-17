@@ -41,16 +41,25 @@ module Terraspace::All
       concurrency = Terraspace.config.all.concurrency
       batch.sort_by(&:name).each_slice(concurrency) do |slice|
         slice.each do |node|
-          pid = fork do
-            build_stack(node.name)
-            run_terraspace(node.name)
+          if fork?
+            pid = fork do
+              deploy_stack(node)
+            end
+            @pids[pid] = node.name # store mod_name mapping
+          else
+            deploy_stack(node)
           end
-          @pids[pid] = node.name # store mod_name mapping
         end
       end
+      return unless fork?
       wait_for_child_proccess
       summarize     # also reports lower-level error info
       report_errors # reports finall errors and possibly exit
+    end
+
+    def deploy_stack(node)
+      build_stack(node.name)
+      run_terraspace(node.name)
     end
 
     def build_modules
@@ -109,7 +118,7 @@ module Terraspace::All
     end
 
     def run_terraspace(mod_name)
-      set_log_path!(mod_name)
+      set_log_path!(mod_name) if fork?
       name = command_map(@command)
       o = @options.merge(mod: mod_name, yes: true, build: false, input: false, log_to_stderr: true)
       o.merge!(quiet: false) if @command == "init" # noisy so can filter and summarize output
@@ -121,6 +130,10 @@ module Terraspace::All
       else
         Terraspace::CLI::Commander.new(name, o).run
       end
+    end
+
+    def fork?
+      Terraspace.config.all.concurrency > 1
     end
 
     def set_log_path!(mod_name)
