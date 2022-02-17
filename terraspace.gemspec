@@ -12,6 +12,10 @@ Gem::Specification.new do |spec|
   spec.homepage      = "https://terraspace.cloud"
   spec.license       = "Apache-2.0"
 
+  spec.metadata["homepage_uri"] = spec.homepage
+  spec.metadata["source_code_uri"] = "https://github.com/boltops-tools/terraspace"
+  spec.metadata["changelog_uri"] = "https://github.com/boltops-tools/terraspace/blob/master/CHANGELOG.md"
+
   spec.files         = File.directory?('.git') ? `git ls-files`.split($/) : Dir.glob("**/*")
   spec.bindir        = "exe"
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
