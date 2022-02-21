@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [1.1.4] - 2022-02-21
+- [#210](https://github.com/boltops-tools/terraspace/pull/210) write files without magic conversion, fixes #209
+- cleanup argv and root
+- write files without magic conversion, fixes #209
+
 ## [1.1.3] - 2022-02-17
 - [#207](https://github.com/boltops-tools/terraspace/pull/207) dont fork when all.concurrency = 1
 
