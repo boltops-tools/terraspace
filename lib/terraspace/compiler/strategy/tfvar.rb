@@ -1,5 +1,7 @@
 module Terraspace::Compiler::Strategy
   class Tfvar
+    extend Memoist
+
     def initialize(mod)
       @mod = mod
       @order = 0
@@ -24,6 +26,7 @@ module Terraspace::Compiler::Strategy
     def layer_paths
       Layer.new(@mod).paths
     end
+    memoize :layer_paths
 
     # Tact on number to ensure that tfvars will be processed in desired order.
     # Also name auto.tfvars so it will automatically load
