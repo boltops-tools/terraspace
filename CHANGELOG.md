@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [1.1.5] - 2022-02-21
+- [#212](https://github.com/boltops-tools/terraspace/pull/212) ability to show layers for debugging
+- show layers for debugging with logger level debug and TS_SHOW_ALL_LAYERS=1
+- stringify_keys layer friendly names map
+
 ## [1.1.4] - 2022-02-21
 - [#210](https://github.com/boltops-tools/terraspace/pull/210) write files without magic conversion, fixes #209
 - cleanup argv and root
