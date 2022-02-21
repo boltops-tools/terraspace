@@ -32,6 +32,7 @@ class Terraspace::Compiler::Strategy::Tfvar
     extend Memoist
     include Terraspace::Layering
     include Terraspace::Plugin::Expander::Friendly
+    include Terraspace::Util
 
     def initialize(mod)
       @mod = mod
@@ -40,7 +41,11 @@ class Terraspace::Compiler::Strategy::Tfvar
     def paths
       project_paths = full_paths(project_tfvars_dir)
       stack_paths   = full_paths(stack_tfvars_dir)
-      project_paths + stack_paths
+      paths = project_paths + stack_paths
+      show_layers(paths)
+      paths.select do |path|
+        File.exist?(path)
+      end
     end
     memoize :paths
 
@@ -51,10 +56,6 @@ class Terraspace::Compiler::Strategy::Tfvar
           "#{tfvars_dir}/#{layer}.rb",
         ]
       end.flatten
-
-      layer_paths.select do |path|
-        File.exist?(path)
-      end
     end
 
     def full_layering
@@ -130,5 +131,18 @@ class Terraspace::Compiler::Strategy::Tfvar
       empty = Dir.glob("#{seed_dir}/*").empty?
       empty ? mod_dir : seed_dir
     end
+
+    @@shown_layers = {}
+    def show_layers(paths)
+      return unless @mod.resolved
+      return if @@shown_layers[@mod.name]
+      logger.debug "Layers for #{@mod.name}:"
+      paths.each do |path|
+        logger.debug "    #{pretty_path(path)}" if File.exist?(path) || ENV['TS_SHOW_ALL_LAYERS']
+      end
+      logger.debug ""
+      @@shown_layers[@mod.name] = true
+    end
+
   end
 end
