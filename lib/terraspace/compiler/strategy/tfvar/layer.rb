@@ -138,7 +138,9 @@ class Terraspace::Compiler::Strategy::Tfvar
       return if @@shown_layers[@mod.name]
       logger.debug "Layers for #{@mod.name}:"
       paths.each do |path|
-        logger.debug "    #{pretty_path(path)}" if File.exist?(path) || ENV['TS_SHOW_ALL_LAYERS']
+        next unless path.include?('.tfvars')
+        show = File.exist?(path) || ENV['TS_SHOW_ALL_LAYERS']
+        logger.debug "    #{pretty_path(path)}" if show
       end
       logger.debug ""
       @@shown_layers[@mod.name] = true
