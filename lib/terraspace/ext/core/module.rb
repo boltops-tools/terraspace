@@ -8,7 +8,7 @@ class Module
   # Caller lines are different for OSes:
   #
   #   windows: "C:/Ruby31-x64/lib/ruby/gems/3.1.0/gems/terraspace-1.1.1/lib/terraspace/builder.rb:34:in `build'"
-  #   linux: "/home/ec2-user/.rvm/gems/ruby-3.0.3/gems/terraspace-1.1.1//lib/terraspace/compiler/dsl/syntax/mod.rb:4:in `<module:Mod>'"
+  #   linux: "/home/ec2-user/.rvm/gems/ruby-3.0.3/gems/terraspace-1.1.1/lib/terraspace/compiler/dsl/syntax/mod.rb:4:in `<module:Mod>'"
   #
   def include_dir(dir)
     caller_line = caller[0]

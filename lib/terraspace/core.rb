@@ -11,11 +11,8 @@ module Terraspace
     def root
       @@root ||= ENV['TS_ROOT'] || Dir.pwd
     end
-
     # allow testing frameworks to switch roots
-    def root=(v)
-      @@root = v
-    end
+    cattr_writer :root
 
     def cache_root
       ENV['TS_CACHE_ROOT'] || config.build.cache_root || "#{root}/.terraspace-cache"
@@ -61,22 +58,7 @@ module Terraspace
 
     # Terraspace.argv provides consistency when terraspace is being called by rspec-terraspace test harness
     # So use Terraspace.argv instead of ARGV constant
-    def argv=(argv)
-      @@argv = argv
-    end
-
-    def argv
-      @@argv
-    end
-
-    @@check_project = true
-    def check_project
-      @@check_project
-    end
-
-    # allow testing frameworks to disable
-    def check_project=(v)
-      @@check_project = v
-    end
+    cattr_accessor :argv
+    cattr_accessor :check_project, default: true
   end
 end
