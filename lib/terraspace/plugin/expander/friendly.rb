@@ -5,7 +5,8 @@ module Terraspace::Plugin::Expander
     #   Terraspace::Plugin::Expander::Interface
     def friendly_name(name)
       return '' if name.nil?
-      Terraspace.config.layering.names[name.to_sym] || name
+      names = Terraspace.config.layering.names.stringify_keys
+      names[name.to_s] || name
     end
   end
 end
