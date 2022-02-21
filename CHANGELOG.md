@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [1.1.6] - 2022-02-21
+- [#213](https://github.com/boltops-tools/terraspace/pull/213) ability to show layers for debugging
+
 ## [1.1.5] - 2022-02-21
 - [#212](https://github.com/boltops-tools/terraspace/pull/212) ability to show layers for debugging
 - show layers for debugging with logger level debug and TS_SHOW_ALL_LAYERS=1
