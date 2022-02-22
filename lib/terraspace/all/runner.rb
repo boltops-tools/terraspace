@@ -68,7 +68,8 @@ module Terraspace::All
     end
 
     def build_stack(name)
-      builder = Terraspace::Builder.new(@options.merge(mod: name, clean: false, quiet: true, include_stacks: :root_only))
+      include_stacks = @command == "down" ? :root_with_children : :root_only
+      builder = Terraspace::Builder.new(@options.merge(mod: name, clean: false, quiet: true, include_stacks: include_stacks))
       builder.build(modules: false)
     end
 
