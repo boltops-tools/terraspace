@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [1.1.7] - 2022-02-22
+- [#215](https://github.com/boltops-tools/terraspace/pull/215) fix all down by building child nodes
+- [#216](https://github.com/boltops-tools/terraspace/pull/216) add codebuild project with acceptance test for terraspace all
+
 ## [1.1.6] - 2022-02-21
 - [#213](https://github.com/boltops-tools/terraspace/pull/213) ability to show layers for debugging
 
