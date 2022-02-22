@@ -9,6 +9,7 @@ end
 stage "Build" do
   # in parallel
   codebuild(
+    "terraspace-all",
     "terraspace-aws",
     "terraspace-azurerm",
     "terraspace-google",
