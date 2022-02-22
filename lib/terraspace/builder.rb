@@ -6,9 +6,15 @@ module Terraspace
 
     # @include_stacks can be 3 values: root_with_children, none, root_only
     #
+    # terraspace all:
+    #
     #     none: dont build any stacks at all. used by `terraspace all up`
     #     root_only: only build root stack. used by `terraspace all up`
-    #     root_with_children: build all parent stacks as well as the root stack. normal `terraspace up`
+    #     root_with_children: build all children stacks as well as the root stack. normal `terraspace all down`
+    #
+    # terraspace up:
+    #
+    #     root_with_children: build all children stacks as well as the root stack. normal `terraspace up`
     #
     def initialize(options={})
       super

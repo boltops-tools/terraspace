@@ -8,19 +8,18 @@ class Terraspace::Builder
     end
 
     def build
-      dependencies = Terraspace::Dependency::Registry.data
       # Find out if current deploy stack contains dependency
-      found = dependencies.find do |parent_child|
+      dependencies = Terraspace::Dependency::Registry.data
+      root = dependencies.find do |parent_child|
         parent, _ = parent_child.split(':')
         parent == @mod.name
       end
-      return unless found
+      return unless root
 
-      # Go down graph children, which are the dependencies to build a queue
-      parent, _ = found.split(':')
-      node = Terraspace::Dependency::Node.find_by(name: parent)
+      # Go down dependency graph to build a queue for processing
+      name, _ = root.split(':')
+      node = Terraspace::Dependency::Node.find_by(name: name)
       build_queue(node)
-
       logger.debug "Terraspace::Builder::Children @queue #{@queue}"
 
       # Process queue in reverse order to build leaf nodes first
