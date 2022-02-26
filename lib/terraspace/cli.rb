@@ -21,7 +21,7 @@ module Terraspace
       option :instance, aliases: %w[i], desc: "Instance of stack"
     }
     init_option = Proc.new {
-      option :init, type: :boolean, default: true, desc: "Instance of stack"
+      option :init, type: :boolean, default: true, desc: "Whether or not to run init"
     }
     reconfigure_option = Proc.new {
       option :reconfigure, type: :boolean, desc: "Add terraform -reconfigure option"

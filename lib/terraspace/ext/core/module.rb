@@ -10,17 +10,22 @@ class Module
   #   windows: "C:/Ruby31-x64/lib/ruby/gems/3.1.0/gems/terraspace-1.1.1/lib/terraspace/builder.rb:34:in `build'"
   #   linux: "/home/ec2-user/.rvm/gems/ruby-3.0.3/gems/terraspace-1.1.1/lib/terraspace/compiler/dsl/syntax/mod.rb:4:in `<module:Mod>'"
   #
-  def include_dir(dir)
+  def include_modules(dir)
     caller_line = caller[0]
     parts = caller_line.split(':')
     calling_file = caller_line.match(/^[a-zA-Z]:/) ? parts[1] : parts[0]
     parent_dir = File.dirname(calling_file)
 
     full_dir = "#{parent_dir}/#{dir}"
-    Dir.glob("#{full_dir}/**/*").each do |path|
+    paths = Dir.glob("#{full_dir}/**/*.rb")
+    if paths.empty?
+      raise "Empty include_modules dir: #{dir}"
+    end
+    paths.each do |path|
       regexp = Regexp.new(".*/lib/")
-      klass = path.sub(regexp, '').sub('.rb','').camelize
-      include klass.constantize
+      mod = path.sub(regexp, '').sub('.rb','').camelize
+      c = mod.constantize
+      include c if c.class == Module
     end
   end
 
