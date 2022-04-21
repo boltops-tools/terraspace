@@ -40,7 +40,7 @@ module Terraspace::Hooks
       command = File.basename(@file).sub('.rb','') # IE: terraform or terraspace
       id = "#{command} #{type} #{@name}"
       label = " label: #{hook["label"]}" if hook["label"]
-      logger.info  "Hook: Running #{id} hook.#{label}".color(:cyan)
+      logger.info  "Hook: Running #{id} hook.#{label}".color(:cyan) if Terraspace.config.hooks.show
       Runner.new(@mod, hook).run
     end
 

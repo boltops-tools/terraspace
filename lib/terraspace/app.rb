@@ -36,33 +36,45 @@ module Terraspace
       config.auto_create_backend = true
       config.autodetect = ActiveSupport::OrderedOptions.new
       config.autodetect.expander = nil
+
       config.build = ActiveSupport::OrderedOptions.new
       config.build.cache_dir = ":CACHE_ROOT/:REGION/:ENV/:BUILD_DIR"
       config.build.cache_root = nil # defaults to /full/path/to/.terraspace-cache
       config.build.clean_cache = nil # defaults to /full/path/to/.terraspace-cache
       config.build.default_pass_files = ["/files/"]
       config.build.pass_files = []
+
       config.bundle = ActiveSupport::OrderedOptions.new
       config.bundle.logger = ts_logger
+
+      config.hooks = ActiveSupport::OrderedOptions.new
+      config.hooks.show = true
+
       config.init = ActiveSupport::OrderedOptions.new
       config.init.mode = "auto" # auto, never, always
+
       config.log = ActiveSupport::OrderedOptions.new
       config.log.root = Terraspace.log_root
       config.logger = ts_logger
       config.logger.formatter = Logger::Formatter.new
       config.logger.level = ENV['TS_LOG_LEVEL'] || :info
+
       config.layering = ActiveSupport::OrderedOptions.new
       config.layering.names = {}
       config.layering.enable_names = ActiveSupport::OrderedOptions.new
       config.layering.enable_names.expansion = true
+
       config.summary = ActiveSupport::OrderedOptions.new
       config.summary.prune = false
+
       config.terraform = ActiveSupport::OrderedOptions.new
       config.terraform.plugin_cache = ActiveSupport::OrderedOptions.new
       config.terraform.plugin_cache.dir = ENV['TF_PLUGIN_CACHE_DIR'] || "#{Terraspace.tmp_root}/plugin_cache"
       config.terraform.plugin_cache.enabled = false
       config.terraform.plugin_cache.purge_on_error = true
+
       config.test_framework = "rspec"
+
       config.tfc = ActiveSupport::OrderedOptions.new
       config.tfc.auto_sync = true
       config.tfc.hostname = nil
