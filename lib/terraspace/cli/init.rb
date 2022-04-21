@@ -65,7 +65,7 @@ class Terraspace::CLI
     end
 
     def auto_init?
-      # terraspace commands not terraform commands. included some extra terraform commands here in case terrapace adds those later
+      # terraspace commands not terraform commands. included some extra terraform commands here in case terraspace adds those later
       commands = %w[all apply console down output plan providers refresh show state up validate]
       commands.include?(calling_command)
     end

@@ -19,7 +19,7 @@ class Module
     full_dir = "#{parent_dir}/#{dir}"
     paths = Dir.glob("#{full_dir}/**/*.rb")
     if paths.empty?
-      raise "Empty include_modules dir: #{dir}"
+      raise "Empty include_modules full_dir: #{full_dir}"
     end
     paths.each do |path|
       regexp = Regexp.new(".*/lib/")
