@@ -93,6 +93,14 @@ class Terraspace::CLI::Setup
     end
     memoize :terraform_version_message
 
+    def terraform_version
+      terraform_version_message.sub(/.*v/,'')
+    end
+
+    def terraspace_version
+      Terraspace::VERSION
+    end
+
     class << self
       # Used as library call
       def check!

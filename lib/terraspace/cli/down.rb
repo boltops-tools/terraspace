@@ -1,6 +1,7 @@
 class Terraspace::CLI
   class Down < Base
     include TfcConcern
+    include Concerns::PlanPath
 
     def run
       plan if @options[:yes] && !tfc?
@@ -9,6 +10,9 @@ class Terraspace::CLI
 
   private
     def plan
+      if Terraspace.cloud? && !@options[:out]
+        @options[:out] = plan_path
+      end
       Commander.new("plan", @options.merge(destroy: true)).run
     end
 

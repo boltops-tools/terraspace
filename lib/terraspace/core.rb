@@ -2,10 +2,21 @@ module Terraspace
   module Core
     extend Memoist
 
-    def env
-      ENV['TS_ENV'] || "dev"
+    def app
+      ENV['TS_APP'] unless ENV['TS_APP'].blank?
     end
-    memoize :env
+
+    def role
+      ENV['TS_ROLE'] unless ENV['TS_ROLE'].blank?
+    end
+
+    def env
+      ENV['TS_ENV'].blank? ? "dev" : ENV['TS_ENV']
+    end
+
+    def extra
+      ENV['TS_EXTRA'] unless ENV['TS_EXTRA'].blank?
+    end
 
     @@root = nil
     def root
@@ -15,7 +26,7 @@ module Terraspace
     cattr_writer :root
 
     def cache_root
-      ENV['TS_CACHE_ROOT'] || config.build.cache_root || "#{root}/.terraspace-cache"
+      ENV['TS_CACHE_ROOT'] || "#{root}/.terraspace-cache"
     end
     memoize :cache_root
 
@@ -60,5 +71,27 @@ module Terraspace
     # So use Terraspace.argv instead of ARGV constant
     cattr_accessor :argv
     cattr_accessor :check_project, default: true
+
+    @@cloud_warning_shown = false
+    def cloud?
+      enabled = !!Terraspace.config.cloud.org
+      if ENV['TS_TOKEN'] && !enabled && !@@cloud_warning_shown
+        logger.warn <<~EOL.color(:yellow)
+          WARN: TS_TOKEN is set but config.cloud.org is not set.
+          See: http://terraspace.cloud/docs/cloud/setup/
+        EOL
+        @@cloud_warning_shown = true
+      end
+      enabled
+    end
+
+    @@buffer = []
+    def buffer
+      @@buffer
+    end
+
+    def command?(name)
+      ARGV[0] == name || ARGV[1] == name
+    end
   end
 end

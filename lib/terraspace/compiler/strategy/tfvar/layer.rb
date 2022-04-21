@@ -50,21 +50,35 @@ class Terraspace::Compiler::Strategy::Tfvar
     memoize :paths
 
     def full_paths(tfvars_dir)
-      layer_paths = full_layering.map do |layer|
-        [
-          "#{tfvars_dir}/#{layer}.tfvars",
-          "#{tfvars_dir}/#{layer}.rb",
-        ]
-      end.flatten
+      layers = full_layering(tfvars_dir, remove_first: true)
+      if Terraspace.role
+        layers += full_layering("#{tfvars_dir}/#{Terraspace.role}")
+      end
+      if Terraspace.app
+        layers += full_layering("#{tfvars_dir}/#{Terraspace.app}")
+      end
+      if Terraspace.app && Terraspace.role
+        layers += full_layering("#{tfvars_dir}/#{Terraspace.app}/#{Terraspace.role}")
+      end
+      layers
     end
 
-    def full_layering
+    def full_layering(tfvars_dir, remove_first: false)
       # layers defined in Terraspace::Layering module
       all = layers.map { |layer| layer.sub(/\/$/,'') } # strip trailing slash
-      all.inject([]) do |sum, layer|
+      all = all.inject([]) do |sum, layer|
         sum += layer_levels(layer) unless layer.nil?
         sum
       end
+      all.map! do |layer|
+        layer = layer.blank? ? layer : "/#{layer}"
+        [
+          "#{tfvars_dir}#{layer}.tfvars",
+          "#{tfvars_dir}#{layer}.rb",
+        ]
+      end.flatten!
+      all.shift if remove_first # IE: app/stacks/demo/tfvars.tfvars
+      all
     end
 
     # adds prefix and to each layer pair that has base and Terraspace.env. IE:
@@ -73,14 +87,17 @@ class Terraspace::Compiler::Strategy::Tfvar
     #    "#{prefix}/#{Terraspace.env}"
     #
     def layer_levels(prefix=nil)
-      levels = ["base", Terraspace.env, @mod.instance].reject(&:blank?) # layer levels. @mod.instance can be nil
-      env_levels = levels.map { |l| "#{Terraspace.env}/#{l}" } # env folder also
-      levels = levels + env_levels
+      if @mod.instance
+        logger.info "WARN: The instance option is deprecated. Instead use TS_EXTRA"
+        logger.info "See: http://terraspace.test/docs/layering/instance-option/"
+      end
+      extra = Terraspace.extra || @mod.instance
+      levels = ["base", Terraspace.env, extra].reject(&:blank?) # layer levels. @mod.instance can be nil
       levels.map! do |i|
         # base layer has prefix of '', reject with blank so it doesnt produce '//'
         [prefix, i].reject(&:blank?).join('/')
       end
-      levels.unshift(prefix) unless prefix.blank? # IE: tfvars/us-west-2.tfvars
+      levels.unshift(prefix) if !prefix.nil?
       levels
     end
 
@@ -93,18 +110,22 @@ class Terraspace::Compiler::Strategy::Tfvar
         layers << layer.region
 
         namespace = friendly_name(layer.namespace)
+        mode = Terraspace.config.layering.mode # simple, namespace, provider
+        if mode == "namespace" || mode == "provider"
+          # namespace is a simple way keep different tfvars between different engineers on different accounts
+          layers << namespace
+          layers << "#{namespace}/#{layer.region}"
+        end
 
-        # namespace is a simple way keep different tfvars between different engineers on different accounts
-        layers << namespace
-        layers << "#{namespace}/#{layer.region}"
+        if mode == "provider"
+          # in case using multiple providers and one region
+          layers << layer.provider
+          layers << "#{layer.provider}/#{layer.region}" # also in case another provider has colliding regions
 
-        # in case using multiple providers and one region
-        layers << layer.provider
-        layers << "#{layer.provider}/#{layer.region}" # also in case another provider has colliding regions
-
-        # Most general layering
-        layers << "#{layer.provider}/#{namespace}"
-        layers << "#{layer.provider}/#{namespace}/#{layer.region}"
+          # Most general layering
+          layers << "#{layer.provider}/#{namespace}"
+          layers << "#{layer.provider}/#{namespace}/#{layer.region}"
+        end
       end
       layers
     end
@@ -125,7 +146,7 @@ class Terraspace::Compiler::Strategy::Tfvar
     # should go.
     #
     def stack_tfvars_dir
-      seed_dir = "#{Terraspace.root}/seed/tfvars/#{@mod.build_dir(disable_instance: true)}"
+      seed_dir = "#{Terraspace.root}/seed/tfvars/#{@mod.build_dir(disable_extra: true)}"
       mod_dir = "#{@mod.root}/tfvars"
 
       empty = Dir.glob("#{seed_dir}/*").empty?
@@ -137,14 +158,20 @@ class Terraspace::Compiler::Strategy::Tfvar
       return unless @mod.resolved
       return if @@shown_layers[@mod.name]
       logger.debug "Layers for #{@mod.name}:"
+      show = Terraspace.config.layering.show || ENV['TS_SHOW_ALL_LAYERS']
       paths.each do |path|
+        next if ARGV[0] == "all" # dont show layers with all command since fork happens after build
         next unless path.include?('.tfvars')
-        show = File.exist?(path) || ENV['TS_SHOW_ALL_LAYERS']
-        logger.debug "    #{pretty_path(path)}" if show
+        if ENV['TS_SHOW_ALL_LAYERS']
+          message = "    #{pretty_path(path)}"
+          message = "#{message} (found)".color(:yellow) if File.exist?(path)
+          logger.info message
+        elsif show
+          logger.info "    #{pretty_path(path)}" if File.exist?(path)
+        end
       end
-      logger.debug ""
+      # do not logger.info "" it creates a newline with all
       @@shown_layers[@mod.name] = true
     end
-
   end
 end

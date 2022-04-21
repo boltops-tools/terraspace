@@ -44,7 +44,7 @@ module Terraspace
       run_hooks("terraspace.rb", "build") do
         build_dir("modules") if modules
         build_stacks
-        logger.info "Built in #{build_dir}" unless @options[:quiet] # from terraspace all
+        logger.debug "Built in #{build_dir}"
       end
     end
 

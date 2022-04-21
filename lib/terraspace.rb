@@ -33,6 +33,8 @@ module Terraspace
   class BucketNotFoundError < Error; end
   class InitRequiredError < Error; end
   class SharedCacheError < Error; end
+  class ShellError < Error; end
+  class NetworkError < Error; end
 end
 
 Terraspace::Booter.boot

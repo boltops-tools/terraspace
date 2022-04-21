@@ -1,8 +1,8 @@
 stage "Source" do
   github(
-    source: "boltops-tools/terraspace",
-    # branch: "master", # branch defaults to "master" or the `pipe deploy --branch` option
-    auth_token: ssm("/github/boltopsbot/token")
+    Source: "boltops-tools/terraspace",
+    # Branch: "master", # branch defaults to "master" or the `pipe deploy --branch` option
+    AuthToken: ssm("/github/boltopsbot/token")
   )
 end
 

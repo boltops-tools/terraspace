@@ -58,7 +58,7 @@ module Terraspace::Plugin::Expander
     #
     # cache_dir:
     #
-    #    :CACHE_ROOT/:REGION/:ENV/:BUILD_DIR/
+    #    :REGION/:ENV/:BUILD_DIR/
     #
     # s3 backend key:
     #
@@ -69,21 +69,24 @@ module Terraspace::Plugin::Expander
     #    :MOD_NAME-:ENV-:REGION-:INSTANCE
     #
     def strip(string)
-      string.sub(/^-+/,'').sub(/-+$/,'') # remove leading and trailing -
-            .sub(%r{/+$},'')  # only remove trailing / or else /home/ec2-user => home/ec2-user
+      string.sub(%r{/+$},'')  # only remove trailing / or else /home/ec2-user => home/ec2-user
             .sub(/:\/\//, 'TMP_KEEP_HTTP') # so we can keep ://. IE: https:// or http://
             .gsub(%r{/+},'/') # remove double slashes are more. IE: // -> / Useful of region is '' in generic expander
             .sub('TMP_KEEP_HTTP', '://')   # restore :// IE: https:// or http://
+            .sub(/^-+/,'').sub(/-+$/,'') # remove leading and trailing -
     end
 
     def var_value(unexpanded)
-      name = unexpanded.sub(':','').downcase
-      if respond_to?(name)
-        value = send(name).to_s
+      name = unexpanded.sub(':','')
+      downcase = name.downcase
+      if respond_to?(downcase)
+        value = send(downcase).to_s
+      elsif !ENV[name].blank?
+        return ENV[name]
       else
         return unexpanded
       end
-      if name == "namespace" && Terraspace.config.layering.enable_names.expansion
+      if downcase == "namespace" && Terraspace.config.layering.enable_names.expansion
         value = friendly_name(value)
       end
       value
@@ -93,9 +96,10 @@ module Terraspace::Plugin::Expander
       @mod.name
     end
 
-    def env
-      Terraspace.env
-    end
+    def app;   Terraspace.app   ; end
+    def role;  Terraspace.role  ; end
+    def env;   Terraspace.env   ; end
+    def extra; Terraspace.extra ; end
 
     def type_instance
       [type, instance].reject { |s| s.blank? }.join('-')
@@ -111,7 +115,7 @@ module Terraspace::Plugin::Expander
     end
 
     # So default config works:
-    #    config.cache_dir = ":CACHE_ROOT/:REGION/:ENV/:BUILD_DIR"
+    #    config.cache_dir = ":REGION/:ENV/:BUILD_DIR"
     # For when folks configure it with the http backend for non-cloud providers
     # The double slash // will be replace with a single slash in expander/interface.rb
     def region

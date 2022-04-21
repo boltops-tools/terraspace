@@ -38,14 +38,19 @@ module Terraspace
       config.autodetect.expander = nil
 
       config.build = ActiveSupport::OrderedOptions.new
-      config.build.cache_dir = ":CACHE_ROOT/:REGION/:ENV/:BUILD_DIR"
-      config.build.cache_root = nil # defaults to /full/path/to/.terraspace-cache
-      config.build.clean_cache = nil # defaults to /full/path/to/.terraspace-cache
+      config.build.cache_dir = ":REGION/:APP/:ROLE/:ENV/:BUILD_DIR"
+      config.build.clean_cache = nil # defaults to true
       config.build.default_pass_files = ["/files/"]
       config.build.pass_files = []
 
       config.bundle = ActiveSupport::OrderedOptions.new
       config.bundle.logger = ts_logger
+
+      config.cloud = ActiveSupport::OrderedOptions.new
+      config.cloud.project = "main"
+      config.cloud.org = ENV['TS_ORG'] # required for Terraspace cloud
+      config.cloud.record = "changes" # IE: changes or all
+      config.cloud.stack = ":APP-:ROLE-:MOD_NAME-:ENV-:EXTRA-:REGION"
 
       config.hooks = ActiveSupport::OrderedOptions.new
       config.hooks.show = true
@@ -60,9 +65,11 @@ module Terraspace
       config.logger.level = ENV['TS_LOG_LEVEL'] || :info
 
       config.layering = ActiveSupport::OrderedOptions.new
-      config.layering.names = {}
       config.layering.enable_names = ActiveSupport::OrderedOptions.new
       config.layering.enable_names.expansion = true
+      config.layering.names = {}
+      config.layering.show = false
+      config.layering.mode = ENV['TS_LAYERING_MODE'] || "simple" # simple, namespace, provider
 
       config.summary = ActiveSupport::OrderedOptions.new
       config.summary.prune = false
