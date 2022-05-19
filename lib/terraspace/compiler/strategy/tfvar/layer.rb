@@ -41,7 +41,7 @@ class Terraspace::Compiler::Strategy::Tfvar
     def paths
       project_paths = full_paths(project_tfvars_dir)
       stack_paths   = full_paths(stack_tfvars_dir)
-      paths = project_paths + stack_paths
+      paths = (project_paths + stack_paths).uniq
       show_layers(paths)
       paths.select do |path|
         File.exist?(path)
