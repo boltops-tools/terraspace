@@ -1,0 +1,17 @@
+# frozen_string_literal: true
+
+require "<%= gem_name %>/autoloader"
+<%= gem_class_name %>::Autoloader.setup
+
+require "json"
+
+module <%= gem_class_name %>
+  class Error < StandardError; end
+end
+
+Terraspace::Cloud::Ci.register(
+  name: "<%= name %>",
+  env_key: "<%= name.upcase %>", # IMPORTANT: Env var used for CI detection. Probably have to change.
+  root: __dir__,
+  # exe: "bin", # terraspace new ci NAME generator will make files in this folder executable
+)

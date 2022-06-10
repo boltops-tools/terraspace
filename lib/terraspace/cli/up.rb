@@ -3,12 +3,18 @@ require 'securerandom'
 class Terraspace::CLI
   class Up < Base
     include TfcConcern
+    include Concerns::PlanPath
 
     def run
       build
       if @options[:yes] && !@options[:plan] && !tfc?
-        plan
-        Commander.new("apply", @options.merge(plan: plan_path)).run
+        if Terraspace.cloud? && !@options[:plan]
+          @options[:plan] = plan_path # for terraform apply
+          @options[:out] = plan_path  # for terraform plan
+        end
+        Commander.new("plan", @options).run
+        return unless File.exist?(plan_path) if Terraspace.cloud? # happens if plan fails
+        Commander.new("apply", @options).run
       else
         Commander.new("apply", @options).run
       end
@@ -19,16 +25,6 @@ class Terraspace::CLI
     def build
       Terraspace::Builder.new(@options).run
       @options[:build] = false
-    end
-
-    def plan
-      FileUtils.mkdir_p(File.dirname(plan_path))
-      Commander.new("plan", @options.merge(out: plan_path)).run
-    end
-
-    def plan_path
-      @@random ||= SecureRandom.hex
-      "#{Terraspace.tmp_root}/plans/#{@mod.name}-#{@@random}.plan"
     end
   end
 end

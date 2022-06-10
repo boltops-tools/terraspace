@@ -22,7 +22,7 @@ class Terraspace::CLI::New
 
   private
     def cli_args
-      plugin = @options[:plugin] || Terraspace::Autodetect.new.plugin
+      plugin = @options[:plugin] || Terraspace::Plugin.autodetect
       args = if plugin
         ['--plugin', plugin]
       else

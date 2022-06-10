@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [2.0.0] - unreleased
+* Terraspace Cloud Support
+
+Highlights:
+* Record updates to Terraspace Cloud API
+* CI plugin support
+* CI plugin generator
+* VCS manual support in core for github, gitlab, bitbucket
+
+More:
+* Backend expander variables handle env vars in general
+* Remove config.build.cache_root option
+* Clean up Terraspace::Plugin.autodetect
+* cloud.record = "changes". dont create cloud record when no changes
+* ci generic
+* edge case TS_ENV=''
+* .cody/cloud test
+* cloud warning message when TS_TOKEN is confiugred but cloud is not yet
+* API expodential retry logic
+* plugin autodetect cleanup
+* TS_EXTRA in favor of instance option, deprecate instance option
+* handle ctrl-c
+* improve acceptannce codebuild scripts
+
 ## [1.1.7] - 2022-02-22
 - [#215](https://github.com/boltops-tools/terraspace/pull/215) fix all down by building child nodes
 - [#216](https://github.com/boltops-tools/terraspace/pull/216) add codebuild project with acceptance test for terraspace all

@@ -1,7 +1,10 @@
 class Terraspace::CLI::New::Plugin
   module Helper
   private
-    # helper
+    def gem_class_name
+      gem_name.camelize
+    end
+
     def camel_name
       name.camelize
     end

@@ -24,7 +24,7 @@ class Terraspace::Compiler::Expander
 
   private
     # Use original unrendered source as wont know the
-    # @mod.cache_dir = ":CACHE_ROOT/:REGION/:ENV/:BUILD_DIR"
+    # @mod.cache_dir = ":REGION/:ENV/:BUILD_DIR"
     # Until the concrete Terraspace Plugin Expander has been autodetected.
     # Follow same precedence rules as rest of Terraspace.
     def src_path

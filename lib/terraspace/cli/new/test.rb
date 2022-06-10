@@ -54,7 +54,7 @@ class Terraspace::CLI::New
     # Used in ERB template
     # rspec-terraspace/lib/templates/stack/test/spec/fixtures/config/terraform/provider.tf.tt
     def autodetect_provider
-      Terraspace::Autodetect.new.plugin
+      Terraspace::Plugin.autodetect
     end
   end
 end

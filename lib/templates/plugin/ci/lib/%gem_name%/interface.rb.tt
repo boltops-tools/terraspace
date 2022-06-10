@@ -1,0 +1,15 @@
+module <%= gem_class_name %>
+  class Interface
+    # required interface
+    def vars
+      Vars.new.data
+    end
+<% if @options[:pr] %>
+    # optional interface
+    # uncomment to use
+    def comment(url)
+      Pr.new.comment(url)
+    end
+<% end -%>
+  end
+end

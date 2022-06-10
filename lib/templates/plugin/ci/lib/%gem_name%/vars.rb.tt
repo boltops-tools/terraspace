@@ -1,0 +1,26 @@
+module <%= gem_class_name %>
+  class Vars
+    # Interface method. Hash of properties to be stored
+    # Usually available from env vars.
+    # Provide as many CI system as possible.
+    def data
+      {
+        build_system: "REPLACE_ME",
+        host: ENV['REPLACE_ME'],
+        full_repo: ENV['REPLACE_ME'],
+        branch_name: ENV['REPLACE_ME'],
+        # urls
+        pr_url: ENV['REPLACE_ME'],
+        build_url: ENV['REPLACE_ME'],
+        # additional properties
+        build_type: ENV['REPLACE_ME'],
+        pr_number: ENV['REPLACE_ME'],
+        sha: ENV['REPLACE_ME'],
+        # additional properties
+        commit_message: ENV['REPLACE_ME'],
+        build_id: ENV['REPLACE_ME'],
+        build_number: ENV['REPLACE_ME'],
+      }
+    end
+  end
+end

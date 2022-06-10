@@ -44,7 +44,7 @@ module Terraspace::Compiler
 
     # autodetect by looking up loaded plugins
     def plugin_backend
-      plugin = Terraspace::Autodetect.new.plugin # IE: aws, azurerm, google
+      plugin = Terraspace::Plugin.autodetect
       if plugin
         data = Terraspace::Plugin.meta[plugin]
         data[:backend] # IE: s3, azurerm, gcs

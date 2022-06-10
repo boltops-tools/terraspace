@@ -34,6 +34,11 @@ module Terraspace
 
     def popen3(env)
       Open3.popen3(env, @command, chdir: @mod.cache_dir) do |stdin, stdout, stderr, wait_thread|
+        # interesting. simply handling the trap and doing nothing works
+        # Think its because ctrl-c is sent to both processes.
+        # 1. we do nothing in here in the parent process
+        # 2. in the child process the ctrl-c gets sent directly to the terraform command
+        Signal.trap("INT") { }
         handle_streams(stdin, stdout, stderr)
         status = wait_thread.value.exitstatus
         exit_status(status)
@@ -112,6 +117,7 @@ module Terraspace
       end
       if matched
         answer = $stdin.gets
+        logger.stdin_capture(answer.strip)
         stdin.write_nonblock(answer)
       end
     end
@@ -139,8 +145,7 @@ module Terraspace
       if @error && @error.known?
         raise @error.instance
       elsif exit_on_fail
-        logger.error "Error running command: #{@command}".color(:red)
-        exit status
+        raise ShellError.new("Error running command: #{@command}")
       end
     end
   end

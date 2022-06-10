@@ -128,6 +128,8 @@ module Terraspace::All
         Terraspace::CLI::Up.new(o).run
       when "down"
         Terraspace::CLI::Down.new(o).run
+      when "plan"
+        Terraspace::CLI::Plan.new(o).run
       else
         Terraspace::CLI::Commander.new(name, o).run
       end

@@ -1,0 +1,19 @@
+# <%= gem_name %>
+
+Provides Terraspace CI support for <%= name %>.
+
+## Installation
+
+Add gem to your Terraspace project
+
+Gemfile
+
+    gem <%= gem_name %>
+
+Then to install run
+
+    bundle
+
+## Contributing
+
+Bug reports and pull requests are welcome on GitHub at https://github.com/ORG/<%= gem_name %>/

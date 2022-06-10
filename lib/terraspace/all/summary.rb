@@ -31,6 +31,7 @@ module Terraspace::All
         line.include?("complete! Resources:") || # success: handles both apply and destroy output
         line.include?("Changes to Outputs") ||
         line.include?("No changes") ||
+        line.include?("Terraspace Cloud ") ||
         line.include?("Error: ")  # error
       end
     end
@@ -53,6 +54,7 @@ module Terraspace::All
         line.include?("Changes to Outputs") ||
         line.include?("Plan:") ||
         line.include?("Changes to ") ||
+        line.include?("Terraspace Cloud ") ||
         line.include?("Error: ")  # error
       end
     end

@@ -29,9 +29,24 @@ module Terraspace
     class << self
       include Terraspace::Util::Logging
 
+      @@initial_dispatch_command = nil
+      def initial_dispatch_command
+        @@initial_dispatch_command
+      end
+
+      # use by test framework
+      def reset_dispatch_command
+        @@initial_dispatch_command = nil
+      end
+
       def dispatch(m, args, options, config)
         # Terraspace.argv provides consistency when terraspace is being called by rspec-terraspace test harness
         Terraspace.argv = args.clone # important to clone since Thor removes the first argv
+
+        unless @@initial_dispatch_command
+          @@initial_dispatch_command = "$ terraspace #{args.join(' ')}\n"
+          Terraspace::Logger.buffer << @@initial_dispatch_command
+        end
 
         check_standalone_install!
         check_project!(args.first)
@@ -105,7 +120,7 @@ module Terraspace
         return if %w[-h -v --version check_setup completion completion_script help new setup test version].include?(command_name)
         return if File.exist?("#{Terraspace.root}/config/app.rb")
         return unless Terraspace.check_project
-        logger.error "ERROR: It doesnt look like this is a terraspace project. Are you sure you are in a terraspace project?".color(:red)
+        logger.error "ERROR: It doesn't look like this is a terraspace project. Are you sure you are in a terraspace project?".color(:red)
         ENV['TS_TEST'] ? raise : exit(1)
       end
 

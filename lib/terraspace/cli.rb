@@ -152,7 +152,7 @@ module Terraspace
     reconfigure_option.call
     option :copy_to_root, type: :boolean, default: true, desc: "Copy plan file generated in the cache folder back to project root"
     def plan(mod, *args)
-      Commander.new("plan", options.merge(mod: mod, args: args)).run
+      Plan.new(options.merge(mod: mod, args: args)).run
     end
 
     desc "providers STACK", "Show providers."

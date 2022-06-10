@@ -1,20 +1,13 @@
 class Terraspace::CLI::New
-  class Plugin < Sequence
-    include Helper
+  class Plugin < Terraspace::Command
+    Help = Terraspace::CLI::Help
 
-    argument :name
+    long_desc Help.text("new/plugin/ci")
+    Ci.options.each { |args| option(*args) }
+    register(Ci, "ci", "ci NAME", "Generates CI Plugin.")
 
-    def self.options
-      [
-        [:force, aliases: %w[y], type: :boolean, desc: "Bypass overwrite are you sure prompt for existing files"],
-      ]
-    end
-    options.each { |args| class_option(*args) }
-
-    def create_plugin
-      puts "=> Creating new plugin: #{name}"
-      core_template_source("plugin")
-      directory ".", "terraspace_plugin_#{name}"
-    end
+    long_desc Help.text("new/plugin/core")
+    Core.options.each { |args| option(*args) }
+    register(Core, "core", "core NAME", "Generates Core plugin.")
   end
 end

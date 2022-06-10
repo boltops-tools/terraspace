@@ -7,13 +7,17 @@ module Terraspace
     # Example meta:
     #
     #    {
-    #      "aws  => {root: "/path", backend: "s3"}
+    #      "aws"    => {root: "/path", backend: "s3"}
     #      "google" => {root: "/path", backend: "gcs"},
     #    }
     #
     @@meta = {}
     def meta
       @@meta
+    end
+
+    def register(plugin, data)
+      @@meta[plugin] = data
     end
 
     def config_classes
@@ -50,10 +54,6 @@ module Terraspace
       end
     end
 
-    def register(plugin, data)
-      @@meta[plugin] = data
-    end
-
     # Example return:
     #
     #      TerraspacePluginAws::Interfaces::Backend
@@ -71,6 +71,15 @@ module Terraspace
       Finder.new.find_with(options)
     end
     memoize :find_with
+
+    # Returns simple String: aws
+    def autodetect
+      plugins = meta.keys
+      precedence = %w[aws azurerm google]
+      precedence.find do |p|
+        plugins.include?(p)
+      end
+    end
 
     extend self
   end

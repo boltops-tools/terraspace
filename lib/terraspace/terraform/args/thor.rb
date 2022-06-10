@@ -83,7 +83,7 @@ module Terraspace::Terraform::Args
 
     def output_args
       args = []
-      args << "> #{expand.out}" if expand.out
+      args << "> #{out_option}" if out_option
       args
     end
 
@@ -91,10 +91,16 @@ module Terraspace::Terraform::Args
       args = []
       args << input_option
       args << "-destroy" if @options[:destroy]
-      args << "-out #{expand.out}" if expand.out
+      args << "-out #{out_option}" if out_option
       # Note: based on the expand.out will run an internal hook to copy plan
       # file back up to the root project folder for use. Think this is convenient and expected behavior.
       args
+    end
+
+    def out_option
+      out = expand.out
+      FileUtils.mkdir_p(File.dirname("#{@mod.cache_dir}/#{out}"))
+      out
     end
 
     def show_args
