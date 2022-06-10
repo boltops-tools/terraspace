@@ -11,21 +11,20 @@ Highlights:
 * CI plugin support
 * CI plugin generator
 * VCS manual support in core for github, gitlab, bitbucket
+* Layering: simplified by removing provider layering by default.
+* Layering: new default  `config.layering.mode = "simple"`. Use `config.layering.mode = "provider"` for v1 behavior.
+* Layering: easier to debug with config.layering.show
+* Layering: App, Role, Extra level layering
 
 More:
 * Backend expander variables handle env vars in general
 * Remove config.build.cache_root option
-* Clean up Terraspace::Plugin.autodetect
 * cloud.record = "changes". dont create cloud record when no changes
-* ci generic
-* edge case TS_ENV=''
-* .cody/cloud test
 * cloud warning message when TS_TOKEN is confiugred but cloud is not yet
-* API expodential retry logic
-* plugin autodetect cleanup
+* Cloud API expodential retry logic
 * TS_EXTRA in favor of instance option, deprecate instance option
 * handle ctrl-c
-* improve acceptannce codebuild scripts
+* improve acceptance codebuild scripts
 
 ## [1.1.7] - 2022-02-22
 - [#215](https://github.com/boltops-tools/terraspace/pull/215) fix all down by building child nodes
