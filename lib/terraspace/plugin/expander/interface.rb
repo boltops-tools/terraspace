@@ -114,6 +114,10 @@ module Terraspace::Plugin::Expander
       Terraspace.cache_root
     end
 
+    def project
+      Terraspace.config.cloud.project
+    end
+
     # So default config works:
     #    config.cache_dir = ":REGION/:ENV/:BUILD_DIR"
     # For when folks configure it with the http backend for non-cloud providers
