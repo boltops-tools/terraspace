@@ -96,10 +96,11 @@ module Terraspace::Plugin::Expander
       @mod.name
     end
 
-    def app;   Terraspace.app   ; end
-    def role;  Terraspace.role  ; end
-    def env;   Terraspace.env   ; end
-    def extra; Terraspace.extra ; end
+    def app;     Terraspace.app     ; end
+    def env;     Terraspace.env     ; end
+    def extra;   Terraspace.extra   ; end
+    def project; Terraspace.project ; end
+    def role;    Terraspace.role    ; end
 
     def type_instance
       [type, instance].reject { |s| s.blank? }.join('-')
@@ -112,10 +113,6 @@ module Terraspace::Plugin::Expander
 
     def cache_root
       Terraspace.cache_root
-    end
-
-    def project
-      Terraspace.config.cloud.project
     end
 
     # So default config works:

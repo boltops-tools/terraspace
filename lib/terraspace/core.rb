@@ -18,6 +18,14 @@ module Terraspace
       ENV['TS_EXTRA'] unless ENV['TS_EXTRA'].blank?
     end
 
+    def project
+      if ENV['TS_PROJECT'].blank?
+        config.cloud.project
+      else
+        ENV['TS_PROJECT']
+      end
+    end
+
     @@root = nil
     def root
       @@root ||= ENV['TS_ROOT'] || Dir.pwd
