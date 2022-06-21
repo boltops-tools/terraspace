@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [2.0.2] - 2022-06-21
+- [#242](https://github.com/boltops-tools/terraspace/pull/242) :PROJECT variable: TS_PROJECT as well as config.cloud.project
+
 ## [2.0.1] - 2022-06-14
 - [#240](https://github.com/boltops-tools/terraspace/pull/240) add project expander variable
 
