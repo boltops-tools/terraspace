@@ -2,7 +2,6 @@ class Terraspace::Cloud::Api
   module Concern
     extend Memoist
     include Errors
-    include Record
     include Validate
 
     def api

@@ -1,17 +1,23 @@
-class Terraspace::Cloud::Ci
-  class Manual
-    extend Memoist
-    include Terraspace::Util::Logging
-
+class Terraspace::Cloud::Vcs
+  class LocalGit < Base
     def vars
       if git_repo? && git_installed?
-        vars_data
+        provider_vars = vcs_class ? vcs_class.new(base_vars).vars : {}
+        base_vars.merge(provider_vars).compact # remove items with nil values
       else
         { build_system: "manual" }
       end
     end
 
-    def vars_data
+    def vcs_class
+      case host
+      when /github/ then Github
+      when /gitlab/ then Gitlab
+      when /bitbucket/ then Bitbucket
+      end
+    end
+
+    def base_vars
       {
         build_system: "manual",   # required
         host: host,
@@ -19,8 +25,8 @@ class Terraspace::Cloud::Ci
         branch_name: branch_name,
         sha: sha,
         dirty: dirty?,
-        # commit_url: commit_url,  # provided by core
-        # branch_url: branch_url,  # provided by core
+        # commit_url: commit_url,  # provided by provider vars
+        # branch_url: branch_url,  # provided by provider vars
       }
     end
 
@@ -46,7 +52,9 @@ class Terraspace::Cloud::Ci
     #   git@bitbucket.org: => https://bitbucket.org/
     #   git@gitlab.com:    => https://gitlab.com/
     def git_url
-      out = git "config --get remote.origin.url"
+      remotes = git("remote").strip.split("\n")
+      remote_name = remotes.size == 1 ? remotes[0] : "origin"
+      out = git "config --get remote.#{remote_name}.url"
       out.sub(/\.git/,'').sub(/^git@/,'https://').sub(/\.(.*):/,'.\1/')
     end
 

@@ -1,11 +1,34 @@
 class Terraspace::CLI
   class Down < Base
-    include TfcConcern
     include Concerns::PlanPath
+    include Terraspace::Cloud::Streamer
+    include Terraspace::Cloud::Vcs::Commenter
+    include TfcConcern
 
     def run
-      plan if @options[:yes] && !tfc?
-      destroy
+      cloud_update.cani?
+      @stream = cloud_stream.open("down")
+      success = perform
+      cloud_stream.close(success, @exception)
+      exit 1 unless success
+    end
+
+    def perform
+      success = nil
+      if @options[:yes] && !tfc?
+        success = plan
+      else
+        skip_plan = true
+      end
+      if success or skip_plan
+        success = destroy
+      end
+      success
+    rescue Exception => e
+      @exception = true
+      logger.info "Exception #{e.class}: #{e.message}".color(:red)
+      logger.info e.backtrace.join("\n")
+      false
     end
 
   private
@@ -13,12 +36,25 @@ class Terraspace::CLI
       if Terraspace.cloud? && !@options[:out]
         @options[:out] = plan_path
       end
-      Commander.new("plan", @options.merge(destroy: true)).run
+      plan = Plan.new(@options.merge(destroy: true))
+      plan.plan_only # returns success: true or false
     end
 
     def destroy
-      Commander.new("destroy", @options.merge(command: "down")).run
-      Terraspace::Terraform::Tfc::Workspace.new(@options).destroy if @options[:destroy_workspace]
+      commander = Commander.new("destroy", @options.merge(command: "down"))
+      success = commander.run
+      update = cloud_update.create(success, @stream)
+
+      if success && @options[:destroy_workspace]
+        Terraspace::Terraform::Tfc::Workspace.new(@options).destroy
+      end
+
+      logger.info "Terraspace Cloud #{update['data']['attributes']['url']}" if update
     end
+
+    def cloud_update
+      Terraspace::Cloud::Update.new(@options.merge(stack: @mod.name, kind: kind, vcs_vars: vcs_vars))
+    end
+    memoize :cloud_update
   end
 end

@@ -9,45 +9,39 @@ module Terraspace::Cloud
       super
       @cani = options[:cani]
       @kind = options[:kind]
-      @success = options[:success]
+      @vcs_vars = options[:vcs_vars]
       setup_context(options)
     end
 
-    def stage_attrs
-      status = @success ? "success" : "fail"
+    def stage_attrs(success)
+      status = success_status(success)
       attrs = {
         status: status,
         kind: @kind,
         terraspace_version: check.terraspace_version,
         terraform_version: check.terraform_version,
       }
-      attrs.merge!(ci_vars) if ci_vars
+      attrs.merge!(@vcs_vars)
       attrs
+    end
+
+    def cloud_upload
+      Upload.new(@options)
+    end
+    memoize :cloud_upload
+
+    def success_status(success)
+      case success
+      when true then "success"
+      when false then "fail"
+      when nil then "started"
+      end
     end
 
     def check
       Terraspace::CLI::Setup::Check.new
     end
     memoize :check
-
-    def pr_comment(url)
-      ci.comment(url) if ci.respond_to?(:comment)
-    end
-
-    def ci_vars
-      return unless ci
-      if ci.vars[:host]
-        vcs = Ci::Vcs.new(ci.vars)
-        vcs.merged_vars
-      else
-        ci.vars
-      end
-    end
-
-    def ci
-      Terraspace::Cloud::Ci.detect
-    end
-    memoize :ci
 
     def sh(command, exit_on_fail: true)
       logger.debug "=> #{command}"
@@ -85,13 +79,6 @@ module Terraspace::Cloud
       !!Terraspace::Logger.buffer.detect do |line|
         line.include?(' cancelled')
       end
-    end
-
-    def terraspace_cloud_info(result)
-      data = result['data']
-      url = data['attributes']['url']
-      logger.info "Terraspace Cloud #{url}"
-      url
     end
   end
 end

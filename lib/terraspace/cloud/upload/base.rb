@@ -1,4 +1,4 @@
-class Terraspace::Cloud::Folder
+class Terraspace::Cloud::Upload
   class Base < Terraspace::Cloud::Base
     def initialize(options={})
       super

@@ -35,7 +35,7 @@ class Terraspace::Shell
 
     def message
       # For error messages, terraform lines from buffer do not contain newlines. So join with newline
-      @lines.join("\n")
+      @lines.map { |l| l.force_encoding('UTF-8') }.join("\n")
     end
 
     def shared_cache_error?

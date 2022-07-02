@@ -12,7 +12,7 @@ This installs both the `pipe` and `pipedream` commands. They do the same thing, 
 
 To update the CodePipeline pipelines:
 
-    pipedream deploy
+    pipedream up
 
 ## Start a Execution
 

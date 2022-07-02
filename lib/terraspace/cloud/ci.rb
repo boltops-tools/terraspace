@@ -18,8 +18,6 @@ module Terraspace::Cloud
       end
 
       def detect
-        return Generic if ENV['TS_CI_REPO']
-
         detected = meta.find do |data|
           env_key = data[:env_key] # IE: ENV['GITHUB_ACTIONS']
           env_value = data[:env_value] # IE: "string" or /pattern/
@@ -30,12 +28,7 @@ module Terraspace::Cloud
             ENV[env_key] # only env_key
           end
         end
-        klass = if detected
-          interface_class(detected)
-        else
-          Manual
-        end
-        klass.new
+        interface_class(detected) if detected
       end
 
       # IE: TerraspaceCiGithub::Interface

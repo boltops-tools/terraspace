@@ -1,5 +1,6 @@
 class Terraspace::CLI
   class Base
+    extend Memoist
     include Terraspace::Util
 
     def initialize(options={})

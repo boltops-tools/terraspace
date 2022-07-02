@@ -1,4 +1,4 @@
-class Terraspace::Cloud::Folder
+class Terraspace::Cloud::Upload
   class Tidy < Base
     def cleanup
       removals.each do |removal|
