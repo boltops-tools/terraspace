@@ -45,7 +45,8 @@ module Terraspace
       end
 
       def logs
-        @@buffer.join('')
+        # force_encoding https://jch.github.io/posts/2013-03-05-ruby-incompatible-encoding.html
+        @@buffer.map { |s| s.force_encoding('UTF-8') }.join('')
       end
 
       # for test framework
