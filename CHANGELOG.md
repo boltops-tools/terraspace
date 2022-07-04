@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [2.0.3] - 2022-07-04
+- [#237](https://github.com/boltops-tools/terraspace/pull/237) remove duplicate paths in layering
+- [#244](https://github.com/boltops-tools/terraspace/pull/244) rename _cache2 to .cache2
+- [#245](https://github.com/boltops-tools/terraspace/pull/245) set utf8 in case system is not configured with LANG=en_US.UTF-8
+
 ## [2.0.2] - 2022-06-21
 - [#242](https://github.com/boltops-tools/terraspace/pull/242) :PROJECT variable: TS_PROJECT as well as config.cloud.project
 
