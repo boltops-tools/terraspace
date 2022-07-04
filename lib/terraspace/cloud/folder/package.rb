@@ -12,7 +12,7 @@ class Terraspace::Cloud::Folder
       FileUtils.rm_rf(artifacts_path)
       FileUtils.mkdir_p(File.dirname(artifacts_path))
 
-      expr = "#{@mod.cache_dir}/.terraspace-cache/_cache2/#{@type}/*"
+      expr = "#{@mod.cache_dir}/.terraspace-cache/.cache2/#{@type}/*"
       Dir.glob(expr).each do |src|
         dest = "#{artifacts_path}/#{File.basename(src)}"
         FileUtils.mkdir_p(File.dirname(dest))

@@ -23,7 +23,7 @@ module Terraspace::Cloud
       clean_cache2_stage
       # .terraspace-cache/dev/stacks/demo
       Dir.chdir(@mod.cache_dir) do
-        cache2_path = ".terraspace-cache/_cache2/#{@kind}"
+        cache2_path = ".terraspace-cache/.cache2/#{@kind}"
         FileUtils.mkdir_p(cache2_path)
 
         IO.write("#{cache2_path}/#{@kind}.log", Terraspace::Logger.logs)

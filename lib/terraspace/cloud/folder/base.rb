@@ -11,7 +11,7 @@ class Terraspace::Cloud::Folder
     end
 
     def artifacts_path
-      "#{@mod.cache_dir}/.terraspace-cache/_cache2/artifacts/#{@type}"
+      "#{@mod.cache_dir}/.terraspace-cache/.cache2/artifacts/#{@type}"
     end
   end
 end

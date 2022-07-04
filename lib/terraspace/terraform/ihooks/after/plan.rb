@@ -22,7 +22,7 @@ module Terraspace::Terraform::Ihooks::After
     def cloud_create_plan
       return unless Terraspace.cloud?
 
-      unless @mod.out_option.include?("_cache2")
+      unless @mod.out_option.include?(".cache2/")
         # copy absolute path directly
         src = @mod.out_option.starts_with?('/') ? @mod.out_option : "#{@mod.cache_dir}/#{@mod.out_option}"
         dest = "#{@mod.cache_dir}/#{plan_path}"

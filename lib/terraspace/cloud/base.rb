@@ -62,7 +62,7 @@ module Terraspace::Cloud
       # terraform plan can be a kind of apply or destroy
       # terraform apply can be a kind of apply or destroy
       kind = self.class.name.to_s.split('::').last.underscore # IE: apply or destroy
-      dir = "#{@mod.cache_dir}/.terraspace-cache/_cache2/#{kind}"
+      dir = "#{@mod.cache_dir}/.terraspace-cache/.cache2/#{kind}"
       FileUtils.rm_rf(dir)
       FileUtils.mkdir_p(dir)
     end
