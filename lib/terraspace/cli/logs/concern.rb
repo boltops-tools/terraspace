@@ -2,7 +2,7 @@ class Terraspace::CLI::Logs
   module Concern
     # Filters for lines that belong to the last ran process pid
     def readlines(path)
-      lines = IO.readlines(path)
+      lines = IO.readlines(path).map { |l| l.force_encoding('UTF-8') }
       found = lines.reverse.find do |line|
         pid(line) # search in reverse order for lines with interesting info
       end
