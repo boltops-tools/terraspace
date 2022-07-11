@@ -4,7 +4,7 @@ module Terraspace::Terraform
     include Terraspace::Hooks::Concern
     include Terraspace::Util
 
-    attr_reader :name
+    attr_reader :name, :shell_exception
     def initialize(name, options={})
       @name = name
       super(options)
@@ -14,12 +14,7 @@ module Terraspace::Terraform
       time_took do
         terraform(name, args)
       end
-
-      run_internal_hook(:after, name) # always run so plan and apply get saved to tsc
-      if @shell_error
-        logger.error @shell_error.message.color(:red)
-        exit 1 if name == "plan" && Terraspace.command?("up")
-      end
+      @success
     end
 
     # default at end in case of redirection. IE: terraform output > /path
@@ -51,15 +46,14 @@ module Terraspace::Terraform
 
       params = args.flatten.join(' ')
       command = "terraform #{name} #{params}".squish
-      @shell_error = nil
+      @shell_exception = nil
       run_hooks("terraform.rb", name) do
         Backend.new(@mod).create
-        run_internal_hook(:before, name)
         begin
           Terraspace::Shell.new(@mod, command, @options.merge(env: custom.env_vars)).run
           @success = true
         rescue Terraspace::ShellError => exception
-          @shell_error = exception
+          @shell_exception = exception
           @success = false
         end
       end
@@ -71,18 +65,6 @@ module Terraspace::Terraform
       else
         exit(1)
       end
-    end
-
-    def run_internal_hook(type, name)
-      begin
-        class_name = "Terraspace::Terraform::Ihooks::#{type.to_s.classify}::#{name.classify}"
-        klass = class_name.constantize
-      rescue NameError => e
-        logger.debug "DEBUG: #{e.class} #{e.message}".color(:red)
-        return
-      end
-      ihook = klass.new(name, @options.merge(success: @success))
-      ihook.run
     end
 
     @@current_dir_message_shown = false

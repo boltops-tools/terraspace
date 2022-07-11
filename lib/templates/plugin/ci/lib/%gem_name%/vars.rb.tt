@@ -5,7 +5,7 @@ module <%= gem_class_name %>
     # Provide as many CI system as possible.
     def data
       {
-        build_system: "REPLACE_ME",
+        build_system: "<%= name %>",
         host: ENV['REPLACE_ME'],
         full_repo: ENV['REPLACE_ME'],
         branch_name: ENV['REPLACE_ME'],

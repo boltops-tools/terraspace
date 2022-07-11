@@ -5,6 +5,7 @@ class Terraspace::Cloud::Api
 
     # Always translate raw json response to ruby Hash
     def request(klass, path, data={})
+      exit_on_error = data.delete(:exit_on_error) # for cani logic
       url = url(path)
       req = build_request(klass, url, data)
       retries = 0
@@ -26,7 +27,7 @@ class Terraspace::Cloud::Api
         end
       end
       result = load_json(url, resp)
-      Cani.new(result).handle if data[:cani]
+      Cani.new(result).handle(exit_on_error) if data[:cani]
       result
     end
 
@@ -93,7 +94,11 @@ class Terraspace::Cloud::Api
       "#{endpoint}/#{path}"
     end
 
-    def get(path)
+    def get(path, data={})
+      unless data.empty?
+        separator = path.include?('?') ? '&' : '?'
+        path += separator + data.to_query
+      end
       request(Net::HTTP::Get, path)
     end
 

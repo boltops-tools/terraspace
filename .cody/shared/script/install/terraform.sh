@@ -2,8 +2,8 @@
 
 set -eu
 
-#TERRAFORM_VERSION=latest
-TERRAFORM_VERSION=1.1.9
+# TERRAFORM_VERSION=latest
+TERRAFORM_VERSION=1.2.4
 
 git clone https://github.com/tfutils/tfenv.git ~/.tfenv
 echo 'export PATH="$HOME/.tfenv/bin:$PATH"' >> ~/.bash_profile

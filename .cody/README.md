@@ -10,7 +10,7 @@ This installs the `cody` command to manage the AWS CodeBuild project.
 
 ## Update Project
 
-    cody deploy --type aws
+    cody up --type aws
 
 ## Start a Deploy
 

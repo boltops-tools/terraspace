@@ -1,6 +1,6 @@
 require 'zip_folder'
 
-class Terraspace::Cloud::Folder
+class Terraspace::Cloud::Upload
   class Package < Base
     def build
       copy

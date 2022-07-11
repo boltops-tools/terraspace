@@ -3,6 +3,7 @@ module Terraspace::Cloud
     include Terraspace::Cloud::Api::Validate
 
     def setup_context(options)
+      return unless Terraspace.cloud? # else validate of @org errors
       cloud = Terraspace.config.cloud
       @org = cloud.org
       @project = cloud.project
