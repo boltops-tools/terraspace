@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [2.1.1] - 2022-07-12
+- [#248](https://github.com/boltops-tools/terraspace/pull/248) fix destroy success return
+
 ## [2.1.0] - 2022-07-11
 - [#247](https://github.com/boltops-tools/terraspace/pull/247) cost estimates and real-time stream logging
 - Cloud Cost Estimation support
