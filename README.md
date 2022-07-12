@@ -118,6 +118,7 @@ To install modules:
 * [Configurable CLI](https://terraspace.cloud/docs/config/args/): Configurable [CLI Hooks](https://terraspace.cloud/docs/config/hooks/) and [CLI Args](https://terraspace.cloud/docs/config/args/) allow you to adjust the underlying terraform command.
 * [Testing](https://terraspace.cloud/docs/testing/): A testing framework that allows you to create test harnesses, deploy real-resources, and have higher confidence that your code works.
 * [Terraform Cloud and Terraform Enterprise Support](https://terraspace.cloud/docs/cloud/): TFC and TFE are both supported. Terraspace adds additional conveniences to make working with Terraform Cloud Workspaces easier.
+* [Terraspace Cloud Support](https://terraspace.cloud/docs/cloud/): Terraspace Cloud adds additional features and conveniences like a Dashboard, History, Team Management, Permissions, Real-time Logging, and Cost Estimates. It's specifically designed for Terraspace. You might also be interested in this blog post: [Terraspace Cloud Intro](https://blog.boltops.com/2022/06/10/terraspace-cloud/)
 
 ## Comparison
 
