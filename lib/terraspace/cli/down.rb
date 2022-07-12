@@ -50,6 +50,7 @@ class Terraspace::CLI
       end
 
       logger.info "Terraspace Cloud #{update['data']['attributes']['url']}" if update
+      success
     end
 
     def cloud_update
