@@ -128,6 +128,27 @@ module Terraspace
           raise "ERROR: config.build.cache_dir is not a String or responds to the .call method."
         end
 
+      if pattern.include?(":CACHE_ROOT")
+        old_pattern = pattern
+        pattern = pattern.sub(':CACHE_ROOT/', '')
+        logger.info "WARN: Detected :CACHE_ROOT in config.build.cache_dir".color(:yellow)
+        logger.info <<~EOL
+          This has been deprecated and :CACHE_ROOT should not be in the config.build.cache_dir setting.
+          The :CACHE_ROOT pattern has been removed from config.build.cache_dir automatically.
+
+          To remove this warning, remove the :CACHE_ROOT. For example:
+
+          config/app.rb
+
+              config.build.cache_dir = "#{old_pattern}"
+
+          Update it to:
+
+              config.build.cache_dir = "#{pattern}"
+
+        EOL
+      end
+
       path = expansion(pattern)
       path = "#{Terraspace.cache_root}/#{path}"
       path.gsub!(%r{/+},'/') # remove double slashes are more. IE: // -> / Useful since region is '' in generic expander
