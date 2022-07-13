@@ -52,7 +52,7 @@ module Terraspace
       config.cloud.record = "changes" # IE: changes or all
       config.cloud.stack = ":APP-:ROLE-:MOD_NAME-:ENV-:EXTRA-:REGION"
       config.cloud.cost = ActiveSupport::OrderedOptions.new
-      config.cloud.cost.enabled = cast_value(ENV['TS_COST'])
+      config.cloud.cost.enabled = cast_boolean(ENV['TS_COST'])
       config.cloud.vcs = ActiveSupport::OrderedOptions.new
       config.cloud.vcs.name = nil # github, gitlab, bitbucket. Else default to registered terraspace_vcs_* plugin
 
@@ -102,8 +102,8 @@ module Terraspace
     # https://stackoverflow.com/questions/36228873/ruby-how-to-convert-a-string-to-boolean
     # https://github.com/rails/rails/blob/5-1-stable/activemodel/lib/active_model/type/boolean.rb
     # so dont have to add activemodel as a dependency just for this method
-    FALSE_VALUES = [false, 0, "0", "f", "F", "false", "FALSE", "off", "OFF"].to_set
-    def cast_value(value)
+    FALSE_VALUES = [nil, false, 0, "0", "f", "F", "false", "FALSE", "off", "OFF"].to_set
+    def cast_boolean(value)
       if value == ""
         nil
       else
