@@ -2,8 +2,9 @@ class Terraspace::Cloud::Vcs::LocalGit
   class Base
     extend Memoist
 
-    def initialize(vars)
-      @vars = vars
+    attr_reader :git_url
+    def initialize(vars, git_url)
+      @vars, @git_url = vars, git_url
     end
 
     def vars
