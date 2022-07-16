@@ -65,6 +65,18 @@ module Terraspace::Terraform
       else
         exit(1)
       end
+    rescue Terraspace::StateLockError => e
+      logger.debug "ERROR: #{e.class}".color(:red)
+      logger.info e.message
+      md = e.message.match(/\s+ID:\s+(.*)/)
+      return unless md
+      return unless lock_id = md[1]
+      logger.info <<~EOL
+        You can force release the lock with:
+
+            terraspace force_unlock #{@mod.name} #{lock_id}
+
+      EOL
     end
 
     @@current_dir_message_shown = false

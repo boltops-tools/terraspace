@@ -16,6 +16,8 @@ class Terraspace::Shell
         Terraspace::BucketNotFoundError.new(message)
       elsif shared_cache_error?
         Terraspace::SharedCacheError.new(message)
+      elsif state_lock_error?
+        Terraspace::StateLockError.new(message)
       end
     end
 
@@ -42,6 +44,11 @@ class Terraspace::Shell
       # Example: https://gist.github.com/tongueroo/4f2c925709d21f5810229ce9ca482560
       message.include?("Failed to install provider from shared cache") ||
       message.include?("Failed to validate installed provider")
+    end
+
+    def state_lock_error?
+      # Example: https://gist.github.com/tongueroo/6bcb86f88053c58fa50f434789268b78
+      message.include?("Error acquiring the state lock")
     end
   end
 end
