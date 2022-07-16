@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [2.1.4] - 2022-07-16
+- [#252](https://github.com/boltops-tools/terraspace/pull/252) puts friendlier user message with terraspace force_unlock suggestion
+- [#253](https://github.com/boltops-tools/terraspace/pull/253) azure repo local git support
+
 ## [2.1.3] - 2022-07-13
 - [#251](https://github.com/boltops-tools/terraspace/pull/251) deprecation warning for `:CACHE_ROOT` in `config.build.cache_dir`
 
