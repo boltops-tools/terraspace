@@ -2,7 +2,7 @@ class Terraspace::Cloud::Vcs
   class LocalGit < Base
     def vars
       if git_repo? && git_installed?
-        provider_vars = vcs_class ? vcs_class.new(base_vars).vars : {}
+        provider_vars = vcs_class ? vcs_class.new(base_vars, git_url).vars : {}
         base_vars.merge(provider_vars).compact # remove items with nil values
       else
         { build_system: "manual" }
@@ -11,9 +11,10 @@ class Terraspace::Cloud::Vcs
 
     def vcs_class
       case host
-      when /github/ then Github
-      when /gitlab/ then Gitlab
-      when /bitbucket/ then Bitbucket
+      when /github\.com/ then Github
+      when /gitlab\.com/ then Gitlab
+      when /bitbucket\.org/ then Bitbucket
+      when /ssh\.dev\.azure\.com/ then Azure
       end
     end
 
