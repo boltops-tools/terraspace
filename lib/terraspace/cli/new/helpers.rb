@@ -13,7 +13,8 @@ class Terraspace::CLI::New
 
     def gem_line(name)
       if name == "terraspace"
-        %Q|gem "#{name}", '~> #{Terraspace::VERSION}'|
+        major_version = Terraspace::VERSION.split('.').first
+        %Q|gem "#{name}", '~> #{major_version}'|
       else
         %Q|gem "#{name}"|
       end
