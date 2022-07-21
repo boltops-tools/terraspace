@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [2.1.5] - 2022-07-21
+- [#255](https://github.com/boltops-tools/terraspace/pull/255) dont compute git info when not cloud not enabled and warn message improvement
+- pin terraspace to major version in initially generated Gemfile
+
 ## [2.1.4] - 2022-07-16
 - [#252](https://github.com/boltops-tools/terraspace/pull/252) puts friendlier user message with terraspace force_unlock suggestion
 - [#253](https://github.com/boltops-tools/terraspace/pull/253) azure repo local git support
