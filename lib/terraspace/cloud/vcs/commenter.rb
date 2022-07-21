@@ -46,6 +46,7 @@ class Terraspace::Cloud::Vcs
     # pr_url
     #
     def vcs_vars
+      return {} unless Terraspace.cloud?
       ci_env = CiEnv.new
       local_git = LocalGit.new
       local_env = LocalEnv.new
