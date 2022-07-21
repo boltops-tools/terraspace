@@ -1,7 +1,7 @@
 class Terraspace::Cloud::Vcs
   class LocalGit < Base
     def vars
-      if git_repo? && git_installed?
+      if git_repo? && git_installed? && host
         provider_vars = vcs_class ? vcs_class.new(base_vars, git_url).vars : {}
         base_vars.merge(provider_vars).compact # remove items with nil values
       else
@@ -36,6 +36,15 @@ class Terraspace::Cloud::Vcs
       return nil if git_url.blank?
       uri = URI(git_url)
       "#{uri.scheme}://#{uri.host}"
+    rescue URI::InvalidURIError => e
+      logger.info "WARN: #{e.class} #{e.message}".color(:yellow)
+      logger.info <<~EOL
+        Unable to get the host info from your local .git/config
+        Will not be able to determine local git info.
+        If possible, it would be a useful to provide the remote.url in your .git/config
+        as an issue report or email to improve help improve this logic.
+      EOL
+      nil
     end
 
     def full_repo
