@@ -51,6 +51,19 @@ describe Terraspace::Terraform::Args::Pass do
     end
   end
 
+  context "indirectly documented args" do
+    # "terraform apply -help" doesn't document "-target" directly, but refers to
+    # "terraform plan -help" documentation.
+    context "-target=resource" do
+      let(:args) { ["-target=foo.bar"] }
+      let(:name) { "apply" }
+      it "pass through args" do
+        args = pass.args
+        expect(args).to eq ["-target=foo.bar"]
+      end
+    end
+  end
+
   context "hash arg" do
     context "-var 'foo=bar'" do
       let(:args) { ["-var 'foo=bar'"] }
