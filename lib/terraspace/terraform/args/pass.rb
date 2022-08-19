@@ -60,6 +60,17 @@ module Terraspace::Terraform::Args
       result
     end
 
+    def terraform_arg_types
+      arg_types = terraform_arg_types_for_command(@name)
+      # "terraspace apply/destroy" support the same options as "plan", but they don't document
+      # them directly in their "-help" option, so we need to add them.
+      if ["apply", "destroy"].include? @name
+        arg_types.merge! terraform_arg_types_for_command("plan")
+      end
+
+      arg_types
+    end
+
     # Parses terraform COMMAND -help output for arg types.
     # Return Example:
     #
@@ -69,8 +80,8 @@ module Terraspace::Terraform::Args
     #       var: :hash,
     #     }
     #
-    def terraform_arg_types
-      out = terraform_help(@name)
+    def terraform_arg_types_for_command(name)
+      out = terraform_help(name)
       lines = out.split("\n")
       lines.select! do |line|
         line =~ /^  -/
