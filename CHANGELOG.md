@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [2.1.7] - 2022-08-22
+- [#259](https://github.com/boltops-tools/terraspace/pull/259) fix TS_PROJECT for ts cloud
+- builder: skip examples
+- improve generated config app.rb
+
 ## [2.1.6] - 2022-08-19
 - [#258](https://github.com/boltops-tools/terraspace/pull/258) Fix terraform apply/destroy missing some passthrough options
 
