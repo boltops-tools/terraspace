@@ -47,7 +47,7 @@ module Terraspace
       config.bundle.logger = ts_logger
 
       config.cloud = ActiveSupport::OrderedOptions.new
-      config.cloud.project = "main"
+      config.cloud.project = Terraspace.project
       config.cloud.org = ENV['TS_ORG'] # required for Terraspace cloud
       config.cloud.record = "changes" # IE: changes or all
       config.cloud.stack = ":APP-:ROLE-:MOD_NAME-:ENV-:EXTRA-:REGION"

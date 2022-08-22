@@ -20,7 +20,7 @@ module Terraspace
 
     def project
       if ENV['TS_PROJECT'].blank?
-        config.cloud.project
+        "main"
       else
         ENV['TS_PROJECT']
       end

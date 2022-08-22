@@ -21,6 +21,9 @@ module Terraspace::Compiler
 
     def compile_module
       with_mod_file do |src_path|
+        # Skip examples. Dont want to process tfvars <%= output(...) %> which triggers dependency graph
+        # Also a speed improvement.
+        next if src_path.include?("#{@mod.root}/examples/")
         compile_mod_file(src_path)
       end
     end
