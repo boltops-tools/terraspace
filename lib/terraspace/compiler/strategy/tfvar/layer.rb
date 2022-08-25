@@ -92,7 +92,7 @@ class Terraspace::Compiler::Strategy::Tfvar
         logger.info "See: http://terraspace.test/docs/layering/instance-option/"
       end
       extra = Terraspace.extra || @mod.instance
-      levels = ["base", Terraspace.env, extra].reject(&:blank?) # layer levels. @mod.instance can be nil
+      levels = ["base", Terraspace.env, extra, "#{Terraspace.env}-#{extra}"].reject(&:blank?) # layer levels. @mod.instance can be nil
       levels.map! do |i|
         # base layer has prefix of '', reject with blank so it doesnt produce '//'
         [prefix, i].reject(&:blank?).join('/')
