@@ -13,7 +13,7 @@ describe Terraspace::Compiler::Erb::Render do
     it "build" do
       allow(Terraspace::Terraform::RemoteState::Marker::Output).to receive(:stack_names).and_return("b1")
       result = render.build
-      expect(result).to eq "length = (unresolved)"
+      expect(result).to eq "length = (unresolved)\n"
     end
   end
 end
