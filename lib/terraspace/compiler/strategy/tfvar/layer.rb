@@ -70,6 +70,7 @@ class Terraspace::Compiler::Strategy::Tfvar
         sum += layer_levels(layer) unless layer.nil?
         sum
       end
+      all = all.reject { |layer| layer.ends_with?('-') }
       all.map! do |layer|
         layer = layer.blank? ? layer : "/#{layer}"
         [
@@ -158,11 +159,11 @@ class Terraspace::Compiler::Strategy::Tfvar
       return unless @mod.resolved
       return if @@shown_layers[@mod.name]
       logger.debug "Layers for #{@mod.name}:"
-      show = Terraspace.config.layering.show || ENV['TS_SHOW_ALL_LAYERS']
+      show = Terraspace.config.layering.show || ENV['TS_LAYERING_SHOW_ALL']
       paths.each do |path|
         next if ARGV[0] == "all" # dont show layers with all command since fork happens after build
         next unless path.include?('.tfvars')
-        if ENV['TS_SHOW_ALL_LAYERS']
+        if ENV['TS_LAYERING_SHOW_ALL']
           message = "    #{pretty_path(path)}"
           message = "#{message} (found)".color(:yellow) if File.exist?(path)
           logger.info message
