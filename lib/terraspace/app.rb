@@ -72,7 +72,7 @@ module Terraspace
       config.layering.enable_names = ActiveSupport::OrderedOptions.new
       config.layering.enable_names.expansion = true
       config.layering.names = {}
-      config.layering.show = false
+      config.layering.show = cast_boolean(ENV['TS_LAYERING_SHOW'])
       config.layering.mode = ENV['TS_LAYERING_MODE'] || "simple" # simple, namespace, provider
 
       config.summary = ActiveSupport::OrderedOptions.new
@@ -104,7 +104,7 @@ module Terraspace
     # so dont have to add activemodel as a dependency just for this method
     FALSE_VALUES = [nil, false, 0, "0", "f", "F", "false", "FALSE", "off", "OFF"].to_set
     def cast_boolean(value)
-      if value == ""
+      if value.nil? || value == ""
         nil
       else
         !FALSE_VALUES.include?(value)
