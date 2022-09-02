@@ -49,7 +49,7 @@ module Terraspace
       config.cloud = ActiveSupport::OrderedOptions.new
       config.cloud.project = Terraspace.project
       config.cloud.org = ENV['TS_ORG'] # required for Terraspace cloud
-      config.cloud.record = "changes" # IE: changes or all
+      config.cloud.record = ENV['TS_CLOUD_RECORD'] || "changes" # IE: changes or all
       config.cloud.stack = ":APP-:ROLE-:MOD_NAME-:ENV-:EXTRA-:REGION"
       config.cloud.cost = ActiveSupport::OrderedOptions.new
       config.cloud.cost.enabled = cast_boolean(ENV['TS_COST'])

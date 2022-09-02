@@ -8,6 +8,15 @@ module Terraspace::Cloud
     end
 
   private
+    def errors?(result)
+      result.is_a?(Hash) && result.key?("errors")
+    end
+
+    def error_message(result)
+      $stderr.puts "ERROR: #{result["errors"]}"
+      $stderr.puts "Your current settings. org: #{@org} project: #{@project}"
+    end
+
     def create_upload(params)
       upload = api.create_upload(params)
       if errors?(upload)

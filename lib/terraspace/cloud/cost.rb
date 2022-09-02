@@ -56,7 +56,7 @@ module Terraspace::Cloud
     end
 
     def provider
-      Terraspace::Cloud::Cost::Infracost.new(cloud_stack_name: cloud_stack_name) # only provider currently supported
+      Terraspace::Cloud::Cost::Infracost.new(cloud_stack_name: api.cloud_stack_name) # only provider currently supported
     end
     memoize :provider
 

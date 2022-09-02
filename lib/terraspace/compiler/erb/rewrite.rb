@@ -28,7 +28,7 @@ module Terraspace::Compiler::Erb
       if md
         words = %w[output depends_on] # TODO: consider allowing user customizations
         # IE: <%= output or <% depends_on
-        regexp = Regexp.new(".*<%.*#{words.join('|')}.*")
+        regexp = Regexp.new(".*<%=?\s*#{words.join('|')}.*")
         if line.match(regexp)
           line # passthrough
         else

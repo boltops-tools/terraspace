@@ -65,11 +65,10 @@ class Terraspace::Cloud::Api
       if parseable?(resp.code)
         JSON.load(resp.body)
       else
-        logger.error "Error: #{url}"
+        logger.error "API #{url}"
         logger.error "Error: Non-successful http response status code: #{resp.code}"
         # logger.debug "Error: Non-successful http response body: #{resp.body}"
-        logger.error "headers: #{resp.each_header.to_h.inspect}"
-        logger.error "Terraspace Cloud API #{url}"
+        # logger.debug "Response headers: #{resp.each_header.to_h.inspect}"
         raise "Terraspace Cloud API called failed: #{uri.host}"
       end
     end

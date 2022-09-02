@@ -1,8 +1,6 @@
 module Terraspace::Cloud
   class Base < Terraspace::CLI::Base
     extend Memoist
-    include Api::Concern
-    include Context
     include Terraspace::Util
 
     def initialize(options={})
@@ -10,7 +8,10 @@ module Terraspace::Cloud
       @cani = options[:cani]
       @kind = options[:kind]
       @vcs_vars = options[:vcs_vars]
-      setup_context(options)
+    end
+
+    def api
+      Terraspace::Cloud::Api.new(@options.merge(mod: @mod)) # @options are CLI options
     end
 
     def stage_attrs(success)
