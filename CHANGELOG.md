@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [2.2.0] - 2022-09-02
+- [#261](https://github.com/boltops-tools/terraspace/pull/261) extra layer also process env-extra
+- [#262](https://github.com/boltops-tools/terraspace/pull/262) improve graph dependency processing: replace tfvars so only output and depends_on are evaluated
+- [#263](https://github.com/boltops-tools/terraspace/pull/263) layering small improvements
+- layering small improvements: dont use layers that end with - only
+- rename env var to TS_SHOW_ALL_LAYERS to TS_LAYERING_SHOW
+
 ## [2.1.7] - 2022-08-22
 - [#259](https://github.com/boltops-tools/terraspace/pull/259) fix TS_PROJECT for ts cloud
 - builder: skip examples
