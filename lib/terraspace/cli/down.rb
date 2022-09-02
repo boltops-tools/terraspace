@@ -15,7 +15,7 @@ class Terraspace::CLI
 
     def perform
       success = nil
-      if @options[:yes] && !tfc?
+      if Terraspace.config.plan_on_yes && @options[:yes] && !tfc?
         success = plan
       else
         skip_plan = true
@@ -54,7 +54,7 @@ class Terraspace::CLI
     end
 
     def cloud_update
-      Terraspace::Cloud::Update.new(@options.merge(stack: @mod.name, kind: kind, vcs_vars: vcs_vars))
+      Terraspace::Cloud::Update.new(@options.merge(stack: @mod.name, vcs_vars: vcs_vars))
     end
     memoize :cloud_update
   end

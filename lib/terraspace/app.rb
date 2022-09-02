@@ -53,7 +53,7 @@ module Terraspace
       config.cloud = ActiveSupport::OrderedOptions.new
       config.cloud.project = Terraspace.project
       config.cloud.org = ENV['TS_ORG'] # required for Terraspace cloud
-      config.cloud.record = "changes" # IE: changes or all
+      config.cloud.record = ENV['TS_RECORD'] || "changes" # IE: changes or all
       config.cloud.stack = ":APP-:ROLE-:MOD_NAME-:ENV-:EXTRA-:REGION"
       config.cloud.cost = ActiveSupport::OrderedOptions.new
       config.cloud.cost.enabled = cast_boolean(ENV['TS_COST'])
@@ -76,7 +76,7 @@ module Terraspace
       config.layering.enable_names = ActiveSupport::OrderedOptions.new
       config.layering.enable_names.expansion = true
       config.layering.names = {}
-      config.layering.show = cast_boolean(ENV['TS_LAYERING_SHOW'])
+      config.layering.show = ENV['TS_LAYERING_SHOW'].nil? ? true : cast_boolean(ENV['TS_LAYERING_SHOW'])
       config.layering.mode = ENV['TS_LAYERING_MODE'] || "simple" # simple, namespace, provider
 
       config.summary = ActiveSupport::OrderedOptions.new
@@ -100,6 +100,9 @@ module Terraspace
       config.tfc.working_dir_prefix = nil
       config.tfc.workspace = ActiveSupport::OrderedOptions.new
       config.tfc.workspace.attrs = ActiveSupport::OrderedOptions.new
+
+      config.plan_on_yes = false # new versions of terraform show a plan automatically with: terraform apply -auto-approve
+
       config
     end
 

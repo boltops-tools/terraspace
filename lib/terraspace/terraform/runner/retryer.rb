@@ -46,7 +46,7 @@ class Terraspace::Terraform::Runner
     end
 
     def init_required_error
-      logger.info "Terraform reinitialization required detected. Will run `terraform init` and try again."
+      logger.info "Terraform reinitialization required. Will run `terraform init` and try again."
       logger.debug "Retry attempt: #{@retries}"
       logger.debug "#{@exception.class}"
       reinit

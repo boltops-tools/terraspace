@@ -1,3 +1,3 @@
 module Terraspace
-  VERSION = "2.2.8"
+  VERSION = "3.0.0.beta1"
 end

@@ -1,12 +1,12 @@
 ## Examples
 
-    terraspace state list demo
-    terraspace state mv demo
-    terraspace state pull demo
-    terraspace state push demo
-    terraspace state replace demo
-    terraspace state rm demo
-    terraspace state show demo
+    terraspace state demo list
+    terraspace state demo mv
+    terraspace state demo pull
+    terraspace state demo push
+    terraspace state demo replace
+    terraspace state demo rm
+    terraspace state demo show
 
 ## Args Straight Delegation
 
@@ -22,7 +22,7 @@ The `terraspace state` command delegates to the `terraform state` commands passi
 
 This means we can use the `-id` or `--id` option and terraspace will pass it straight through. Example:
 
-    terraspace state list demo --id enabled-bull
+    terraspace state demo list --id enabled-bull
     Building .terraspace-cache/us-west-2/dev/stacks/demo
     Built in .terraspace-cache/us-west-2/dev/stacks/demo
     Current directory: .terraspace-cache/us-west-2/dev/stacks/demo

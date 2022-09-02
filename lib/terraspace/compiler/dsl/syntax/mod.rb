@@ -5,5 +5,6 @@ module Terraspace::Compiler::Dsl::Syntax
     include_modules("helpers")
     include_plugin_helpers
     include_project_level_helpers
+    include_vendor_level_helpers
   end
 end

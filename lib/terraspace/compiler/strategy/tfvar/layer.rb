@@ -39,8 +39,8 @@ class Terraspace::Compiler::Strategy::Tfvar
     end
 
     def paths
-      project_paths = full_paths(project_tfvars_dir)
-      stack_paths   = full_paths(stack_tfvars_dir)
+      project_paths = full_paths(config_tfvars_dir)
+      stack_paths   = full_paths(app_tfvars_dir)
       paths = (project_paths + stack_paths).uniq
       show_layers(paths)
       paths.select do |path|
@@ -131,27 +131,14 @@ class Terraspace::Compiler::Strategy::Tfvar
       layers
     end
 
-    def project_tfvars_dir
-      "#{Terraspace.root}/config/terraform/tfvars"
+    # IE: config/stacks/demo/tfvars
+    def config_tfvars_dir
+      "#{Terraspace.root}/config/#{@mod.build_dir(disable_extra: true)}/tfvars"
     end
 
-    # seed dir takes higher precedence than the tfvars folder within the stack module. Example:
-    #
-    #     seed/tfvars/stacks/demo (folder must have *.tfvars or *.rb files)
-    #     app/stacks/demo/tfvars
-    #
-    # This allows user to take over the tfvars embedded in the stack if they need to. Generally,
-    # putting tfvars in within the app/stacks/MOD/tfvars folder seems cleaner and easier to follow.
-    #
-    # Will also consider app/modules/demo/tfvars. Though modules to be reuseable and stacks is where business logic
-    # should go.
-    #
-    def stack_tfvars_dir
-      seed_dir = "#{Terraspace.root}/seed/tfvars/#{@mod.build_dir(disable_extra: true)}"
-      mod_dir = "#{@mod.root}/tfvars"
-
-      empty = Dir.glob("#{seed_dir}/*").empty?
-      empty ? mod_dir : seed_dir
+    # IE: app/stacks/demo/tfvars
+    def app_tfvars_dir
+      "#{@mod.root}/tfvars"
     end
 
     @@shown_layers = {}

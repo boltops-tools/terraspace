@@ -31,7 +31,7 @@ module Terraspace::Compiler::Erb
         words += dependency_words # custom user words to evaluated in first pass also
         return line if words.include?('*') # passthrough for special case '*'
         # IE: <%= output or <% depends_on
-        regexp = Regexp.new(".*<%.*#{words.join('|')}.*")
+        regexp = Regexp.new(".*<%=?\s*#{words.join('|')}.*")
         if line.match(regexp)
           line # passthrough
         else

@@ -65,12 +65,12 @@ class Terraspace::CLI
     end
 
     def cloud_plan
-      Terraspace::Cloud::Plan.new(@options.merge(stack: @mod.name, kind: kind, vcs_vars: vcs_vars))
+      Terraspace::Cloud::Plan.new(@options.merge(stack: @mod.name, vcs_vars: vcs_vars))
     end
     memoize :cloud_plan
 
     def cloud_cost
-      Terraspace::Cloud::Cost.new(@options.merge(stack: @mod.name, kind: kind, vcs_vars: vcs_vars))
+      Terraspace::Cloud::Cost.new(@options.merge(stack: @mod.name, vcs_vars: vcs_vars))
     end
     memoize :cloud_cost
   end

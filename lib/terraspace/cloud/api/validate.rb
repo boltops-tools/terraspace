@@ -1,5 +1,11 @@
 class Terraspace::Cloud::Api
   module Validate
+    def validate_cloud_options(cloud_stack_name)
+      validate("stack", cloud_stack_name)
+      validate("org", Terraspace.config.cloud.org)
+      validate("project", Terraspace.config.cloud.project)
+    end
+
     def validate(name, value)
       unless value =~ /^[\w-]*$/
         message = "ERROR: #{name}: only allows letters, numbers, dashes, and underscores"

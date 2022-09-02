@@ -5,6 +5,7 @@ class Terraspace::CLI::New
     def self.cli_options
       [
         [:path, aliases: %w[p], default: "/usr/local/bin/terraspace", desc: "path to save the shim script"],
+        [:quiet, aliases: %w[q], desc: "quiet output"],
       ]
     end
     cli_options.each { |args| class_option(*args) }
@@ -24,6 +25,7 @@ class Terraspace::CLI::New
     end
 
     def message
+      return if @options[:quiet]
       dir = File.dirname(@path)
       puts <<~EOL
         A terraspace shim as been generated at #{@path}

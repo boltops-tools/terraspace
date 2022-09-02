@@ -1,23 +1,25 @@
 module Terraspace::Cloud
   class Base < Terraspace::CLI::Base
     extend Memoist
-    include Api::Concern
-    include Context
+    include Api::Errors
     include Terraspace::Util
 
     def initialize(options={})
       super
       @cani = options[:cani]
-      @kind = options[:kind]
+      @is_destroy = options[:is_destroy]
       @vcs_vars = options[:vcs_vars]
-      setup_context(options)
+    end
+
+    def api
+      Terraspace::Cloud::Api.new(@options.merge(mod: @mod)) # @options are CLI options
     end
 
     def stage_attrs(success)
       status = success_status(success)
       attrs = {
         status: status,
-        kind: @kind,
+        is_destroy: @is_destroy,
         terraspace_version: check.terraspace_version,
         terraform_version: check.terraform_version,
       }

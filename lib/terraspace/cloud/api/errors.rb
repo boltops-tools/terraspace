@@ -1,4 +1,4 @@
-module Terraspace::Cloud::Api::Concern
+class Terraspace::Cloud::Api
   module Errors
     def errors?(result)
       result.is_a?(Hash) && result.key?("errors")

@@ -1,57 +1,64 @@
 module Terraspace::Cloud
   class Api
-    include Context
+    extend Memoist
     include HttpMethods
+    include Validate
+    include Methods
 
-    def initialize(options)
-      @options = options
-      setup_context(@options)
-    end
-
-    def endpoint
+    def self.endpoint
       ENV['TS_API'].blank? ? 'https://api.terraspace.cloud/api/v1' : ENV['TS_API']
     end
+    delegate :endpoint, to: :class
 
-    def stack_path
-      "orgs/#{@org}/projects/#{@project}/stacks/#{@stack}"
+    def initialize(options={})
+      @mod = options[:mod] || raise("@mod is required to be set")
+      @options = options
     end
 
-    # data: {stream_id:}
-    def create_upload(data)
-      post("#{stack_path}/uploads", @options.merge(data))
+    def region
+      expander.expansion(":REGION")
     end
 
-    # data: {stream_id:}
-    def create_stream(data)
-      post("#{stack_path}/streams", @options.merge(data))
+    def expander
+      Terraspace::Compiler::Expander.autodetect(@mod)
+    end
+    memoize :expander
+
+    def stack_path(stack=cloud_stack_name)
+      cloud = Terraspace.config.cloud
+      "orgs/#{cloud.org}/projects/#{cloud.project}/stacks/#{stack}"
     end
 
-    # data: {id:, success:}
-    def complete_stream(data={})
-      post("#{stack_path}/streams/#{data[:id]}/complete", @options.merge(data))
+    # config.cloud.stack pattern default: :APP-:ROLE-:MOD_NAME-:ENV-:EXTRA-:REGION
+    def tsc_output_stack_name(options={})
+      # Default behavior is to assign these vars conventionally: env, mod_name, region
+      # Other vars must be explicitly set: app, role, extra
+      options[:env] ||= Terraspace.env
+      options[:mod_name] ||= @mod.name
+      options[:region] ||= region
+
+      pattern = Terraspace.config.cloud.stack.dup
+      vars = pattern.scan(/:\w+/) # [":APP", ":ROLE", ":MOD_NAME", ":ENV", ":EXTRA", ":REGION"]
+      vars.each do |var|
+        key = var.sub(':','').downcase.to_sym
+        val = options[key]
+        if val
+          pattern.sub!(var, val.to_s)
+        else
+          pattern.sub!(var, '')
+        end
+      end
+      expand(pattern)
     end
 
-    # data: {upload_id: "upload-nRPSpyWd65Ps6978", kind: "apply", stack_id: '...'}
-    def create_plan(data)
-      post("#{stack_path}/plans", @options.merge(data))
+    def cloud_stack_name
+      expand(Terraspace.config.cloud.stack.dup)
     end
 
-    # data: {upload_id: "upload-nRPSpyWd65Ps6978", kind: "apply", stack_id: '...'}
-    def create_update(data)
-      post("#{stack_path}/updates", @options.merge(data))
-    end
-
-    # data: {upload_id: "upload-nRPSpyWd65Ps6978", stack_id: '...'}
-    def create_cost(data)
-      post("#{stack_path}/costs", @options.merge(data))
-    end
-
-    def get_previous_cost(data)
-      get("#{stack_path}/costs/previous", @options.merge(data))
-    end
-
-    def get_comment(data)
-      get("#{stack_path}/comment", @options.merge(data))
+    def expand(pattern)
+      expanded = expander.expansion(pattern) # pattern is a String that contains placeholders for substitutions
+      expanded.gsub(%r{-+},'-') # remove double dashes are more. IE: -- -> -
+              .sub(/^-+/,'').sub(/-+$/,'') # remove leading and trailing -
     end
   end
 end

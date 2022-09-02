@@ -13,6 +13,20 @@ module Terraspace::Plugin::Helper
       # since the tfvars files get evaluated twice.
       # Note: Not setting any cache or doing any logic unless resolved.
       def cache_helper(meth)
+        puts "Deprecated cache_helper #{meth} called at:"
+        lines = caller[0..3]
+        puts lines
+        line = lines.find { |l| l.include?("terraspace_plugin_") }
+        md = line.match(%r{/(terraspace_plugin_.*?)(-|/)})
+        plugin_name = md[1]
+        puts <<~EOL
+          This means the terraspace plugin used is out-of-date and
+          should not be used with this version of terraspace #{Terraspace::VERSION}
+          Recommend update it with
+
+              bundle update #{plugin_name}
+
+          EOL
         uncached_meth = "uncached_#{meth}"
         alias_method(uncached_meth, meth)
         define_method(meth) do |*args|

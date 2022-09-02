@@ -1,7 +1,11 @@
 source "https://rubygems.org"
 
-gem "terraspace", "~> <%= terraspace_minor_version %>"
-gem "<%= plugin_gem_name %>"
+gem "terraspace", path: "#{ENV['HOME']}/data/edge/terraspace"
+gem "<%= plugin_gem_name %>", path: "#{ENV['HOME']}/data/edge/<%= plugin_gem_name %>"
+
+# gem "terraspace", "~> <%= terraspace_minor_version %>"
+# gem "<%= plugin_gem_name %>"
+
 gem "rspec-terraspace"
 
 # Uncomment the ci and vcs provider you wish to use. Should use both ci and vcs gem

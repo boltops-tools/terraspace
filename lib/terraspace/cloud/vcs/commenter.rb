@@ -16,7 +16,7 @@ class Terraspace::Cloud::Vcs
     end
 
     def cloud_comment
-      Terraspace::Cloud::Comment.new(@options.merge(stack: @mod.name, kind: kind))
+      Terraspace::Cloud::Comment.new(@options.merge(stack: @mod.name, is_destroy: is_destroy))
     end
     memoize :cloud_comment
 
@@ -67,10 +67,8 @@ class Terraspace::Cloud::Vcs
       !!(vcs && vcs_vars[:full_repo] && vcs_vars[:pr_number])
     end
 
-    # stored on cloud: kind can be apply or destroy. its extra info
-    def kind
-      is_destroy = Terraspace.command?("down") || @options[:args]&.include?('--destroy') || @options[:destroy]
-      is_destroy ? "destroy" : "apply"
+    def is_destroy
+      Terraspace.command?("down") || @options[:args]&.include?('--destroy') || @options[:destroy]
     end
   end
 end
