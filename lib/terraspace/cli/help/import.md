@@ -1,7 +1,7 @@
 ## Examples
 
-    terraspace import aws_instance.this i-088a0a47e2e852cc8
-    terraspace import  module.vpc.aws_vpc.this vpc-000782e4951a734c7
+    terraspace import ec2 aws_instance.this i-088a0a47e2e852cc8
+    terraspace import vpc module.vpc.aws_vpc.this vpc-000782e4951a734c7
     terraspace import vpc module.vpc.aws_vpc.this vpc-000782e4951a734c7
 
 A general workflow is to use terraspace plan, inspect what resources, are missing and and import resources based on that. The `state list` command is also useful.
