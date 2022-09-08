@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [2.2.1] - 2022-09-08
+- [#265](https://github.com/boltops-tools/terraspace/pull/265) import command
+
 ## [2.2.0] - 2022-09-02
 - [#261](https://github.com/boltops-tools/terraspace/pull/261) extra layer also process env-extra
 - [#262](https://github.com/boltops-tools/terraspace/pull/262) improve graph dependency processing: replace tfvars so only output and depends_on are evaluated
