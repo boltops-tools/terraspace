@@ -117,6 +117,10 @@ module Terraspace::Terraform::Args
       auto_approve_arg
     end
 
+    def import_args
+      [@options[:addr], @options[:id]]
+    end
+
     def auto_approve_arg
       @options[:yes] || @options[:auto] ? ["-auto-approve"] : []
     end
