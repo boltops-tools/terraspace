@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [2.2.2] - 2022-09-14
+- [#268](https://github.com/boltops-tools/terraspace/pull/268) custom config.build.dependency_words ability
+
 ## [2.2.1] - 2022-09-08
 - [#265](https://github.com/boltops-tools/terraspace/pull/265) import command
 
