@@ -26,7 +26,10 @@ module Terraspace::Compiler::Erb
     def new_line(line)
       md = line.match(/.*(<% |<%=)/) || line.match(/.*<%$/)
       if md
-        words = %w[output depends_on] # TODO: consider allowing user customizations
+        words = %w[output depends_on]
+        dependency_words = [Terraspace.config.build.dependency_words].flatten
+        words += dependency_words # custom user words to evaluated in first pass also
+        return line if words.include?('*') # passthrough for special case '*'
         # IE: <%= output or <% depends_on
         regexp = Regexp.new(".*<%.*#{words.join('|')}.*")
         if line.match(regexp)
