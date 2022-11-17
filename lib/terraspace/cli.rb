@@ -198,6 +198,7 @@ module Terraspace
     long_desc Help.text(:show)
     instance_option.call
     option :plan, desc: "Plan path. Can be a pattern like :MOD_NAME.plan"
+    option :json, type: :boolean, desc: "If specified, output the Terraform plan or state in a JSON format"
     def show(mod, *args)
       Commander.new("show", options.merge(mod: mod, args: args)).run
     end

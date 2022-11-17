@@ -106,6 +106,7 @@ module Terraspace::Terraform::Args
     def show_args
       args = []
       plan = expand.plan
+      args << "-json" if @options[:json]
       if plan
         copy_to_cache(expand.plan)
         args << " #{expand.plan}" # terraform show /path/to/plan
