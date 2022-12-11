@@ -34,7 +34,7 @@ module Terraspace::Compiler
       if content.respond_to?(:path) # IO filehandle
         FileUtils.cp(content.path, dest_path) # preserves permission
       else # just content
-        IO.write(dest_path, content, mode: "wb")
+        IO.write(dest_path, content, mode: "wb") unless content.nil?
       end
       logger.debug "Created #{Terraspace::Util.pretty_path(dest_path)}"
     end
