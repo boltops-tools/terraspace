@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [2.2.3] - 2022-12-11
+- [#283](https://github.com/boltops-tools/terraspace/pull/283) update terraspace new cli help
+- [#285](https://github.com/boltops-tools/terraspace/pull/285) Only generate output files with content
+
 ## [2.2.2] - 2022-09-14
 - [#268](https://github.com/boltops-tools/terraspace/pull/268) custom config.build.dependency_words ability
 
