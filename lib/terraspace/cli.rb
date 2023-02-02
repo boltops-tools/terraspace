@@ -109,7 +109,7 @@ module Terraspace
       Fmt.new(options.merge(mod: mod)).run
     end
 
-    desc "import ADDR ID", "Import existing infrastructure into your Terraform state"
+    desc "import STACK ADDR ID", "Import existing infrastructure into your Terraform state"
     long_desc Help.text(:import)
     def import(mod, addr, id)
       Import.new(options.merge(mod: mod, addr: addr, id: id)).run
