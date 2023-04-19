@@ -3,7 +3,7 @@ describe Terraspace::Plugin::Expander::Generic do
   let(:props) do
     {
       bucket:         "my-bucket",
-      key:            ":env/:build_dir/terraform.tfstate", # variable notation expanded by terraspace
+      key:            ":env/:TEAM/:ENVNOTSET/:build_dir/terraform.tfstate", # variable notation expanded by terraspace
       region:         "us-west-2",
       encrypt:        true,
       dynamodb_table: "terraform_locks"
@@ -15,12 +15,14 @@ describe Terraspace::Plugin::Expander::Generic do
     mod
   end
 
+  before { stub_const('ENV', {'TEAM' => 'backend'}) }
+
   context "default path" do
     it "expand" do
       result = expander.expand(props)
       expect(result).to eq({
         bucket: "my-bucket",
-        key: "dev/stacks/core/terraform.tfstate",
+        key: "dev/backend/stacks/core/terraform.tfstate",
         region: "us-west-2",
         encrypt: true,
         dynamodb_table: "terraform_locks"

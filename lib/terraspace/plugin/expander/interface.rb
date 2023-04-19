@@ -84,7 +84,7 @@ module Terraspace::Plugin::Expander
       elsif !ENV[name].blank?
         return ENV[name]
       else
-        return unexpanded
+        return ''
       end
       if downcase == "namespace" && Terraspace.config.layering.enable_names.expansion
         value = friendly_name(value)
