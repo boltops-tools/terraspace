@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [2.2.4] - 2023-04-19
+- [#293](https://github.com/boltops-tools/terraspace/pull/293) terrraspace import cli help fix
+- [#299](https://github.com/boltops-tools/terraspace/pull/299) fix expansion for the case of ENV var is not set
+
 ## [2.2.3] - 2022-12-11
 - [#283](https://github.com/boltops-tools/terraspace/pull/283) update terraspace new cli help
 - [#285](https://github.com/boltops-tools/terraspace/pull/285) Only generate output files with content
