@@ -7,6 +7,9 @@ module Terraspace::Compiler::Strategy
     end
 
     def strategy_class(path)
+      # Significant speed improvement
+      return Mod::Pass if Terraspace.config.build.copy_modules && @options[:type_dir] == "modules"
+
       ext = File.extname(path).sub('.','')
       return Mod::Pass if ext.empty? # infinite loop without this
       return Mod::Pass if Terraspace.pass_file?(path) or !text_file?(path)
