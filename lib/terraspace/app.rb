@@ -43,7 +43,9 @@ module Terraspace
       config.build.default_pass_files = ["/files/"]
       config.build.pass_files = []
       config.build.dependency_words = []
-      config.build.copy_modules = true # speed improvement
+      # copy_modules = nil  # => Will show a warning and default to true
+      # copy_modules = true # => Will be default in next major version
+      config.build.copy_modules = nil # speed improvement
 
       config.bundle = ActiveSupport::OrderedOptions.new
       config.bundle.logger = ts_logger
