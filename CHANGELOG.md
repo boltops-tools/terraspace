@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [2.2.5] - 2023-05-02
+- [#301](https://github.com/boltops-tools/terraspace/pull/301) Speed boast copy modules
+
 ## [2.2.4] - 2023-04-19
 - [#293](https://github.com/boltops-tools/terraspace/pull/293) terrraspace import cli help fix
 - [#299](https://github.com/boltops-tools/terraspace/pull/299) fix expansion for the case of ENV var is not set
