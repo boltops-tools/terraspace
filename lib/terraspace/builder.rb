@@ -69,7 +69,7 @@ module Terraspace
       with_each_mod(type_dir) do |mod|
         is_root_module = mod.cache_dir == @mod.cache_dir
         next if is_root_module # handled by build_stacks
-        Compiler::Perform.new(mod).compile
+        Compiler::Perform.new(mod, type_dir: type_dir).compile
       end
     end
 

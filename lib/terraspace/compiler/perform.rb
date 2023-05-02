@@ -3,8 +3,9 @@ module Terraspace::Compiler
     include CommandsConcern
     include Basename
 
-    def initialize(mod)
-      @mod = mod
+    def initialize(mod, options={})
+      # options for type_dir
+      @mod, @options = mod, options
     end
 
     def compile
@@ -60,7 +61,7 @@ module Terraspace::Compiler
     end
 
     def compile_mod_file(src_path)
-      content = Strategy::Mod.new(@mod, src_path).run
+      content = Strategy::Mod.new(@mod, src_path, @options).run
       Writer.new(@mod, src_path: src_path).write(content)
     end
 
