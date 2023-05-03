@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [2.2.6] - 2023-05-03
+- [#302](https://github.com/boltops-tools/terraspace/pull/302) update new project generator config/app.rb config.build.copy_modules
+
 ## [2.2.5] - 2023-05-02
 - [#301](https://github.com/boltops-tools/terraspace/pull/301) Speed boast copy modules
 
