@@ -10,14 +10,18 @@ class Terraspace::CLI::Fmt
 
     def format!
       logger.info @dir.color(:green)
+      err = 0
+
       Dir.chdir(@dir) do
         skip_rename
         begin
-          terraform_fmt
+          err = terraform_fmt
         ensure
           restore_rename
         end
       end
+
+      return err
     end
 
     def skip_rename
@@ -29,15 +33,17 @@ class Terraspace::CLI::Fmt
     end
 
     def terraform_fmt
-      sh "terraform fmt"
+      return sh "terraform fmt"
     end
 
     def sh(command)
       logger.debug("=> #{command}")
       success = system(command)
       return if success
+
       logger.info "WARN: There were some errors running terraform fmt for files in #{@dir}:".color(:yellow)
       logger.info "The errors are shown above"
+      return 1
     end
 
     def restore_rename
