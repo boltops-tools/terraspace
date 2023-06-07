@@ -39,7 +39,9 @@ class Terraspace::Seeder
     end
 
     def escape(type, value)
-      if type&.include?('(') # complex type
+      if type == "map(string)"
+        "{...} # #{type}"
+      elsif type&.include?('(') # complex type
         "[...] # #{type}"
       elsif %w[null any true false].include?(value)
         value # no quotes
