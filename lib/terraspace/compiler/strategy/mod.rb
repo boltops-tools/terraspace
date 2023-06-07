@@ -10,7 +10,7 @@ module Terraspace::Compiler::Strategy
 
     def strategy_class(path)
       # Significant speed improvement
-      return Mod::Pass if copy_modules?
+      return Mod::Pass if copy_modules?(path)
 
       ext = File.extname(path).sub('.','')
       return Mod::Pass if ext.empty? # infinite loop without this
@@ -20,7 +20,8 @@ module Terraspace::Compiler::Strategy
     end
 
     @@copy_modules_warned = false
-    def copy_modules?
+    def copy_modules?(path)
+      return false if path.include?("/modules/") && path.ends_with?(".rb") # For DSL
       return false unless @options[:type_dir] == "modules"
 
       copy_modules = Terraspace.config.build.copy_modules
