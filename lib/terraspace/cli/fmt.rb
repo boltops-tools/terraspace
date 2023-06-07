@@ -3,8 +3,6 @@ class Terraspace::CLI
     include Concerns::SourceDirs
     include Terraspace::Util::Logging
 
-    @@exit_status = 0
-
     def initialize(options={})
       @options = options
       @mod_name = options[:mod]
@@ -12,14 +10,11 @@ class Terraspace::CLI
 
     def run
       logger.info "Formating terraform files"
+      exit_status = nil
       dirs.each do |dir|
-        err = format(dir)
-        if err
-          @@exit_status = 1
-        end
+        exit_status = format(dir)
       end
-
-      exit(@@exit_status)
+      exit(exit_status)
     end
 
     def format(dir)
