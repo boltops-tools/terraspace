@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [2.2.7] - 2023-06-07
+- [#308](https://github.com/boltops-tools/terraspace/pull/308) feat: add support for exit code in terraspace fmt command
+- [#310](https://github.com/boltops-tools/terraspace/pull/310) improve terraspace seed for map(string) variables
+- [#311](https://github.com/boltops-tools/terraspace/pull/311) erb processing for rb files in modules folder for dsl
+- [#312](https://github.com/boltops-tools/terraspace/pull/312) refactor terraspace new project Gemfile.tt
+- [#313](https://github.com/boltops-tools/terraspace/pull/313) cleanup terraspace fmt exit status return
+
 ## [2.2.6] - 2023-05-03
 - [#302](https://github.com/boltops-tools/terraspace/pull/302) update new project generator config/app.rb config.build.copy_modules
 
