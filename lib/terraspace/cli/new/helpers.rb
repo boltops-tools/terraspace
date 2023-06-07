@@ -3,21 +3,9 @@ class Terraspace::CLI::New
     include Helpers::PluginGem
 
   private
-    def build_gemfile(*list)
-      lines = []
-      list.compact.each do |name|
-        lines << gem_line(name)
-      end
-      lines.join("\n")
-    end
-
-    def gem_line(name)
-      if name == "terraspace"
-        major_version = Terraspace::VERSION.split('.').first
-        %Q|gem "#{name}", '~> #{major_version}'|
-      else
-        %Q|gem "#{name}"|
-      end
+    def terraspace_minor_version
+      major, minor, _ = Terraspace::VERSION.split('.')
+      [major, minor, '0'].join('.')
     end
   end
 end
