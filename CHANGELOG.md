@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [2.2.8] - 2023-06-27
+- Fix exit status for fmt
+
 ## [2.2.7] - 2023-06-07
 - [#308](https://github.com/boltops-tools/terraspace/pull/308) feat: add support for exit code in terraspace fmt command
 - [#310](https://github.com/boltops-tools/terraspace/pull/310) improve terraspace seed for map(string) variables
