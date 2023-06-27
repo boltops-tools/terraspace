@@ -8,13 +8,14 @@ class Terraspace::CLI
       @mod_name = options[:mod]
     end
 
+    @@exit_status = 0
     def run
       logger.info "Formating terraform files"
-      exit_status = nil
       dirs.each do |dir|
         exit_status = format(dir)
+        @@exit_status = exit_status if exit_status != 0
       end
-      exit(exit_status)
+      exit(@@exit_status)
     end
 
     def format(dir)
