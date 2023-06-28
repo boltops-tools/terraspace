@@ -24,3 +24,7 @@ Format scoping to module or stack types. In case there's a module and stack with
 Format all, so both modules and stacks:
 
     $ terraspace fmt -t all
+
+Check format of all source files, but don't fix.
+
+    $ terraspace fmt --noop

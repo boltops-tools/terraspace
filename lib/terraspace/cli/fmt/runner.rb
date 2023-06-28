@@ -4,8 +4,9 @@ class Terraspace::CLI::Fmt
     include Terraspace::Util::Logging
     SKIP_PATTERN = /\.skip$/
 
-    def initialize(dir)
+    def initialize(dir, check_only)
       @dir = dir
+      @check_only = check_only
     end
 
     def format!
@@ -32,7 +33,11 @@ class Terraspace::CLI::Fmt
     end
 
     def terraform_fmt
-      sh "terraform fmt"
+      if @check_only
+        sh "terraform fmt -check"
+      else
+        sh "terraform fmt"
+      end
     end
 
     def sh(command)
@@ -40,7 +45,11 @@ class Terraspace::CLI::Fmt
       success = system(command)
       unless success
         logger.info "WARN: There were some errors running terraform fmt for files in #{@dir}:".color(:yellow)
-        logger.info "The errors are shown above"
+        if @check_only
+          logger.info "Files that need formatting and any other errors are shown above"
+        else
+          logger.info "The errors are shown above"
+        end
       end
       $?.exitstatus
     end
