@@ -24,8 +24,8 @@ module Terraspace::Cloud
         IO.write("#{cache2_path}/update.log", Terraspace::Logger.logs)
         return unless success
 
-        sh "terraform state pull > #{cache2_path}/state.json"
-        sh "terraform output -json > #{cache2_path}/output.json"
+        sh "#{Terraspace.terraform_bin} state pull > #{cache2_path}/state.json"
+        sh "#{Terraspace.terraform_bin} output -json > #{cache2_path}/output.json"
       end
     end
 

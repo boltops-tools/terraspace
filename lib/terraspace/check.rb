@@ -2,12 +2,12 @@ module Terraspace
   class Check
     extend Memoist
 
-    # Terraspace requires at least this version of terraform
-    MIN_TERRAFORM_VERSION = "0.12"
-    MAX_TERRAFORM_VERSION = "1.5.5"
-
+    attr_reader :min_terraform_version, :max_terraform_version
     def initialize(options={})
       @options = options
+      # Terraspace requires this terraform version or a fork
+      @min_terraform_version = "0.12"
+      @max_terraform_version = "1.5.5"
     end
 
     # Used for the CLI
@@ -20,13 +20,14 @@ module Terraspace
         if allowed_terraform_version?
           puts "You're all set!".color(:green)
         else
-          puts "terraspace requires terraform between v#{MIN_TERRAFORM_VERSION}.x and #{MAX_TERRAFORM_VERSION}".color(:red)
+          puts "terraspace requires terraform between v#{@min_terraform_version}.x and #{@max_terraform_version}".color(:red)
           puts <<~EOL
             This is because newer versions of terraform has a BSL license
             If your usage is allowed by the license, you can bypass this check with:
 
                 export TS_VERSION_CHECK=0
 
+            Note: If you're using Terraspace Cloud, you won't be able to bypass this check.
             See: https://terraspace.cloud/docs/terraform/license/
           EOL
           exit 1
@@ -36,16 +37,17 @@ module Terraspace
         exit 1
       end
     end
+    alias ok! run
 
     # aliased with ok?
     def allowed_terraform_version?
-      return true if ENV['TS_VERSION_CHECK'] == '0'
+      return true if ENV['TS_VERSION_CHECK'] == '0' && Terraspace.cloud?
       return false unless terraform_bin
       return true if !terraform_bin.include?("terraform") # IE: allow any version of terraform forks
 
       major, minor, patch = terraform_version.split('.').map(&:to_i)
-      min_major, min_minor, _ = MIN_TERRAFORM_VERSION.split('.').map(&:to_i)
-      max_major, max_minor, max_patch = MAX_TERRAFORM_VERSION.split('.').map(&:to_i)
+      min_major, min_minor, _ = @min_terraform_version.split('.').map(&:to_i)
+      max_major, max_minor, max_patch = @max_terraform_version.split('.').map(&:to_i)
 
       # must be between min and max
       min_ok = major > min_major ||
@@ -117,6 +119,14 @@ module Terraspace
 
     def terraspace_version
       Terraspace::VERSION
+    end
+
+    def versions
+      {
+        terraspace_version: terraspace_version,
+        terraform_version: terraform_version,
+        terraform_command: terraform_bin_name,
+      }
     end
 
     class << self

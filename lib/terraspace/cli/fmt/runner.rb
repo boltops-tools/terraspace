@@ -32,7 +32,7 @@ class Terraspace::CLI::Fmt
     end
 
     def terraform_fmt
-      sh "terraform fmt"
+      sh "#{Terraspace.terraform_bin} fmt"
     end
 
     def sh(command)
