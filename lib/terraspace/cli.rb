@@ -75,7 +75,7 @@ module Terraspace
             terraspace setup check
 
       EOL
-      Setup::Check.new(options).run
+      Check.new(options).run
     end
 
     desc "console STACK", "Run console in built terraform project."

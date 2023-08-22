@@ -103,6 +103,8 @@ class Terraspace::Cloud::Api
     end
 
     def post(path, data={})
+      puts "POST #{path} #{data.inspect}".color(:yellow)
+      puts caller
       request(Net::HTTP::Post, path, data)
     end
 
@@ -117,5 +119,18 @@ class Terraspace::Cloud::Api
     def delete(path, data={})
       request(Net::HTTP::Delete, path, data)
     end
+
+    def checks
+      {
+        terraspace_version: check.terraspace_version,
+        terraform_version: check.terraform_version,
+        terraform_command: check.terraform_command,
+      }
+    end
+
+    def check
+      Terraspace::CLI::Setup::Check.new
+    end
+    memoize :check
   end
 end

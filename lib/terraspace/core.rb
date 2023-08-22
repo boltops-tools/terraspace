@@ -2,6 +2,11 @@ module Terraspace
   module Core
     extend Memoist
 
+    def terraform_bin
+      # basename so command shows up as a prettier short name in the output
+      File.basename(Terraspace::Check.new.terraform_bin)
+    end
+
     def app
       ENV['TS_APP'] unless ENV['TS_APP'].blank?
     end

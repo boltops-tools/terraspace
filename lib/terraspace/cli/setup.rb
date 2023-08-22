@@ -3,7 +3,7 @@ class Terraspace::CLI
     desc "check", "Check setup is ok"
     long_desc Help.text("setup/check")
     def check
-      Check.new(options).run
+      Terraspace::Check.new(options).run
     end
   end
 end

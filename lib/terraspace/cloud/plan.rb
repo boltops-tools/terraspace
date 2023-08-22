@@ -19,6 +19,8 @@ module Terraspace::Cloud
       return unless record?
       build(success)
       upload = cloud_upload.create(type: "plan", stream_id: stream['data']['id'])
+      puts "=> Creating plan record".color(:green)
+      puts "stage_attrs(success) #{stage_attrs(success).inspect}}".color(:purple)
       api.create_plan(
         upload_id: upload['data']['id'],
         stack_uid: upload['data']['attributes']['stack_id'], # use stack_uid since stack_id is friendly url name

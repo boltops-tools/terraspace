@@ -18,8 +18,6 @@ module Terraspace::Cloud
       attrs = {
         status: status,
         kind: @kind,
-        terraspace_version: check.terraspace_version,
-        terraform_version: check.terraform_version,
       }
       attrs.merge!(@vcs_vars)
       attrs
@@ -37,11 +35,6 @@ module Terraspace::Cloud
       when nil then "started"
       end
     end
-
-    def check
-      Terraspace::CLI::Setup::Check.new
-    end
-    memoize :check
 
     def sh(command, exit_on_fail: true)
       logger.debug "=> #{command}"
