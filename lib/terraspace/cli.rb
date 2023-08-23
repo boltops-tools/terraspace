@@ -67,13 +67,13 @@ module Terraspace
     end
 
     desc "check", "Check setup.", hide: true
-    long_desc Help.text(:check_setup)
+    long_desc Help.text(:check)
     def check
       Check.new(options).run
     end
 
     desc "check_setup", "Check setup.", hide: true
-    long_desc Help.text(:check_setup)
+    long_desc Help.text(:setup)
     def check_setup
       puts <<~EOL
         DEPRECATED: The terraspace check_setup command is deprecated. Instead use:

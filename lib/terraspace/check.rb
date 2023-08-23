@@ -14,7 +14,7 @@ module Terraspace
     def run
       puts "terraspace version: #{Terraspace::VERSION}"
       if terraform_bin
-        puts "#{terraform_bin_name} bin: #{terraform_bin}"
+        puts "#{terraform_bin_name} bin: #{pretty_home(terraform_bin)}"
         puts "#{terraform_bin_name} version: #{terraform_version}"
         # check for allowed version of terraform
         if allowed_terraform_version?
@@ -127,6 +127,10 @@ module Terraspace
         terraform_version: terraform_version,
         terraform_command: terraform_bin_name,
       }
+    end
+
+    def pretty_home(path)
+      path.sub(ENV['HOME'], '~')
     end
 
     class << self
