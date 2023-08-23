@@ -26,8 +26,6 @@ module Terraspace::Cloud
       {
         provider: provider.name, # IE: infracost
         provider_version: provider.version,
-        terraspace_version: check.terraspace_version,
-        terraform_version: check.terraform_version,
       }
     end
 

@@ -7,6 +7,11 @@ class Terraspace::Cloud::Api
     def request(klass, path, data={})
       exit_on_error = data.delete(:exit_on_error) # for cani logic
       url = url(path)
+      unless check.ok?
+        puts "ERROR: terraspace cloud requires terraform between v#{check.min_terraform_version}.x and #{check.max_terraform_version}".color(:red)
+        exit 1
+      end
+      data = data.merge(versions: check.versions)
       req = build_request(klass, url, data)
       retries = 0
       begin
@@ -117,5 +122,10 @@ class Terraspace::Cloud::Api
     def delete(path, data={})
       request(Net::HTTP::Delete, path, data)
     end
+
+    def check
+      Terraspace::Check.new
+    end
+    memoize :check
   end
 end

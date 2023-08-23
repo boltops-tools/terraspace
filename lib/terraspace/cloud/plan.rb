@@ -53,7 +53,7 @@ module Terraspace::Cloud
         FileUtils.cp(out_option_root_path, plan_path)
 
         json = plan_path.sub('.binary','.json')
-        sh "terraform show -json #{plan_path} > #{json}"
+        sh "#{Terraspace.terraform_bin} show -json #{plan_path} > #{json}"
       end
     end
 

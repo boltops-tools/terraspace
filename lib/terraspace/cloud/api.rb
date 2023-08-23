@@ -1,5 +1,6 @@
 module Terraspace::Cloud
   class Api
+    extend Memoist
     include Context
     include HttpMethods
 

@@ -23,7 +23,7 @@ module Terraspace
 
     def run
       return if @options[:build] == false
-      Terraspace::CLI::Setup::Check.check!
+      Terraspace::Check.check!
       check_allow!
       @mod.root_module = true
       clean

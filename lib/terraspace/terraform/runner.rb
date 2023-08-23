@@ -45,7 +45,7 @@ module Terraspace::Terraform
       current_dir_message # only show once
 
       params = args.flatten.join(' ')
-      command = "terraform #{name} #{params}".squish
+      command = "#{Terraspace.terraform_bin} #{name} #{params}".squish
       @shell_exception = nil
       run_hooks("terraform.rb", name) do
         Backend.new(@mod).create
