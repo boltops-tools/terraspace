@@ -7,7 +7,7 @@ class Terraspace::Cloud::Api
     def request(klass, path, data={})
       exit_on_error = data.delete(:exit_on_error) # for cani logic
       url = url(path)
-      check.ok!(cloud: true)
+      check.ok!(cloud: true) unless check.ok?
       data = data.merge(versions: check.versions)
       req = build_request(klass, url, data)
       retries = 0
