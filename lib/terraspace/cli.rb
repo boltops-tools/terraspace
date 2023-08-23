@@ -42,7 +42,7 @@ module Terraspace
     long_desc Help.text(:new)
     subcommand "new", New
 
-    desc "setup SUBCOMMAND", "setup subcommands"
+    desc "setup SUBCOMMAND", "setup subcommands", hide: true
     long_desc Help.text(:setup)
     subcommand "setup", Setup
 
@@ -66,7 +66,7 @@ module Terraspace
       Bundle.new(options.merge(args: args)).run
     end
 
-    desc "check", "Check setup.", hide: true
+    desc "check", "Check setup."
     long_desc Help.text(:check)
     def check
       Check.new(options).run

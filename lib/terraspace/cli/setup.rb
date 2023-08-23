@@ -1,6 +1,6 @@
 class Terraspace::CLI
   class Setup < Terraspace::Command
-    desc "check", "Check setup is ok"
+    desc "check", "Check setup is ok", hide: true
     long_desc Help.text("check")
     def check
       puts <<~EOL
