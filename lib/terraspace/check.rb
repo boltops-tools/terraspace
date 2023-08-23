@@ -11,7 +11,7 @@ module Terraspace
     end
 
     # Used for the CLI
-    def run
+    def run(cloud: false)
       puts "terraspace version: #{Terraspace::VERSION}"
       if terraform_bin
         puts "#{terraform_bin_name} bin: #{pretty_home(terraform_bin)}"
@@ -20,16 +20,7 @@ module Terraspace
         if allowed_terraform_version?
           puts "You're all set!".color(:green)
         else
-          puts "terraspace requires terraform between v#{@min_terraform_version}.x and #{@max_terraform_version}".color(:red)
-          puts <<~EOL
-            This is because newer versions of terraform has a BSL license
-            If your usage is allowed by the license, you can bypass this check with:
-
-                export TS_VERSION_CHECK=0
-
-            Note: If you're using Terraspace Cloud, you won't be able to bypass this check.
-            See: https://terraspace.cloud/docs/terraform/license/
-          EOL
+          error_message(cloud: cloud)
           exit 1
         end
       else
@@ -39,9 +30,27 @@ module Terraspace
     end
     alias ok! run
 
+    def error_message(cloud: false)
+      name = cloud ? "Terraspace Cloud" : "Terraspace"
+      cloud_note =<<~EOL
+
+        Note: If you're using Terraspace Cloud, you won't be able to bypass this check.
+        See: https://terraspace.cloud/docs/terraform/license/
+      EOL
+
+      puts "ERROR: #{name} requires Terraform between v#{@min_terraform_version}.x and #{@max_terraform_version}".color(:red)
+      puts <<~EOL
+        This is because newer versions of Terraform has a BSL license
+        If your usage is allowed by the license, you can bypass this check with:
+
+            export TS_VERSION_CHECK=0
+        #{cloud_note}
+      EOL
+    end
+
     # aliased with ok?
     def allowed_terraform_version?
-      return true if ENV['TS_VERSION_CHECK'] == '0' && Terraspace.cloud?
+      return true if ENV['TS_VERSION_CHECK'] == '0' && !Terraspace.cloud?
       return false unless terraform_bin
       return true if !terraform_bin.include?("terraform") # IE: allow any version of terraform forks
 
@@ -111,9 +120,10 @@ module Terraspace
     # Note: The -json option is only available in v0.13+
     def terraform_version
       out = `#{terraform_bin} --version`
-      regexp = /(\d+\.\d+\.\d+)/
-      line = out.split("\n").find { |l| l =~ regexp }
-      version = line.match(regexp)[1] if line
+      # 1st regexp is more strict to avoid false positives
+      # 2nd regexp is more lenient in include beta suffixes
+      line = out.split("\n").find { |l| l =~ /(\d+\.\d+\.\d+)/ }
+      version = line.match(/(\d+\.\d+\.\d+.*)/)[1] if line
     end
     memoize :terraform_version
 
