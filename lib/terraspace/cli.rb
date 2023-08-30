@@ -27,7 +27,7 @@ module Terraspace
       option :reconfigure, type: :boolean, desc: "Add terraform -reconfigure option"
     }
     type_option = Proc.new {
-      option :type, default: "all", aliases: %w[t], desc: "Type: stack, module, or all"
+      option :type, default: "stack", aliases: %w[t], desc: "Type: stack, module, or all"
     }
     wait_option = Proc.new {
       option :wait, type: :boolean, default: true, desc: "Whether or not to wait and stream the output from Terraspace Cloud. Applies to Terraspace Cloud"
