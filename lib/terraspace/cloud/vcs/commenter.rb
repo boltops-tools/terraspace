@@ -16,7 +16,7 @@ class Terraspace::Cloud::Vcs
     end
 
     def cloud_comment
-      Terraspace::Cloud::Comment.new(@options.merge(stack: @mod.name, is_destroy: is_destroy))
+      Terraspace::Cloud::Comment.new(@options.merge(stack: @mod.name, kind: kind))
     end
     memoize :cloud_comment
 
@@ -67,8 +67,8 @@ class Terraspace::Cloud::Vcs
       !!(vcs && vcs_vars[:full_repo] && vcs_vars[:pr_number])
     end
 
-    def is_destroy
-      Terraspace.command?("down") || @options[:args]&.include?('--destroy') || @options[:destroy]
+    def kind
+      Terraspace.is_destroy? ? "destroy" : "apply"
     end
   end
 end

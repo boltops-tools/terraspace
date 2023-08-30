@@ -7,7 +7,6 @@ module Terraspace::Cloud
     def initialize(options={})
       super
       @cani = options[:cani]
-      @is_destroy = options[:is_destroy]
       @vcs_vars = options[:vcs_vars]
     end
 
@@ -19,12 +18,16 @@ module Terraspace::Cloud
       status = success_status(success)
       attrs = {
         status: status,
-        is_destroy: @is_destroy,
+        kind: kind,
         terraspace_version: check.terraspace_version,
         terraform_version: check.terraform_version,
       }
       attrs.merge!(@vcs_vars)
       attrs
+    end
+
+    def kind
+      Terraspace.is_destroy? ? "destroy" : "apply"
     end
 
     def cloud_upload

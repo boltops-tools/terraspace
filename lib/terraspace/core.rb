@@ -101,5 +101,9 @@ module Terraspace
     def command?(name)
       ARGV[0] == name || ARGV[1] == name
     end
+
+    def is_destroy?
+      ARGV.include?('down') || ARGV.include?('--destroy') || ARGV.include?('-destroy')
+    end
   end
 end
