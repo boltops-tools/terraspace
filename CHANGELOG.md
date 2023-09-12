@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [2.2.14] - 2023-09-12
+- [#329](https://github.com/boltops-tools/terraspace/pull/329) fix terraspace check
+
 ## [2.2.13] - 2023-08-23
 - [#327](https://github.com/boltops-tools/terraspace/pull/327) terraspace check improvements: only show check when fails
 
