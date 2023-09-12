@@ -38,9 +38,9 @@ module Terraspace
         See: https://terraspace.cloud/docs/terraform/license/
       EOL
 
-      puts "ERROR: #{name} requires Terraform between v#{@min_terraform_version}.x and #{@max_terraform_version}".color(:red)
+      puts "ERROR: #{name} requires Terraform between #{@min_terraform_version}.x and #{@max_terraform_version}".color(:red)
       puts <<~EOL
-        This is because newer versions of Terraform has a BSL license
+        This is because newer versions of Terraform have a BSL license
         If your usage is allowed by the license, you can bypass this check with:
 
             export TS_VERSION_CHECK=0
@@ -62,6 +62,7 @@ module Terraspace
       min_ok = major > min_major ||
               (major == min_major && minor >= min_minor)
       max_ok = major < max_major ||
+              (major == max_major && minor < max_minor) ||
               (major == max_major && minor == max_minor && patch <= max_patch)
 
       min_ok && max_ok
