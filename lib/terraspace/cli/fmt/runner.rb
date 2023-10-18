@@ -2,10 +2,9 @@ class Terraspace::CLI::Fmt
   class Runner
     include Terraspace::CLI::Concerns::SourceDirs
     include Terraspace::Util::Logging
-    SKIP_PATTERN = /\.skip$/
 
-    def initialize(dir)
-      @dir = dir
+    def initialize(dir, options)
+      @dir, @options = dir, options
     end
 
     def format!
@@ -13,7 +12,7 @@ class Terraspace::CLI::Fmt
 
       exit_status = nil
       Dir.chdir(@dir) do
-        skip_rename
+        rename_to_skip_fmt
         begin
           exit_status = terraform_fmt
         ensure
@@ -23,7 +22,7 @@ class Terraspace::CLI::Fmt
       exit_status
     end
 
-    def skip_rename
+    def rename_to_skip_fmt
       tf_files.each do |path|
         if !skip?(path) && erb?(path)
           FileUtils.mv(path, "#{path}.skip")
@@ -32,19 +31,29 @@ class Terraspace::CLI::Fmt
     end
 
     def terraform_fmt
-      sh "#{Terraspace.terraform_bin} fmt"
+      sh "#{Terraspace.terraform_bin} fmt #{args}"
+    end
+
+    def args
+      mod = nil # not needed here
+      pass = Terraspace::Terraform::Args::Pass.new(mod, "fmt", @options)
+      pass.args.flatten.join(' ')
     end
 
     def sh(command)
       logger.debug("=> #{command}")
-      success = system(command)
-      unless success
-        logger.info "WARN: There were some errors running terraform fmt for files in #{@dir}:".color(:yellow)
+      system(command)
+      case $?.exitstatus
+      when 2 # errors fmt
+        logger.info "WARN: There were some errors running #{Terraspace.terraform_bin} fmt for files in #{@dir}:".color(:yellow)
         logger.info "The errors are shown above"
+      when 3 # fmt ran and changes were made
+        logger.debug "fmt ran and changes were made unless -check or -write=false"
       end
       $?.exitstatus
     end
 
+    SKIP_PATTERN = /\.skip$/
     def restore_rename
       tf_files.each do |path|
         if skip?(path) && erb?(path)
