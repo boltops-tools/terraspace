@@ -10,7 +10,7 @@ class Terraspace::CLI
 
     @@exit_status = 0
     def run
-      logger.info "Formating terraform files"
+      logger.info "Formatting terraform files"
       dirs.each do |dir|
         exit_status = format(dir)
         @@exit_status = exit_status if exit_status != 0
@@ -19,7 +19,7 @@ class Terraspace::CLI
     end
 
     def format(dir)
-      Runner.new(dir).format!
+      Runner.new(dir, @options).format!
     end
 
   private

@@ -111,8 +111,9 @@ module Terraspace
     desc "fmt", "Run terraform fmt"
     long_desc Help.text(:fmt)
     type_option.call
-    def fmt(mod=nil)
-      Fmt.new(options.merge(mod: mod)).run
+    def fmt(*args)
+      mod = args.shift if args.first && !args.first.include?('-')
+      Fmt.new(options.merge(mod: mod, args: args)).run
     end
 
     desc "import STACK ADDR ID", "Import existing infrastructure into your Terraform state"

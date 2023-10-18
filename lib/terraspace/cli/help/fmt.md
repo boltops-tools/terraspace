@@ -24,3 +24,13 @@ Format scoping to module or stack types. In case there's a module and stack with
 Format all, so both modules and stacks:
 
     $ terraspace fmt -t all
+
+Check format of all source files, but don't fix. Examples:
+
+    $ terraspace fmt demo -write=false -list
+    $ terraspace fmt demo -check
+    $ terraspace fmt -write=false -list
+
+## Some Notes
+
+The `terraspace fmt` will only format terraform source files that do not have any ERB templating logic in it. It will format the files directly in your source code. IE: app/stacks/demo
