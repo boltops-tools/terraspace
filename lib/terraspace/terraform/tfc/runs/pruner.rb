@@ -66,7 +66,7 @@ class Terraspace::Terraform::Tfc::Runs
       action = discardable?(item) ? "Discarded" : "Cancelled"
       p = ItemPresenter.new(item)
       msg = "#{action} #{p.id} #{p.message}" # note id is named run-xxx
-      logger.info("NOOP: #{msg}") && return if @options[:noop]
+      logger.info("NOOP: #{msg}") && return if ENV['NOOP']
 
       if discardable?(item)
         api.runs.discard(id)
