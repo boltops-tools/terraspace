@@ -214,8 +214,8 @@ module Terraspace
 
     desc "taint STACK ADDR", "Mark a resource instance as not fully functional."
     long_desc Help.text(:taint)
-    def import(mod, addr)
-      Import.new(options.merge(mod: mod, addr: addr)).run
+    def taint(mod, addr, *args)
+      Taint.new(options.merge(mod: mod, addr: addr, args: args)).run
     end
 
     desc "test", "Run test."
@@ -234,8 +234,8 @@ module Terraspace
 
     desc "untaint STACK ADDR", "Remove the 'tainted' state from a resource instance."
     long_desc Help.text(:untaint)
-    def import(mod, addr)
-      Import.new(options.merge(mod: mod, addr: addr)).run
+    def untaint(mod, addr, *args)
+      Untaint.new(options.merge(mod: mod, addr: addr, args: args)).run
     end
 
     desc "up STACK", "Deploy infrastructure stack."
