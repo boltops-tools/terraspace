@@ -5,30 +5,19 @@ class Terraspace::Seeder
     end
 
     def dest_path
-      case @options[:where]
-      when "app"
-        app_path
-      when "seed"
-        seed_path
+      if @options[:where] == "app"
+        seed_path("app")
       else
-        infer_dest_path
+        seed_path("config")
       end
     end
 
-    def infer_dest_path
-      @mod.type == "stack" ? app_path : seed_path
-    end
-
-    def app_path
-      "#{Terraspace.root}/app/#{@mod.build_dir}/tfvars/#{seed_file}.tfvars"
-    end
-
-    def seed_path
-      "#{Terraspace.root}/seed/tfvars/#{@mod.build_dir}/#{seed_file}.tfvars"
+    def seed_path(folder)
+      "#{Terraspace.root}/#{folder}/#{@mod.build_dir(disable_extra: true)}/tfvars/#{seed_file}.tfvars"
     end
 
     def seed_file
-      @options[:instance] || Terraspace.env
+      [Terraspace.app, Terraspace.role, Terraspace.env, Terraspace.extra].compact.join("/")
     end
   end
 end
