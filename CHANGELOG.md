@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [2.2.15] - 2023-10-18
+- [#331](https://github.com/boltops-tools/terraspace/pull/331) adding tainting/untainting as a terraspace command
+- [#332](https://github.com/boltops-tools/terraspace/pull/332) terraspace fmt: generalize and pass through fmt option
+- [#333](https://github.com/boltops-tools/terraspace/pull/333) remove unused noop and verbose options
+- [#334](https://github.com/boltops-tools/terraspace/pull/334) fix taint and untaint and support pass through args
+- [#335](https://github.com/boltops-tools/terraspace/pull/335) use tofu fork when available
+- [#336](https://github.com/boltops-tools/terraspace/pull/336) improve tfvars lookup location to include config/stacks/demo/tfvars
+- [#337](https://github.com/boltops-tools/terraspace/pull/337) update cli help examples to config/stacks/demo/tfvars folder
+
 ## [2.2.14] - 2023-09-12
 - [#329](https://github.com/boltops-tools/terraspace/pull/329) fix terraspace check
 
