@@ -2,9 +2,6 @@ module Terraspace
   class CLI < Command
     include Concern
 
-    class_option :verbose, type: :boolean
-    class_option :noop, type: :boolean
-
     yes_option = Proc.new {
       option :yes, aliases: :y, type: :boolean, desc: "-auto-approve the terraform apply"
     }
