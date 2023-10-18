@@ -121,6 +121,14 @@ module Terraspace::Terraform::Args
       [@options[:addr], @options[:id]]
     end
 
+    def taint_args
+      [@options[:addr]]
+    end
+
+    def untaint_args
+      [@options[:addr]]
+    end
+
     def auto_approve_arg
       @options[:yes] || @options[:auto] ? ["-auto-approve"] : []
     end
