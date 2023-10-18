@@ -77,11 +77,10 @@ module Terraspace
       EOL
     end
 
-    # Note opentf is not an official fork yet. Mocked it out for testing.
-    # Should be ready to swap out the official fork name when it is ready.
-    BINS = %w[opentf terraform]
+    BINS = %w[tofu terraform]
     @@terraform_bin = nil
     def terraform_bin
+      return ENV['TS_TERRAFORM_BIN'] if ENV['TS_TERRAFORM_BIN']
       return @@terraform_bin if @@terraform_bin.present?
       BINS.each do |bin|
         if Gem.win_platform?
@@ -115,8 +114,8 @@ module Terraspace
     #
     # Another example
     #
-    #     $ opentf --version
-    #     OpenTF v0.12.24
+    #     $ tofu --version
+    #     OpenTofu v1.6.0
     #
     # Note: The -json option is only available in v0.13+
     def terraform_version
