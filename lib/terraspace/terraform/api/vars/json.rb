@@ -16,7 +16,7 @@ class Terraspace::Terraform::Api::Vars
     rescue JSON::ParserError => e
       # TODO: show exact line with error
       logger.info("ERROR in json: #{e.class}: #{e.message}")
-      path = "/tmp/terraspace/debug/vars.json"
+      path = "#{Terraspace.tmp_root}/terraspace/debug/vars.json"
       logger.info("Result also written to #{path} for inspection")
       FileUtils.mkdir_p(File.dirname(path))
       IO.write(path, result)

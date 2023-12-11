@@ -8,7 +8,7 @@ module Terraspace::Compiler::Erb
       input = IO.read(@src_path)
       output = replace(input)
       tfvar_path = @src_path.sub(Terraspace.root,'')
-      temp_path = "/tmp/terraspace/rewrite#{tfvar_path}"
+      temp_path = "#{Terraspace.tmp_root}/rewrite#{tfvar_path}"
       FileUtils.mkdir_p(File.dirname(temp_path))
       IO.write(temp_path, output)
       temp_path
