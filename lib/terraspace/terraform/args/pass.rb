@@ -114,7 +114,7 @@ module Terraspace::Terraform::Args
 
     @@terraform_help = {}
     def terraform_help(name)
-      @@terraform_help[name] ||= `terraform #{name} -help`
+      @@terraform_help[name] ||= `#{Terraspace.terraform_bin} #{name} -help`
     end
   end
 end

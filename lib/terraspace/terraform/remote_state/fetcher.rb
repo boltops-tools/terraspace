@@ -71,7 +71,7 @@ module Terraspace::Terraform::RemoteState
       return unless success
 
       FileUtils.mkdir_p(File.dirname(state_path))
-      command = "cd #{@child.cache_dir} && terraform state pull > #{state_path}"
+      command = "cd #{@child.cache_dir} && #{Terraspace.terraform_bin} state pull > #{state_path}"
       logger.debug "=> #{command}"
       success = system(command)
       # Can error if using a old terraform version and the statefile was created with a newer version of terraform
