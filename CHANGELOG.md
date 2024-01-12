@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [2.2.16] - 2024-01-12
+- [#339](https://github.com/boltops-tools/terraspace/pull/339) Use Terraspace.tmp_root value instead of hard-coded '/tmp/terraspace'
+- [#345](https://github.com/boltops-tools/terraspace/pull/345) Update to use terraform_bin for state pull and help
+
 ## [2.2.15] - 2023-10-18
 - [#331](https://github.com/boltops-tools/terraspace/pull/331) adding tainting/untainting as a terraspace command
 - [#332](https://github.com/boltops-tools/terraspace/pull/332) terraspace fmt: generalize and pass through fmt option
