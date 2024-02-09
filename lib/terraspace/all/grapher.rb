@@ -12,6 +12,10 @@ module Terraspace::All
       graph = build_graph
       if @options[:format] == "text"
         text(graph.top_nodes)
+      elsif @options[:format] == "json"
+        puts (graph.build.map do |batch|
+          batch.map { |stack| stack.name }
+        end).to_json
       else
         draw(graph.nodes)
       end
@@ -117,7 +121,7 @@ module Terraspace::All
 
     # Check if Graphiz is installed and prints a user friendly message if it is not installed.
     def check_graphviz!
-      return if @options[:format] == 'text'
+      return if ['text', 'json'].include?(@options[:format])
 
       installed = system("type dot > /dev/null 2>&1") # dot is a command that is part of the graphviz package
       return if installed
