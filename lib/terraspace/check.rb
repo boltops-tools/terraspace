@@ -7,7 +7,7 @@ module Terraspace
       @options = options
       # Terraspace requires this terraform version or a fork
       @min_terraform_version = "0.12"
-      @max_terraform_version = "1.5.5"
+      @max_terraform_version = "1.5.7"
     end
 
     # Used for the CLI
