@@ -29,6 +29,7 @@ module Terraspace::All
 
     def deploy_batches
       truncate_logs if ENV['TS_TRUNCATE_LOGS']
+      remove_remote_state_cache
       build_modules
       @batches.each_with_index do |batch,i|
         logger.info "Batch Run #{i+1}:"
@@ -55,6 +56,13 @@ module Terraspace::All
       wait_for_child_proccess
       summarize     # also reports lower-level error info
       report_errors # reports finall errors and possibly exit
+    end
+
+    def remove_remote_state_cache
+      remote_state_dir = "#{Terraspace.tmp_root}/remote_state"
+
+      logger.debug "Removing #{remote_state_dir}"
+      FileUtils.rm_rf(remote_state_dir)
     end
 
     def deploy_stack(node)

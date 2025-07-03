@@ -126,7 +126,7 @@ module Terraspace::Terraform::RemoteState
     end
 
     def state_path
-      "#{Terraspace.tmp_root}/remote_state/#{@child.build_dir}/state.json"
+      "#{Terraspace.tmp_root}/remote_state/#{Process.pid}/#{@child.build_dir}/state.json"
     end
 
     # Note we already validate mod exist at the terraform_output helper. This is just in case that logic changes.
