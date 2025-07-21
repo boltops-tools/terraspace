@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [2.2.18] - 2025-07-21
+- [#351](https://github.com/boltops-tools/terraspace/pull/351) Fix dead links in README.me
+- [#365](https://github.com/boltops-tools/terraspace/pull/365) RFC: Support `json` format with `graph` command
+- [#366](https://github.com/boltops-tools/terraspace/pull/366) skip check terraspace project for "check" command
+- [#367](https://github.com/boltops-tools/terraspace/pull/367) Fix state file fetching race condition
+
 ## [2.2.17] - 2024-05-30
 - [#347](https://github.com/boltops-tools/terraspace/pull/347) fixing typo in untaint help file
 - [#348](https://github.com/boltops-tools/terraspace/pull/348) Allow up to terraform `1.5.7`
