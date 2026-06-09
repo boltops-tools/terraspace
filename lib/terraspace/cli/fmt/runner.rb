@@ -72,7 +72,7 @@ class Terraspace::CLI::Fmt
     end
 
     def tf_files
-      Dir.glob("#{Terraspace.root}/#{@dir}/**/*.{tf,skip}").select { |p| File.file?(p) }
+      Dir.glob("#{Terraspace.root}/#{@dir}/**/*.{tf,tfvars,skip}").select { |p| File.file?(p) }
     end
   end
 end

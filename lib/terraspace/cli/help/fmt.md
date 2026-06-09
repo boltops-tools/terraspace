@@ -31,6 +31,11 @@ Check format of all source files, but don't fix. Examples:
     $ terraspace fmt demo -check
     $ terraspace fmt -write=false -list
 
+Recursively format files in subfolders. The `-recursive` option is passed through to `terraform fmt`:
+
+    $ terraspace fmt -recursive
+    $ terraspace fmt demo -recursive
+
 ## Some Notes
 
 The `terraspace fmt` will only format terraform source files that do not have any ERB templating logic in it. It will format the files directly in your source code. IE: app/stacks/demo
