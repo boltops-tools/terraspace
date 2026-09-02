@@ -14,7 +14,14 @@ module Terraspace
       else
         super # use the configured formatter
       end
-      out = line.force_encoding('UTF-8') =~ /\n$/ ? line : "#{line}\n"
+      # Terraform output is read in byte blocks, so a block boundary can land in
+      # the middle of a multi-byte character. See shell.rb handle_streams.
+      # force_encoding relabels the bytes without validating them, so scrub the
+      # line first. Otherwise the regexp below raises
+      # "ArgumentError: invalid byte sequence in UTF-8"
+      line = line.force_encoding('UTF-8')
+      line = line.scrub unless line.valid_encoding?
+      out = line =~ /\n$/ ? line : "#{line}\n"
       @@buffer << out
       out
     end
